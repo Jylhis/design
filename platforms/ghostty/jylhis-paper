@@ -1,0 +1,32 @@
+# Jylhis Paper (light) — Ghostty colorscheme
+# Drop in ~/.config/ghostty/themes/jylhis-paper and reference with
+# `theme = jylhis-paper` in config.
+#
+# ANSI 0–6 are Modus Operandi accents so `ls`, `bat`, `delta`, `git log`
+# share the editor's palette. ANSI 11 is the brand copper — intentional
+# override so prompts and dir-permissions carry the Jylhis identity.
+# See tokens.md §3.
+
+palette = 0=#2c2825
+palette = 1=#a60000
+palette = 2=#006800
+palette = 3=#6f5500
+palette = 4=#0031a9
+palette = 5=#721045
+palette = 6=#005f5f
+palette = 7=#e8e1d6
+palette = 8=#8a7f72
+palette = 9=#972500
+palette = 10=#315b00
+palette = 11=#b5703c
+palette = 12=#3548cf
+palette = 13=#531ab6
+palette = 14=#005e8b
+palette = 15=#fefdfb
+
+background         = #faf7f2
+foreground         = #2c2825
+cursor-color       = #9a5a2a
+cursor-text        = #faf7f2
+selection-background = #e8d4b8
+selection-foreground = #2c2825

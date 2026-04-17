@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Links</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 22px 24px; color: var(--color-text); font-family: "Literata", "Literata", Georgia, serif; font-size: 15px; line-height: 1.7; }
+  .tag { font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  a.prose {
+    color: var(--color-accent);
+    text-decoration: none;
+    background-image: linear-gradient(#9a5a2a, #9a5a2a);
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 100% 1px;
+  }
+  a.hover { color: #8e5530; }
+  a.nav { font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 0.85rem; color: var(--color-text-muted); text-decoration: none; }
+  a.nav.hovered { color: var(--color-accent); }
+  .row { display: grid; grid-template-columns: 140px 1fr; gap: 8px 14px; align-items: baseline; margin-top: 10px; }
+</style></head>
+<body>
+  <span class="tag">prose link · animated underline grows on hover</span>
+  <p><a class="prose">default</a> &nbsp; <a class="prose hover">:hover</a> &nbsp; in context: read <a class="prose">this note</a>.</p>
+  <div class="row">
+    <span class="tag">nav/footer</span><span><a class="nav">home</a> &nbsp; <a class="nav">notes</a> &nbsp; <a class="nav hovered">projects</a></span>
+    <span class="tag">focus ring</span><span><a class="nav" style="outline:2px solid #9a5a2a;outline-offset:2px;border-radius:2px;padding:1px 4px">focused</a></span>
+  </div>
+</body></html>

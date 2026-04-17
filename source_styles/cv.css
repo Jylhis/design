@@ -1,0 +1,149 @@
+/*
+ * cv.css
+ * Code-editor line-numbered CV layout, matching prototype v3.
+ */
+
+/* ── Page container ─────────────────────────────────────── */
+.cv-page {
+  font-family: var(--font-mono);
+  counter-reset: cv-line;
+}
+
+.cv-page h1 {
+  font-size: 1.6rem;
+  margin-bottom: var(--space-xs);
+}
+
+/* ── Section wrapper ────────────────────────────────────── */
+.cv-section {
+  margin-bottom: var(--space-xl);
+}
+
+/* ── Line-numbered entry row ────────────────────────────── */
+.cv-entry {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  border-left: 1px solid var(--color-border);
+  counter-increment: cv-line;
+}
+
+/* Line number gutter */
+.cv-line-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-faint);
+  text-align: right;
+  padding-right: 1rem;
+  padding-top: 0.2rem;
+  user-select: none;
+  line-height: 1.65;
+}
+
+.cv-line-num::after {
+  content: counter(cv-line);
+}
+
+/* Content cell */
+.cv-line-content {
+  padding: 0.15rem 0 0.15rem 1rem;
+  border-left: 1px solid var(--color-border);
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+.cv-line-content.blank {
+  height: 1.65em;
+}
+
+/* ── Content type classes ───────────────────────────────── */
+
+/* Role / title / degree — bold heading */
+.cv-role {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-text-heading);
+  font-size: 0.95rem;
+}
+
+/* Company name in accent color */
+.cv-company {
+  color: var(--color-accent);
+}
+
+.cv-company a {
+  color: var(--color-accent);
+  background-image: none;
+}
+
+.cv-company a:hover {
+  color: var(--color-accent-hover);
+}
+
+/* Date range */
+.cv-date {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+/* Description prose */
+.cv-desc {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+}
+
+/* Highlight bullet */
+.cv-highlight {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  font-family: var(--font-body);
+  padding-left: 2rem;
+}
+
+/* Italic comment line */
+.cv-comment {
+  color: var(--color-syntax-comment);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+/* ── Skills / certs / languages — code syntax format ────── */
+.cv-skills-line {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.cv-skills-line .label {
+  color: var(--color-syntax-keyword);
+}
+.cv-skills-line .bracket {
+  color: var(--color-text-muted);
+}
+.cv-skills-line .value {
+  color: var(--color-syntax-string);
+}
+.cv-skills-line .comma {
+  color: var(--color-text-faint);
+}
+
+/* ── Print overrides ────────────────────────────────────── */
+@media print {
+  .cv-page {
+    font-size: 0.85rem;
+  }
+
+  .cv-entry {
+    border-left-color: #ccc;
+    break-inside: avoid;
+  }
+
+  .cv-line-content {
+    border-left-color: #ccc;
+  }
+
+  .cv-section {
+    page-break-inside: avoid;
+  }
+}

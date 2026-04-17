@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Header & Breadcrumb</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 16px 20px; color: var(--color-text); font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 12px; }
+  .hdr { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--color-border); }
+  .wm { display: flex; gap: 8px; align-items: center; }
+  .mk { width: 22px; height: 22px; color: var(--color-accent); }
+  .wm-text { font-size: 0.85rem; font-weight: 600; color: var(--color-text-heading); letter-spacing: 0.02em; }
+  .right { display: flex; gap: 10px; align-items: center; }
+  .crumb { font-size: 0.75rem; color: var(--color-text-muted); }
+  .crumb a { color: var(--color-text-muted); text-decoration: none; }
+  .crumb .sep { opacity: 0.5; margin: 0 0.4em; }
+  .crumb .current { color: var(--color-text); }
+  .search { background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: 3px; padding: 0.3rem 0.6rem; font-size: 0.7rem; color: var(--color-text-muted); display: inline-flex; gap: 0.4rem; align-items: center; }
+  .kbd { font-size: 0.65rem; padding: 0.1rem 0.35rem; border: 1px solid var(--color-border); border-radius: 3px; background: var(--color-bg); color: var(--color-text-faint); }
+  .theme { background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: 50%; width: 1.85rem; height: 1.85rem; display: inline-flex; align-items: center; justify-content: center; color: var(--color-text-muted); }
+</style></head>
+<body>
+  <div class="hdr">
+    <div class="wm">
+      <span class="mk"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><line x1="16" y1="2" x2="16" y2="30"/><line x1="16" y1="6" x2="26" y2="14"/><line x1="16" y1="6" x2="6" y2="14"/><line x1="6" y1="14" x2="16" y2="22" stroke-width="2"/><line x1="26" y1="14" x2="16" y2="22" stroke-width="2"/></svg></span>
+      <span class="wm-text">markus jylhänkangas</span>
+    </div>
+    <div class="right">
+      <nav class="crumb"><a>home</a><span class="sep">▸</span><a>notes</a><span class="sep">▸</span><span class="current">linux toolbox</span></nav>
+      <span class="search">search <span class="kbd">/</span></span>
+      <span class="theme">☾</span>
+    </div>
+  </div>
+</body></html>

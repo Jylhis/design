@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Decorators</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 11px; }
+  .label { font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; margin: 10px 0 6px; }
+  .divider { display: flex; align-items: center; gap: 12px; color: var(--color-text-muted); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: lowercase; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+  .quote { border-left: 3px solid var(--color-decorator); padding-left: 18px; color: var(--color-text-muted); font-style: italic; font-family: "Literata", "Literata", Georgia, serif; font-size: 14px; }
+  .quote::before { content: '»'; font-family: "JetBrains Mono", "JetBrains Mono", monospace; color: var(--color-accent); font-style: normal; margin-right: 0.3em; }
+  hr { border: none; border-top: 1px solid var(--color-border); margin: 10px 0; }
+</style></head>
+<body>
+  <div class="label">labeled divider</div>
+  <div class="divider">experience</div>
+  <div class="label">blockquote · » in accent</div>
+  <p class="quote">The kind of engineer who fixes problems before customers notice them.</p>
+  <div class="label">hr</div>
+  <hr>
+</body></html>

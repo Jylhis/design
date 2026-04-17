@@ -1,0 +1,142 @@
+/*
+ * Jylhis Rofi — ~/.config/rofi/jylhis-roast.rasi  (and …paper.rasi)
+ * This is THE command palette visual language — identical DNA to web Cmd+K
+ * and Emacs M-x/Vertico. See platforms/KEYBOARD.md §"Command palette".
+ */
+
+configuration {
+    modi:         "drun,combi,run,window";
+    font:         "JetBrains Mono 11";
+    show-icons:   true;
+    icon-theme:   "Papirus-Dark";
+    terminal:     "ghostty";
+    display-drun: "›";
+    display-run:  "»";
+    display-window: "»»";
+    display-combi:  "›";
+    drun-display-format: "{name}";
+    kb-cancel: "Escape";
+}
+
+* {
+    bg:           #1a1714;
+    bg-subtle:    #242019;
+    bg-raised:    #363230;
+    text:         #e8e0d4;
+    text-muted:   #b0a496;
+    text-faint:   #6b6157;
+    accent:       #e89b5e;
+    accent-subtle: #3a2c20;
+    border:       #3d3830;
+    border-strong: #5a5248;
+
+    background-color: transparent;
+    text-color:       @text;
+}
+
+window {
+    transparency:     "real";
+    width:            560px;
+    location:         center;
+    anchor:           center;
+    y-offset:         -15%;              /* 15vh from top, matches KEYBOARD.md */
+    background-color: @bg-raised;
+    border:           1px;
+    border-color:     @border-strong;
+    border-radius:    4px;
+    padding:          0;
+}
+
+mainbox {
+    spacing:  0;
+    children: [ inputbar, message, listview ];
+}
+
+/* ── Prompt line ── */
+inputbar {
+    background-color: @bg-subtle;
+    text-color:       @text;
+    padding:          14px 18px;
+    spacing:          0;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color:   @accent;
+    padding:      0 10px 0 0;
+}
+
+entry {
+    placeholder:             "type a filter · tab to cycle · esc to close";
+    placeholder-color:       @text-faint;
+    text-color:              @text;
+    cursor:                  text;
+}
+
+/* ── Hint row ── */
+message {
+    background-color: @bg-subtle;
+    padding:          4px 18px 10px;
+    border:           0 0 1px 0;
+    border-color:     @border;
+}
+textbox {
+    text-color: @text-muted;
+    font:       "JetBrains Mono 9";
+}
+
+/* ── Results ── */
+listview {
+    lines:            9;
+    background-color: @bg-raised;
+    padding:          8px 0;
+    spacing:          0;
+    scrollbar:        false;
+    cycle:            true;
+    dynamic:          true;
+}
+
+element {
+    padding:          8px 18px;
+    spacing:          10px;
+    border:           0 0 0 3px;
+    border-color:     transparent;
+    border-radius:    0;
+    children:         [ element-icon, element-text, element-text-hint ];
+}
+
+element normal.normal {
+    text-color: @text;
+}
+
+element alternate.normal {
+    background-color: transparent;     /* no zebra — bad for scan */
+    text-color:       @text;
+}
+
+/* Selected — the universal language */
+element selected.normal,
+element selected.active,
+element selected.urgent {
+    background-color: @accent-subtle;
+    text-color:       @text;
+    border-color:     @accent;
+}
+
+element-icon {
+    size: 18px;
+    background-color: transparent;
+}
+
+element-text {
+    background-color: transparent;
+    vertical-align:   0.5;
+}
+
+element-text-hint {
+    /* right-aligned kbd hint */
+    text-color:       @text-muted;
+    font:             "JetBrains Mono 9";
+    horizontal-align: 1.0;
+    background-color: transparent;
+}

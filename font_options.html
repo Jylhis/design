@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Font options — Jylhis</title>
+<link rel="stylesheet" href="colors_and_type.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=IBM+Plex+Mono:ital,wght@0,300..700;1,300..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<!-- Commit Mono (OFL) via CDN -->
+<style>
+  @font-face {
+    font-family: 'Commit Mono';
+    src: url('https://cdn.jsdelivr.net/gh/eigilnikolajsen/commit-mono@v1.143/VAR/CommitMonoV143-VF.woff2') format('woff2');
+    font-weight: 100 1000;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+<style>
+  :root {
+    --card-width: 560px;
+    --gutter: var(--space-2xl);
+  }
+  html, body { margin: 0; background: var(--color-bg); color: var(--color-text); }
+  body { font-family: var(--font-body); padding: var(--space-2xl); }
+
+  .intro { max-width: 68ch; margin: 0 auto var(--space-3xl); }
+  .intro h1 { font-family: var(--font-mono); font-size: 1.3rem; letter-spacing: 0.02em; font-weight: 700; margin: 0 0 var(--space-sm); color: var(--color-text-heading); }
+  .intro .lede { font-size: 1rem; color: var(--color-text-muted); font-style: italic; margin: 0 0 var(--space-lg); }
+  .intro .legend { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); display: flex; gap: var(--space-lg); flex-wrap: wrap; }
+  .intro .legend .k { color: var(--color-accent); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
+    gap: var(--gutter);
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed var(--color-decorator); padding-bottom: var(--space-md); }
+  .card-letter { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-faint); letter-spacing: 0.1em; }
+  .pairing { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; color: var(--color-text-heading); }
+  .tagline { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-accent); text-transform: lowercase; letter-spacing: 0.08em; }
+
+  .sample { display: flex; flex-direction: column; gap: var(--space-md); }
+  .h-meta { font-size: 0.72rem; color: var(--color-text-muted); text-transform: lowercase; letter-spacing: 0.08em; font-family: var(--font-mono); }
+  .h-display { line-height: 1.15; letter-spacing: -0.005em; margin: 0; color: var(--color-text-heading); }
+  .h-title { line-height: 1.2; margin: 0; color: var(--color-text-heading); }
+  .h-body { line-height: 1.65; margin: 0; color: var(--color-text); }
+  .h-role { font-size: 0.82rem; color: var(--color-text-muted); margin: 0; }
+  .h-code { border: 1px solid var(--color-code-border); background: var(--color-code-bg); border-radius: 3px; padding: 0.75rem 1rem; font-size: 0.82rem; line-height: 1.55; overflow-x: auto; }
+  .h-code .c-kw { color: var(--color-syntax-keyword); }
+  .h-code .c-fn { color: var(--color-syntax-function); }
+  .h-code .c-str { color: var(--color-syntax-string); }
+  .h-code .c-com { color: var(--color-syntax-comment); font-style: italic; }
+  .h-nav { display: flex; gap: var(--space-md); color: var(--color-text-muted); font-size: 0.8rem; align-items: center; border-top: 1px dashed var(--color-decorator); padding-top: var(--space-md); }
+  .h-nav .wm { color: var(--color-accent); font-weight: 600; }
+  .h-nav .crumb { }
+  .finnish { font-size: 0.88rem; color: var(--color-text-muted); }
+  .finnish strong { color: var(--color-text); }
+
+  /* ─── Per-card font stacks ─── */
+
+  /* A — baseline: Literata + JetBrains Mono */
+  .f-literata-jb { --fb: "Literata", Charter, Georgia, serif; --fm: "JetBrains Mono", monospace; --fh: var(--fm); }
+
+  /* B — Source Serif 4 + IBM Plex Mono */
+  .f-source-plex { --fb: "Source Serif 4", Georgia, serif; --fm: "IBM Plex Mono", monospace; --fh: var(--fm); }
+
+  /* C — Newsreader + Commit Mono */
+  .f-news-commit { --fb: "Newsreader", Georgia, serif; --fm: "Commit Mono", "JetBrains Mono", monospace; --fh: var(--fm); }
+
+  /* D — Instrument Serif + Geist Mono. Display serif for headings; body stays serif. */
+  .f-instr-geist { --fb: "Source Serif 4", Georgia, serif; --fm: "Geist Mono", monospace; --fh: "Instrument Serif", Georgia, serif; }
+
+  /* E — Public Sans + JetBrains Mono (modern neutral sans body) */
+  .f-public-jb { --fb: "Public Sans", system-ui, sans-serif; --fm: "JetBrains Mono", monospace; --fh: var(--fm); }
+
+  .card .h-display, .card .h-title { font-family: var(--fh); }
+  .card .h-body, .card .h-role { font-family: var(--fb); }
+  .card .h-meta, .card .h-nav, .card .h-code, .card .pairing, .card .card-letter, .card .tagline { font-family: var(--fm); }
+  .card .h-display { font-weight: 700; }
+  .card .h-title { font-weight: 600; }
+  /* Instrument Serif only has regular + italic → use italic for display weight expression */
+  .f-instr-geist .h-display { font-weight: 400; letter-spacing: -0.01em; }
+  .f-instr-geist .h-display em { font-style: italic; }
+  .f-instr-geist .h-title { font-weight: 400; }
+
+  /* Fix display sizes so specimens feel like slides */
+  .h-display { font-size: clamp(1.8rem, 2.4vw, 2.4rem); }
+  .h-title { font-size: 1.3rem; }
+  .h-body { font-size: 1.0625rem; }
+
+  .ratings { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); font-family: var(--font-mono); font-size: 0.68rem; padding: var(--space-md); background: var(--color-bg-subtle); border-radius: 3px; margin-top: auto; }
+  .ratings .r-label { color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 3px; }
+  .ratings .r-val { color: var(--color-text); }
+
+  .notes-box { max-width: 68ch; margin: var(--space-3xl) auto 0; padding-top: var(--space-2xl); border-top: 1px solid var(--color-border); font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6; }
+  .notes-box h3 { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: lowercase; color: var(--color-text-muted); font-weight: 400; margin-top: var(--space-xl); }
+  .notes-box ul { padding-left: 1.2em; }
+
+  /* constrain specimen widths so columns don't get too narrow */
+  @media (min-width: 1400px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<section class="intro">
+  <div class="ds-man-label" style="margin-bottom:var(--space-sm)">TYPE(5) — FONT OPTIONS</div>
+  <h1>Five pairings for Jylhis</h1>
+  <p class="lede">Each card shows the same content — display headline, title, body paragraph, monospace nav/chrome, code snippet, Finnish diacritics — in a different pairing. All are OFL/Apache, variable, and ship full Finnish coverage.</p>
+  <div class="legend">
+    <span><span class="k">display</span> → page headlines</span>
+    <span><span class="k">title</span> → section headings</span>
+    <span><span class="k">body</span> → prose</span>
+    <span><span class="k">mono</span> → chrome, code, meta</span>
+  </div>
+</section>
+
+<div class="grid">
+
+  <!-- ───────── A — baseline ───────── -->
+  <article class="card f-literata-jb">
+    <header class="card-head">
+      <div>
+        <div class="card-letter">Option A</div>
+        <div class="pairing">Literata / JetBrains Mono</div>
+      </div>
+      <div class="tagline">// current · baseline</div>
+    </header>
+
+    <div class="sample">
+      <div class="h-meta">display · 2.4rem</div>
+      <h2 class="h-display">Build More, Work Less</h2>
+
+      <div class="h-meta">title · 1.3rem</div>
+      <h3 class="h-title">Modern Linux Command-Line Tools</h3>
+
+      <div class="h-meta">body · 1.0625rem · 1.65</div>
+      <p class="h-body">I don't have enough hours in the day to build everything I want — and neither do you. That's why I focus on creating more with less time, actively working on not working by automating my job away one solution at a time.</p>
+
+      <div class="h-meta">mono · nav + chrome</div>
+      <div class="h-nav"><span class="wm">markus jylhänkangas</span> <span>▸ home ▸ notes ▸ linux-toolbox</span></div>
+
+      <div class="h-meta">mono · code</div>
+<pre class="h-code"><span class="c-com">// scale CI infrastructure</span>
+<span class="c-kw">const</span> build = <span class="c-kw">async</span> (pkg: Package) =&gt; {
+  <span class="c-kw">await</span> <span class="c-fn">nix.build</span>(pkg.drv);
+  <span class="c-kw">return</span> <span class="c-str">'cached'</span>;
+};</pre>
+
+      <p class="finnish">Finnish · <strong>Markus Jylhänkangas · Zürich · Äänekosken höyrylaiva · å ä ö</strong></p>
+    </div>
+
+    <div class="ratings">
+      <div><span class="r-label">tech</span><span class="r-val">★★★★☆</span></div>
+      <div><span class="r-label">literary</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">modern</span><span class="r-val">★★★☆☆</span></div>
+      <div><span class="r-label">editorial</span><span class="r-val">★★★☆☆</span></div>
+    </div>
+  </article>
+
+  <!-- ───────── B ───────── -->
+  <article class="card f-source-plex">
+    <header class="card-head">
+      <div>
+        <div class="card-letter">Option B</div>
+        <div class="pairing">Source Serif 4 / IBM Plex Mono</div>
+      </div>
+      <div class="tagline">// engineering notebook</div>
+    </header>
+
+    <div class="sample">
+      <div class="h-meta">display · 2.4rem</div>
+      <h2 class="h-display">Build More, Work Less</h2>
+
+      <div class="h-meta">title · 1.3rem</div>
+      <h3 class="h-title">Modern Linux Command-Line Tools</h3>
+
+      <div class="h-meta">body · 1.0625rem · 1.65</div>
+      <p class="h-body">I don't have enough hours in the day to build everything I want — and neither do you. That's why I focus on creating more with less time, actively working on not working by automating my job away one solution at a time.</p>
+
+      <div class="h-meta">mono · nav + chrome</div>
+      <div class="h-nav"><span class="wm">markus jylhänkangas</span> <span>▸ home ▸ notes ▸ linux-toolbox</span></div>
+
+      <div class="h-meta">mono · code</div>
+<pre class="h-code"><span class="c-com">// scale CI infrastructure</span>
+<span class="c-kw">const</span> build = <span class="c-kw">async</span> (pkg: Package) =&gt; {
+  <span class="c-kw">await</span> <span class="c-fn">nix.build</span>(pkg.drv);
+  <span class="c-kw">return</span> <span class="c-str">'cached'</span>;
+};</pre>
+
+      <p class="finnish">Finnish · <strong>Markus Jylhänkangas · Zürich · Äänekosken höyrylaiva · å ä ö</strong></p>
+    </div>
+
+    <div class="ratings">
+      <div><span class="r-label">tech</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">literary</span><span class="r-val">★★★★☆</span></div>
+      <div><span class="r-label">modern</span><span class="r-val">★★★★☆</span></div>
+      <div><span class="r-label">editorial</span><span class="r-val">★★★☆☆</span></div>
+    </div>
+  </article>
+
+  <!-- ───────── C ───────── -->
+  <article class="card f-news-commit">
+    <header class="card-head">
+      <div>
+        <div class="card-letter">Option C</div>
+        <div class="pairing">Newsreader / Commit Mono</div>
+      </div>
+      <div class="tagline">// editorial × opinionated</div>
+    </header>
+
+    <div class="sample">
+      <div class="h-meta">display · 2.4rem</div>
+      <h2 class="h-display">Build More, Work Less</h2>
+
+      <div class="h-meta">title · 1.3rem</div>
+      <h3 class="h-title">Modern Linux Command-Line Tools</h3>
+
+      <div class="h-meta">body · 1.0625rem · 1.65</div>
+      <p class="h-body">I don't have enough hours in the day to build everything I want — and neither do you. That's why I focus on creating more with less time, actively working on not working by automating my job away one solution at a time.</p>
+
+      <div class="h-meta">mono · nav + chrome</div>
+      <div class="h-nav"><span class="wm">markus jylhänkangas</span> <span>▸ home ▸ notes ▸ linux-toolbox</span></div>
+
+      <div class="h-meta">mono · code</div>
+<pre class="h-code"><span class="c-com">// scale CI infrastructure</span>
+<span class="c-kw">const</span> build = <span class="c-kw">async</span> (pkg: Package) =&gt; {
+  <span class="c-kw">await</span> <span class="c-fn">nix.build</span>(pkg.drv);
+  <span class="c-kw">return</span> <span class="c-str">'cached'</span>;
+};</pre>
+
+      <p class="finnish">Finnish · <strong>Markus Jylhänkangas · Zürich · Äänekosken höyrylaiva · å ä ö</strong></p>
+    </div>
+
+    <div class="ratings">
+      <div><span class="r-label">tech</span><span class="r-val">★★★★☆</span></div>
+      <div><span class="r-label">literary</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">modern</span><span class="r-val">★★★★☆</span></div>
+      <div><span class="r-label">editorial</span><span class="r-val">★★★★★</span></div>
+    </div>
+  </article>
+
+  <!-- ───────── D ───────── -->
+  <article class="card f-instr-geist">
+    <header class="card-head">
+      <div>
+        <div class="card-letter">Option D</div>
+        <div class="pairing">Instrument Serif / Geist Mono<br><span style="font-weight:400;color:var(--color-text-muted)">body in Source Serif 4</span></div>
+      </div>
+      <div class="tagline">// bold editorial</div>
+    </header>
+
+    <div class="sample">
+      <div class="h-meta">display · 2.4rem · italic</div>
+      <h2 class="h-display">Build More, <em>Work Less</em></h2>
+
+      <div class="h-meta">title · 1.3rem</div>
+      <h3 class="h-title">Modern Linux Command-Line Tools</h3>
+
+      <div class="h-meta">body · 1.0625rem · 1.65</div>
+      <p class="h-body">I don't have enough hours in the day to build everything I want — and neither do you. That's why I focus on creating more with less time, actively working on not working by automating my job away one solution at a time.</p>
+
+      <div class="h-meta">mono · nav + chrome</div>
+      <div class="h-nav"><span class="wm">markus jylhänkangas</span> <span>▸ home ▸ notes ▸ linux-toolbox</span></div>
+
+      <div class="h-meta">mono · code</div>
+<pre class="h-code"><span class="c-com">// scale CI infrastructure</span>
+<span class="c-kw">const</span> build = <span class="c-kw">async</span> (pkg: Package) =&gt; {
+  <span class="c-kw">await</span> <span class="c-fn">nix.build</span>(pkg.drv);
+  <span class="c-kw">return</span> <span class="c-str">'cached'</span>;
+};</pre>
+
+      <p class="finnish">Finnish · <strong>Markus Jylhänkangas · Zürich · Äänekosken höyrylaiva · å ä ö</strong></p>
+    </div>
+
+    <div class="ratings">
+      <div><span class="r-label">tech</span><span class="r-val">★★★☆☆</span></div>
+      <div><span class="r-label">literary</span><span class="r-val">★★★★☆</span></div>
+      <div><span class="r-label">modern</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">editorial</span><span class="r-val">★★★★★</span></div>
+    </div>
+  </article>
+
+  <!-- ───────── E ───────── -->
+  <article class="card f-public-jb">
+    <header class="card-head">
+      <div>
+        <div class="card-letter">Option E</div>
+        <div class="pairing">Public Sans / JetBrains Mono</div>
+      </div>
+      <div class="tagline">// modern neutral sans</div>
+    </header>
+
+    <div class="sample">
+      <div class="h-meta">display · 2.4rem</div>
+      <h2 class="h-display">Build More, Work Less</h2>
+
+      <div class="h-meta">title · 1.3rem</div>
+      <h3 class="h-title">Modern Linux Command-Line Tools</h3>
+
+      <div class="h-meta">body · 1.0625rem · 1.65</div>
+      <p class="h-body">I don't have enough hours in the day to build everything I want — and neither do you. That's why I focus on creating more with less time, actively working on not working by automating my job away one solution at a time.</p>
+
+      <div class="h-meta">mono · nav + chrome</div>
+      <div class="h-nav"><span class="wm">markus jylhänkangas</span> <span>▸ home ▸ notes ▸ linux-toolbox</span></div>
+
+      <div class="h-meta">mono · code</div>
+<pre class="h-code"><span class="c-com">// scale CI infrastructure</span>
+<span class="c-kw">const</span> build = <span class="c-kw">async</span> (pkg: Package) =&gt; {
+  <span class="c-kw">await</span> <span class="c-fn">nix.build</span>(pkg.drv);
+  <span class="c-kw">return</span> <span class="c-str">'cached'</span>;
+};</pre>
+
+      <p class="finnish">Finnish · <strong>Markus Jylhänkangas · Zürich · Äänekosken höyrylaiva · å ä ö</strong></p>
+    </div>
+
+    <div class="ratings">
+      <div><span class="r-label">tech</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">literary</span><span class="r-val">★★☆☆☆</span></div>
+      <div><span class="r-label">modern</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">editorial</span><span class="r-val">★★★☆☆</span></div>
+    </div>
+  </article>
+
+</div>
+
+<section class="notes-box">
+  <h3>licensing + technical</h3>
+  <ul>
+    <li><strong>Literata</strong> — OFL · <strong>JetBrains Mono</strong> — OFL. Both variable.</li>
+    <li><strong>Source Serif 4</strong> — OFL · <strong>IBM Plex Mono</strong> — OFL. Both variable.</li>
+    <li><strong>Newsreader</strong> — OFL (Production Type) · <strong>Commit Mono</strong> — OFL (Eigil Nikolajsen). Both variable.</li>
+    <li><strong>Instrument Serif</strong> — OFL (Rodrigo Fuenzalida) · <strong>Geist Mono</strong> — OFL (Vercel). Geist is variable; Instrument Serif ships Regular + Italic only — good trade for its display punch.</li>
+    <li><strong>Public Sans</strong> — OFL (U.S. Web Design System) · <strong>JetBrains Mono</strong> — OFL. Both variable.</li>
+  </ul>
+  <h3>how to read the ratings</h3>
+  <p>Four dimensions, matching the vibes you picked: <em>engineering/technical</em>, <em>warm & literary</em>, <em>modern/neutral</em>, <em>bold/editorial</em>. Five stars per axis.</p>
+  <h3>next</h3>
+  <p>Pick one (or two — I can build a primary/secondary pairing). I'll swap it into <code>colors_and_type.css</code> and the UI kit so you can see the full site in the new type. Happy to self-host any of these as variable woff2 via fontsource to match the current production setup.</p>
+</section>
+
+</body>
+</html>

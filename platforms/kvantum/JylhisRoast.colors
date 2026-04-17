@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JylhisRoast.colors  (dark) -->
+<palette theme="JylhisRoast">
+  <color role="Window">#1a1714</color>
+  <color role="WindowText">#e8e0d4</color>
+  <color role="Base">#242019</color>
+  <color role="AlternateBase">#2a2520</color>
+  <color role="Text">#e8e0d4</color>
+  <color role="BrightText">#f0eae0</color>
+  <color role="Button">#2a2520</color>
+  <color role="ButtonText">#e8e0d4</color>
+  <color role="Highlight">#e89b5e</color>
+  <color role="HighlightedText">#1a1714</color>
+  <color role="Link">#e89b5e</color>
+  <color role="LinkVisited">#a090c0</color>
+  <color role="ToolTipBase">#363230</color>
+  <color role="ToolTipText">#e8e0d4</color>
+  <color role="Light">#363230</color>
+  <color role="Midlight">#2a2520</color>
+  <color role="Mid">#3d3830</color>
+  <color role="Dark">#b0a496</color>
+  <color role="Shadow">#000000</color>
+
+  <color role="WindowText" group="Disabled">#6b6157</color>
+  <color role="Text"        group="Disabled">#6b6157</color>
+  <color role="ButtonText"  group="Disabled">#6b6157</color>
+
+  <color role="Highlight"        group="Inactive">#5a5248</color>
+  <color role="HighlightedText"  group="Inactive">#e8e0d4</color>
+</palette>

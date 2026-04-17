@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>CV Line-Numbered Entry</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 16px 20px; font-family: "JetBrains Mono", "JetBrains Mono", monospace; counter-reset: cv-line; color: var(--color-text); }
+  .row { display: grid; grid-template-columns: 3rem 1fr; border-left: 1px solid var(--color-border); counter-increment: cv-line; }
+  .num { font-size: 0.72rem; color: var(--color-text-faint); text-align: right; padding-right: 0.9rem; padding-top: 0.18rem; user-select: none; line-height: 1.65; }
+  .num::after { content: counter(cv-line); }
+  .body { padding: 0.15rem 0 0.15rem 0.9rem; border-left: 1px solid var(--color-border); line-height: 1.65; font-size: 0.92rem; }
+  .role { font-weight: 600; color: var(--color-text-heading); }
+  .company { color: var(--color-accent); }
+  .date { font-size: 0.76rem; color: var(--color-text-muted); }
+  .desc { font-family: "Literata", "Literata", Georgia, serif; color: var(--color-text); font-size: 0.93rem; }
+  .hl { font-family: "Literata", "Literata", Georgia, serif; color: var(--color-text-muted); font-size: 0.86rem; padding-left: 1.8rem; }
+  .skills .label { color: #8b5a3c; } .skills .bracket { color: var(--color-text-muted); } .skills .value { color: #6b7f3a; } .skills .comma { color: var(--color-text-faint); }
+  .blank { height: 1.65em; }
+</style></head>
+<body>
+  <div class="row"><span class="num"></span><div class="body role">Senior Software Engineer (DevOps)</div></div>
+  <div class="row"><span class="num"></span><div class="body"><span class="company">Hexagon Robotics</span> · <span class="date">May 2025 — present</span> · Zürich</div></div>
+  <div class="row"><span class="num"></span><div class="body desc">Early DevOps engineer for the project.</div></div>
+  <div class="row"><span class="num"></span><div class="body hl">· Scaled CI infrastructure significantly</div></div>
+  <div class="row"><span class="num"></span><div class="body blank"></div></div>
+  <div class="row"><span class="num"></span><div class="body skills"><span class="label">languages</span><span class="bracket">: [</span><span class="value">go</span><span class="comma">, </span><span class="value">rust</span><span class="comma">, </span><span class="value">haskell</span><span class="bracket">]</span></div></div>
+</body></html>

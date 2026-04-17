@@ -1,0 +1,104 @@
+# Jylhis LS_COLORS
+# Earth-toned dircolors. Maps filetypes to the ANSI 16-color brand palette.
+# Generate with: dircolors -b platforms/shell/dircolors > ~/.dir_colors
+# Then in bash/zsh:  eval "$(dircolors -b ~/.dir_colors)"
+
+# Term entries — apply to any 256-color or truecolor terminal.
+TERM *
+
+# Reset
+RESET 0
+
+# File types — ANSI slot number maps to tokens.md §3
+NORMAL 00
+FILE 00
+DIR 01;34           # bold slate — tag color
+LINK 00;36          # muted teal
+MULTIHARDLINK 00
+FIFO 40;33          # amber on bg-subtle
+SOCK 01;35          # plum
+DOOR 01;35
+BLK 40;33;01
+CHR 40;33;01
+ORPHAN 40;31;01     # broken link = error red
+MISSING 00
+SETUID 37;41
+SETGID 30;43
+CAPABILITY 30;41
+STICKY_OTHER_WRITABLE 30;42
+OTHER_WRITABLE 34;42
+STICKY 37;44
+EXEC 01;32          # bold olive
+
+# Archives — plum family
+.tar    00;35
+.tgz    00;35
+.zip    00;35
+.gz     00;35
+.bz2    00;35
+.xz     00;35
+.zst    00;35
+.7z     00;35
+.rar    00;35
+
+# Images — muted teal
+.jpg    00;36
+.jpeg   00;36
+.png    00;36
+.webp   00;36
+.gif    00;36
+.svg    00;36
+.avif   00;36
+
+# Media — muted teal
+.mp3    00;36
+.flac   00;36
+.wav    00;36
+.mp4    00;36
+.webm   00;36
+.mkv    00;36
+
+# Docs — body (no color, just bold)
+.md     01
+.rst    01
+.txt    00
+.pdf    00;33
+.org    01
+
+# Code — keyword brown (ANSI 9 bright red ≈ copper when brand-mapped)
+.rs     00;33
+.go     00;33
+.c      00;33
+.cpp    00;33
+.h      00;33
+.hpp    00;33
+.py     00;33
+.rb     00;33
+.js     00;33
+.ts     00;33
+.jsx    00;33
+.tsx    00;33
+.html   00;34
+.css    00;34
+.scss   00;34
+.json   00;35
+.yaml   00;35
+.yml    00;35
+.toml   00;35
+.xml    00;34
+.sh     00;32
+.bash   00;32
+.zsh    00;32
+.nix    00;34          # slate for config
+
+# Build / lock / hidden
+.lock   00;90
+*cache  00;90
+.log    00;90
+
+# Emphasize by name
+*README*      01;33
+*LICENSE*     00;36
+*Makefile*    00;33
+*flake.nix*   01;34
+*flake.lock*  00;90

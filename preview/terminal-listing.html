@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Terminal Listing</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 12px; }
+  .prompt { color: var(--color-text-muted); margin-bottom: 10px; }
+  .prompt .char { color: var(--color-accent); margin-right: 6px; }
+  .entry { background: var(--color-bg-subtle); border: 1px solid transparent; border-radius: 4px; padding: 12px 14px; margin-bottom: 8px; }
+  .entry:hover, .entry.hover { border-color: var(--color-border); background: var(--color-surface); }
+  .head { display: flex; gap: 14px; align-items: baseline; font-size: 0.8rem; margin-bottom: 4px; flex-wrap: wrap; }
+  .perms { color: var(--color-text-faint); }
+  .name { color: var(--color-accent); font-weight: 600; font-size: 0.92rem; }
+  .date { color: var(--color-text-faint); margin-left: auto; }
+  .desc { font-family: "Literata", "Literata", Georgia, serif; font-size: 0.9rem; color: var(--color-text); margin: 0 0 6px; }
+  .tree { color: var(--color-text-faint); font-size: 0.78rem; }
+  .tree a { color: var(--color-text-muted); text-decoration: none; }
+</style></head>
+<body>
+  <div class="prompt"><span class="char">$</span>ls -la ~/projects/</div>
+  <div class="entry hover">
+    <div class="head"><span class="perms">drwxr-xr-x</span><span class="name">NixOS Configuration</span><span class="date">Jul 17, 2024</span></div>
+    <p class="desc">Personal spin of Omarchy with NixOS.</p>
+    <div class="tree">├── <a>github</a><br>└── <a>demo</a></div>
+  </div>
+  <div class="entry">
+    <div class="head"><span class="perms">dr-xr-xr-x</span><span class="name">nixpkgs</span><span class="date">Mar 04, 2023</span></div>
+    <p class="desc">Contributed packages and modules upstream.</p>
+  </div>
+</body></html>

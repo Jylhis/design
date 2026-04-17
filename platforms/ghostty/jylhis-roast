@@ -1,0 +1,29 @@
+# Jylhis Roast (dark) — Ghostty colorscheme
+# Drop in ~/.config/ghostty/themes/jylhis-roast and reference with
+# `theme = jylhis-roast` in config.
+#
+# Modus Vivendi accents on ANSI 0–6; brand copper on ANSI 11. See tokens.md §3.
+
+palette = 0=#1a1714
+palette = 1=#ff5f59
+palette = 2=#44bc44
+palette = 3=#d0bc00
+palette = 4=#2fafff
+palette = 5=#feacd0
+palette = 6=#6ae4b9
+palette = 7=#e8e0d4
+palette = 8=#6b6157
+palette = 9=#ff7f7f
+palette = 10=#70b900
+palette = 11=#e89b5e
+palette = 12=#79a8ff
+palette = 13=#b6a0ff
+palette = 14=#00d3d0
+palette = 15=#f0eae0
+
+background         = #1a1714
+foreground         = #e8e0d4
+cursor-color       = #e89b5e
+cursor-text        = #1a1714
+selection-background = #4a3a28
+selection-foreground = #e8e0d4

@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Jylhis Design System — Platforms</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root {
+    --maxw: 1100px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  header {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 56px 32px 24px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  header .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-text-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+  header h1 {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  header p {
+    color: var(--color-text-muted);
+    max-width: 72ch;
+    margin: 0 0 16px;
+  }
+  header nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+  header nav a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-left: 2px solid var(--color-border);
+    padding: 2px 10px;
+  }
+  header nav a:hover {
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+  }
+  header nav a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  main {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 32px;
+  }
+
+  section.target {
+    margin: 48px 0 0;
+    scroll-margin-top: 24px;
+  }
+  section.target > .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    border-bottom: 1px dashed var(--color-decorator);
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+  .head .name {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    margin: 0;
+  }
+  .head .name::before {
+    content: '▸ ';
+    color: var(--color-accent);
+  }
+  .head .files {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-text-faint);
+  }
+  .head .files code {
+    color: var(--color-text-muted);
+  }
+  section.target > p.lede {
+    margin: 0 0 20px;
+    color: var(--color-text);
+    max-width: 72ch;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .mock {
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+  .mock .bar {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 6px 12px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mock .bar .mode {
+    color: var(--color-accent);
+  }
+  .mock .body { padding: 14px 16px; }
+
+  /* ───── Paper vs Roast variants ───── */
+  .mock.paper {
+    background: #fefdfb;
+    color: #2c2825;
+  }
+  .mock.paper .bar {
+    background: #e8e1d6;
+    color: #6b5f54;
+    border-bottom-color: #d5cec4;
+  }
+  .mock.roast {
+    background: #1a1714;
+    color: #e8e0d4;
+    border-color: #3d3830;
+  }
+  .mock.roast .bar {
+    background: #2a2520;
+    color: #b0a496;
+    border-bottom-color: #3d3830;
+  }
+  .mock.roast .bar .mode { color: #e89b5e; }
+
+  /* ===============================================
+     Ghostty terminal mock
+     =============================================== */
+  .term .row { display: block; white-space: pre; }
+  .term .prompt-path { }
+  .term .prompt-git { }
+  .term .prompt-glyph { font-weight: bold; }
+  .term .comment { }
+  .term .kw { font-weight: bold; }
+  .term .str { }
+  .term .num { }
+  .term .fn  { }
+  .term .tag { }
+  .term .err { }
+
+  /* Paper syntax */
+  .mock.paper .term .prompt-path { color: #b5703c; }
+  .mock.paper .term .prompt-git  { color: #6b7f3a; }
+  .mock.paper .term .prompt-dirty{ color: #a67020; }
+  .mock.paper .term .prompt-glyph{ color: #9a5a2a; }
+  .mock.paper .term .comment     { color: #9a9080; font-style: italic; }
+  .mock.paper .term .kw          { color: #8b5a3c; }
+  .mock.paper .term .str         { color: #6b7f3a; }
+  .mock.paper .term .num         { color: #7b6b8a; }
+  .mock.paper .term .fn          { color: #a0623c; }
+  .mock.paper .term .tag         { color: #5a7a8a; }
+  .mock.paper .term .err         { color: #a83232; }
+
+  /* Roast syntax */
+  .mock.roast .term .prompt-path { color: #e89b5e; }
+  .mock.roast .term .prompt-git  { color: #7daf68; }
+  .mock.roast .term .prompt-dirty{ color: #e8b060; }
+  .mock.roast .term .prompt-glyph{ color: #e89b5e; }
+  .mock.roast .term .comment     { color: #6b6157; font-style: italic; }
+  .mock.roast .term .kw          { color: #e8a070; }
+  .mock.roast .term .str         { color: #7daf68; }
+  .mock.roast .term .num         { color: #a090c0; }
+  .mock.roast .term .fn          { color: #c8885a; }
+  .mock.roast .term .tag         { color: #7aaaba; }
+  .mock.roast .term .err         { color: #e88070; }
+
+  /* ===============================================
+     Rofi / command palette mock
+     =============================================== */
+  .palette {
+    padding: 0;
+  }
+  .palette .input {
+    padding: 12px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    border-bottom: 1px solid;
+  }
+  .palette .input .caret { font-weight: bold; }
+  .palette .hint {
+    padding: 4px 14px 8px;
+    font-size: 0.7rem;
+    border-bottom: 1px solid;
+  }
+  .palette .list { padding: 6px 0; }
+  .palette .row {
+    padding: 6px 14px;
+    border-left: 3px solid transparent;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.86rem;
+  }
+  .palette .row .kbd { font-size: 0.7rem; }
+
+  .mock.paper.palette .input   { background: #f0ebe3; border-bottom-color: #d5cec4; color: #2c2825; }
+  .mock.paper.palette .input .caret { color: #9a5a2a; }
+  .mock.paper.palette .hint    { background: #f0ebe3; border-bottom-color: #d5cec4; color: #6b5f54; }
+  .mock.paper.palette .row.selected { background: #f0dcc4; border-left-color: #9a5a2a; }
+  .mock.paper.palette .row .kbd     { color: #6b5f54; }
+
+  .mock.roast.palette .input   { background: #242019; border-bottom-color: #3d3830; color: #e8e0d4; }
+  .mock.roast.palette .input .caret { color: #e89b5e; }
+  .mock.roast.palette .hint    { background: #242019; border-bottom-color: #3d3830; color: #b0a496; }
+  .mock.roast.palette .row.selected { background: #3a2c20; border-left-color: #e89b5e; }
+  .mock.roast.palette .row .kbd     { color: #b0a496; }
+
+  /* ===============================================
+     Waybar mock — single row
+     =============================================== */
+  .waybar-wrap {
+    display: flex;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    padding: 0;
+  }
+  .waybar-wrap > div {
+    padding: 6px 12px;
+    border-right: 1px solid;
+  }
+  .waybar-wrap .ws {
+    padding: 6px 10px;
+  }
+  .waybar-wrap .ws.active {
+    border-left: 3px solid;
+    padding-left: 7px;
+  }
+  .waybar-wrap .spacer { flex: 1; border-right: none; }
+  .waybar.paper { background: #faf7f2; color: #2c2825; }
+  .waybar.paper > div { border-right-color: #d5cec4; }
+  .waybar.paper .ws.active { color: #9a5a2a; background: #f0dcc4; border-left-color: #9a5a2a; }
+  .waybar.paper .ws { color: #6b5f54; }
+
+  .waybar.roast { background: #1a1714; color: #e8e0d4; border-color: #3d3830; }
+  .waybar.roast > div { border-right-color: #3d3830; }
+  .waybar.roast .ws.active { color: #e89b5e; background: #363230; border-left-color: #e89b5e; }
+  .waybar.roast .ws { color: #b0a496; }
+
+  /* ===============================================
+     Notification (mako) mock
+     =============================================== */
+  .notif {
+    padding: 0;
+  }
+  .notif .inner {
+    padding: 12px 14px 10px;
+    border-left: 3px solid;
+  }
+  .notif .title { font-weight: bold; margin: 0 0 4px; }
+  .notif .msg { font-family: var(--font-body); font-size: 0.88rem; margin: 0 0 8px; line-height: 1.4; }
+  .notif .footer { font-size: 0.68rem; }
+
+  .mock.paper .notif .inner { border-left-color: #9a5a2a; }
+  .mock.paper .notif .footer { color: #8a7f72; }
+  .mock.roast .notif .inner { border-left-color: #e89b5e; }
+  .mock.roast .notif .footer { color: #8a7f72; }
+
+  /* ===============================================
+     Emacs mock
+     =============================================== */
+  .emacs {
+    padding: 0;
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+  .emacs .scratch {
+    padding: 14px 16px;
+  }
+  .emacs .num-col {
+    display: inline-block;
+    width: 2.2em;
+    text-align: right;
+    margin-right: 0.8em;
+    color: #8a7f72;
+  }
+  .mock.roast .emacs .num-col { color: #6b6157; }
+  .emacs .modeline {
+    padding: 4px 14px;
+    font-size: 0.7rem;
+  }
+  .mock.paper .emacs .modeline { background: #e8e1d6; color: #2c2825; border-top: 1px solid #d5cec4; }
+  .mock.roast .emacs .modeline { background: #2a2520; color: #e8e0d4; border-top: 1px solid #3d3830; }
+  .emacs .modeline .mark { color: var(--color-accent); font-weight: bold; }
+  .mock.paper .emacs .modeline .mark { color: #9a5a2a; }
+  .mock.roast .emacs .modeline .mark { color: #e89b5e; }
+
+  /* kbd chips */
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.72em;
+    padding: 0.15em 0.4em;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 3px;
+    color: var(--color-text-muted);
+    box-shadow: 0 1px 0 var(--color-border-strong);
+  }
+
+  /* Footer */
+  footer {
+    max-width: var(--maxw);
+    margin: 80px auto 40px;
+    padding: 24px 32px;
+    border-top: 1px dashed var(--color-decorator);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-text-muted);
+  }
+  footer a { color: var(--color-accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">jylhis design system · platforms index</p>
+  <h1>One system across web, terminal, Hyprland, desktop, Emacs.</h1>
+  <p>This page is the visual proof that the paper / roast palette, copper accent, monospace language, and keyboard primitives hold up on every surface I actually live in. Each target below shows the light and dark variants side-by-side. Source files live in <code>platforms/</code>.</p>
+  <nav>
+    <a href="#terminal">ghostty</a>
+    <a href="#palette">command palette / rofi</a>
+    <a href="#waybar">waybar</a>
+    <a href="#notif">notifications</a>
+    <a href="#emacs">emacs</a>
+    <a href="#charm">charm tui</a>
+    <a href="#keyboard">keyboard primitives</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ─────────── TERMINAL / GHOSTTY ─────────── -->
+  <section class="target" id="terminal">
+    <div class="head">
+      <p class="name">Ghostty / terminal</p>
+      <p class="files"><code>platforms/ghostty/{jylhis-paper,jylhis-roast,config}</code></p>
+    </div>
+    <p class="lede">16-color ANSI, earth-toned. Red/green/blue are bent toward the brand palette; real red is reserved for errors. Cursor is the copper accent. Brand prompt is a <code>»</code> glyph that flips to red on non-zero exit.</p>
+    <div class="grid">
+
+      <!-- paper -->
+      <div class="mock paper">
+        <div class="bar"><span>ghostty · jylhis-paper</span><span class="mode">light</span></div>
+        <pre class="body term"><span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
+<span class="row"><span class="prompt-glyph">» </span>git status</span>
+<span class="row"><span class="comment"># On branch main · 2 ahead</span></span>
+<span class="row"><span class="kw">Changes</span> not staged for commit:</span>
+<span class="row">  <span class="fn">modified:</span>   flake.nix</span>
+<span class="row">  <span class="fn">modified:</span>   hosts/<span class="tag">gondor</span>/default.nix</span>
+<span class="row"> </span>
+<span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
+<span class="row"><span class="prompt-glyph">» </span>nix <span class="kw">build</span> .#homeConfigurations.<span class="str">"henrik@gondor"</span>.activationPackage</span>
+<span class="row"><span class="num">1</span> derivation built · <span class="tag">cache-hit</span>=<span class="str">"true"</span></span>
+<span class="row"><span class="err">error:</span> undefined variable 'pkgs.plex-mono'</span></pre>
+      </div>
+
+      <!-- roast -->
+      <div class="mock roast">
+        <div class="bar"><span>ghostty · jylhis-roast</span><span class="mode">dark</span></div>
+        <pre class="body term"><span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
+<span class="row"><span class="prompt-glyph">» </span>git status</span>
+<span class="row"><span class="comment"># On branch main · 2 ahead</span></span>
+<span class="row"><span class="kw">Changes</span> not staged for commit:</span>
+<span class="row">  <span class="fn">modified:</span>   flake.nix</span>
+<span class="row">  <span class="fn">modified:</span>   hosts/<span class="tag">gondor</span>/default.nix</span>
+<span class="row"> </span>
+<span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
+<span class="row"><span class="prompt-glyph">» </span>nix <span class="kw">build</span> .#homeConfigurations.<span class="str">"henrik@gondor"</span>.activationPackage</span>
+<span class="row"><span class="num">1</span> derivation built · <span class="tag">cache-hit</span>=<span class="str">"true"</span></span>
+<span class="row"><span class="err">error:</span> undefined variable 'pkgs.plex-mono'</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── COMMAND PALETTE / ROFI ─────────── -->
+  <section class="target" id="palette">
+    <div class="head">
+      <p class="name">Command palette · rofi, Emacs M-x, web Cmd+K</p>
+      <p class="files"><code>platforms/rofi/*.rasi</code> · shared language</p>
+    </div>
+    <p class="lede">Same prompt (<code>»</code>), same hint row, same selected-item marker (<kbd>accent-subtle</kbd> bg + 3px accent left-border). You should be able to close your eyes, open a palette on any surface, and land on the same keybinding grammar.</p>
+    <div class="grid">
+
+      <div class="mock paper palette">
+        <div class="bar"><span>rofi · jylhis-paper.rasi</span><span class="mode">light</span></div>
+        <div class="input"><span class="caret">» </span>nix<span style="opacity:.4"> rebuild</span></div>
+        <div class="hint">type a filter · tab to cycle · esc to close</div>
+        <div class="list">
+          <div class="row">nixos-rebuild switch <span class="kbd">M-x</span></div>
+          <div class="row selected">nix build · flake output <span class="kbd">C-c b</span></div>
+          <div class="row">nix flake update <span class="kbd">C-c u</span></div>
+          <div class="row">ghostty new window <span class="kbd">M-t</span></div>
+          <div class="row">toggle jylhis-theme <span class="kbd">C-S-l</span></div>
+        </div>
+      </div>
+
+      <div class="mock roast palette">
+        <div class="bar"><span>rofi · jylhis-roast.rasi</span><span class="mode">dark</span></div>
+        <div class="input"><span class="caret">» </span>nix<span style="opacity:.4"> rebuild</span></div>
+        <div class="hint">type a filter · tab to cycle · esc to close</div>
+        <div class="list">
+          <div class="row">nixos-rebuild switch <span class="kbd">M-x</span></div>
+          <div class="row selected">nix build · flake output <span class="kbd">C-c b</span></div>
+          <div class="row">nix flake update <span class="kbd">C-c u</span></div>
+          <div class="row">ghostty new window <span class="kbd">M-t</span></div>
+          <div class="row">toggle jylhis-theme <span class="kbd">C-S-l</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── WAYBAR ─────────── -->
+  <section class="target" id="waybar">
+    <div class="head">
+      <p class="name">Hyprland · waybar</p>
+      <p class="files"><code>platforms/waybar/{style.css,config.jsonc}</code> · <code>platforms/hyprland/jylhis*.conf</code></p>
+    </div>
+    <p class="lede">Top bar, 28px, monospace. Workspace 2 is active — same selected language as everywhere else. Active window border in Hyprland uses a 45°-gradient of <code>accent → brand</code>; inactive windows dim by 8%.</p>
+
+    <div class="waybar-wrap waybar paper" style="margin-bottom:10px">
+      <div class="ws">1</div>
+      <div class="ws active">2 notes</div>
+      <div class="ws">3</div>
+      <div class="ws">4</div>
+      <div>build · watch</div>
+      <div class="spacer"></div>
+      <div>Thu 17 apr · 14:23</div>
+      <div>nix 25.05</div>
+      <div>cpu 4%</div>
+      <div>vol 60%</div>
+      <div style="border-right:none">bat 84%</div>
+    </div>
+
+    <div class="waybar-wrap waybar roast">
+      <div class="ws">1</div>
+      <div class="ws active">2 notes</div>
+      <div class="ws">3</div>
+      <div class="ws">4</div>
+      <div>build · watch</div>
+      <div class="spacer"></div>
+      <div>Thu 17 apr · 14:23</div>
+      <div>nix 25.05</div>
+      <div>cpu 4%</div>
+      <div>vol 60%</div>
+      <div style="border-right:none">bat 84%</div>
+    </div>
+  </section>
+
+  <!-- ─────────── NOTIFICATIONS ─────────── -->
+  <section class="target" id="notif">
+    <div class="head">
+      <p class="name">Mako notifications</p>
+      <p class="files"><code>platforms/mako/config</code></p>
+    </div>
+    <p class="lede">Same accent left-border as the selected row, same dismiss hint (<code>esc to dismiss · meta+n to focus</code>) always visible. Urgency is communicated by border color (<code>ok · warn · err</code>), not by glow.</p>
+    <div class="grid">
+
+      <div class="mock paper">
+        <div class="bar"><span>mako · default</span><span class="mode">light</span></div>
+        <div class="body notif" style="padding:0">
+          <div class="inner">
+            <p class="title">nixos-rebuild · switch</p>
+            <p class="msg">Activation complete. 3 services restarted. Kernel unchanged.</p>
+            <p class="footer">esc to dismiss · meta+n to focus</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock roast">
+        <div class="bar"><span>mako · default</span><span class="mode">dark</span></div>
+        <div class="body notif" style="padding:0">
+          <div class="inner">
+            <p class="title">nixos-rebuild · switch</p>
+            <p class="msg">Activation complete. 3 services restarted. Kernel unchanged.</p>
+            <p class="footer">esc to dismiss · meta+n to focus</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── EMACS ─────────── -->
+  <section class="target" id="emacs">
+    <div class="head">
+      <p class="name">Emacs · jylhis-paper / jylhis-roast</p>
+      <p class="files"><code>platforms/emacs/{jylhis-paper-theme,jylhis-roast-theme,jylhis-theme-toggle}.el</code></p>
+    </div>
+    <p class="lede">Modus-style semantic face targeting: same syntax colors as the terminal, same accent on <code>line-number-current-line</code>, <code>vertico-current</code>, <code>org-level-1</code>, magit <code>branch-current</code>. Toggle with <kbd>M-x jylhis-toggle-theme</kbd>.</p>
+    <div class="grid">
+
+      <div class="mock paper emacs">
+        <div class="bar"><span>emacs · jylhis-paper</span><span class="mode">light</span></div>
+        <pre class="scratch term"><span class="row"><span class="num-col">42</span><span class="comment">;; Jylhis tokens — exposed as defvars</span></span>
+<span class="row"><span class="num-col">43</span><span class="kw">(defvar</span> <span class="fn">jylhis-accent</span> <span class="str">"#9a5a2a"</span></span>
+<span class="row"><span class="num-col">44</span>  <span class="str">"Brand copper. See tokens.md §1."</span><span class="kw">)</span></span>
+<span class="row"><span class="num-col">45</span></span>
+<span class="row" style="background:#f0dcc4"><span class="num-col" style="color:#9a5a2a; font-weight:bold;">46</span><span class="kw">(defun</span> <span class="fn">jylhis-load</span> (<span class="tag">&amp;optional</span> mode)</span>
+<span class="row"><span class="num-col">47</span>  <span class="str">"Load paper or roast."</span></span>
+<span class="row"><span class="num-col">48</span>  <span class="kw">(let</span> ((target (<span class="kw">if</span> (<span class="kw">eq</span> mode 'light)</span>
+<span class="row"><span class="num-col">49</span>                    'jylhis-paper 'jylhis-roast)))</span>
+<span class="row"><span class="num-col">50</span>    (load-theme target <span class="num">t</span>)<span class="kw">))</span><span class="kw">)</span></span></pre>
+        <div class="modeline"><span class="mark">●</span> jylhis.el &nbsp;·&nbsp; <span style="color:#6b7f3a">main</span> &nbsp;·&nbsp; (Emacs-Lisp) &nbsp;·&nbsp; L46 C12</div>
+      </div>
+
+      <div class="mock roast emacs">
+        <div class="bar"><span>emacs · jylhis-roast</span><span class="mode">dark</span></div>
+        <pre class="scratch term"><span class="row"><span class="num-col">42</span><span class="comment">;; Jylhis tokens — exposed as defvars</span></span>
+<span class="row"><span class="num-col">43</span><span class="kw">(defvar</span> <span class="fn">jylhis-accent</span> <span class="str">"#e89b5e"</span></span>
+<span class="row"><span class="num-col">44</span>  <span class="str">"Brand copper. See tokens.md §1."</span><span class="kw">)</span></span>
+<span class="row"><span class="num-col">45</span></span>
+<span class="row" style="background:#3a2c20"><span class="num-col" style="color:#e89b5e; font-weight:bold;">46</span><span class="kw">(defun</span> <span class="fn">jylhis-load</span> (<span class="tag">&amp;optional</span> mode)</span>
+<span class="row"><span class="num-col">47</span>  <span class="str">"Load paper or roast."</span></span>
+<span class="row"><span class="num-col">48</span>  <span class="kw">(let</span> ((target (<span class="kw">if</span> (<span class="kw">eq</span> mode 'light)</span>
+<span class="row"><span class="num-col">49</span>                    'jylhis-paper 'jylhis-roast)))</span>
+<span class="row"><span class="num-col">50</span>    (load-theme target <span class="num">t</span>)<span class="kw">))</span><span class="kw">)</span></span></pre>
+        <div class="modeline"><span class="mark">●</span> jylhis.el &nbsp;·&nbsp; <span style="color:#7daf68">main</span> &nbsp;·&nbsp; (Emacs-Lisp) &nbsp;·&nbsp; L46 C12</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── CHARM TUI ─────────── -->
+  <section class="target" id="charm">
+    <div class="head">
+      <p class="name">Charm TUI · bubbletea + lipgloss + bubbles</p>
+      <p class="files"><code>platforms/charm/jylhis/{palette,theme,bubbles,bubbletea}.go</code> · <code>demo/</code></p>
+    </div>
+    <p class="lede">Go package exposing the full Jylhis palette as pre-built <code>lipgloss.Style</code>s. Auto-swaps paper ↔ roast from <code>tea.BackgroundColorMsg</code>. Ships themed <code>list</code>, <code>help</code>, <code>spinner</code>, <code>textinput</code> bubbles and a default keymap that mirrors the web shortcuts (<kbd>/</kbd> filter, <kbd>^K</kbd> palette, <kbd>^⇧L</kbd> theme).</p>
+    <div class="grid">
+
+      <div class="mock paper">
+        <div class="bar"><span>bubbletea · jylhis.Paper</span><span class="mode">light</span></div>
+        <pre class="body term"><span class="row"><span class="prompt-glyph">jylhis</span> <span class="comment">── design system · charm tui ── ⠙</span></span>
+<span class="row"><span class="str">● shipping</span>  <span class="tag">● tokens.md</span>  <span class="prompt-dirty">● nushell</span>  <span class="err">● out of scope</span></span>
+<span class="row"> </span>
+<span class="row">┌─ Jylhis · platform targets ─────────────────────┐</span>
+<span class="row">│ <span class="kw">Ghostty colorscheme</span>                             │</span>
+<span class="row">│   paper + roast, 16-color ANSI                  │</span>
+<span class="row">│ <span class="kw">Hyprland tokens</span>                                 │</span>
+<span class="row">│   borders, waybar, rofi, mako                   │</span>
+<span class="row" style="background:#f0dcc4"><span style="color:#9a5a2a">│▎</span><span class="fn">Charm TUI kit</span>                                   │</span>
+<span class="row" style="background:#f0dcc4"><span style="color:#9a5a2a">│▎</span>  lipgloss + bubbles + bubbletea                │</span>
+<span class="row">│ Emacs deftheme                                  │</span>
+<span class="row">└─────────────────────────────────────────────────┘</span>
+<span class="row"> </span>
+<span class="row"><span class="kbd">↑↓/jk</span> navigate  <span class="kbd">/</span> filter  <span class="kbd">^⇧L</span> theme  <span class="kbd">q</span> quit</span></pre>
+      </div>
+
+      <div class="mock roast">
+        <div class="bar"><span>bubbletea · jylhis.Roast</span><span class="mode">dark</span></div>
+        <pre class="body term"><span class="row"><span class="prompt-glyph">jylhis</span> <span class="comment">── design system · charm tui ── ⠙</span></span>
+<span class="row"><span class="str">● shipping</span>  <span class="tag">● tokens.md</span>  <span class="prompt-dirty">● nushell</span>  <span class="err">● out of scope</span></span>
+<span class="row"> </span>
+<span class="row">┌─ Jylhis · platform targets ─────────────────────┐</span>
+<span class="row">│ <span class="kw">Ghostty colorscheme</span>                             │</span>
+<span class="row">│   paper + roast, 16-color ANSI                  │</span>
+<span class="row">│ <span class="kw">Hyprland tokens</span>                                 │</span>
+<span class="row">│   borders, waybar, rofi, mako                   │</span>
+<span class="row" style="background:#3a2c20"><span style="color:#e89b5e">│▎</span><span class="fn">Charm TUI kit</span>                                   │</span>
+<span class="row" style="background:#3a2c20"><span style="color:#e89b5e">│▎</span>  lipgloss + bubbles + bubbletea                │</span>
+<span class="row">│ Emacs deftheme                                  │</span>
+<span class="row">└─────────────────────────────────────────────────┘</span>
+<span class="row"> </span>
+<span class="row"><span class="kbd">↑↓/jk</span> navigate  <span class="kbd">/</span> filter  <span class="kbd">^⇧L</span> theme  <span class="kbd">q</span> quit</span></pre>
+      </div>
+    </div>
+    <p style="margin-top:18px; color: var(--color-text-muted); font-size: 0.88rem;">Pairs with <a href="https://github.com/charmbracelet/harmonica" style="color:var(--color-accent)">harmonica</a> (spring animations — use <code>Palette.Accent</code> as fill) and <a href="https://github.com/NimbleMarkets/ntcharts" style="color:var(--color-accent)">ntcharts</a> (pass <code>Palette.ANSI[:]</code> as series colors). See <code>platforms/charm/README.md</code>.</p>
+  </section>
+
+  <!-- ─────────── KEYBOARD PRIMITIVES ─────────── -->
+  <section class="target" id="keyboard">
+    <div class="head">
+      <p class="name">Keyboard primitives</p>
+      <p class="files"><code>platforms/KEYBOARD.md</code></p>
+    </div>
+    <p class="lede">The same primitives re-appear on every surface. Focus ring is always 2px solid accent at 2px offset. Every shortcut appears in a <code>kbd</code>. ESC always labeled.</p>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px;">
+      <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
+        <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">focus</p>
+        <button style="font-family:var(--font-mono); font-size:0.88rem; padding:6px 14px; background:#fefdfb; color:#2c2825; border:1px solid #b0a898; border-radius:4px; outline:2px solid #9a5a2a; outline-offset:2px;">focused button</button>
+        <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">2px solid accent · 2px offset</p>
+      </div>
+
+      <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
+        <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">kbd</p>
+        <p style="margin:0; color:#2c2825;">save with <kbd>Cmd</kbd> + <kbd>S</kbd> · open palette <kbd>Cmd</kbd> + <kbd>K</kbd></p>
+        <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">mono · 0.72em · bordered</p>
+      </div>
+
+      <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
+        <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">selected</p>
+        <div style="background:#f0dcc4; border-left:3px solid #9a5a2a; padding:8px 12px; font-family:var(--font-mono); font-size:0.85rem; color:#2c2825;">row.selected</div>
+        <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">accent-subtle bg · accent left-border</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>jylhis design system · platforms/ · <a href="../index.html">back to design system</a> · <a href="KEYBOARD.md">keyboard primitives</a> · <a href="../tokens.md">tokens.md</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Palette — Core</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 20px; font-family: var(--font-mono); font-size: 11px; color: var(--color-text); }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .sw { border: 1px solid var(--color-border); border-radius: 3px; overflow: hidden; background: var(--color-surface-raised); }
+  .chip { height: 58px; }
+  .meta { padding: 6px 8px; display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+  .name { font-weight: 600; color: var(--color-text-heading); }
+  .hex { color: var(--color-text-faint); font-size: 10px; letter-spacing: 0.02em; }
+</style></head>
+<body>
+  <div class="row" style="grid-template-columns: repeat(6, 1fr);">
+    <div class="sw"><div class="chip" style="background:#faf7f2"></div><div class="meta"><span class="name">bg</span><span class="hex">#FAF7F2</span></div></div>
+    <div class="sw"><div class="chip" style="background:#f0ebe3"></div><div class="meta"><span class="name">bg-subtle</span><span class="hex">#F0EBE3</span></div></div>
+    <div class="sw"><div class="chip" style="background:#e8e1d6"></div><div class="meta"><span class="name">surface</span><span class="hex">#E8E1D6</span></div></div>
+    <div class="sw"><div class="chip" style="background:#fefdfb"></div><div class="meta"><span class="name">raised</span><span class="hex">#FEFDFB</span></div></div>
+    <div class="sw"><div class="chip" style="background:#b5703c"></div><div class="meta"><span class="name" style="color:#fefdfb">brand</span><span class="hex" style="color:#f0ebe3">#B5703C</span></div></div>
+    <div class="sw"><div class="chip" style="background:#9a5a2a"></div><div class="meta"><span class="name" style="color:#fefdfb">accent</span><span class="hex" style="color:#f0ebe3">#9A5A2A</span></div></div>
+  </div>
+</body></html>

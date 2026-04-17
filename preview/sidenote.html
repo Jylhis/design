@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Sidenote</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: "Literata", "Literata", Georgia, serif; font-size: 14px; line-height: 1.65; }
+  .wrap { display: grid; grid-template-columns: 1fr 180px; gap: 24px; }
+  .ref { font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 0.7em; color: var(--color-accent); vertical-align: super; font-weight: 600; }
+  .note { font-size: 0.82rem; line-height: 1.5; color: var(--color-text-muted); border-left: 0; }
+  .num { font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 0.7rem; color: var(--color-accent); font-weight: 600; margin-right: 0.4em; }
+  .label { font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+</style></head>
+<body>
+  <span class="label">sidenote — ref in text, note in right margin</span>
+  <div class="wrap">
+    <p>DevOps is more than tooling<span class="ref">1</span> — it's culture and processes, and how teams work.</p>
+    <aside class="note"><span class="num">1</span>"Not a job title. A way of building software that removes friction."</aside>
+  </div>
+</body></html>

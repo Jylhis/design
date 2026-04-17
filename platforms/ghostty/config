@@ -1,0 +1,33 @@
+# Ghostty — suggested config.
+# ~/.config/ghostty/config
+
+# Pick one:
+# theme = jylhis-paper
+theme = jylhis-roast
+
+# Auto-switch with system light/dark (Ghostty 1.0+):
+# theme = light:jylhis-paper,dark:jylhis-roast
+
+font-family = "JetBrains Mono"
+font-family-bold = "JetBrains Mono"
+font-family-italic = "JetBrains Mono"
+font-size = 13
+font-feature = -calt     # no ligatures (tokens.md §4)
+
+# Density — terminals live in `dense`
+adjust-cell-height = -1
+window-padding-x = 12
+window-padding-y = 10
+
+# Keyboard primitives
+# ESC always visible: no fullscreen mode that hides tabs
+window-decoration = true
+macos-titlebar-style = tabs
+
+# Cursor is the accent; never blink (reduce-motion default)
+cursor-style = block
+cursor-style-blink = false
+
+# Focus ring analog — border on focused split
+split-divider-color = #9a5a2a
+unfocused-split-opacity = 0.85

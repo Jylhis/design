@@ -1,0 +1,53 @@
+# Jylhis Mako — ~/.config/mako/config
+# Notifications with the command-palette language: accent left-border,
+# monospace meta, paper/roast bg. Dismiss hint always visible.
+
+font=JetBrains Mono 11
+width=380
+height=120
+margin=12
+padding=14,16
+border-size=1
+border-radius=4
+max-icon-size=32
+icon-path=/usr/share/icons/Adwaita
+
+# Default — dark roast
+background-color=#2a2520
+text-color=#e8e0d4
+border-color=#5a5248
+progress-color=over #e89b5e
+
+# Layout / animation
+layer=overlay
+anchor=top-right
+default-timeout=6000
+ignore-timeout=0
+
+format=<b>%s</b>\n%b\n<span foreground='#8a7f72' font='JetBrains Mono 9'>esc to dismiss · meta+n to focus</span>
+
+# Selected marker — matches KEYBOARD.md §"Selected item (universal)"
+[focused]
+background-color=#363230
+border-color=#e89b5e
+# Mako can't draw a left-border only, but border + color does the job.
+
+# Urgency levels — map to semantic family
+[urgency=low]
+border-color=#6b6157
+
+[urgency=normal]
+border-color=#5a5248
+
+[urgency=critical]
+background-color=#3a1f1c
+text-color=#f5a090
+border-color=#e88070
+default-timeout=0
+
+# Specific app rules
+[app-name=Emacs]
+border-color=#7b6b8a        # plum
+
+[category=mpd]
+border-color=#7daf68        # olive

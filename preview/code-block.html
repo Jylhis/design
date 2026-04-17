@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Code Block</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: "JetBrains Mono", "JetBrains Mono", monospace; font-size: 12px; }
+  .filename { font-size: 0.7rem; color: var(--color-text-muted); background: var(--color-surface); border: 1px solid var(--color-code-border); border-bottom: none; border-radius: 4px 4px 0 0; padding: 0.4rem 1rem; display: inline-block; margin-bottom: -1px; letter-spacing: 0.02em; }
+  pre { background: var(--color-code-bg); border: 1px solid var(--color-code-border); border-radius: 0 4px 4px 4px; padding: 14px 16px; margin: 0; overflow-x: auto; line-height: 1.6; font-size: 12px; }
+  .k { color: #8b5a3c; } .s { color: #6b7f3a; } .c { color: #9a9080; font-style: italic; } .n { color: #7b6b8a; } .f { color: #a0623c; }
+  .inline { background: var(--color-code-bg); border: 1px solid var(--color-code-border); border-radius: 3px; padding: 0.1em 0.3em; font-size: 0.85em; }
+  p { font-family: "Literata", "Literata", Georgia, serif; font-size: 14px; color: var(--color-text); margin: 10px 0 0; }
+</style></head>
+<body>
+  <div class="filename">config/devenv.nix</div>
+<pre><span class="c"># reproducible dev shell</span>
+<span class="k">{ pkgs, ... }:</span> {
+  languages.rust.enable = <span class="k">true</span>;
+  packages = [ pkgs.ripgrep pkgs.just ];
+}</pre>
+  <p>Run <span class="inline">just build</span> to produce a static <span class="inline">dist/</span>.</p>
+</body></html>
