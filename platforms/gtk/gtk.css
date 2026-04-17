@@ -22,20 +22,21 @@
 @define-color accent_bg_color       #9a5a2a;
 @define-color accent_fg_color       #faf7f2;
 
-@define-color destructive_color     #a83232;
-@define-color destructive_bg_color  #a83232;
+/* Status colours — Modus accents (red / green / yellow / blue). */
+@define-color destructive_color     #a60000;
+@define-color destructive_bg_color  #a60000;
 @define-color destructive_fg_color  #faf7f2;
 
-@define-color success_color         #556b1f;
-@define-color success_bg_color      #6b7f3a;
+@define-color success_color         #006800;
+@define-color success_bg_color      #006800;
 @define-color success_fg_color      #faf7f2;
 
-@define-color warning_color         #a67020;
-@define-color warning_bg_color      #a67020;
+@define-color warning_color         #6f5500;
+@define-color warning_bg_color      #6f5500;
 @define-color warning_fg_color      #faf7f2;
 
-@define-color error_color           #a83232;
-@define-color error_bg_color        #a83232;
+@define-color error_color           #a60000;
+@define-color error_bg_color        #a60000;
 @define-color error_fg_color        #faf7f2;
 
 /* Window */

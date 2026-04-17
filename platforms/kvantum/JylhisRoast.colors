@@ -12,7 +12,8 @@
   <color role="Highlight">#e89b5e</color>
   <color role="HighlightedText">#1a1714</color>
   <color role="Link">#e89b5e</color>
-  <color role="LinkVisited">#a090c0</color>
+  <color role="LinkVisited">#79a8ff</color><!-- Modus blue-warmer -->
+
   <color role="ToolTipBase">#363230</color>
   <color role="ToolTipText">#e8e0d4</color>
   <color role="Light">#363230</color>

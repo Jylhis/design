@@ -41,13 +41,13 @@ border-color=#5a5248
 
 [urgency=critical]
 background-color=#3a1f1c
-text-color=#f5a090
-border-color=#e88070
+text-color=#ff7f7f
+border-color=#ff5f59          # Modus red (status-err)
 default-timeout=0
 
 # Specific app rules
 [app-name=Emacs]
-border-color=#7b6b8a        # plum
+border-color=#b6a0ff          # Modus magenta-cooler (syn-keyword)
 
 [category=mpd]
-border-color=#7daf68        # olive
+border-color=#44bc44          # Modus green (status-ok)

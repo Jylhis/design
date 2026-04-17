@@ -10,10 +10,10 @@ Click-thru recreation of [jylhis.com](https://jylhis.com) (Astro 5.x) as a React
 - `Pages.jsx` — `HomePage`, `NotesPage`, `NoteDetail`, `ProjectsPage`, `ProjectDetail`, `ResumePage`, `NotFoundPage`.
 
 ## Tweaks
-The Tweaks panel switches palette between:
-- **Jylhis** — original warm copper-on-paper palette (with light/dark subtoggle).
-- **Modus Operandi** — Emacs Modus light palette (AAA contrast, Modus blue `#0000c0` as accent).
-- **Modus Vivendi** — Emacs Modus dark palette (vivid semantic colors over near-black).
+The Tweaks panel switches **light / dark**. There is only one palette:
+the warm copper-on-paper Jylhis brand. Syntax highlights inside code
+blocks are drawn from **Emacs Modus** (Operandi light / Vivendi dark) so
+code looks identical in the browser, in the editor, and in the terminal.
 
 ## Gaps
 - Search overlay is stubbed (button alerts). In the real site, `/` opens an Orama-powered overlay.

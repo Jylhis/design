@@ -1,5 +1,6 @@
 # Jylhis LS_COLORS
-# Earth-toned dircolors. Maps filetypes to the ANSI 16-color brand palette.
+# Maps filetypes to the Modus-flavoured ANSI 16-color brand palette.
+# See tokens.md §3 — ANSI 0–6 are Modus accents, 11 is the brand copper.
 # Generate with: dircolors -b platforms/shell/dircolors > ~/.dir_colors
 # Then in bash/zsh:  eval "$(dircolors -b ~/.dir_colors)"
 
@@ -12,8 +13,8 @@ RESET 0
 # File types — ANSI slot number maps to tokens.md §3
 NORMAL 00
 FILE 00
-DIR 01;34           # bold slate — tag color
-LINK 00;36          # muted teal
+DIR 01;34           # Modus blue — tag / info
+LINK 00;36          # Modus cyan-cooler — type
 MULTIHARDLINK 00
 FIFO 40;33          # amber on bg-subtle
 SOCK 01;35          # plum

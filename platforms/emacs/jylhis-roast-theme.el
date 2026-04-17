@@ -27,7 +27,7 @@
 ;;; Code:
 
 (deftheme jylhis-roast
-  "Jylhis — earth-toned dark theme. Copper accent on warm roast.")
+  "Jylhis — dark theme. Copper accent on warm roast, Modus Vivendi syntax.")
 
 (let ((class '((class color) (min-colors 256)))
 
@@ -138,20 +138,20 @@
    ;; ─────────────────────────────────────────────
    ;; Font-lock  (semantic face mapping tokens.md §2)
    ;; ─────────────────────────────────────────────
-   `(font-lock-builtin-face          ((,class :foreground ,syn-tag)))
+   `(font-lock-builtin-face          ((,class :foreground ,syn-builtin)))
    `(font-lock-comment-face          ((,class :foreground ,syn-comment :slant italic)))
    `(font-lock-comment-delimiter-face ((,class :foreground ,syn-comment)))
    `(font-lock-constant-face         ((,class :foreground ,syn-number)))
-   `(font-lock-doc-face              ((,class :foreground ,fg-muted :slant italic)))
+   `(font-lock-doc-face              ((,class :foreground ,syn-docstring :slant italic)))
    `(font-lock-function-name-face    ((,class :foreground ,syn-function :weight bold)))
    `(font-lock-keyword-face          ((,class :foreground ,syn-keyword :weight bold)))
    `(font-lock-negation-char-face    ((,class :foreground ,err)))
-   `(font-lock-preprocessor-face     ((,class :foreground ,syn-tag)))
+   `(font-lock-preprocessor-face     ((,class :foreground ,syn-builtin)))
    `(font-lock-regexp-grouping-backslash ((,class :foreground ,syn-function :weight bold)))
    `(font-lock-regexp-grouping-construct ((,class :foreground ,syn-keyword :weight bold)))
    `(font-lock-string-face           ((,class :foreground ,syn-string)))
-   `(font-lock-type-face             ((,class :foreground ,syn-tag)))
-   `(font-lock-variable-name-face    ((,class :foreground ,fg)))
+   `(font-lock-type-face             ((,class :foreground ,syn-type)))
+   `(font-lock-variable-name-face    ((,class :foreground ,syn-variable)))
    `(font-lock-warning-face          ((,class :foreground ,warn :weight bold)))
 
    ;; Tree-sitter richer faces (Emacs 29+)
@@ -373,20 +373,20 @@
    ;; Terminal (vterm / ansi-term)  — tokens.md §3
    ;; ─────────────────────────────────────────────
    `(ansi-color-black          ((,class :foreground "#1a1714" :background "#1a1714")))
-   `(ansi-color-red            ((,class :foreground "#e88070" :background "#e88070")))
-   `(ansi-color-green          ((,class :foreground "#7daf68" :background "#7daf68")))
-   `(ansi-color-yellow         ((,class :foreground "#e8b060" :background "#e8b060")))
-   `(ansi-color-blue           ((,class :foreground "#7aaaba" :background "#7aaaba")))
-   `(ansi-color-magenta        ((,class :foreground "#a090c0" :background "#a090c0")))
-   `(ansi-color-cyan           ((,class :foreground "#7aaaa0" :background "#7aaaa0")))
+   `(ansi-color-red            ((,class :foreground "#ff5f59" :background "#ff5f59")))
+   `(ansi-color-green          ((,class :foreground "#44bc44" :background "#44bc44")))
+   `(ansi-color-yellow         ((,class :foreground "#d0bc00" :background "#d0bc00")))
+   `(ansi-color-blue           ((,class :foreground "#2fafff" :background "#2fafff")))
+   `(ansi-color-magenta        ((,class :foreground "#feacd0" :background "#feacd0")))
+   `(ansi-color-cyan           ((,class :foreground "#6ae4b9" :background "#6ae4b9")))
    `(ansi-color-white          ((,class :foreground "#e8e0d4" :background "#e8e0d4")))
    `(ansi-color-bright-black   ((,class :foreground "#6b6157" :background "#6b6157")))
-   `(ansi-color-bright-red     ((,class :foreground "#f5a090" :background "#f5a090")))
-   `(ansi-color-bright-green   ((,class :foreground "#9ac478" :background "#9ac478")))
+   `(ansi-color-bright-red     ((,class :foreground "#ff7f7f" :background "#ff7f7f")))
+   `(ansi-color-bright-green   ((,class :foreground "#70b900" :background "#70b900")))
    `(ansi-color-bright-yellow  ((,class :foreground "#e89b5e" :background "#e89b5e")))
-   `(ansi-color-bright-blue    ((,class :foreground "#9ac0d0" :background "#9ac0d0")))
-   `(ansi-color-bright-magenta ((,class :foreground "#b8a8d0" :background "#b8a8d0")))
-   `(ansi-color-bright-cyan    ((,class :foreground "#8abab0" :background "#8abab0")))
+   `(ansi-color-bright-blue    ((,class :foreground "#79a8ff" :background "#79a8ff")))
+   `(ansi-color-bright-magenta ((,class :foreground "#b6a0ff" :background "#b6a0ff")))
+   `(ansi-color-bright-cyan    ((,class :foreground "#00d3d0" :background "#00d3d0")))
    `(ansi-color-bright-white   ((,class :foreground "#f0eae0" :background "#f0eae0")))
 
    ;; ─────────────────────────────────────────────
@@ -411,8 +411,8 @@
 (custom-theme-set-variables
  'jylhis-roast
  '(ansi-color-names-vector
-   ["#1a1714" "#e88070" "#7daf68" "#e8b060"
-    "#7aaaba" "#a090c0" "#7aaaa0" "#e8e0d4"])
+   ["#1a1714" "#ff5f59" "#44bc44" "#d0bc00"
+    "#2fafff" "#feacd0" "#6ae4b9" "#e8e0d4"])
  '(ansi-color-faces-vector
    [default default default italic underline success warning error]))
 

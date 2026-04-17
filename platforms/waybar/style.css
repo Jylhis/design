@@ -63,10 +63,10 @@ window#waybar {
     color: #e8e0d4;
 }
 
-/* Battery with semantic states */
-#battery.warning { color: #e8b060; }      /* status-warn */
-#battery.critical { color: #e88070; }     /* status-err */
-#battery.charging { color: #7daf68; }     /* status-ok */
+/* Battery with semantic states — Modus Vivendi accents */
+#battery.warning { color: #d0bc00; }      /* status-warn (Modus yellow) */
+#battery.critical { color: #ff5f59; }     /* status-err  (Modus red)    */
+#battery.charging { color: #44bc44; }     /* status-ok   (Modus green)  */
 
 /* Network / audio */
 #network.disconnected,
@@ -82,7 +82,7 @@ window#waybar {
 }
 
 /* Custom modules — match syntax family */
-#custom-nix       { color: #7aaaba; }     /* slate — the config color */
+#custom-nix       { color: #6ae4b9; }     /* Modus cyan-cooler — syn-type */
 #custom-notifications.dnd { color: #6b6157; }
 
 /* Focus ring — when waybar modules are navigated via keyboard */

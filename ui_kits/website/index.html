@@ -94,10 +94,10 @@
 
     /* Status badges */
     .project-status { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.1em 0.5em; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; margin-left: var(--space-sm); }
-    .project-status--active { color: #556b1f; background: rgba(85,107,31,.12); border: 1px solid #556b1f; }
+    .project-status--active { color: var(--color-status-ok); background: rgba(0,104,0,0.12); border: 1px solid var(--color-status-ok); }
     .project-status--archived { color: var(--color-text-muted); background: var(--color-bg-subtle); border: 1px solid var(--color-border); }
-    .project-status--experimental { color: #614a7a; background: rgba(97,74,122,.12); border: 1px solid #614a7a; }
-    .project-status--contributed { color: #3f5e70; background: rgba(63,94,112,.12); border: 1px solid #3f5e70; }
+    .project-status--experimental { color: var(--color-syntax-keyword); background: rgba(83,26,182,0.12); border: 1px solid var(--color-syntax-keyword); }
+    .project-status--contributed { color: var(--color-status-info); background: rgba(0,49,169,0.12); border: 1px solid var(--color-status-info); }
 
     /* Dividers & prose bits */
     .divider-labeled { display:flex; align-items:center; gap: var(--space-md); color: var(--color-text-muted); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; margin: var(--space-2xl) 0 var(--space-lg); text-transform: lowercase; }
@@ -126,7 +126,7 @@
     .cv-desc { color: var(--color-text); font-family: var(--font-body); }
     .cv-highlight { color: var(--color-text-muted); font-family: var(--font-body); font-size: 0.88rem; padding-left: 2rem; }
     .cv-skills-line { font-size: 0.82rem; }
-    .cv-skills-line .label { color: #8b5a3c; } .cv-skills-line .bracket { color: var(--color-text-muted); } .cv-skills-line .value { color: #6b7f3a; } .cv-skills-line .comma { color: var(--color-text-faint); }
+    .cv-skills-line .label { color: var(--color-syntax-keyword); } .cv-skills-line .bracket { color: var(--color-text-muted); } .cv-skills-line .value { color: var(--color-syntax-string); } .cv-skills-line .comma { color: var(--color-text-faint); }
 
     /* Footer */
     .site-footer { font-family: var(--font-mono); background: var(--color-surface); padding: var(--space-3xl); margin-top: var(--space-3xl); color: var(--color-text-muted); font-size: 0.8rem; }

@@ -1,30 +1,36 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><title>Palette — Syntax</title>
+<meta charset="utf-8"><title>Palette — Syntax (Modus Operandi)</title>
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
   body { padding: 18px 20px; font-family: var(--font-mono); font-size: 11px; color: var(--color-text); }
   .code { background: var(--color-code-bg); border: 1px solid var(--color-code-border); border-radius: 4px; padding: 14px 16px; line-height: 1.7; font-size: 12px; }
-  .k { color: #8b5a3c; } .s { color: #6b7f3a; } .c { color: #9a9080; font-style: italic; }
-  .n { color: #7b6b8a; } .f { color: #a0623c; } .t { color: #5a7a8a; }
+  .k { color: var(--color-syntax-keyword); font-weight: 600; }
+  .s { color: var(--color-syntax-string); }
+  .c { color: var(--color-syntax-comment); font-style: italic; }
+  .n { color: var(--color-syntax-number); }
+  .f { color: var(--color-syntax-function); font-weight: 600; }
+  .t { color: var(--color-syntax-type); }
+  .v { color: var(--color-syntax-variable); }
   .legend { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; color: var(--color-text-faint); font-size: 10px; }
   .legend span::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 1px; vertical-align: middle; }
 </style></head>
 <body>
   <div class="code">
 <span class="c">// connect to the drip, quietly.</span>
-<span class="k">const</span> <span class="f">connect</span> = <span class="k">async</span> (host) =&gt; {
-  <span class="k">const</span> port = <span class="n">8080</span>;
-  <span class="k">return</span> fetch(<span class="s">`https://${host}:${port}`</span>);
+<span class="k">const</span> <span class="f">connect</span> = <span class="k">async</span> (<span class="v">host</span>) =&gt; {
+  <span class="k">const</span> <span class="v">port</span>: <span class="t">number</span> = <span class="n">8080</span>;
+  <span class="k">return</span> <span class="f">fetch</span>(<span class="s">`https://${host}:${port}`</span>);
 };
   </div>
   <div class="legend">
-    <span style="--d:#8b5a3c"><span style="background:#8b5a3c"></span>keyword</span>
-    <span><span style="background:#6b7f3a"></span>string</span>
-    <span><span style="background:#9a9080"></span>comment</span>
-    <span><span style="background:#7b6b8a"></span>number</span>
-    <span><span style="background:#a0623c"></span>function</span>
-    <span><span style="background:#5a7a8a"></span>tag</span>
+    <span><span style="background:var(--color-syntax-keyword)"></span>keyword</span>
+    <span><span style="background:var(--color-syntax-string)"></span>string</span>
+    <span><span style="background:var(--color-syntax-comment)"></span>comment</span>
+    <span><span style="background:var(--color-syntax-number)"></span>number</span>
+    <span><span style="background:var(--color-syntax-function)"></span>function</span>
+    <span><span style="background:var(--color-syntax-type)"></span>type</span>
+    <span><span style="background:var(--color-syntax-variable)"></span>variable</span>
   </div>
 </body></html>
