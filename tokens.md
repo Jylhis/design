@@ -158,6 +158,4 @@ See `platforms/KEYBOARD.md`. Summary:
 
 ## Change log
 
-- **2026-04-17** — Initial spec. Extracted from `colors_and_type.css`. Added ANSI mapping, density, motion, sound, icon, keyboard sections.
-- **2026-04-17** — Added Charm TUI target (`platforms/charm/`). Dropped fish; bash + zsh supported.
-- **2026-04-17** — Switched body/mono to **Literata + JetBrains Mono**. Swapped syntax + status + ANSI palettes to **Emacs Modus** (Operandi / Vivendi) so highlights are uniform across Emacs, web code blocks, terminal and TUI. Brand copper stays on UI accent + ANSI 11.
+See [`CHANGELOG.md`](./CHANGELOG.md) for versioned history. Summary of the `0.1.0` release: initial spec extracted from `colors_and_type.css`; ANSI / density / motion / sound / icon / keyboard sections added; Charm TUI target landed; fish dropped in favour of bash + zsh; body/mono switched to Literata + JetBrains Mono; syntax / status / ANSI palettes swapped to Emacs Modus so highlights stay uniform across Emacs, web, terminal, and TUI, with brand copper retained on UI accent and ANSI 11.
