@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 // Jylhis design system — token validator.
 //
-// Parses tokens.md as the source of truth, then cross-checks every derived
-// target file (colors_and_type.css, platforms/charm/jylhis/palette.go,
-// platforms/ghostty/*) for hex drift. Also validates CSS custom property
-// naming, that every var(--x) reference resolves, and that body/muted/accent
-// contrast ratios match the AAA/AA claims in tokens.md.
+// tokens.md is the canonical spec. Every derived target file is checked
+// against it: colors_and_type.css, platforms/charm/jylhis/palette.go, and
+// the Ghostty themes. The validator also verifies CSS custom-property
+// naming, that every var(--…) reference resolves, and that the WCAG
+// claims in tokens.md hold.
 //
 // Run: node scripts/validate-tokens.mjs
-// CI:  see .github/workflows/validate.yml
-//
-// Exits non-zero if any check fails.
+// CI:  .github/workflows/validate.yml
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -18,221 +16,175 @@ import { dirname, resolve } from "node:path";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(resolve(ROOT, p), "utf8");
-
 const errors = [];
 const fail = (msg) => errors.push(msg);
 
-// ─── 1. Parse tokens.md ────────────────────────────────────────────────
-// Pull every table row of the form:
-//   | `role` | ... | `#light` | `#dark` | ...
-// where the first backticked cell is the role and the two hex cells are
-// light and dark. Role-to-hex map is keyed by role name.
+// ─── Single source of truth: role → (css var, go field, ghostty key) ───
+// Adding a new token? Add one row here — cssRoleMap, goFieldMap and the
+// Ghostty checks are all derived from it.
+
+const ROLES = {
+  bg:               { css: "--color-bg",               go: "Bg"            },
+  "bg-subtle":      { css: "--color-bg-subtle",        go: "BgSubtle"      },
+  surface:          { css: "--color-surface",          go: "Surface"       },
+  "surface-raised": { css: "--color-surface-raised",   go: "SurfaceRaised" },
+  text:             { css: "--color-text",             go: "Text"          },
+  "text-muted":     { css: "--color-text-muted",       go: "TextMuted"     },
+  "text-heading":   { css: "--color-text-heading",     go: "TextHeading"   },
+  "text-faint":     { css: "--color-text-faint",       go: "TextFaint"     },
+  accent:           { css: "--color-accent",           go: "Accent"        },
+  "accent-hover":   { css: "--color-accent-hover",     go: "AccentHover"   },
+  brand:            { css: "--color-brand",            go: "Brand"         },
+  border:           { css: "--color-border",           go: "Border"        },
+  "border-strong":  { css: "--color-border-strong",    go: "BorderStrong"  },
+  decorator:        { css: "--color-decorator",        go: "Decorator"     },
+  "syn-keyword":    { css: "--color-syntax-keyword",   go: "SynKeyword"    },
+  "syn-string":     { css: "--color-syntax-string",    go: "SynString"     },
+  "syn-number":     { css: "--color-syntax-number",    go: "SynNumber"     },
+  "syn-function":   { css: "--color-syntax-function",  go: "SynFunction"   },
+  "syn-builtin":    { css: "--color-syntax-builtin",   go: "SynBuiltin"    },
+  "syn-type":       { css: "--color-syntax-type",      go: "SynType"       },
+  "syn-variable":   { css: "--color-syntax-variable",  go: "SynVariable"   },
+  "syn-comment":    { css: "--color-syntax-comment",   go: "SynComment"    },
+  "syn-docstring":  { css: "--color-syntax-docstring", go: "SynDocstring"  },
+  "status-err":     { css: "--color-status-err",       go: "StatusErr"     },
+  "status-warn":    { css: "--color-status-warn",      go: "StatusWarn"    },
+  "status-ok":      { css: "--color-status-ok",        go: "StatusOk"      },
+  "status-info":    { css: "--color-status-info",      go: "StatusInfo"    },
+};
+// SynTag is a legacy alias of syn-type in palette.go; check it explicitly.
+const GO_ALIASES = { SynTag: "syn-type" };
+
+// ─── 1. Parse tokens.md into {role: {light, dark}} ─────────────────────
 
 const tokensMd = read("tokens.md");
-
+const HEX = /`(#[0-9a-fA-F]{6})`/g;
 /** @type {Map<string, {light: string, dark: string}>} */
 const canon = new Map();
 
-const hex = /`(#[0-9a-fA-F]{6})`/g;
 for (const line of tokensMd.split("\n")) {
   if (!line.startsWith("|")) continue;
+  const hexes = [...line.matchAll(HEX)].map((m) => m[1].toLowerCase());
+  if (hexes.length < 2) continue;
   const roleMatch = line.match(/\|\s*`([a-z0-9-]+)`/);
   const ansiMatch = line.match(/^\|\s*(\d{1,2})\s*\|/);
-  const hexes = [...line.matchAll(hex)].map((m) => m[1].toLowerCase());
-  if (hexes.length < 2) continue;
-  if (roleMatch) {
-    canon.set(roleMatch[1], { light: hexes[0], dark: hexes[1] });
-  } else if (ansiMatch) {
-    canon.set(`ansi-${ansiMatch[1]}`, { light: hexes[0], dark: hexes[1] });
-  }
+  if (roleMatch) canon.set(roleMatch[1], { light: hexes[0], dark: hexes[1] });
+  else if (ansiMatch) canon.set(`ansi-${ansiMatch[1]}`, { light: hexes[0], dark: hexes[1] });
 }
 
 for (const required of ["bg", "text", "accent", "brand", "ansi-0", "ansi-11", "syn-keyword", "status-err"]) {
   if (!canon.has(required)) fail(`tokens.md: missing canonical role \`${required}\``);
 }
 
-// ─── 2. Validate colors_and_type.css ───────────────────────────────────
-// Role → CSS custom property mapping. If a role is absent here it's not
-// checked; add it when expanding the CSS.
+function check(file, label, mode, actual, role) {
+  const expected = canon.get(role)?.[mode];
+  if (expected && actual && actual.toLowerCase() !== expected) {
+    fail(`${file}: ${label} = ${actual} — tokens.md says ${expected} (role ${role})`);
+  }
+}
 
-const cssRoleMap = {
-  bg: "--color-bg",
-  "bg-subtle": "--color-bg-subtle",
-  surface: "--color-surface",
-  "surface-raised": "--color-surface-raised",
-  text: "--color-text",
-  "text-muted": "--color-text-muted",
-  "text-heading": "--color-text-heading",
-  "text-faint": "--color-text-faint",
-  accent: "--color-accent",
-  "accent-hover": "--color-accent-hover",
-  brand: "--color-brand",
-  border: "--color-border",
-  "border-strong": "--color-border-strong",
-  decorator: "--color-decorator",
-  "syn-keyword": "--color-syntax-keyword",
-  "syn-string": "--color-syntax-string",
-  "syn-number": "--color-syntax-number",
-  "syn-function": "--color-syntax-function",
-  "syn-builtin": "--color-syntax-builtin",
-  "syn-type": "--color-syntax-type",
-  "syn-variable": "--color-syntax-variable",
-  "syn-comment": "--color-syntax-comment",
-  "syn-docstring": "--color-syntax-docstring",
-  "status-err": "--color-status-err",
-  "status-warn": "--color-status-warn",
-  "status-ok": "--color-status-ok",
-  "status-info": "--color-status-info",
-};
+// ─── 2. colors_and_type.css ────────────────────────────────────────────
+// Single pass: walk once, tagging each custom-property line with its
+// enclosing selector (if any). Avoids repeated findIndex scans and handles
+// brace-formatting variations gracefully.
 
 const css = read("colors_and_type.css");
-const cssLines = css.split("\n");
-
-/** Parse :root / [data-theme="dark"] blocks into {var: hex} maps. */
-function parseCssBlock(selector) {
-  const start = cssLines.findIndex((l) => l.trim().startsWith(selector));
-  if (start < 0) return {};
-  const end = cssLines.findIndex((l, i) => i > start && l.trim() === "}");
-  const out = {};
-  for (let i = start + 1; i < end; i++) {
-    const m = cssLines[i].match(/(--[a-z0-9-]+)\s*:\s*(#[0-9a-fA-F]{6})/);
-    if (m) out[m[1]] = m[2].toLowerCase();
-  }
-  return out;
-}
-
-const lightVars = parseCssBlock(":root {");
-const darkVars = parseCssBlock('[data-theme="dark"] {');
-
-for (const [role, cssName] of Object.entries(cssRoleMap)) {
-  const c = canon.get(role);
-  if (!c) continue;
-  if (lightVars[cssName] && lightVars[cssName] !== c.light) {
-    fail(`colors_and_type.css: ${cssName} light = ${lightVars[cssName]} — tokens.md says ${c.light} (role ${role})`);
-  }
-  if (darkVars[cssName] && darkVars[cssName] !== c.dark) {
-    fail(`colors_and_type.css: ${cssName} dark  = ${darkVars[cssName]} — tokens.md says ${c.dark} (role ${role})`);
+const lightVars = {};
+const darkVars = {};
+const allDeclared = new Set();
+{
+  let selector = null;
+  for (const line of css.split("\n")) {
+    const trimmed = line.trim();
+    if (trimmed.endsWith("{")) {
+      if (trimmed.startsWith(":root")) selector = "light";
+      else if (trimmed.startsWith('[data-theme="dark"]')) selector = "dark";
+      else selector = "other";
+      continue;
+    }
+    if (trimmed === "}") { selector = null; continue; }
+    const decl = line.match(/^\s*(--[a-z0-9-]+)\s*:/);
+    if (!decl) continue;
+    const name = decl[1];
+    allDeclared.add(name);
+    const hex = line.match(/#[0-9a-fA-F]{6}/)?.[0];
+    if (!hex) continue;
+    if (selector === "light") lightVars[name] = hex.toLowerCase();
+    else if (selector === "dark") darkVars[name] = hex.toLowerCase();
   }
 }
 
-// CSS var naming convention: --[a-z][a-z0-9-]*
-for (const name of [...Object.keys(lightVars), ...Object.keys(darkVars)]) {
+for (const [role, { css: name }] of Object.entries(ROLES)) {
+  check("colors_and_type.css", `${name} light`, "light", lightVars[name], role);
+  check("colors_and_type.css", `${name} dark`,  "dark",  darkVars[name],  role);
+}
+
+for (const name of allDeclared) {
   if (!/^--[a-z][a-z0-9-]*$/.test(name)) {
     fail(`colors_and_type.css: custom property \`${name}\` violates --[a-z][a-z0-9-]* naming`);
   }
 }
 
-// Every var(--foo) reference must be declared in :root or [data-theme="dark"].
-const declared = new Set([...Object.keys(lightVars), ...Object.keys(darkVars)]);
-// Also pick up non-color tokens like spacing, radii, transitions, font stacks.
-for (const l of cssLines) {
-  const m = l.match(/^\s*(--[a-z0-9-]+)\s*:/);
-  if (m) declared.add(m[1]);
-}
-const refs = [...css.matchAll(/var\((--[a-z0-9-]+)\)/g)].map((m) => m[1]);
-for (const ref of new Set(refs)) {
-  if (!declared.has(ref)) {
-    fail(`colors_and_type.css: var(${ref}) used but never declared`);
-  }
+for (const [, ref] of css.matchAll(/var\((--[a-z0-9-]+)\)/g)) {
+  if (!allDeclared.has(ref)) fail(`colors_and_type.css: var(${ref}) used but never declared`);
 }
 
-// ─── 3. Validate platforms/charm/jylhis/palette.go ─────────────────────
-// Parse the paper and roast struct literals. Each field is `Name: "#hex"`.
-// Some fields are grouped comma-separated on one line. Regex-scrape field/hex
-// pairs inside the two var blocks.
+// ─── 3. platforms/charm/jylhis/palette.go ──────────────────────────────
 
 const goFile = read("platforms/charm/jylhis/palette.go");
 
-function parseGoBlock(label) {
-  const re = new RegExp(`var ${label} = Palette\\{([\\s\\S]*?)\\n\\}`, "m");
-  const body = goFile.match(re)?.[1] ?? "";
-  const out = {};
-  // Split on commas, then pick up `Field: "#hex"` pieces.
-  for (const piece of body.split(/[,{]/)) {
-    const m = piece.match(/(\w+)\s*:\s*"(#[0-9a-fA-F]{6})"/);
-    if (m) out[m[1]] = m[2].toLowerCase();
+function parseGoPalette(label) {
+  const body = goFile.match(new RegExp(`var ${label} = Palette\\{([\\s\\S]*?)\\n\\}`, "m"))?.[1] ?? "";
+  const fields = {};
+  for (const [, field, hex] of body.matchAll(/(\w+)\s*:\s*"(#[0-9a-fA-F]{6})"/g)) {
+    fields[field] = hex.toLowerCase();
   }
-  // Also grab ANSI array entries.
-  const ansiRe = /ANSI:\s*\[16\]string\{([\s\S]*?)\}/;
-  const ansiBody = body.match(ansiRe)?.[1] ?? "";
-  const ansiHex = [...ansiBody.matchAll(/"(#[0-9a-fA-F]{6})"/g)].map((m) => m[1].toLowerCase());
-  return { fields: out, ansi: ansiHex };
+  const ansiBody = body.match(/ANSI:\s*\[16\]string\{([\s\S]*?)\}/)?.[1] ?? "";
+  const ansi = [...ansiBody.matchAll(/"(#[0-9a-fA-F]{6})"/g)].map((m) => m[1].toLowerCase());
+  return { fields, ansi };
 }
 
-const paperGo = parseGoBlock("paper");
-const roastGo = parseGoBlock("roast");
+for (const [label, mode] of [["paper", "light"], ["roast", "dark"]]) {
+  const { fields, ansi } = parseGoPalette(label);
+  for (const [role, { go }] of Object.entries(ROLES)) {
+    check("palette.go", `${label}.${go}`, mode, fields[go], role);
+  }
+  for (const [field, role] of Object.entries(GO_ALIASES)) {
+    check("palette.go", `${label}.${field}`, mode, fields[field], role);
+  }
+  for (let i = 0; i < 16; i++) {
+    check("palette.go", `${label}.ANSI[${i}]`, mode, ansi[i], `ansi-${i}`);
+  }
+}
 
-const goFieldMap = {
-  Bg: "bg", BgSubtle: "bg-subtle", Surface: "surface", SurfaceRaised: "surface-raised",
-  Text: "text", TextMuted: "text-muted", TextHeading: "text-heading", TextFaint: "text-faint",
-  Accent: "accent", AccentHover: "accent-hover", Brand: "brand",
-  Border: "border", BorderStrong: "border-strong", Decorator: "decorator",
-  SynKeyword: "syn-keyword", SynString: "syn-string", SynNumber: "syn-number",
-  SynFunction: "syn-function", SynType: "syn-type", SynBuiltin: "syn-builtin",
-  SynVariable: "syn-variable", SynTag: "syn-type", SynComment: "syn-comment",
-  SynDocstring: "syn-docstring",
-  StatusErr: "status-err", StatusWarn: "status-warn", StatusOk: "status-ok", StatusInfo: "status-info",
+// ─── 4. Ghostty themes ─────────────────────────────────────────────────
+
+const GHOSTTY_LINE_MAP = {
+  background: "bg",
+  foreground: "text",
+  "cursor-color": "accent",
 };
+const PALETTE_LINE = /^palette\s*=\s*(\d{1,2})=(#[0-9a-fA-F]{6})/;
+const KV_LINE = /^([a-z-]+)\s*=\s*(#[0-9a-fA-F]{6})/;
 
-for (const [field, role] of Object.entries(goFieldMap)) {
-  const c = canon.get(role);
-  if (!c) continue;
-  if (paperGo.fields[field] && paperGo.fields[field] !== c.light) {
-    fail(`palette.go paper.${field} = ${paperGo.fields[field]} — tokens.md says ${c.light} (role ${role})`);
-  }
-  if (roastGo.fields[field] && roastGo.fields[field] !== c.dark) {
-    fail(`palette.go roast.${field} = ${roastGo.fields[field]} — tokens.md says ${c.dark} (role ${role})`);
-  }
-}
-
-for (let i = 0; i < 16; i++) {
-  const c = canon.get(`ansi-${i}`);
-  if (!c) continue;
-  if (paperGo.ansi[i] && paperGo.ansi[i] !== c.light) {
-    fail(`palette.go paper.ANSI[${i}] = ${paperGo.ansi[i]} — tokens.md says ${c.light}`);
-  }
-  if (roastGo.ansi[i] && roastGo.ansi[i] !== c.dark) {
-    fail(`palette.go roast.ANSI[${i}] = ${roastGo.ansi[i]} — tokens.md says ${c.dark}`);
-  }
-}
-
-// ─── 4. Validate Ghostty themes ────────────────────────────────────────
 function validateGhostty(path, mode) {
-  const body = read(path);
-  const target = mode === "light" ? "light" : "dark";
-  const role = mode === "light" ? (k) => canon.get(k)?.light : (k) => canon.get(k)?.dark;
-  // palette lines
-  for (const line of body.split("\n")) {
-    const m = line.match(/^palette\s*=\s*(\d{1,2})=(#[0-9a-fA-F]{6})/);
-    if (m) {
-      const [, n, h] = m;
-      const expected = role(`ansi-${n}`);
-      if (expected && h.toLowerCase() !== expected) {
-        fail(`${path}: ANSI ${n} = ${h} — tokens.md says ${expected}`);
-      }
+  for (const line of read(path).split("\n")) {
+    const pal = line.match(PALETTE_LINE);
+    if (pal) {
+      check(path, `ANSI ${pal[1]}`, mode, pal[2], `ansi-${pal[1]}`);
+      continue;
     }
-    const bgm = line.match(/^background\s*=\s*(#[0-9a-fA-F]{6})/);
-    if (bgm && role("bg") !== bgm[1].toLowerCase()) {
-      fail(`${path}: background = ${bgm[1]} — tokens.md says ${role("bg")}`);
-    }
-    const fgm = line.match(/^foreground\s*=\s*(#[0-9a-fA-F]{6})/);
-    if (fgm && role("text") !== fgm[1].toLowerCase()) {
-      fail(`${path}: foreground = ${fgm[1]} — tokens.md says ${role("text")}`);
-    }
-    const curm = line.match(/^cursor-color\s*=\s*(#[0-9a-fA-F]{6})/);
-    if (curm && role("accent") !== curm[1].toLowerCase()) {
-      fail(`${path}: cursor-color = ${curm[1]} — tokens.md says ${role("accent")}`);
-    }
+    const kv = line.match(KV_LINE);
+    if (!kv) continue;
+    const role = GHOSTTY_LINE_MAP[kv[1]];
+    if (role) check(path, kv[1], mode, kv[2], role);
   }
-  return target;
 }
 
 validateGhostty("platforms/ghostty/jylhis-paper", "light");
 validateGhostty("platforms/ghostty/jylhis-roast", "dark");
 
-// ─── 5. Contrast checks ────────────────────────────────────────────────
-// tokens.md asserts AAA for body text (≥ 7:1) and AA for meta (≥ 4.5:1).
-// Verify the headline claims against canonical hex values.
+// ─── 5. Contrast (WCAG 2 relative luminance) ───────────────────────────
 
 function luminance(hex) {
   const n = parseInt(hex.slice(1), 16);
@@ -248,32 +200,30 @@ function contrast(a, b) {
   return (la + 0.05) / (lb + 0.05);
 }
 
-const contrastChecks = [
-  ["text", "bg", "light", 7, "AAA body text (light)"],
-  ["text", "bg", "dark", 7, "AAA body text (dark)"],
-  ["text-heading", "bg", "light", 7, "AAA headings (light)"],
-  ["text-muted", "bg", "light", 4.5, "AA meta (light)"],
-  ["text-muted", "bg", "dark", 4.5, "AA meta (dark)"],
-  ["accent", "bg", "light", 4.5, "AA accent on paper"],
-  ["accent", "bg", "dark", 7, "AAA accent on dark"],
+const CONTRAST_CHECKS = [
+  ["text",         "bg", "light", 7,   "AAA body text (light)"],
+  ["text",         "bg", "dark",  7,   "AAA body text (dark)"],
+  ["text-heading", "bg", "light", 7,   "AAA headings (light)"],
+  ["text-muted",   "bg", "light", 4.5, "AA meta (light)"],
+  ["text-muted",   "bg", "dark",  4.5, "AA meta (dark)"],
+  ["accent",       "bg", "light", 4.5, "AA accent on paper"],
+  ["accent",       "bg", "dark",  7,   "AAA accent on dark"],
 ];
 
-for (const [fg, bg, mode, min, label] of contrastChecks) {
+for (const [fg, bg, mode, min, label] of CONTRAST_CHECKS) {
   const fgc = canon.get(fg)?.[mode];
   const bgc = canon.get(bg)?.[mode];
   if (!fgc || !bgc) continue;
   const ratio = contrast(fgc, bgc);
-  if (ratio < min) {
-    fail(`contrast: ${label} ${fgc} on ${bgc} = ${ratio.toFixed(2)}:1 (< ${min}:1)`);
-  }
+  if (ratio < min) fail(`contrast: ${label} ${fgc} on ${bgc} = ${ratio.toFixed(2)}:1 (< ${min}:1)`);
 }
 
 // ─── Report ────────────────────────────────────────────────────────────
+
 if (errors.length) {
   console.error(`\n✗ ${errors.length} token-drift or contrast issue(s):\n`);
   for (const e of errors) console.error(`  - ${e}`);
   console.error("");
   process.exit(1);
 }
-
 console.log(`✓ token validation passed (${canon.size} canonical roles checked)`);

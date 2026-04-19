@@ -10,27 +10,17 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 ## [Unreleased]
 
 ### Added
-- `docs/INTEGRATION.md` — web, Go, terminal, Emacs, Wayland quick-starts
-  plus a "how to add a new platform" checklist.
-- `CHANGELOG.md` (this file) with semver policy.
-- `source_styles/README.md` — clarifies that the files in `source_styles/`
-  are read-only reference copies of the real site and that `tokens.md` is
-  the canonical direction of truth.
-- `scripts/validate-tokens.mjs` — validates hex-drift between `tokens.md`,
-  `colors_and_type.css`, `platforms/charm/jylhis/palette.go`, and the
-  Ghostty themes; checks CSS custom property naming and `var(--…)`
-  resolution; verifies AAA body-text contrast claims.
-- `index.html` — Pages landing page with links to previews, platform
-  gallery, token spec, UI kit, and integration guide.
-- `.github/workflows/validate.yml` — runs the token validator on every
-  push and pull request.
-- `.github/workflows/pages.yml` — builds and deploys the static site to
-  GitHub Pages on pushes to the default branch.
+- Integration guide at `docs/INTEGRATION.md`.
+- Semver changelog and policy (this file).
+- Read-only notice for `source_styles/`.
+- Token validator (`scripts/validate-tokens.mjs`): hex drift, CSS custom
+  property naming, `var(--…)` resolution, WCAG contrast claims.
+- Pages landing `index.html` with live swatches and theme toggle.
+- GitHub Actions: token validation on every push; Pages deploy on `main`.
 
 ### Changed
-- `README.md` — added a web quick-start snippet and a link to
-  `docs/INTEGRATION.md` and `CHANGELOG.md`.
-- `devenv.nix` — documents the Node-based validation entrypoint.
+- README web quick-start snippet; `devenv.nix` `validate-tokens` script.
+- `tokens.md` changelog section defers to this file.
 
 ## [0.1.0] — 2026-04-17
 

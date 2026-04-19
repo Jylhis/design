@@ -65,15 +65,15 @@
   </header>
 
   <h2 class="section">core palette</h2>
-  <div class="swatches">
-    <div class="sw"><div class="chip" style="background: var(--color-bg)"></div><div class="meta"><span class="name">bg</span><span class="hex">#faf7f2</span></div></div>
-    <div class="sw"><div class="chip" style="background: var(--color-surface)"></div><div class="meta"><span class="name">surface</span><span class="hex">#e8e1d6</span></div></div>
-    <div class="sw"><div class="chip" style="background: var(--color-text)"></div><div class="meta"><span class="name">text</span><span class="hex">#2c2825</span></div></div>
-    <div class="sw"><div class="chip" style="background: var(--color-text-muted)"></div><div class="meta"><span class="name">muted</span><span class="hex">#6b5f54</span></div></div>
-    <div class="sw"><div class="chip" style="background: var(--color-accent)"></div><div class="meta"><span class="name">accent</span><span class="hex">#9a5a2a</span></div></div>
-    <div class="sw"><div class="chip" style="background: var(--color-brand)"></div><div class="meta"><span class="name">brand</span><span class="hex">#b5703c</span></div></div>
-    <div class="sw"><div class="chip" style="background: var(--color-border)"></div><div class="meta"><span class="name">border</span><span class="hex">#d5cec4</span></div></div>
-    <div class="sw"><div class="chip" style="background: var(--color-status-err)"></div><div class="meta"><span class="name">err</span><span class="hex">#a60000</span></div></div>
+  <div class="swatches" id="swatches">
+    <div class="sw" data-var="--color-bg"><div class="chip"></div><div class="meta"><span class="name">bg</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-surface"><div class="chip"></div><div class="meta"><span class="name">surface</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-text"><div class="chip"></div><div class="meta"><span class="name">text</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-text-muted"><div class="chip"></div><div class="meta"><span class="name">muted</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-accent"><div class="chip"></div><div class="meta"><span class="name">accent</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-brand"><div class="chip"></div><div class="meta"><span class="name">brand</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-border"><div class="chip"></div><div class="meta"><span class="name">border</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-status-err"><div class="chip"></div><div class="meta"><span class="name">err</span><span class="hex"></span></div></div>
   </div>
 
   <h2 class="section">specs &amp; guides</h2>
@@ -174,14 +174,30 @@
   const doc = document.documentElement;
   const label = document.getElementById("theme-label");
   const btn = document.getElementById("theme-toggle");
-  const apply = (mode) => {
+  const mq = matchMedia("(prefers-color-scheme: dark)");
+  const safeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+  const safeSet = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
+
+  const paintSwatches = () => {
+    const style = getComputedStyle(doc);
+    for (const sw of document.querySelectorAll(".sw[data-var]")) {
+      const hex = style.getPropertyValue(sw.dataset.var).trim();
+      sw.querySelector(".chip").style.background = hex;
+      sw.querySelector(".hex").textContent = hex.toUpperCase();
+    }
+  };
+
+  const apply = (mode, persist = true) => {
     if (mode === "dark") { doc.dataset.theme = "dark"; label.textContent = "roast"; btn.textContent = "☀"; }
     else { delete doc.dataset.theme; label.textContent = "paper"; btn.textContent = "☾"; }
-    try { localStorage.setItem("jylhis-theme", mode); } catch {}
+    if (persist) safeSet("jylhis-theme", mode);
+    paintSwatches();
   };
-  const saved = (() => { try { return localStorage.getItem("jylhis-theme"); } catch { return null; } })();
-  apply(saved ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  const saved = safeGet("jylhis-theme");
+  apply(saved ?? (mq.matches ? "dark" : "light"), saved !== null);
   btn.addEventListener("click", () => apply(doc.dataset.theme === "dark" ? "light" : "dark"));
+  mq.addEventListener("change", (e) => { if (!safeGet("jylhis-theme")) apply(e.matches ? "dark" : "light", false); });
 </script>
 
 </body>
