@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Jylhis Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Warm paper, earth copper, monospace headings. Design system for jylhis.com.">
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="stylesheet" href="./colors_and_type.css">
+<style>
+  :root { --maxw: 72ch; --rail: 16rem; --gap: 2.5rem; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--color-bg); min-height: 100vh; }
+  main { max-width: calc(var(--maxw) + var(--rail) + var(--gap)); margin: 0 auto; padding: 56px 24px 120px; }
+  header.hero { border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-xl); margin-bottom: var(--space-2xl); }
+  header.hero .eyebrow { font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-text-faint); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 12px; }
+  header.hero h1 { font-family: var(--font-mono); font-size: 2.2rem; font-weight: 700; color: var(--color-text-heading); letter-spacing: -0.01em; margin: 0 0 12px; }
+  header.hero p { color: var(--color-text-muted); max-width: var(--maxw); margin: 0 0 var(--space-md); }
+  header.hero .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  header.hero .tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); padding: 3px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg-subtle); }
+  .toolbar { position: fixed; top: 24px; right: 24px; z-index: 10; display: flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 0.8rem; }
+  .toolbar button { font: inherit; cursor: pointer; background: var(--color-bg-subtle); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 6px 12px; transition: border-color var(--transition-fast); }
+  .toolbar button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .toolbar button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  h2.section { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: var(--space-2xl) 0 var(--space-md); }
+  h2.section::before { content: "// "; color: var(--color-accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-md); }
+  .card { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); background: var(--color-bg-subtle); text-decoration: none; color: inherit; transition: border-color var(--transition-fast); display: flex; flex-direction: column; gap: 8px; }
+  .card:hover { border-color: var(--color-accent); }
+  .card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .card .title { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: var(--color-text-heading); }
+  .card .desc { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.55; }
+  .card .path { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-faint); margin-top: auto; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: var(--space-sm); }
+  .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 0.72rem; }
+  .sw .chip { height: 48px; }
+  .sw .meta { padding: 6px 8px; background: var(--color-bg); color: var(--color-text-muted); display: flex; justify-content: space-between; gap: 4px; }
+  .sw .meta .name { color: var(--color-text); }
+  .tree { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-muted); white-space: pre; line-height: 1.5; padding: var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); overflow-x: auto; }
+  footer { margin-top: var(--space-3xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted); text-align: center; }
+  footer a { color: var(--color-accent); text-decoration: none; }
+  footer a:hover { color: var(--color-accent-hover); }
+  .pill { display: inline-block; font-family: var(--font-mono); font-size: 0.7rem; background: var(--color-accent-subtle); color: var(--color-accent); padding: 2px 8px; border-radius: var(--radius-pill); margin-left: 8px; }
+</style>
+<script>
+  try {
+    var s = localStorage.getItem("jylhis-theme");
+    var m = s || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (m === "dark") document.documentElement.dataset.theme = "dark";
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<div class="toolbar">
+  <span id="theme-label">paper</span>
+  <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">☾</button>
+</div>
+
+<main>
+  <header class="hero">
+    <p class="eyebrow">jylhis design system</p>
+    <h1>Warm paper, earth copper. <span class="pill">v0.1</span></h1>
+    <p>A design system for <a href="https://jylhis.com" style="color: var(--color-accent); text-decoration: none;">jylhis.com</a> — one accent, muted taupe everything else, monospace headings, serif body. Ten platform targets from Ghostty to Charm TUI, all driven by a single <a href="./tokens.md" style="color: var(--color-accent); text-decoration: none;">token spec</a>.</p>
+    <div class="tags">
+      <span class="tag">WCAG AAA body</span>
+      <span class="tag">Literata + JetBrains Mono</span>
+      <span class="tag">Modus syntax</span>
+      <span class="tag">keyboard-first</span>
+      <span class="tag">no shadows</span>
+    </div>
+  </header>
+
+  <h2 class="section">core palette</h2>
+  <div class="swatches" id="swatches">
+    <div class="sw" data-var="--color-bg"><div class="chip"></div><div class="meta"><span class="name">bg</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-surface"><div class="chip"></div><div class="meta"><span class="name">surface</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-text"><div class="chip"></div><div class="meta"><span class="name">text</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-text-muted"><div class="chip"></div><div class="meta"><span class="name">muted</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-accent"><div class="chip"></div><div class="meta"><span class="name">accent</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-brand"><div class="chip"></div><div class="meta"><span class="name">brand</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-border"><div class="chip"></div><div class="meta"><span class="name">border</span><span class="hex"></span></div></div>
+    <div class="sw" data-var="--color-status-err"><div class="chip"></div><div class="meta"><span class="name">err</span><span class="hex"></span></div></div>
+  </div>
+
+  <h2 class="section">specs &amp; guides</h2>
+  <div class="grid">
+    <a class="card" href="./tokens.md">
+      <span class="title">tokens.md</span>
+      <span class="desc">Canonical palette spec — core colors, syntax, ANSI 16, typography, density, motion, sound, keyboard primitives. Contrast ratios inlined.</span>
+      <span class="path">./tokens.md</span>
+    </a>
+    <a class="card" href="./docs/INTEGRATION.md">
+      <span class="title">integration guide</span>
+      <span class="desc">Quick-starts for web (CSS import), Go / Charm TUI, terminal, Emacs, Wayland, and adding a new platform.</span>
+      <span class="path">./docs/INTEGRATION.md</span>
+    </a>
+    <a class="card" href="./platforms/KEYBOARD.md">
+      <span class="title">keyboard primitives</span>
+      <span class="desc">Focus ring, kbd chip, leader key, command palette, selected item, dismiss hints, tab order, canonical shortcuts.</span>
+      <span class="path">./platforms/KEYBOARD.md</span>
+    </a>
+    <a class="card" href="./CHANGELOG.md">
+      <span class="title">changelog</span>
+      <span class="desc">Semver history — what changed, when, and why. Pin a tag or SHA in consumer projects.</span>
+      <span class="path">./CHANGELOG.md</span>
+    </a>
+  </div>
+
+  <h2 class="section">live previews</h2>
+  <div class="grid">
+    <a class="card" href="./platforms/index.html">
+      <span class="title">platforms gallery</span>
+      <span class="desc">All ten targets in one page, rendered side-by-side in Paper and Roast. Ghostty, shell, Hyprland, Waybar, Mako, Rofi, GTK, Kvantum, Emacs, Charm.</span>
+      <span class="path">./platforms/index.html</span>
+    </a>
+    <a class="card" href="./ui_kits/website/index.html">
+      <span class="title">website UI kit</span>
+      <span class="desc">React recreation of the Astro site — home, notes, projects, resume, 404. Interactive theme toggle.</span>
+      <span class="path">./ui_kits/website/index.html</span>
+    </a>
+    <a class="card" href="./preview/colors-core.html">
+      <span class="title">color swatches</span>
+      <span class="desc">Core palette, text / borders, syntax highlighting — hex values inline with role labels.</span>
+      <span class="path">./preview/colors-*.html</span>
+    </a>
+    <a class="card" href="./preview/type-headings.html">
+      <span class="title">typography</span>
+      <span class="desc">Heading scale, body copy, monospace labels, inline and block code, dividers with labels.</span>
+      <span class="path">./preview/type-*.html</span>
+    </a>
+    <a class="card" href="./preview/buttons.html">
+      <span class="title">buttons &amp; cards</span>
+      <span class="desc">Primary, secondary, and destructive buttons. Flat cards with 1px borders, no shadows.</span>
+      <span class="path">./preview/buttons.html · ./preview/cards.html</span>
+    </a>
+    <a class="card" href="./preview/code-block.html">
+      <span class="title">code blocks</span>
+      <span class="desc">Modus Operandi / Vivendi syntax rendering in web, matching Emacs and the terminal.</span>
+      <span class="path">./preview/code-block.html</span>
+    </a>
+    <a class="card" href="./preview/icons.html">
+      <span class="title">iconography</span>
+      <span class="desc">Unicode-as-icons inventory — chevrons, tree lines, man-page glyphs, theme toggle.</span>
+      <span class="path">./preview/icons.html</span>
+    </a>
+    <a class="card" href="./preview/spacing.html">
+      <span class="title">spacing &amp; radii</span>
+      <span class="desc">4px grid, content max 72ch, corner radii 2–4px only. No pill aesthetic.</span>
+      <span class="path">./preview/spacing.html · ./preview/radii-elevation.html</span>
+    </a>
+  </div>
+
+  <h2 class="section">repo layout</h2>
+  <pre class="tree">design/
+├── tokens.md                  ← canonical spec
+├── colors_and_type.css        ← CSS implementation
+├── CHANGELOG.md
+├── docs/
+│   └── INTEGRATION.md
+├── scripts/
+│   └── validate-tokens.mjs    ← run in CI
+├── platforms/
+│   ├── charm/                 ← Go / Bubble Tea
+│   ├── ghostty/
+│   ├── emacs/
+│   ├── hyprland/  waybar/  mako/  rofi/  gtk/  kvantum/  shell/
+│   ├── KEYBOARD.md
+│   └── index.html
+├── preview/                   ← 23 HTML specimen cards
+├── ui_kits/website/           ← React UI kit
+├── source_styles/             ← read-only reference copies
+└── assets/</pre>
+
+  <footer>
+    ──────── set in literata &amp; jetbrains mono · tokens in <a href="./tokens.md">tokens.md</a> · source on <a href="https://github.com/jylhis/design">github</a> ────────
+  </footer>
+</main>
+
+<script>
+  const doc = document.documentElement;
+  const label = document.getElementById("theme-label");
+  const btn = document.getElementById("theme-toggle");
+  const mq = matchMedia("(prefers-color-scheme: dark)");
+  const safeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+  const safeSet = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
+
+  const paintSwatches = () => {
+    const style = getComputedStyle(doc);
+    for (const sw of document.querySelectorAll(".sw[data-var]")) {
+      const hex = style.getPropertyValue(sw.dataset.var).trim();
+      sw.querySelector(".chip").style.background = hex;
+      sw.querySelector(".hex").textContent = hex.toUpperCase();
+    }
+  };
+
+  const apply = (mode, persist = true) => {
+    if (mode === "dark") { doc.dataset.theme = "dark"; label.textContent = "roast"; btn.textContent = "☀"; }
+    else { delete doc.dataset.theme; label.textContent = "paper"; btn.textContent = "☾"; }
+    if (persist) safeSet("jylhis-theme", mode);
+    paintSwatches();
+  };
+
+  const saved = safeGet("jylhis-theme");
+  apply(saved ?? (mq.matches ? "dark" : "light"), saved !== null);
+  btn.addEventListener("click", () => apply(doc.dataset.theme === "dark" ? "light" : "dark"));
+  mq.addEventListener("change", (e) => { if (!safeGet("jylhis-theme")) apply(e.matches ? "dark" : "light", false); });
+</script>
+
+</body>
+</html>

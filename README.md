@@ -27,10 +27,34 @@ The site is personal, technical, and deliberately paper‑like: warm cream backg
 | `preview/` | Small HTML cards that render on the Design System tab. |
 | `ui_kits/website/` | React recreation of the Astro site (home, notes, projects, resume, 404). |
 | `tokens.md` | **Canonical palette spec.** Source of truth for every platform-specific file. |
+| `docs/INTEGRATION.md` | How to consume the system from web, Go, terminal, Emacs, Wayland; how to add a new platform. |
+| `CHANGELOG.md` | Versioned history (semver). |
+| `scripts/validate-tokens.mjs` | Hex-drift, naming, `var(--…)` resolution, and contrast checks. Run in CI. |
 | `platforms/` | Platform-specific theme files — Ghostty, bash/zsh, Hyprland, Waybar, Mako, Rofi, GTK, Kvantum/Qt, Emacs, **Charm TUI (Go)**. |
 | `platforms/charm/` | Go package (`jylhis`) for Charm TUIs — palette + pre-built lipgloss styles + themed bubbles + Bubble Tea light/dark detection. Runnable demo under `platforms/charm/demo/`. |
 | `platforms/KEYBOARD.md` | Keyboard / accessibility primitives (focus, kbd, command palette, selected item). |
 | `platforms/index.html` | Visual overview of every target in light + dark. |
+| `index.html` | Landing page deployed to GitHub Pages (links to previews, platform gallery, UI kit). |
+
+---
+
+## Quick start (web)
+
+```css
+@import "./vendor/jylhis/colors_and_type.css";
+
+html { background: var(--color-bg); color: var(--color-text); }
+a { color: var(--color-accent); }
+a:hover { color: var(--color-accent-hover); }
+```
+
+```js
+document.documentElement.dataset.theme =
+  matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "";
+```
+
+Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md).
+Version history: [`CHANGELOG.md`](./CHANGELOG.md).
 
 ---
 

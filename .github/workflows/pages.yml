@@ -1,0 +1,59 @@
+name: pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build static site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate tokens, CSS custom properties, and contrast
+        run: node scripts/validate-tokens.mjs
+
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          # Core entry point + token implementation + favicons/OG
+          cp index.html colors_and_type.css font_options.html _site/
+          cp -r assets preview platforms ui_kits source_styles docs _site/
+          cp tokens.md CHANGELOG.md README.md SKILL.md _site/
+          # .nojekyll so GitHub Pages serves files that start with _ or .
+          touch _site/.nojekyll
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
