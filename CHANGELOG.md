@@ -50,5 +50,5 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 ### Removed
 - Fish support (kept bash and zsh only).
 
-[Unreleased]: https://github.com/jylhis/design/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/jylhis/design/releases/tag/v0.1.0
+[Unreleased]: https://github.com/jylhis/design/commits/main
+<!-- Restore [0.1.0] link once the v0.1.0 tag is cut. -->

@@ -153,9 +153,3 @@ See `platforms/KEYBOARD.md`. Summary:
 - **Command palette:** centered modal, `bg-subtle` backdrop at 85% opacity, 560px max, `>` prefix, selected row uses `accent-subtle` bg + `accent` left-border. Identical on web (Orama), Emacs (`M-x`/Vertico), rofi.
 - **Selected item:** `accent-subtle` background + `accent` 3px left-border. No other marker.
 - **Dismiss:** ESC always labeled in top-right of modals. Never hidden.
-
----
-
-## Change log
-
-See [`CHANGELOG.md`](./CHANGELOG.md) for versioned history. Summary of the `0.1.0` release: initial spec extracted from `colors_and_type.css`; ANSI / density / motion / sound / icon / keyboard sections added; Charm TUI target landed; fish dropped in favour of bash + zsh; body/mono switched to Literata + JetBrains Mono; syntax / status / ANSI palettes swapped to Emacs Modus so highlights stay uniform across Emacs, web, terminal, and TUI, with brand copper retained on UI accent and ANSI 11.

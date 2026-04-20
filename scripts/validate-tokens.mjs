@@ -58,6 +58,7 @@ const GO_ALIASES = { SynTag: "syn-type" };
 // ─── 1. Parse tokens.md into {role: {light, dark}} ─────────────────────
 
 const tokensMd = read("tokens.md");
+// Six-char hex only; tokens.md, CSS, Go and Ghostty all use #RRGGBB.
 const HEX = /`(#[0-9a-fA-F]{6})`/g;
 /** @type {Map<string, {light: string, dark: string}>} */
 const canon = new Map();
@@ -72,8 +73,12 @@ for (const line of tokensMd.split("\n")) {
   else if (ansiMatch) canon.set(`ansi-${ansiMatch[1]}`, { light: hexes[0], dark: hexes[1] });
 }
 
-for (const required of ["bg", "text", "accent", "brand", "ansi-0", "ansi-11", "syn-keyword", "status-err"]) {
-  if (!canon.has(required)) fail(`tokens.md: missing canonical role \`${required}\``);
+const required = [
+  ...Object.keys(ROLES),
+  ...Array.from({ length: 16 }, (_, i) => `ansi-${i}`),
+];
+for (const r of required) {
+  if (!canon.has(r)) fail(`tokens.md: missing canonical role \`${r}\``);
 }
 
 function check(file, label, mode, actual, role) {
@@ -125,7 +130,8 @@ for (const name of allDeclared) {
   }
 }
 
-for (const [, ref] of css.matchAll(/var\((--[a-z0-9-]+)\)/g)) {
+// Match both var(--x) and var(--x, fallback).
+for (const [, ref] of css.matchAll(/var\((--[a-z0-9-]+)[,)]/g)) {
   if (!allDeclared.has(ref)) fail(`colors_and_type.css: var(${ref}) used but never declared`);
 }
 
@@ -168,7 +174,8 @@ const PALETTE_LINE = /^palette\s*=\s*(\d{1,2})=(#[0-9a-fA-F]{6})/;
 const KV_LINE = /^([a-z-]+)\s*=\s*(#[0-9a-fA-F]{6})/;
 
 function validateGhostty(path, mode) {
-  for (const line of read(path).split("\n")) {
+  for (const raw of read(path).split("\n")) {
+    const line = raw.trim();
     const pal = line.match(PALETTE_LINE);
     if (pal) {
       check(path, `ANSI ${pal[1]}`, mode, pal[2], `ansi-${pal[1]}`);
