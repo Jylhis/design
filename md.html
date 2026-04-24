@@ -239,7 +239,7 @@
       if (/\.md(#.*)?$/i.test(href)) {
         // Route sibling markdown through this viewer.
         const [path, hash = ""] = resolved.split("#");
-        a.setAttribute("href", "./md.html?src=" + encodeURI(path) + (hash ? "#" + hash : ""));
+        a.setAttribute("href", "./md.html?src=" + encodeURIComponent(path) + (hash ? "#" + hash : ""));
       }
       // other relative links are left alone — they point at real files in the site
     }
