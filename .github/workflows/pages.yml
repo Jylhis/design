@@ -32,7 +32,7 @@ jobs:
           set -euo pipefail
           mkdir -p _site
           # Core entry point + token implementation + favicons/OG
-          cp index.html colors_and_type.css font_options.html _site/
+          cp index.html md.html colors_and_type.css font_options.html _site/
           cp -r assets preview platforms ui_kits source_styles docs _site/
           cp tokens.md CHANGELOG.md README.md SKILL.md _site/
           # .nojekyll so GitHub Pages serves files that start with _ or .
