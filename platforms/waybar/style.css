@@ -1,8 +1,9 @@
-/* Jylhis Waybar — ~/.config/waybar/style.css
+/* Jylhis Waybar — GENERATED from tokens.json. Do not edit by hand.
+ * ~/.config/waybar/style.css
  * Paper background, copper accent, monospace. Top bar.
  * Swap bg/fg for roast mode with a simple sed or a second file.
  *
- * Tokens referenced: tokens.md §1, §4, §5
+ * Tokens referenced: tokens.json palette, typography, density
  */
 
 * {

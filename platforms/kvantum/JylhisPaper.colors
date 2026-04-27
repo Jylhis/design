@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Jylhis Kvantum theme colors — ~/.config/Kvantum/JylhisPaper.colors
-  (and JylhisRoast.colors)
+  Jylhis Kvantum theme colors — GENERATED from tokens.json. Do not edit by hand.
+  ~/.config/Kvantum/JylhisPaper.colors
 
   Kvantum's .kvconfig controls geometry; .colors is the palette.
   Pair this with a base theme like KvGnomeDark or KvAdapta and only the
   palette will be re-tinted.
 
   Apply:
-    kvantummanager --set JylhisRoast
+    kvantummanager --set JylhisPaper
     qt5ct / qt6ct → Appearance → "kvantum" / "kvantum-dark"
 -->
 

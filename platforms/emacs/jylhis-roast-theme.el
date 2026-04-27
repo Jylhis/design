@@ -1,5 +1,8 @@
 ;;; jylhis-roast-theme.el --- Jylhis dark theme  -*- lexical-binding: t; -*-
 ;;
+;; GENERATED from tokens.json. Do not edit by hand.
+;; Run: bun scripts/generate.mjs
+;;
 ;; Author:      Henrik Jylhä
 ;; Homepage:    https://jylhis.com
 ;; Keywords:    faces, theme
@@ -31,7 +34,7 @@
 
 (let ((class '((class color) (min-colors 256)))
 
-      ;; ── Core palette (tokens.md §1, dark column) ──
+      ;; ── Core palette (tokens.json, dark column) ──
       (bg            "#1a1714")
       (bg-subtle     "#242019")
       (surface       "#2a2520")
@@ -48,17 +51,18 @@
       (border-strong "#5a5248")
       (decorator     "#4a4338")
 
-      ;; ── Syntax / semantic — Modus Vivendi (tokens.md §2) ──
+      ;; ── Syntax / semantic — Modus Vivendi (tokens.json) ──
       (syn-keyword   "#b6a0ff") ; magenta-cooler
-      (syn-string    "#79a8ff") ; blue-warmer
-      (syn-number    "#00bcff") ; blue-cooler
+      (syn-string    "#79a8ff") ; blue-cooler
+      (syn-number    "#00bcff") ; blue-warmer  (constants/numbers)
       (syn-function  "#feacd0") ; magenta
       (syn-builtin   "#f78fe7") ; magenta-warmer
       (syn-type      "#6ae4b9") ; cyan-cooler
-      (syn-variable  "#2fafff") ; cyan-warmer
-      (syn-tag       "#6ae4b9")
+      (syn-variable  "#2fafff") ; cyan
+      (syn-tag       "#6ae4b9") ; cyan-cooler (alias of type)
       (syn-comment   "#ff9f80") ; red-faint
-      (syn-docstring "#88c0a1")
+      (syn-docstring "#88c0a1") ; green-faint
+      ;; Semantic status — Modus red/yellow/green/blue accents
       (err  "#ff5f59")
       (warn "#d0bc00")
       (ok   "#44bc44")
@@ -90,8 +94,6 @@
 
    ;; ─────────────────────────────────────────────
    ;; Selection + region  (KEYBOARD.md primitives)
-   ;; In TUI / GUI: accent-subtle bg. No border-left available on regions,
-   ;; so inverse is the fallback for point-indicating faces.
    ;; ─────────────────────────────────────────────
    `(region              ((,class :background ,accent-subtle :extend t)))
    `(secondary-selection ((,class :background ,surface :extend t)))
@@ -103,7 +105,7 @@
    `(lazy-highlight      ((,class :background ,accent-subtle :foreground ,fg)))
 
    ;; ─────────────────────────────────────────────
-   ;; Mode line  (both active and inactive read clearly at TUI density)
+   ;; Mode line
    ;; ─────────────────────────────────────────────
    `(mode-line
      ((,class :background ,surface :foreground ,fg
@@ -136,7 +138,7 @@
    `(success              ((,class :foreground ,ok    :weight bold)))
 
    ;; ─────────────────────────────────────────────
-   ;; Font-lock  (semantic face mapping tokens.md §2)
+   ;; Font-lock  (semantic face mapping tokens.json)
    ;; ─────────────────────────────────────────────
    `(font-lock-builtin-face          ((,class :foreground ,syn-builtin)))
    `(font-lock-comment-face          ((,class :foreground ,syn-comment :slant italic)))
@@ -179,7 +181,7 @@
    `(show-paren-match         ((,class :background ,accent-subtle :foreground ,accent :weight bold)))
    `(show-paren-mismatch      ((,class :background ,err :foreground ,bg :weight bold)))
 
-   ;; rainbow-delimiters — desaturated earth rainbow
+   ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((,class :foreground ,syn-keyword)))
    `(rainbow-delimiters-depth-2-face ((,class :foreground ,syn-string)))
    `(rainbow-delimiters-depth-3-face ((,class :foreground ,syn-tag)))
@@ -241,7 +243,7 @@
    `(which-key-note-face       ((,class :foreground ,fg-faint)))
 
    ;; ─────────────────────────────────────────────
-   ;; Org — Modus-style heading scale (§8 of their manual)
+   ;; Org
    ;; ─────────────────────────────────────────────
    `(org-level-1    ((,class :foreground ,accent       :weight bold :height 1.4)))
    `(org-level-2    ((,class :foreground ,syn-tag      :weight bold :height 1.2)))
@@ -343,7 +345,7 @@
    `(magit-diffstat-removed          ((,class :foreground ,err)))
 
    ;; ─────────────────────────────────────────────
-   ;; Flymake / Flycheck — semantic dots only, no fringe chatter
+   ;; Flymake / Flycheck
    ;; ─────────────────────────────────────────────
    `(flymake-error           ((,class :underline (:style wave :color ,err))))
    `(flymake-warning         ((,class :underline (:style wave :color ,warn))))
@@ -356,7 +358,7 @@
    `(compilation-info        ((,class :foreground ,info)))
 
    ;; ─────────────────────────────────────────────
-   ;; Company (if you're still on it) + Eglot
+   ;; Company + Eglot
    ;; ─────────────────────────────────────────────
    `(company-tooltip                      ((,class :background ,surface-raised :foreground ,fg)))
    `(company-tooltip-selection            ((,class :background ,accent-subtle :foreground ,fg)))
@@ -370,24 +372,24 @@
    `(eglot-diagnostic-tag-deprecated-face ((,class :strike-through t :foreground ,fg-faint)))
 
    ;; ─────────────────────────────────────────────
-   ;; Terminal (vterm / ansi-term)  — tokens.md §3
+   ;; Terminal (vterm / ansi-term)  — tokens.json ANSI palette
    ;; ─────────────────────────────────────────────
-   `(ansi-color-black          ((,class :foreground "#1a1714" :background "#1a1714")))
-   `(ansi-color-red            ((,class :foreground "#ff5f59" :background "#ff5f59")))
-   `(ansi-color-green          ((,class :foreground "#44bc44" :background "#44bc44")))
-   `(ansi-color-yellow         ((,class :foreground "#d0bc00" :background "#d0bc00")))
-   `(ansi-color-blue           ((,class :foreground "#2fafff" :background "#2fafff")))
-   `(ansi-color-magenta        ((,class :foreground "#feacd0" :background "#feacd0")))
-   `(ansi-color-cyan           ((,class :foreground "#6ae4b9" :background "#6ae4b9")))
-   `(ansi-color-white          ((,class :foreground "#e8e0d4" :background "#e8e0d4")))
-   `(ansi-color-bright-black   ((,class :foreground "#6b6157" :background "#6b6157")))
-   `(ansi-color-bright-red     ((,class :foreground "#ff7f7f" :background "#ff7f7f")))
-   `(ansi-color-bright-green   ((,class :foreground "#70b900" :background "#70b900")))
-   `(ansi-color-bright-yellow  ((,class :foreground "#e89b5e" :background "#e89b5e")))
-   `(ansi-color-bright-blue    ((,class :foreground "#79a8ff" :background "#79a8ff")))
-   `(ansi-color-bright-magenta ((,class :foreground "#b6a0ff" :background "#b6a0ff")))
-   `(ansi-color-bright-cyan    ((,class :foreground "#00d3d0" :background "#00d3d0")))
-   `(ansi-color-bright-white   ((,class :foreground "#f0eae0" :background "#f0eae0")))
+   `(ansi-color-black               ((,class :foreground "#1a1714" :background "#1a1714")))
+   `(ansi-color-red                 ((,class :foreground "#ff5f59" :background "#ff5f59")))
+   `(ansi-color-green               ((,class :foreground "#44bc44" :background "#44bc44")))
+   `(ansi-color-yellow              ((,class :foreground "#d0bc00" :background "#d0bc00")))
+   `(ansi-color-blue                ((,class :foreground "#2fafff" :background "#2fafff")))
+   `(ansi-color-magenta             ((,class :foreground "#feacd0" :background "#feacd0")))
+   `(ansi-color-cyan                ((,class :foreground "#6ae4b9" :background "#6ae4b9")))
+   `(ansi-color-white               ((,class :foreground "#e8e0d4" :background "#e8e0d4")))
+   `(ansi-color-bright-black        ((,class :foreground "#6b6157" :background "#6b6157")))
+   `(ansi-color-bright-red          ((,class :foreground "#ff7f7f" :background "#ff7f7f")))
+   `(ansi-color-bright-green        ((,class :foreground "#70b900" :background "#70b900")))
+   `(ansi-color-bright-yellow       ((,class :foreground "#e89b5e" :background "#e89b5e")))
+   `(ansi-color-bright-blue         ((,class :foreground "#79a8ff" :background "#79a8ff")))
+   `(ansi-color-bright-magenta      ((,class :foreground "#b6a0ff" :background "#b6a0ff")))
+   `(ansi-color-bright-cyan         ((,class :foreground "#00d3d0" :background "#00d3d0")))
+   `(ansi-color-bright-white        ((,class :foreground "#f0eae0" :background "#f0eae0")))
 
    ;; ─────────────────────────────────────────────
    ;; Misc
@@ -404,7 +406,7 @@
    `(hi-pink                   ((,class :background ,syn-number :foreground ,bg)))
    `(hi-green                  ((,class :background ,ok :foreground ,bg)))
 
-   ;; tab-line / centaur-tabs — same selected language
+   ;; tab-line / centaur-tabs
    `(tab-line-tab-current      ((,class :background ,surface :foreground ,accent :weight bold)))
    `(tab-line-tab              ((,class :background ,bg-subtle :foreground ,fg-muted)))))
 

@@ -2,7 +2,10 @@
 # Drop in ~/.config/ghostty/themes/jylhis-roast and reference with
 # `theme = jylhis-roast` in config.
 #
-# Modus Vivendi accents on ANSI 0–6; brand copper on ANSI 11. See tokens.md §3.
+# ANSI 0–6 are Modus Vivendi accents so `ls`, `bat`, `delta`, `git log`
+# share the editor's palette. ANSI 11 is the brand copper — intentional
+# override so prompts and dir-permissions carry the Jylhis identity.
+# See tokens.md §3.
 
 palette = 0=#1a1714
 palette = 1=#ff5f59

@@ -1,5 +1,5 @@
 /*
- * Jylhis Rofi — ~/.config/rofi/jylhis-roast.rasi  (and …paper.rasi)
+ * Jylhis Rofi — dark variant (roast). GENERATED from tokens.json.
  * This is THE command palette visual language — identical DNA to web Cmd+K
  * and Emacs M-x/Vertico. See platforms/KEYBOARD.md §"Command palette".
  */
@@ -39,7 +39,7 @@ window {
     width:            560px;
     location:         center;
     anchor:           center;
-    y-offset:         -15%;              /* 15vh from top, matches KEYBOARD.md */
+    y-offset:         -15%;
     background-color: @bg-raised;
     border:           1px;
     border-color:     @border-strong;
@@ -47,12 +47,8 @@ window {
     padding:          0;
 }
 
-mainbox {
-    spacing:  0;
-    children: [ inputbar, message, listview ];
-}
+mainbox { spacing: 0; children: [ inputbar, message, listview ]; }
 
-/* ── Prompt line ── */
 inputbar {
     background-color: @bg-subtle;
     text-color:       @text;
@@ -60,32 +56,21 @@ inputbar {
     spacing:          0;
     children:         [ prompt, entry ];
 }
-
-prompt {
-    text-color:   @accent;
-    padding:      0 10px 0 0;
-}
-
+prompt { text-color: @accent; padding: 0 10px 0 0; }
 entry {
-    placeholder:             "type a filter · tab to cycle · esc to close";
-    placeholder-color:       @text-faint;
-    text-color:              @text;
-    cursor:                  text;
+    placeholder:       "type a filter · tab to cycle · esc to close";
+    placeholder-color: @text-faint;
+    text-color:        @text;
 }
 
-/* ── Hint row ── */
 message {
     background-color: @bg-subtle;
     padding:          4px 18px 10px;
     border:           0 0 1px 0;
     border-color:     @border;
 }
-textbox {
-    text-color: @text-muted;
-    font:       "JetBrains Mono 9";
-}
+textbox { text-color: @text-muted; font: "JetBrains Mono 9"; }
 
-/* ── Results ── */
 listview {
     lines:            9;
     background-color: @bg-raised;
@@ -97,24 +82,16 @@ listview {
 }
 
 element {
-    padding:          8px 18px;
-    spacing:          10px;
-    border:           0 0 0 3px;
-    border-color:     transparent;
-    border-radius:    0;
-    children:         [ element-icon, element-text, element-text-hint ];
+    padding:      8px 18px;
+    spacing:      10px;
+    border:       0 0 0 3px;
+    border-color: transparent;
+    children:     [ element-icon, element-text, element-text-hint ];
 }
 
-element normal.normal {
-    text-color: @text;
-}
+element normal.normal    { text-color: @text; }
+element alternate.normal { background-color: transparent; text-color: @text; }
 
-element alternate.normal {
-    background-color: transparent;     /* no zebra — bad for scan */
-    text-color:       @text;
-}
-
-/* Selected — the universal language */
 element selected.normal,
 element selected.active,
 element selected.urgent {
@@ -123,18 +100,9 @@ element selected.urgent {
     border-color:     @accent;
 }
 
-element-icon {
-    size: 18px;
-    background-color: transparent;
-}
-
-element-text {
-    background-color: transparent;
-    vertical-align:   0.5;
-}
-
+element-icon { size: 18px; background-color: transparent; }
+element-text { background-color: transparent; vertical-align: 0.5; }
 element-text-hint {
-    /* right-aligned kbd hint */
     text-color:       @text-muted;
     font:             "JetBrains Mono 9";
     horizontal-align: 1.0;

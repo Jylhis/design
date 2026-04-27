@@ -1,4 +1,5 @@
 /* Jylhis GTK 3 / GTK 4 theme overrides
+ * GENERATED from tokens.json. Do not edit by hand.
  * ~/.config/gtk-3.0/gtk.css  AND  ~/.config/gtk-4.0/gtk.css
  *
  * Strategy: we don't ship a full GTK theme (that's a 5000-line commitment).
@@ -84,9 +85,6 @@ window.dark {
     -gtk-icon-style: regular;
 }
 
-/* Prefer the brand fonts but don't force — some apps (Obsidian-equiv, code editors)
-   manage their own. The desktop font picks this up via the gsetting above. */
-
 /* ────────────────────────────────────
    Focus — KEYBOARD.md primitive
    ──────────────────────────────────── */
@@ -103,7 +101,6 @@ textview text:focus-visible {
 
 /* ────────────────────────────────────
    Selected — the universal language
-   Lists, treeviews, sidebars
    ──────────────────────────────────── */
 
 row:selected,
@@ -192,7 +189,7 @@ radio:checked {
 }
 
 /* ────────────────────────────────────
-   Scrollbar — thin, muted (desktop density)
+   Scrollbar
    ──────────────────────────────────── */
 
 scrollbar slider {
