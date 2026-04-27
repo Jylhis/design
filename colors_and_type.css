@@ -1,140 +1,17 @@
 /*
  * colors_and_type.css
- * Jylhis Design System — typography + color tokens.
+ * Jylhis Design System — typography + semantic type helpers.
+ *
+ * Color and spacing tokens are GENERATED in tokens.css from tokens.json.
+ * This file imports them and adds hand-authored font stacks and type helpers.
  *
  * Type pairing: Literata (body) + JetBrains Mono (headings, chrome, code).
  * Both OFL, both variable, both ship full Finnish diacritic coverage.
  * In production, self-host via fontsource; Google Fonts is fine for prototyping.
- *
- * Syntax palette is derived from Emacs Modus (Operandi light / Vivendi dark)
- * so editor, web, terminal and TUI highlights stay visually uniform.
  */
 
+@import url("./tokens.css");
 @import url("https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
-
-/* ── Light theme (default) ─────────────────────────────── */
-:root {
-  /* Background */
-  --color-bg: #faf7f2;            /* warm paper */
-  --color-bg-subtle: #f0ebe3;     /* slightly darker paper */
-
-  /* Surface */
-  --color-surface: #e8e1d6;       /* card background */
-  --color-surface-raised: #fefdfb;/* not pure white — spec calls it out */
-
-  /* Text */
-  --color-text: #2c2825;          /* 13.7 : 1 on --color-bg (AAA) */
-  --color-text-muted: #6b5f54;    /*  5.7 : 1 (AA) */
-  --color-text-heading: #1e1b18;  /* 16.0 : 1 (AAA) */
-  --color-text-faint: #8a7f72;    /*  3.5 : 1 (used only for decorator / non-text-critical hints) */
-
-  /* Accent — warm copper/amber. AA on paper bg. */
-  --color-accent: #9a5a2a;        /*  5.1 : 1 (AA) — use for link/UI text */
-  --color-accent-hover: #7a4622;  /*  7.3 : 1 (AAA) */
-  --color-accent-subtle: rgba(154, 90, 42, 0.12);
-  --color-brand: #b5703c;         /* ORIGINAL favicon/mark copper. Use in large areas
-                                     (logo/rune, hero strokes, icon fills) where
-                                     contrast-against-text is not the concern. */
-
-  /* Borders */
-  --color-border: #d5cec4;
-  --color-border-strong: #b0a898;
-  --color-decorator: #c4baa8;     /* dashes, separator runs */
-
-  /* Code */
-  --color-code-bg: #f0ebe3;
-  --color-code-text: #2c2825;
-  --color-code-border: #d5cec4;
-
-  /* Syntax highlighting — Modus Operandi mapped to font-lock faces. */
-  --color-syntax-keyword:  #531ab6; /* magenta-cooler */
-  --color-syntax-string:   #0000b0; /* blue-cooler    */
-  --color-syntax-comment:  #7f1010; /* red-faint      */
-  --color-syntax-number:   #3548cf; /* blue-warmer → constants */
-  --color-syntax-function: #721045; /* magenta        */
-  --color-syntax-type:     #005f5f; /* cyan-cooler    */
-  --color-syntax-builtin:  #8f0075; /* magenta-warmer */
-  --color-syntax-variable: #005e8b; /* cyan           */
-  --color-syntax-tag:      #005f5f; /* cyan-cooler — legacy alias of type */
-  --color-syntax-docstring:#2a5045; /* green-faint    */
-
-  /* Semantic status — Modus accent family. Shared by project badges, flymake,
-     diff markers, git status, and platform notification themes. */
-  --color-status-err:  #a60000;
-  --color-status-warn: #6f5500;
-  --color-status-ok:   #006800;
-  --color-status-info: #0031a9;
-
-  /* Spacing (4px grid) */
-  --space-xs: 0.25rem;   /*  4px */
-  --space-sm: 0.5rem;    /*  8px */
-  --space-md: 1rem;      /* 16px */
-  --space-lg: 1.5rem;    /* 24px */
-  --space-xl: 2rem;      /* 32px */
-  --space-2xl: 3rem;     /* 48px */
-  --space-3xl: 4rem;     /* 64px */
-
-  /* Layout */
-  --layout-content-max: 72ch;
-  --layout-margin-width: 16rem;   /* right-rail sidenote column */
-  --layout-gap: 2.5rem;
-  --layout-padding-mobile: 1.25rem;
-
-  /* Radii — reserved and small. Site uses 3–4px only. */
-  --radius-xs: 2px;
-  --radius-sm: 3px;
-  --radius-md: 4px;
-  --radius-pill: 999px;           /* used only on the theme-toggle circle */
-
-  /* Transitions */
-  --transition-fast: 150ms ease-out;
-  --transition-base: 250ms ease-out;
-  --transition-slow: 300ms ease-out;
-}
-
-/* ── Dark theme ─────────────────────────────────────────── */
-[data-theme="dark"] {
-  --color-bg: #1a1714;
-  --color-bg-subtle: #242019;
-
-  --color-surface: #2a2520;
-  --color-surface-raised: #363230;
-
-  --color-text: #e8e0d4;          /* 13.6 : 1 (AAA) */
-  --color-text-muted: #b0a496;    /*  7.9 : 1 (AAA) */
-  --color-text-heading: #f0eae0;
-  --color-text-faint: #8a7f72;    /*  4.7 : 1 (AA) */
-
-  --color-accent: #e89b5e;        /*  7.9 : 1 (AAA) */
-  --color-accent-hover: #f5b07a;
-  --color-accent-subtle: rgba(232, 155, 94, 0.15);
-  --color-brand: #d4884a;         /* dark-mode twin of the brand copper */
-
-  --color-border: #3d3830;
-  --color-border-strong: #5a5248;
-  --color-decorator: #4a4338;
-
-  --color-code-bg: #242019;
-  --color-code-text: #c8bca8;
-  --color-code-border: #3d3830;
-
-  /* Syntax — Modus Vivendi. */
-  --color-syntax-keyword:  #b6a0ff; /* magenta-cooler */
-  --color-syntax-string:   #79a8ff; /* blue-warmer    */
-  --color-syntax-comment:  #ff9f80; /* red-faint      */
-  --color-syntax-number:   #00bcff; /* blue-cooler    */
-  --color-syntax-function: #feacd0; /* magenta        */
-  --color-syntax-type:     #6ae4b9; /* cyan-cooler    */
-  --color-syntax-builtin:  #f78fe7; /* magenta-warmer */
-  --color-syntax-variable: #2fafff; /* cyan-warmer    */
-  --color-syntax-tag:      #6ae4b9;
-  --color-syntax-docstring:#88c0a1;
-
-  --color-status-err:  #ff5f59;
-  --color-status-warn: #d0bc00;
-  --color-status-ok:   #44bc44;
-  --color-status-info: #2fafff;
-}
 
 /* ── Font stacks ────────────────────────────────────────── */
 :root {
