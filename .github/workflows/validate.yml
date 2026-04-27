@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Validate tokens, CSS custom properties, and contrast
-        run: node scripts/validate-tokens.mjs
+      - uses: oven-sh/setup-bun@v2
+      - name: Check generated files match tokens.json
+        run: bun scripts/generate.mjs --check
+      - name: Validate token schema and contrast ratios
+        run: bun scripts/validate-tokens.mjs

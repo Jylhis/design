@@ -20,21 +20,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+      - uses: oven-sh/setup-bun@v2
 
-      - name: Validate tokens, CSS custom properties, and contrast
-        run: node scripts/validate-tokens.mjs
+      - name: Generate all targets from tokens.json
+        run: bun scripts/generate.mjs
+
+      - name: Validate tokens, contrast, and CSS references
+        run: bun scripts/validate-tokens.mjs
 
       - name: Assemble site
         run: |
           set -euo pipefail
           mkdir -p _site
-          # Core entry point + token implementation + favicons/OG
-          cp index.html md.html colors_and_type.css font_options.html _site/
+          # Core entry point + generated tokens + hand-authored CSS
+          cp index.html md.html tokens.css tokens-data.js colors_and_type.css font_options.html _site/
           cp -r assets preview platforms ui_kits source_styles docs _site/
-          cp tokens.md CHANGELOG.md README.md SKILL.md _site/
+          cp tokens.json tokens.md CHANGELOG.md README.md SKILL.md _site/
+          # Prototypes
+          cp -r prototypes _site/
           # .nojekyll so GitHub Pages serves files that start with _ or .
           touch _site/.nojekyll
 
