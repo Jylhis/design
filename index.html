@@ -72,16 +72,16 @@
   </header>
 
   <h2 class="section">core palette</h2>
-  <div class="swatches" id="swatches">
-    <div class="sw" data-var="--color-bg"><div class="chip"></div><div class="meta"><span class="name">bg</span><span class="hex"></span></div></div>
-    <div class="sw" data-var="--color-surface"><div class="chip"></div><div class="meta"><span class="name">surface</span><span class="hex"></span></div></div>
-    <div class="sw" data-var="--color-text"><div class="chip"></div><div class="meta"><span class="name">text</span><span class="hex"></span></div></div>
-    <div class="sw" data-var="--color-text-muted"><div class="chip"></div><div class="meta"><span class="name">muted</span><span class="hex"></span></div></div>
-    <div class="sw" data-var="--color-accent"><div class="chip"></div><div class="meta"><span class="name">accent</span><span class="hex"></span></div></div>
-    <div class="sw" data-var="--color-brand"><div class="chip"></div><div class="meta"><span class="name">brand</span><span class="hex"></span></div></div>
-    <div class="sw" data-var="--color-border"><div class="chip"></div><div class="meta"><span class="name">border</span><span class="hex"></span></div></div>
-    <div class="sw" data-var="--color-status-err"><div class="chip"></div><div class="meta"><span class="name">err</span><span class="hex"></span></div></div>
-  </div>
+  <div class="swatches" id="palette-swatches"></div>
+
+  <h2 class="section">syntax</h2>
+  <div class="swatches" id="syntax-swatches"></div>
+
+  <h2 class="section">status</h2>
+  <div class="swatches" id="status-swatches"></div>
+
+  <h2 class="section">ansi 16</h2>
+  <div class="swatches" id="ansi-swatches"></div>
 
   <h2 class="section">specs &amp; guides</h2>
   <div class="grid">
@@ -163,20 +163,22 @@
 
   <h2 class="section">repo layout</h2>
   <pre class="tree">design/
-├── tokens.md                  ← canonical spec
-├── colors_and_type.css        ← CSS implementation
-├── CHANGELOG.md
-├── docs/
-│   └── INTEGRATION.md
+├── tokens.json                ← source of truth
+├── tokens.css                 ← generated (CSS variables)
+├── tokens-data.js             ← generated (JS for website)
+├── tokens.md                  ← generated (human-readable spec)
+├── colors_and_type.css        ← hand-authored (imports tokens.css + type helpers)
 ├── scripts/
-│   └── validate-tokens.mjs    ← run in CI
-├── platforms/
+│   ├── generate.mjs           ← reads tokens.json, writes all targets
+│   └── validate-tokens.mjs    ← schema + contrast validation
+├── platforms/                 ← generated from tokens.json
 │   ├── charm/                 ← Go / Bubble Tea
-│   ├── ghostty/
-│   ├── emacs/
-│   ├── hyprland/  waybar/  mako/  rofi/  gtk/  kvantum/  shell/
+│   ├── ghostty/  emacs/  hyprland/  waybar/
+│   ├── mako/  rofi/  gtk/  kvantum/  shell/
 │   ├── KEYBOARD.md
 │   └── index.html
+├── nix/                       ← standalone Nix derivations
+│   ├── ghostty.nix  emacs.nix  themes.nix
 ├── prototypes/                ← desktop &amp; tablet interactive prototypes
 ├── preview/                   ← 23 HTML specimen cards
 ├── ui_kits/website/           ← React UI kit
@@ -196,20 +198,40 @@
   const safeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
   const safeSet = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
 
-  const paintSwatches = () => {
-    const style = getComputedStyle(doc);
-    for (const sw of document.querySelectorAll(".sw[data-var]")) {
-      const hex = style.getPropertyValue(sw.dataset.var).trim();
-      sw.querySelector(".chip").style.background = hex;
-      sw.querySelector(".hex").textContent = hex.toUpperCase();
-    }
+  let tokenData = null;
+  fetch("./tokens-data.js").then(r => r.text()).then(text => {
+    // tokens-data.js is an ES module; extract the JSON from it
+    const match = text.match(/export const tokens = ({[\s\S]+});/);
+    if (match) { tokenData = JSON.parse(match[1]); renderSwatches(); }
+  }).catch(() => {});
+
+  const makeSwatch = (name, hex) => {
+    const sw = document.createElement("div");
+    sw.className = "sw";
+    sw.innerHTML = `<div class="chip" style="background:${hex}"></div><div class="meta"><span class="name">${name}</span><span class="hex">${hex.toUpperCase()}</span></div>`;
+    return sw;
+  };
+
+  const renderSwatches = () => {
+    if (!tokenData) return;
+    const mode = doc.dataset.theme === "dark" ? "dark" : "light";
+    const fill = (id, entries) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = "";
+      for (const [name, hex] of entries) el.appendChild(makeSwatch(name, hex));
+    };
+    fill("palette-swatches", Object.entries(tokenData.palette).map(([k, v]) => [k, v[mode]]));
+    fill("syntax-swatches", Object.entries(tokenData.syntax).map(([k, v]) => [k.replace("syn-", ""), v[mode]]));
+    fill("status-swatches", Object.entries(tokenData.status).map(([k, v]) => [k.replace("status-", ""), v[mode]]));
+    fill("ansi-swatches", tokenData.ansi.map((a, i) => [`${i} ${a.name}`, a[mode]]));
   };
 
   const apply = (mode, persist = true) => {
     if (mode === "dark") { doc.dataset.theme = "dark"; label.textContent = "roast"; btn.textContent = "☀"; }
     else { delete doc.dataset.theme; label.textContent = "paper"; btn.textContent = "☾"; }
     if (persist) safeSet("jylhis-theme", mode);
-    paintSwatches();
+    renderSwatches();
   };
 
   const saved = safeGet("jylhis-theme");
