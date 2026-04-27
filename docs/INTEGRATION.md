@@ -1,14 +1,15 @@
 # Integration Guide
 
 How to consume the Jylhis design system from a real project. The canonical
-spec is [`tokens.md`](../tokens.md); every snippet below is derived from it.
+source of truth is [`tokens.json`](../tokens.json); every platform file is
+generated from it by `bun scripts/generate.mjs`.
 
 ---
 
 ## Web (CSS)
 
-Copy `colors_and_type.css` into your project and import it once at the top
-of your global stylesheet:
+Copy `tokens.css` and `colors_and_type.css` into your project and import
+the latter (it imports `tokens.css` internally):
 
 ```css
 @import "./vendor/jylhis/colors_and_type.css";
@@ -31,8 +32,8 @@ swap the `@import` at the top of `colors_and_type.css` for `@font-face`
 declarations.
 
 Only use the semantic tokens — never hard-code hex values. If a token is
-missing for a use case, add it to `tokens.md` first, regenerate the CSS
-entry, then consume it.
+missing for a use case, add it to `tokens.json` first, run `bun scripts/generate.mjs`,
+then consume it.
 
 ### Focus, keyboard, kbd
 
@@ -77,6 +78,16 @@ ANSI 11 is always the brand copper (`#b5703c` light, `#e89b5e` dark).
 That's intentional — prompts and directory permissions carry the Jylhis
 identity.
 
+### Nix (Ghostty with themes)
+
+```nix
+# In your NixOS or home-manager config:
+ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
+```
+
+This wraps Ghostty so that `theme = jylhis-paper` and `theme = jylhis-roast`
+work out of the box without manually copying files.
+
 ---
 
 ## Emacs
@@ -91,6 +102,16 @@ Load the theme file from your `init.el`:
 
 ;; Optional light/dark toggle (binds C-c T by default):
 (load-file "~/path/to/design/platforms/emacs/jylhis-theme-toggle.el")
+```
+
+### Nix (Emacs package)
+
+```nix
+programs.emacs.extraPackages = epkgs: [
+  (pkgs.callPackage /path/to/design/nix/emacs.nix {
+    inherit (epkgs) trivialBuild;
+  })
+];
 ```
 
 ---
@@ -108,18 +129,27 @@ Load the theme file from your `init.el`:
 
 ## Adding a new platform
 
-1. **Read `tokens.md`** top to bottom. Every value you need is there.
-2. **Never hard-code hex twice.** Parse or copy from `platforms/charm/jylhis/palette.go`
-   when the target language is Go; otherwise mirror tokens.md by hand.
+1. **Read `tokens.json`** — every value you need is there.
+2. **Add a generator** in `scripts/generate.mjs` that reads from `tokens.json`
+   and writes the platform file. Register the output with `out()`.
 3. **Keep ANSI 11 as the brand copper.** That's the one intentional override
    across all terminal-adjacent targets.
 4. **Ship both modes.** Light (Paper) and dark (Roast) are first-class. Do
    not ship a dark-only or light-only theme.
-5. **Add your target to `scripts/validate-tokens.mjs`** so CI catches drift.
-   At minimum, declare the file and which tokens.md role each hex maps to.
-6. **Update `README.md` index table** and add a card to
+5. **Update `README.md` index table** and add a card to
    `platforms/index.html`.
-7. **Add an entry to `CHANGELOG.md`** under the next unreleased version.
+6. **Add an entry to `CHANGELOG.md`** under the next unreleased version.
+
+---
+
+## Generation
+
+All platform files are generated from `tokens.json`:
+
+```bash
+bun scripts/generate.mjs          # generate all targets
+bun scripts/generate.mjs --check  # verify committed files match (CI mode)
+```
 
 ---
 
@@ -128,18 +158,16 @@ Load the theme file from your `init.el`:
 Run the token validator before committing:
 
 ```bash
-node scripts/validate-tokens.mjs
+bun scripts/validate-tokens.mjs
 ```
 
 It verifies:
 
-- Every hex in `colors_and_type.css`, `platforms/charm/jylhis/palette.go`,
-  and `platforms/ghostty/jylhis-*` matches `tokens.md`.
-- CSS custom property names follow the `--[a-z][a-z0-9-]*` pattern.
-- Every `var(--foo)` reference in `colors_and_type.css` is declared.
-- Body-text contrast ratios meet the AAA claim in tokens.md.
+- `tokens.json` schema: required fields, hex format
+- WCAG contrast ratios meet the AAA/AA claims in tokens.json
+- Every `var(--foo)` reference in `colors_and_type.css` is declared
 
-CI runs the same check on every push and pull request.
+CI runs both generation check and validation on every push and pull request.
 
 ---
 

@@ -6,39 +6,68 @@ The site is personal, technical, and deliberately paper‑like: warm cream backg
 
 ## Source
 
-- **Codebase (read‑only):** `jylhis.com-main/` (attached via the Import menu)
-- **Stack:** Astro 5.x, hand‑written CSS, deployed to Cloudflare Pages
-- **Live URL:** https://jylhis.com
+- **Source of truth:** [`tokens.json`](./tokens.json) — every color, spacing, motion, and typography value
+- **Live site:** https://jylhis.com (Astro 5.x, hand‑written CSS, Cloudflare Pages)
+- **Showcase:** deployed to GitHub Pages via `index.html`
 - **Key style files mirrored into `source_styles/`:**
   - `global.css` — design tokens + reset + link/skip/utility styles
   - `typography.css` — `@font-face`, font stacks, base scale
   - `content.css` — `.prose` markdown styling
   - `cv.css` — code‑editor line‑numbered CV layout
 
+## Architecture
+
+```
+tokens.json                        ← single source of truth
+    │
+    ├── bun scripts/generate.mjs   ← generates all targets
+    │
+    ├── tokens.css                 ← CSS custom properties
+    ├── tokens-data.js             ← JS for the showcase website
+    ├── tokens.md                  ← human-readable spec
+    ├── platforms/ghostty/         ← Ghostty themes
+    ├── platforms/emacs/           ← Emacs themes
+    ├── platforms/charm/           ← Go palette
+    ├── platforms/hyprland/        ← Hyprland color configs
+    ├── platforms/rofi/            ← Rofi themes
+    ├── platforms/gtk/             ← GTK overrides
+    ├── platforms/waybar/          ← Waybar CSS
+    ├── platforms/mako/            ← Mako config
+    └── platforms/kvantum/         ← Kvantum color palettes
+
+colors_and_type.css                ← hand-authored (imports tokens.css + type helpers)
+```
+
+Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platform updates.
+
 ## Index
 
 | File | What it is |
 |---|---|
-| `README.md` | This file. Content + visual + iconography foundations. |
-| `SKILL.md` | Agent‑Skills‑compatible entry point. |
-| `colors_and_type.css` | The CSS variable token set + semantic type helpers. Import into any artifact. |
-| `assets/` | Logos, favicon, OG image. |
+| `tokens.json` | **Source of truth.** Machine‑readable palette, syntax, ANSI, typography, spacing, motion, contrast checks. |
+| `tokens.css` | Generated CSS custom properties (light + dark). Imported by `colors_and_type.css`. |
+| `tokens.md` | Generated human‑readable spec with markdown tables. |
+| `tokens-data.js` | Generated JS module for the showcase website. |
+| `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css`. |
+| `scripts/generate.mjs` | Reads `tokens.json`, writes 16 platform target files. |
+| `scripts/validate-tokens.mjs` | Schema validation, contrast checks, CSS `var()` resolution. |
+| `nix/ghostty.nix` | Nix derivation: wraps Ghostty with Jylhis themes. |
+| `nix/emacs.nix` | Nix derivation: Emacs theme package via `trivialBuild`. |
+| `nix/themes.nix` | Nix derivation: all theme files as a single package. |
+| `platforms/` | Generated theme files for 10 targets. `shell/` and `KEYBOARD.md` are hand‑authored. |
+| `platforms/charm/` | Go package (`jylhis`) for Charm TUIs — palette + pre-built lipgloss styles + themed bubbles + Bubble Tea light/dark detection. |
+| `docs/INTEGRATION.md` | How to consume the system from web, Go, terminal, Emacs, Wayland, Nix; how to add a new platform. |
+| `preview/` | 23 HTML specimen cards for the showcase. |
+| `prototypes/` | Desktop and tablet interactive prototypes. |
+| `ui_kits/website/` | React recreation of the Astro site. |
 | `source_styles/` | Verbatim copies of the real site's CSS for reference. |
-| `preview/` | Small HTML cards that render on the Design System tab. |
-| `ui_kits/website/` | React recreation of the Astro site (home, notes, projects, resume, 404). |
-| `tokens.md` | **Canonical palette spec.** Source of truth for every platform-specific file. |
-| `docs/INTEGRATION.md` | How to consume the system from web, Go, terminal, Emacs, Wayland; how to add a new platform. |
-| `CHANGELOG.md` | Versioned history (semver). |
-| `scripts/validate-tokens.mjs` | Hex-drift, naming, `var(--…)` resolution, and contrast checks. Run in CI. |
-| `platforms/` | Platform-specific theme files — Ghostty, bash/zsh, Hyprland, Waybar, Mako, Rofi, GTK, Kvantum/Qt, Emacs, **Charm TUI (Go)**. |
-| `platforms/charm/` | Go package (`jylhis`) for Charm TUIs — palette + pre-built lipgloss styles + themed bubbles + Bubble Tea light/dark detection. Runnable demo under `platforms/charm/demo/`. |
-| `platforms/KEYBOARD.md` | Keyboard / accessibility primitives (focus, kbd, command palette, selected item). |
-| `platforms/index.html` | Visual overview of every target in light + dark. |
-| `index.html` | Landing page deployed to GitHub Pages (links to previews, platform gallery, UI kit). |
+| `index.html` | Showcase landing page deployed to GitHub Pages. |
 
 ---
 
-## Quick start (web)
+## Quick start
+
+### Web (CSS)
 
 ```css
 @import "./vendor/jylhis/colors_and_type.css";
@@ -51,6 +80,20 @@ a:hover { color: var(--color-accent-hover); }
 ```js
 document.documentElement.dataset.theme =
   matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "";
+```
+
+### Nix (Ghostty with themes)
+
+```nix
+ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
+```
+
+### Development
+
+```bash
+bun scripts/generate.mjs          # regenerate all 16 targets from tokens.json
+bun scripts/generate.mjs --check  # verify committed files match (CI mode)
+bun scripts/validate-tokens.mjs   # schema + contrast validation
 ```
 
 Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md).
@@ -188,5 +231,6 @@ Version history: [`CHANGELOG.md`](./CHANGELOG.md).
 
 ## Known substitutions / gaps
 
-- **Fonts:** the design system now pairs **Literata** (body) with **JetBrains Mono** (headings / chrome / code). Both are OFL, variable, and ship full Finnish diacritic coverage. They are imported from **Google Fonts** for prototyping; vendor the `woff2` files into a `fonts/` folder and swap the `@import` at the top of `colors_and_type.css` for `@font-face` declarations when self‑hosting. `source_styles/typography.css` still reflects the real site's historical Source Serif 4 + IBM Plex Mono stack and is kept for reference only — not a live target.
-- **No slide template** was provided with the codebase — this design system has no `slides/` folder.
+- **Fonts:** the design system pairs **Literata** (body) with **JetBrains Mono** (headings / chrome / code). Both are OFL, variable, and ship full Finnish diacritic coverage. They are imported from **Google Fonts** for prototyping; vendor the `woff2` files into a `fonts/` folder and swap the `@import` at the top of `colors_and_type.css` for `@font-face` declarations when self‑hosting. `source_styles/typography.css` still reflects the real site's historical Source Serif 4 + IBM Plex Mono stack and is kept for reference only — not a live target.
+- **No slide template** — this design system has no `slides/` folder.
+- **Shell configs not generated** — `platforms/shell/` (starship.toml, bashrc, zshrc, dircolors) use ANSI color names rather than hex values, so they work with whatever terminal theme is loaded and are not generated from `tokens.json`.
