@@ -37,6 +37,30 @@ function ansiColor(index, mode) {
   return tokens.ansi[index][mode];
 }
 
+// ─── Helper: WCAG 2 relative-luminance contrast ratio ────────────────
+// Mirrors scripts/validate-tokens.mjs so we don't drift.
+
+function _luminance(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(a, b) {
+  const [la, lb] = [_luminance(a), _luminance(b)].sort((x, y) => y - x);
+  return (la + 0.05) / (lb + 0.05);
+}
+
+function wcagTag(ratio) {
+  if (ratio >= 7) return "AAA";
+  if (ratio >= 4.5) return "AA";
+  if (ratio >= 3) return "AA Large";
+  return "fail";
+}
+
 // ─── 1. tokens.css — CSS custom properties ───────────────────────────
 
 function generateTokensCSS() {
@@ -1382,10 +1406,103 @@ border-color=${tokens.status["status-ok"].dark}          # Modus green (status-o
 // ─── 11. tokens-data.js for website ─────────────────────────────────
 
 function generateTokensData() {
+  // Measured contrast pairs — every foreground role (text family + accent + status)
+  // measured against every background surface, in both modes. Consumed by the
+  // showcase swatches and the per-theme palette reference page.
+  const fgRoles = [
+    "text-heading", "text", "text-muted", "text-faint",
+    "accent", "accent-hover", "brand",
+    "status-err", "status-warn", "status-ok", "status-info",
+  ];
+  const bgRoles = ["bg", "bg-subtle", "surface", "surface-raised"];
+
+  const contrastPairs = [];
+  for (const mode of ["light", "dark"]) {
+    for (const fg of fgRoles) {
+      for (const bg of bgRoles) {
+        const fgHex = color(fg, mode);
+        const bgHex = color(bg, mode);
+        const ratio = contrastRatio(fgHex, bgHex);
+        contrastPairs.push({
+          mode, fg, bg,
+          fgHex, bgHex,
+          ratio: Number(ratio.toFixed(2)),
+          tag: wcagTag(ratio),
+        });
+      }
+    }
+  }
+
+  // Per-color claimed contrast against bg, for the swatch UI. One number per
+  // foreground role per mode — the headline ratio shown on the swatch.
+  const swatchContrast = {};
+  for (const mode of ["light", "dark"]) {
+    swatchContrast[mode] = {};
+    for (const role of fgRoles) {
+      const fgHex = color(role, mode);
+      const bgHex = color("bg", mode);
+      const ratio = contrastRatio(fgHex, bgHex);
+      swatchContrast[mode][role] = {
+        ratio: Number(ratio.toFixed(2)),
+        tag: wcagTag(ratio),
+      };
+    }
+  }
+
+  const enriched = { ...tokens, contrastPairs, swatchContrast };
+
   return `// tokens-data.js — GENERATED from tokens.json. Do not edit by hand.
 // Used by index.html to render dynamic color swatches and token tables.
-export const tokens = ${JSON.stringify(tokens, null, 2)};
+// Includes derived data: contrastPairs (every fg×bg×mode), swatchContrast
+// (one ratio per fg role per mode against bg).
+export const tokens = ${JSON.stringify(enriched, null, 2)};
 `;
+}
+
+// ─── GIMP .gpl palette ───────────────────────────────────────────────
+
+function generateGimpPalette(mode) {
+  const label = mode === "light" ? "Paper" : "Roast";
+  const lines = [
+    "GIMP Palette",
+    `Name: Jylhis ${label}`,
+    "Columns: 4",
+    "#",
+  ];
+
+  const hexToRgb = (hex) => {
+    const n = parseInt(hex.slice(1), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+
+  const fmt = (hex, name) => {
+    const [r, g, b] = hexToRgb(hex);
+    const pad = (x) => String(x).padStart(3, " ");
+    return `${pad(r)} ${pad(g)} ${pad(b)}\t${name}`;
+  };
+
+  const sections = [
+    { title: "Paperstock", roles: ["bg", "bg-subtle", "surface", "surface-raised"], src: tokens.palette },
+    { title: "Ink",        roles: ["text-heading", "text", "text-muted", "text-faint"], src: tokens.palette },
+    { title: "Copper",     roles: ["accent", "accent-hover", "brand"], src: tokens.palette },
+    { title: "Linen",      roles: ["border", "border-strong", "decorator"], src: tokens.palette },
+    { title: "Modus (syntax)", roles: Object.keys(tokens.syntax), src: tokens.syntax },
+    { title: "Signal (status)", roles: Object.keys(tokens.status), src: tokens.status },
+  ];
+
+  for (const { title, roles, src } of sections) {
+    lines.push(`# ${title}`);
+    for (const role of roles) {
+      lines.push(fmt(src[role][mode], role));
+    }
+  }
+
+  lines.push("# Spectrum (ANSI 16)");
+  for (let i = 0; i < 16; i++) {
+    lines.push(fmt(tokens.ansi[i][mode], `ansi-${i}-${tokens.ansi[i].name}`));
+  }
+
+  return lines.join("\n") + "\n";
 }
 
 // ─── Register all outputs ───────────────────────────────────────────
@@ -1405,6 +1522,8 @@ out("platforms/rofi/jylhis-roast.rasi", generateRofi("dark"));
 out("platforms/gtk/gtk.css", generateGTK());
 out("platforms/waybar/style.css", generateWaybar());
 out("platforms/mako/config", generateMako());
+out("platforms/gimp/jylhis-paper.gpl", generateGimpPalette("light"));
+out("platforms/gimp/jylhis-roast.gpl", generateGimpPalette("dark"));
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────

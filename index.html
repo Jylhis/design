@@ -31,11 +31,25 @@
   .card .title { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: var(--color-text-heading); }
   .card .desc { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.55; }
   .card .path { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-faint); margin-top: auto; }
-  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: var(--space-sm); }
-  .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 0.72rem; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: var(--space-sm); }
+  .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 0.72rem; background: var(--color-bg); color: inherit; padding: 0; text-align: left; cursor: copy; transition: border-color var(--transition-fast); position: relative; }
+  .sw:hover { border-color: var(--color-accent); }
+  .sw:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
   .sw .chip { height: 48px; }
-  .sw .meta { padding: 6px 8px; background: var(--color-bg); color: var(--color-text-muted); display: flex; justify-content: space-between; gap: 4px; }
+  .sw .meta { padding: 6px 8px; color: var(--color-text-muted); display: flex; flex-direction: column; gap: 2px; }
+  .sw .meta .row { display: flex; justify-content: space-between; gap: 6px; align-items: baseline; }
   .sw .meta .name { color: var(--color-text); }
+  .sw .meta .ratio { color: var(--color-text-faint); font-size: 0.65rem; }
+  .sw .meta .ratio.aaa { color: var(--color-status-ok); }
+  .sw .meta .ratio.aa  { color: var(--color-text-muted); }
+  .sw .meta .ratio.fail { color: var(--color-status-err); }
+  .sw .copied { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-accent-subtle); color: var(--color-accent); font-family: var(--font-mono); font-size: 0.78rem; opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
+  .sw.is-copied .copied { opacity: 1; }
+  .group-head { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text); margin: var(--space-md) 0 4px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .group-head .label { font-weight: 700; color: var(--color-text-heading); }
+  .group-head .blurb { color: var(--color-text-muted); font-size: 0.72rem; }
+  .palette-link { display: inline-block; margin-top: var(--space-sm); font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-accent); text-decoration: none; }
+  .palette-link:hover { color: var(--color-accent-hover); }
   .tree { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-muted); white-space: pre; line-height: 1.5; padding: var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); overflow-x: auto; }
   footer { margin-top: var(--space-3xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted); text-align: center; }
   footer a { color: var(--color-accent); text-decoration: none; }
@@ -72,15 +86,19 @@
   </header>
 
   <h2 class="section">core palette</h2>
-  <div class="swatches" id="palette-swatches"></div>
+  <div id="palette-groups"></div>
+  <a class="palette-link" href="./palette.html">view full palette reference (rgb · hsl · oklch · contrast pairs) ▸</a>
 
-  <h2 class="section">syntax</h2>
+  <h2 class="section">syntax · modus</h2>
+  <div class="group-head"><span class="label">Modus</span><span class="blurb">Operandi (light) and Vivendi (dark) syntax colors, imported verbatim from Protesilaos.</span></div>
   <div class="swatches" id="syntax-swatches"></div>
 
-  <h2 class="section">status</h2>
+  <h2 class="section">status · signal</h2>
+  <div class="group-head"><span class="label">Signal</span><span class="blurb">err · warn · ok · info; reuses the Modus accents.</span></div>
   <div class="swatches" id="status-swatches"></div>
 
-  <h2 class="section">ansi 16</h2>
+  <h2 class="section">ansi 16 · spectrum</h2>
+  <div class="group-head"><span class="label">Spectrum</span><span class="blurb">slot 11 is intentionally overridden to brand copper.</span></div>
   <div class="swatches" id="ansi-swatches"></div>
 
   <h2 class="section">specs &amp; guides</h2>
@@ -205,27 +223,79 @@
     if (match) { tokenData = JSON.parse(match[1]); renderSwatches(); }
   }).catch(() => {});
 
-  const makeSwatch = (name, hex) => {
-    const sw = document.createElement("div");
+  const ratioClass = (tag) => {
+    if (tag === "AAA") return "aaa";
+    if (tag === "AA") return "aa";
+    if (tag === "fail") return "fail";
+    return "";
+  };
+
+  const makeSwatch = (role, hex, ratioInfo) => {
+    const sw = document.createElement("button");
+    sw.type = "button";
     sw.className = "sw";
-    sw.innerHTML = `<div class="chip" style="background:${hex}"></div><div class="meta"><span class="name">${name}</span><span class="hex">${hex.toUpperCase()}</span></div>`;
+    sw.dataset.hex = hex;
+    sw.setAttribute("aria-label", `copy ${hex}`);
+    const ratioRow = ratioInfo
+      ? `<span class="ratio ${ratioClass(ratioInfo.tag)}">${ratioInfo.ratio.toFixed(2)}:1 ${ratioInfo.tag}</span>`
+      : `<span class="ratio">&nbsp;</span>`;
+    sw.innerHTML = `
+      <div class="chip" style="background:${hex}"></div>
+      <div class="meta">
+        <div class="row"><span class="name">${role}</span><span class="hex">${hex.toUpperCase()}</span></div>
+        <div class="row">${ratioRow}</div>
+      </div>
+      <div class="copied">copied</div>`;
     return sw;
   };
 
   const renderSwatches = () => {
     if (!tokenData) return;
     const mode = doc.dataset.theme === "dark" ? "dark" : "light";
+    const swatchContrast = (tokenData.swatchContrast && tokenData.swatchContrast[mode]) || {};
+
+    // Palette: grouped under thematic banners (paperstock / ink / copper / linen).
+    const paletteHost = document.getElementById("palette-groups");
+    if (paletteHost) {
+      paletteHost.innerHTML = "";
+      const paletteGroups = ["paperstock", "ink", "copper", "linen"];
+      for (const gKey of paletteGroups) {
+        const g = tokenData.groups && tokenData.groups[gKey];
+        if (!g) continue;
+        const head = document.createElement("div");
+        head.className = "group-head";
+        head.innerHTML = `<span class="label">${g.label}</span><span class="blurb">${g.blurb}</span>`;
+        paletteHost.appendChild(head);
+        const grid = document.createElement("div");
+        grid.className = "swatches";
+        for (const role of g.members) {
+          const entry = tokenData.palette[role];
+          if (!entry) continue;
+          grid.appendChild(makeSwatch(role, entry[mode], swatchContrast[role]));
+        }
+        paletteHost.appendChild(grid);
+      }
+    }
+
     const fill = (id, entries) => {
       const el = document.getElementById(id);
       if (!el) return;
       el.innerHTML = "";
-      for (const [name, hex] of entries) el.appendChild(makeSwatch(name, hex));
+      for (const [name, hex, ratio] of entries) el.appendChild(makeSwatch(name, hex, ratio));
     };
-    fill("palette-swatches", Object.entries(tokenData.palette).map(([k, v]) => [k, v[mode]]));
     fill("syntax-swatches", Object.entries(tokenData.syntax).map(([k, v]) => [k.replace("syn-", ""), v[mode]]));
-    fill("status-swatches", Object.entries(tokenData.status).map(([k, v]) => [k.replace("status-", ""), v[mode]]));
+    fill("status-swatches", Object.entries(tokenData.status).map(([k, v]) => [k.replace("status-", ""), v[mode], swatchContrast[k]]));
     fill("ansi-swatches", tokenData.ansi.map((a, i) => [`${i} ${a.name}`, a[mode]]));
   };
+
+  // Click-to-copy on any swatch. Uses event delegation so it survives re-renders.
+  document.addEventListener("click", async (e) => {
+    const sw = e.target.closest(".sw");
+    if (!sw || !sw.dataset.hex) return;
+    try { await navigator.clipboard.writeText(sw.dataset.hex.toUpperCase()); } catch {}
+    sw.classList.add("is-copied");
+    setTimeout(() => sw.classList.remove("is-copied"), 900);
+  });
 
   const apply = (mode, persist = true) => {
     if (mode === "dark") { doc.dataset.theme = "dark"; label.textContent = "roast"; btn.textContent = "☀"; }
