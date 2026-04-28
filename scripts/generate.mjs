@@ -1408,13 +1408,14 @@ border-color=${tokens.status["status-ok"].dark}          # Modus green (status-o
 function generateTokensData() {
   // Measured contrast pairs — every foreground role (text family + accent + status)
   // measured against every background surface, in both modes. Consumed by the
-  // showcase swatches and the per-theme palette reference page.
+  // showcase swatches and the per-theme palette reference page. Derived from
+  // tokens.groups so adding a new role updates the matrix automatically.
   const fgRoles = [
-    "text-heading", "text", "text-muted", "text-faint",
-    "accent", "accent-hover", "brand",
-    "status-err", "status-warn", "status-ok", "status-info",
+    ...tokens.groups.ink.members,
+    ...tokens.groups.copper.members,
+    ...tokens.groups.signal.members,
   ];
-  const bgRoles = ["bg", "bg-subtle", "surface", "surface-raised"];
+  const bgRoles = tokens.groups.paperstock.members;
 
   const contrastPairs = [];
   for (const mode of ["light", "dark"]) {
@@ -1481,23 +1482,19 @@ function generateGimpPalette(mode) {
     return `${pad(r)} ${pad(g)} ${pad(b)}\t${name}`;
   };
 
-  const sections = [
-    { title: "Paperstock", roles: ["bg", "bg-subtle", "surface", "surface-raised"], src: tokens.palette },
-    { title: "Ink",        roles: ["text-heading", "text", "text-muted", "text-faint"], src: tokens.palette },
-    { title: "Copper",     roles: ["accent", "accent-hover", "brand"], src: tokens.palette },
-    { title: "Linen",      roles: ["border", "border-strong", "decorator"], src: tokens.palette },
-    { title: "Modus (syntax)", roles: Object.keys(tokens.syntax), src: tokens.syntax },
-    { title: "Signal (status)", roles: Object.keys(tokens.status), src: tokens.status },
-  ];
-
-  for (const { title, roles, src } of sections) {
-    lines.push(`# ${title}`);
-    for (const role of roles) {
-      lines.push(fmt(src[role][mode], role));
+  // Iterate every thematic group from tokens.json. The `color()` helper looks
+  // up roles across palette/syntax/status, so each group emits cleanly without
+  // needing a per-section src reference. Spectrum (ANSI) is handled below
+  // because its members are array indices, not role-keyed entries.
+  for (const [gKey, g] of Object.entries(tokens.groups)) {
+    if (gKey === "spectrum") continue;
+    lines.push(`# ${g.label}`);
+    for (const role of g.members) {
+      lines.push(fmt(color(role, mode), role));
     }
   }
 
-  lines.push("# Spectrum (ANSI 16)");
+  lines.push(`# ${tokens.groups.spectrum.label}`);
   for (let i = 0; i < 16; i++) {
     lines.push(fmt(tokens.ansi[i][mode], `ansi-${i}-${tokens.ansi[i].name}`));
   }

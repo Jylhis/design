@@ -292,9 +292,12 @@
   document.addEventListener("click", async (e) => {
     const sw = e.target.closest(".sw");
     if (!sw || !sw.dataset.hex) return;
-    try { await navigator.clipboard.writeText(sw.dataset.hex.toUpperCase()); } catch {}
-    sw.classList.add("is-copied");
-    setTimeout(() => sw.classList.remove("is-copied"), 900);
+    if (!navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(sw.dataset.hex.toUpperCase());
+      sw.classList.add("is-copied");
+      setTimeout(() => sw.classList.remove("is-copied"), 900);
+    } catch {}
   });
 
   const apply = (mode, persist = true) => {

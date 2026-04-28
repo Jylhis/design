@@ -248,10 +248,13 @@
   document.addEventListener("click", async (e) => {
     const cell = e.target.closest("[data-copy]");
     if (!cell) return;
-    try { await navigator.clipboard.writeText(cell.dataset.copy); } catch {}
-    flash.textContent = `copied ${cell.dataset.copy}`;
-    flash.classList.add("show");
-    setTimeout(() => flash.classList.remove("show"), 1100);
+    if (!navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(cell.dataset.copy);
+      flash.textContent = `copied ${cell.dataset.copy}`;
+      flash.classList.add("show");
+      setTimeout(() => flash.classList.remove("show"), 1100);
+    } catch {}
   });
 </script>
 

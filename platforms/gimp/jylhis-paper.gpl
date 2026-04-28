@@ -20,7 +20,7 @@ Columns: 4
 213 206 196	border
 176 168 152	border-strong
 196 186 168	decorator
-# Modus (syntax)
+# Modus
  83  26 182	syn-keyword
   0   0 176	syn-string
  53  72 207	syn-number
@@ -30,12 +30,12 @@ Columns: 4
   0  94 139	syn-variable
 127  16  16	syn-comment
  42  80  69	syn-docstring
-# Signal (status)
+# Signal
 166   0   0	status-err
 111  85   0	status-warn
   0 104   0	status-ok
   0  49 169	status-info
-# Spectrum (ANSI 16)
+# Spectrum
  44  40  37	ansi-0-black
 166   0   0	ansi-1-red
   0 104   0	ansi-2-green
