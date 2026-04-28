@@ -24,7 +24,7 @@ All colors, spacing, typography, motion, ANSI palette, and contrast requirements
 
 ### Generation pipeline: `scripts/generate.mjs`
 
-A single Bun script with zero dependencies reads `tokens.json` and writes 18 files:
+A single Bun script with zero dependencies reads `tokens.json` and writes 20 files:
 
 | Generated file | What |
 |---|---|
@@ -40,6 +40,9 @@ A single Bun script with zero dependencies reads `tokens.json` and writes 18 fil
 | `platforms/mako/config` | Mako notification config |
 | `platforms/kvantum/Jylhis{Paper,Roast}.colors` | Qt/Kvantum palette XML |
 | `platforms/gimp/jylhis-{paper,roast}.gpl` | GIMP / Inkscape / Krita swatch file |
+| `platforms/adobe/jylhis-{paper,roast}.ase` | Adobe Swatch Exchange (binary) — Photoshop / Illustrator / InDesign / Affinity |
+
+The ASE generator emits binary content; the `--check` mode handles both text and binary outputs.
 
 ### Hand-authored (not generated)
 

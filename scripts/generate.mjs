@@ -1502,6 +1502,77 @@ function generateGimpPalette(mode) {
   return lines.join("\n") + "\n";
 }
 
+// ─── Adobe Swatch Exchange (.ase) ──────────────────────────────────
+// Binary format consumed by Photoshop, Illustrator, InDesign, Affinity.
+// Spec: 12-byte header (ASEF + version + block count) followed by blocks.
+// Block types: 0xC001 = group start, 0xC002 = group end, 0x0001 = color.
+// Strings are UTF-16 BE with a trailing null code unit; the stored length
+// is the count of code units including that null.
+
+function generateAdobeSwatch(mode) {
+  const utf16beWithNull = (s) => {
+    const codeUnits = s.length + 1; // includes null terminator
+    const buf = Buffer.alloc(2 + codeUnits * 2);
+    buf.writeUInt16BE(codeUnits, 0);
+    for (let i = 0; i < s.length; i++) buf.writeUInt16BE(s.charCodeAt(i), 2 + i * 2);
+    return buf;
+  };
+
+  const colorBlock = (name, hex) => {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    const nameField = utf16beWithNull(name);
+    const data = Buffer.alloc(nameField.length + 4 + 12 + 2);
+    nameField.copy(data, 0);
+    data.write("RGB ", nameField.length, "ascii");
+    data.writeFloatBE(r, nameField.length + 4);
+    data.writeFloatBE(g, nameField.length + 8);
+    data.writeFloatBE(b, nameField.length + 12);
+    data.writeUInt16BE(2, nameField.length + 16); // 2 = "normal" color type
+    const header = Buffer.alloc(6);
+    header.writeUInt16BE(0x0001, 0);
+    header.writeUInt32BE(data.length, 2);
+    return Buffer.concat([header, data]);
+  };
+
+  const groupStartBlock = (name) => {
+    const nameField = utf16beWithNull(name);
+    const header = Buffer.alloc(6);
+    header.writeUInt16BE(0xC001, 0);
+    header.writeUInt32BE(nameField.length, 2);
+    return Buffer.concat([header, nameField]);
+  };
+
+  const groupEndBlock = () => {
+    const buf = Buffer.alloc(6);
+    buf.writeUInt16BE(0xC002, 0);
+    buf.writeUInt32BE(0, 2);
+    return buf;
+  };
+
+  const blocks = [];
+  for (const [gKey, g] of Object.entries(tokens.groups)) {
+    blocks.push(groupStartBlock(g.label));
+    if (gKey === "spectrum") {
+      for (let i = 0; i < 16; i++) {
+        blocks.push(colorBlock(`ansi-${i}-${tokens.ansi[i].name}`, tokens.ansi[i][mode]));
+      }
+    } else {
+      for (const role of g.members) blocks.push(colorBlock(role, color(role, mode)));
+    }
+    blocks.push(groupEndBlock());
+  }
+
+  const header = Buffer.alloc(12);
+  header.write("ASEF", 0, "ascii");
+  header.writeUInt16BE(1, 4); // major
+  header.writeUInt16BE(0, 6); // minor
+  header.writeUInt32BE(blocks.length, 8);
+
+  return Buffer.concat([header, ...blocks]);
+}
+
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
@@ -1521,9 +1592,13 @@ out("platforms/waybar/style.css", generateWaybar());
 out("platforms/mako/config", generateMako());
 out("platforms/gimp/jylhis-paper.gpl", generateGimpPalette("light"));
 out("platforms/gimp/jylhis-roast.gpl", generateGimpPalette("dark"));
+out("platforms/adobe/jylhis-paper.ase", generateAdobeSwatch("light"));
+out("platforms/adobe/jylhis-roast.ase", generateAdobeSwatch("dark"));
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────
+
+const isBinary = (c) => Buffer.isBuffer(c) || c instanceof Uint8Array;
 
 if (checkMode) {
   let diffs = 0;
@@ -1534,10 +1609,18 @@ if (checkMode) {
       diffs++;
       continue;
     }
-    const existing = readFileSync(fullPath, "utf8");
-    if (existing !== content) {
-      console.error(`CHANGED: ${relPath}`);
-      diffs++;
+    if (isBinary(content)) {
+      const existing = readFileSync(fullPath);
+      if (Buffer.compare(existing, content) !== 0) {
+        console.error(`CHANGED: ${relPath}`);
+        diffs++;
+      }
+    } else {
+      const existing = readFileSync(fullPath, "utf8");
+      if (existing !== content) {
+        console.error(`CHANGED: ${relPath}`);
+        diffs++;
+      }
     }
   }
   if (diffs > 0) {
