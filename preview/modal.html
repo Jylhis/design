@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Modal</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: "JetBrains Mono", monospace; font-size: 12px; min-height: 360px; position: relative; }
+  .label { font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
+  .scrim { position: absolute; inset: 0; background: rgba(28, 24, 20, 0.4); display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .modal { background: var(--color-surface-raised); border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); width: 100%; max-width: 36ch; padding: 20px 22px; }
+  .modal .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+  .modal h2 { font-family: "JetBrains Mono", monospace; font-size: 0.95rem; font-weight: 700; color: var(--color-text-heading); margin: 0; }
+  .modal .close { background: none; border: 1px solid transparent; color: var(--color-text-faint); font: inherit; font-size: 1rem; cursor: pointer; padding: 0 4px; line-height: 1; }
+  .modal .close:hover { color: var(--color-accent); }
+  .modal p { font-family: "Literata", Georgia, serif; font-size: 14px; color: var(--color-text); line-height: 1.55; margin: 0 0 14px; }
+  .modal .actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .btn { font: inherit; font-size: 0.78rem; padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; }
+  .btn.primary { background: var(--color-accent); color: var(--color-bg); border: 1px solid var(--color-accent); }
+  .btn.primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+  .btn.ghost { background: transparent; color: var(--color-text); border: 1px solid var(--color-border); }
+  .btn.ghost:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .destructive { color: var(--color-status-err); border-color: var(--color-status-err); background: transparent; font: inherit; font-size: 0.78rem; padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; }
+  .destructive:hover { background: var(--color-status-err); color: var(--color-bg); }
+</style></head>
+<body>
+  <span class="label">modal · centered · raised surface · dim scrim</span>
+  <div class="scrim">
+    <div role="dialog" aria-modal="true" class="modal">
+      <div class="head">
+        <h2>Discard unsaved tokens?</h2>
+        <button class="close" aria-label="dismiss">×</button>
+      </div>
+      <p>You have edits to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">tokens.json</code> that haven't been generated yet. Discarding will revert those edits.</p>
+      <div class="actions">
+        <button class="btn ghost">cancel</button>
+        <button class="destructive">discard edits</button>
+      </div>
+    </div>
+  </div>
+</body></html>

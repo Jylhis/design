@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Blockquote</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: "Literata", Georgia, serif; font-size: 16px; line-height: 1.6; max-width: 60ch; }
+  .label { font-family: "JetBrains Mono", monospace; font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 12px; }
+  blockquote { margin: 0 0 18px; padding: 0 0 0 1.4ch; position: relative; color: var(--color-text); font-style: italic; }
+  blockquote::before { content: "»"; font-family: "JetBrains Mono", monospace; font-style: normal; color: var(--color-accent); position: absolute; left: 0; top: 0; font-size: 1.05em; line-height: 1.6; }
+  blockquote cite { display: block; margin-top: 6px; font-style: normal; font-family: "JetBrains Mono", monospace; font-size: 0.78rem; color: var(--color-text-muted); }
+  blockquote cite::before { content: "— "; }
+
+  .pull { font-size: 1.25rem; line-height: 1.4; padding: 14px 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); margin: 22px 0; color: var(--color-text-heading); font-style: normal; }
+  .pull::before { display: none; }
+  .pull cite { font-size: 0.78rem; }
+</style></head>
+<body>
+  <span class="label">inline blockquote · accent » marker</span>
+  <blockquote>
+    Our intuitions about efficiency are almost always wrong. The act of measuring is the only way to know.
+    <cite>Donald Knuth</cite>
+  </blockquote>
+
+  <blockquote>
+    Make it work. Make it right. Make it fast — in that order.
+    <cite>Kent Beck (after Knuth)</cite>
+  </blockquote>
+
+  <span class="label">pull-quote · stronger weight, top &amp; bottom rules</span>
+  <blockquote class="pull">
+    The terminal, the editor, and the browser should all render this code in the same colors. That's not aesthetic; it's continuity of attention.
+    <cite>design notebook · jylhis · 2026</cite>
+  </blockquote>
+</body></html>
