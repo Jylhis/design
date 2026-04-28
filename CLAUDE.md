@@ -24,12 +24,12 @@ All colors, spacing, typography, motion, ANSI palette, and contrast requirements
 
 ### Generation pipeline: `scripts/generate.mjs`
 
-A single Bun script with zero dependencies reads `tokens.json` and writes 16 files:
+A single Bun script with zero dependencies reads `tokens.json` and writes 20 files:
 
 | Generated file | What |
 |---|---|
 | `tokens.css` | CSS custom properties (`:root` + `[data-theme="dark"]`) |
-| `tokens-data.js` | JS export for the showcase website |
+| `tokens-data.js` | JS export for the showcase website (includes derived `contrastPairs` + `swatchContrast`) |
 | `platforms/ghostty/jylhis-{paper,roast}` | Ghostty color themes |
 | `platforms/charm/jylhis/palette.go` | Go lipgloss palette struct |
 | `platforms/emacs/jylhis-{paper,roast}-theme.el` | Emacs deftheme (430 lines each with face mappings) |
@@ -39,6 +39,10 @@ A single Bun script with zero dependencies reads `tokens.json` and writes 16 fil
 | `platforms/waybar/style.css` | Waybar bar CSS |
 | `platforms/mako/config` | Mako notification config |
 | `platforms/kvantum/Jylhis{Paper,Roast}.colors` | Qt/Kvantum palette XML |
+| `platforms/gimp/jylhis-{paper,roast}.gpl` | GIMP / Inkscape / Krita swatch file |
+| `platforms/adobe/jylhis-{paper,roast}.ase` | Adobe Swatch Exchange (binary) — Photoshop / Illustrator / InDesign / Affinity |
+
+The ASE generator emits binary content; the `--check` mode handles both text and binary outputs.
 
 ### Hand-authored (not generated)
 
@@ -64,7 +68,11 @@ Static HTML at `index.html`, deployed via GitHub Pages. Color swatches render dy
 1. Edit `tokens.json`
 2. Run `bun scripts/generate.mjs`
 3. Verify with `bun scripts/validate-tokens.mjs`
-4. All 16 generated files update automatically
+4. All 18 generated files update automatically
+
+## Thematic groups
+
+Roles in `tokens.json` are grouped under a top-level `groups` block — Paperstock (backgrounds), Ink (text), Copper (accent), Linen (borders), Modus (syntax), Signal (status), Spectrum (ANSI). Roles are still the canonical names used in code (`bg`, `accent`, `syn-keyword` …); group names are documentation/UI labels surfaced in the showcase, the per-theme palette page, and the GIMP `.gpl` exports. When adding a new color, register it under the relevant group's `members` list.
 
 ## Key design rules
 

@@ -37,6 +37,30 @@ function ansiColor(index, mode) {
   return tokens.ansi[index][mode];
 }
 
+// ─── Helper: WCAG 2 relative-luminance contrast ratio ────────────────
+// Mirrors scripts/validate-tokens.mjs so we don't drift.
+
+function _luminance(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(a, b) {
+  const [la, lb] = [_luminance(a), _luminance(b)].sort((x, y) => y - x);
+  return (la + 0.05) / (lb + 0.05);
+}
+
+function wcagTag(ratio) {
+  if (ratio >= 7) return "AAA";
+  if (ratio >= 4.5) return "AA";
+  if (ratio >= 3) return "AA Large";
+  return "fail";
+}
+
 // ─── 1. tokens.css — CSS custom properties ───────────────────────────
 
 function generateTokensCSS() {
@@ -1382,10 +1406,171 @@ border-color=${tokens.status["status-ok"].dark}          # Modus green (status-o
 // ─── 11. tokens-data.js for website ─────────────────────────────────
 
 function generateTokensData() {
+  // Measured contrast pairs — every foreground role (text family + accent + status)
+  // measured against every background surface, in both modes. Consumed by the
+  // showcase swatches and the per-theme palette reference page. Derived from
+  // tokens.groups so adding a new role updates the matrix automatically.
+  const fgRoles = [
+    ...tokens.groups.ink.members,
+    ...tokens.groups.copper.members,
+    ...tokens.groups.signal.members,
+  ];
+  const bgRoles = tokens.groups.paperstock.members;
+
+  const contrastPairs = [];
+  for (const mode of ["light", "dark"]) {
+    for (const fg of fgRoles) {
+      for (const bg of bgRoles) {
+        const fgHex = color(fg, mode);
+        const bgHex = color(bg, mode);
+        const ratio = contrastRatio(fgHex, bgHex);
+        contrastPairs.push({
+          mode, fg, bg,
+          fgHex, bgHex,
+          ratio: Number(ratio.toFixed(2)),
+          tag: wcagTag(ratio),
+        });
+      }
+    }
+  }
+
+  // Per-color claimed contrast against bg, for the swatch UI. One number per
+  // foreground role per mode — the headline ratio shown on the swatch.
+  const swatchContrast = {};
+  for (const mode of ["light", "dark"]) {
+    swatchContrast[mode] = {};
+    for (const role of fgRoles) {
+      const fgHex = color(role, mode);
+      const bgHex = color("bg", mode);
+      const ratio = contrastRatio(fgHex, bgHex);
+      swatchContrast[mode][role] = {
+        ratio: Number(ratio.toFixed(2)),
+        tag: wcagTag(ratio),
+      };
+    }
+  }
+
+  const enriched = { ...tokens, contrastPairs, swatchContrast };
+
   return `// tokens-data.js — GENERATED from tokens.json. Do not edit by hand.
 // Used by index.html to render dynamic color swatches and token tables.
-export const tokens = ${JSON.stringify(tokens, null, 2)};
+// Includes derived data: contrastPairs (every fg×bg×mode), swatchContrast
+// (one ratio per fg role per mode against bg).
+export const tokens = ${JSON.stringify(enriched, null, 2)};
 `;
+}
+
+// ─── GIMP .gpl palette ───────────────────────────────────────────────
+
+function generateGimpPalette(mode) {
+  const label = mode === "light" ? "Paper" : "Roast";
+  const lines = [
+    "GIMP Palette",
+    `Name: Jylhis ${label}`,
+    "Columns: 4",
+    "#",
+  ];
+
+  const hexToRgb = (hex) => {
+    const n = parseInt(hex.slice(1), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+
+  const fmt = (hex, name) => {
+    const [r, g, b] = hexToRgb(hex);
+    const pad = (x) => String(x).padStart(3, " ");
+    return `${pad(r)} ${pad(g)} ${pad(b)}\t${name}`;
+  };
+
+  // Iterate every thematic group from tokens.json. The `color()` helper looks
+  // up roles across palette/syntax/status, so each group emits cleanly without
+  // needing a per-section src reference. Spectrum (ANSI) is handled below
+  // because its members are array indices, not role-keyed entries.
+  for (const [gKey, g] of Object.entries(tokens.groups)) {
+    if (gKey === "spectrum") continue;
+    lines.push(`# ${g.label}`);
+    for (const role of g.members) {
+      lines.push(fmt(color(role, mode), role));
+    }
+  }
+
+  lines.push(`# ${tokens.groups.spectrum.label}`);
+  for (let i = 0; i < 16; i++) {
+    lines.push(fmt(tokens.ansi[i][mode], `ansi-${i}-${tokens.ansi[i].name}`));
+  }
+
+  return lines.join("\n") + "\n";
+}
+
+// ─── Adobe Swatch Exchange (.ase) ──────────────────────────────────
+// Binary format consumed by Photoshop, Illustrator, InDesign, Affinity.
+// Spec: 12-byte header (ASEF + version + block count) followed by blocks.
+// Block types: 0xC001 = group start, 0xC002 = group end, 0x0001 = color.
+// Strings are UTF-16 BE with a trailing null code unit; the stored length
+// is the count of code units including that null.
+
+function generateAdobeSwatch(mode) {
+  const utf16beWithNull = (s) => {
+    const codeUnits = s.length + 1; // includes null terminator
+    const buf = Buffer.alloc(2 + codeUnits * 2);
+    buf.writeUInt16BE(codeUnits, 0);
+    for (let i = 0; i < s.length; i++) buf.writeUInt16BE(s.charCodeAt(i), 2 + i * 2);
+    return buf;
+  };
+
+  const colorBlock = (name, hex) => {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    const nameField = utf16beWithNull(name);
+    const data = Buffer.alloc(nameField.length + 4 + 12 + 2);
+    nameField.copy(data, 0);
+    data.write("RGB ", nameField.length, "ascii");
+    data.writeFloatBE(r, nameField.length + 4);
+    data.writeFloatBE(g, nameField.length + 8);
+    data.writeFloatBE(b, nameField.length + 12);
+    data.writeUInt16BE(2, nameField.length + 16); // 2 = "normal" color type
+    const header = Buffer.alloc(6);
+    header.writeUInt16BE(0x0001, 0);
+    header.writeUInt32BE(data.length, 2);
+    return Buffer.concat([header, data]);
+  };
+
+  const groupStartBlock = (name) => {
+    const nameField = utf16beWithNull(name);
+    const header = Buffer.alloc(6);
+    header.writeUInt16BE(0xC001, 0);
+    header.writeUInt32BE(nameField.length, 2);
+    return Buffer.concat([header, nameField]);
+  };
+
+  const groupEndBlock = () => {
+    const buf = Buffer.alloc(6);
+    buf.writeUInt16BE(0xC002, 0);
+    buf.writeUInt32BE(0, 2);
+    return buf;
+  };
+
+  const blocks = [];
+  for (const [gKey, g] of Object.entries(tokens.groups)) {
+    blocks.push(groupStartBlock(g.label));
+    if (gKey === "spectrum") {
+      for (let i = 0; i < 16; i++) {
+        blocks.push(colorBlock(`ansi-${i}-${tokens.ansi[i].name}`, tokens.ansi[i][mode]));
+      }
+    } else {
+      for (const role of g.members) blocks.push(colorBlock(role, color(role, mode)));
+    }
+    blocks.push(groupEndBlock());
+  }
+
+  const header = Buffer.alloc(12);
+  header.write("ASEF", 0, "ascii");
+  header.writeUInt16BE(1, 4); // major
+  header.writeUInt16BE(0, 6); // minor
+  header.writeUInt32BE(blocks.length, 8);
+
+  return Buffer.concat([header, ...blocks]);
 }
 
 // ─── Register all outputs ───────────────────────────────────────────
@@ -1405,9 +1590,15 @@ out("platforms/rofi/jylhis-roast.rasi", generateRofi("dark"));
 out("platforms/gtk/gtk.css", generateGTK());
 out("platforms/waybar/style.css", generateWaybar());
 out("platforms/mako/config", generateMako());
+out("platforms/gimp/jylhis-paper.gpl", generateGimpPalette("light"));
+out("platforms/gimp/jylhis-roast.gpl", generateGimpPalette("dark"));
+out("platforms/adobe/jylhis-paper.ase", generateAdobeSwatch("light"));
+out("platforms/adobe/jylhis-roast.ase", generateAdobeSwatch("dark"));
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────
+
+const isBinary = (c) => Buffer.isBuffer(c) || c instanceof Uint8Array;
 
 if (checkMode) {
   let diffs = 0;
@@ -1418,10 +1609,18 @@ if (checkMode) {
       diffs++;
       continue;
     }
-    const existing = readFileSync(fullPath, "utf8");
-    if (existing !== content) {
-      console.error(`CHANGED: ${relPath}`);
-      diffs++;
+    if (isBinary(content)) {
+      const existing = readFileSync(fullPath);
+      if (Buffer.compare(existing, content) !== 0) {
+        console.error(`CHANGED: ${relPath}`);
+        diffs++;
+      }
+    } else {
+      const existing = readFileSync(fullPath, "utf8");
+      if (existing !== content) {
+        console.error(`CHANGED: ${relPath}`);
+        diffs++;
+      }
     }
   }
   if (diffs > 0) {

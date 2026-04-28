@@ -4,6 +4,25 @@ A design system for **jylhis.com** — the personal site of Markus Jylhänkangas
 
 The site is personal, technical, and deliberately paper‑like: warm cream backgrounds, a single copper accent, monospace headings, serif body. No frameworks, no gradients, no emoji. Everything is hand‑written CSS.
 
+## Principles
+
+1. **Warm paper, never pure.** Light is `#faf7f2` cream, dark is `#1a1714` roast. White and black are reserved for ink that needs to bleed through, never for the page itself.
+2. **One accent, copper.** A single burnt-orange channels every interactive surface — links, focus rings, the maker's mark. Status reuses the Modus reds/yellows/greens/blues; the brand copper is deliberately *not* a syntax color.
+3. **Dual-theme parity.** Paper and Roast are both first-class. Every token, every preview card, every platform target ships in both. Neither is a tinted afterthought.
+4. **AAA body, AA meta, decorative faint.** Body text is WCAG AAA on both backgrounds. `text-muted` clears AA. `text-faint` is for non-text-critical chrome only — dashed rules, disabled labels.
+5. **Modus syntax everywhere.** Code in Emacs, the web showcase, `bat`, `delta`, and Charm TUIs all render with the same Operandi/Vivendi colors. One source, one grammar.
+6. **Unicode is the icon set.** `›` `▸` `»` `└──` `☾` `☀` `★` `⑂`. No icon font, no SVG sprite, no emoji.
+7. **No shadow, no gradient, no glass.** Elevation is conveyed with 1px borders and background-color steps. Animation is color and translate only — no springs, no scale, no opacity tricks.
+8. **One source of truth.** Every color, spacing, motion, typography, and ANSI value lives in `tokens.json`. Sixteen platform targets are generated from it.
+
+## Inspired by, different from
+
+- **Modus Themes** (Protesilaos). We import the Operandi (light) and Vivendi (dark) syntax palettes verbatim, so any code rendered against Jylhis matches an Emacs Modus session pixel-for-pixel. Where Modus ships eight themes (main + tinted + deuteranopia + tritanopia variants) we ship two — the philosophy is "one warm light, one warm dark, both AAA."
+- **Solarized** (Schoonover). Solarized's selective-contrast and lightness-symmetry ideas underwrite our `text-muted` / `text-faint` ladder. We do not match its CIELAB symmetry between modes — Paper and Roast are tuned independently for warmth, not mirrored.
+- **Nord**. Nord groups its sixteen named colors thematically (Polar Night, Frost, Aurora). We adopt the same idea — thematic group names *over* role names — but with a paper-and-press vocabulary instead of an Arctic one.
+- **Catppuccin**. Catppuccin's per-color usage guide and four-flavor parity influenced our integration docs and dual-theme requirements. We do not follow its multi-accent pastel approach — Jylhis is single-accent and warm.
+- **Leuven** (Niessen). Leuven's prose-and-Org focus reminded us that a theme is judged on long-form reading first; our Literata body and `72ch` measure are the answer to that.
+
 ## Source
 
 - **Source of truth:** [`tokens.json`](./tokens.json) — every color, spacing, motion, and typography value
@@ -234,3 +253,9 @@ Version history: [`CHANGELOG.md`](./CHANGELOG.md).
 - **Fonts:** the design system pairs **Literata** (body) with **JetBrains Mono** (headings / chrome / code). Both are OFL, variable, and ship full Finnish diacritic coverage. They are imported from **Google Fonts** for prototyping; vendor the `woff2` files into a `fonts/` folder and swap the `@import` at the top of `colors_and_type.css` for `@font-face` declarations when self‑hosting. `source_styles/typography.css` still reflects the real site's historical Source Serif 4 + IBM Plex Mono stack and is kept for reference only — not a live target.
 - **No slide template** — this design system has no `slides/` folder.
 - **Shell configs not generated** — `platforms/shell/` (starship.toml, bashrc, zshrc, dircolors) use ANSI color names rather than hex values, so they work with whatever terminal theme is loaded and are not generated from `tokens.json`.
+
+---
+
+## License
+
+MIT — see [`LICENSE`](./LICENSE).

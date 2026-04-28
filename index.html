@@ -31,16 +31,46 @@
   .card .title { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: var(--color-text-heading); }
   .card .desc { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.55; }
   .card .path { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-faint); margin-top: auto; }
-  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: var(--space-sm); }
-  .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 0.72rem; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: var(--space-sm); }
+  .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 0.72rem; background: var(--color-bg); color: inherit; padding: 0; text-align: left; cursor: copy; transition: border-color var(--transition-fast); position: relative; }
+  .sw:hover { border-color: var(--color-accent); }
+  .sw:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
   .sw .chip { height: 48px; }
-  .sw .meta { padding: 6px 8px; background: var(--color-bg); color: var(--color-text-muted); display: flex; justify-content: space-between; gap: 4px; }
+  .sw .meta { padding: 6px 8px; color: var(--color-text-muted); display: flex; flex-direction: column; gap: 2px; }
+  .sw .meta .row { display: flex; justify-content: space-between; gap: 6px; align-items: baseline; }
   .sw .meta .name { color: var(--color-text); }
+  .sw .meta .ratio { color: var(--color-text-faint); font-size: 0.65rem; }
+  .sw .meta .ratio.aaa { color: var(--color-status-ok); }
+  .sw .meta .ratio.aa  { color: var(--color-text-muted); }
+  .sw .meta .ratio.fail { color: var(--color-status-err); }
+  .sw .copied { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-accent-subtle); color: var(--color-accent); font-family: var(--font-mono); font-size: 0.78rem; opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
+  .sw.is-copied .copied { opacity: 1; }
+  .group-head { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text); margin: var(--space-md) 0 4px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .group-head .label { font-weight: 700; color: var(--color-text-heading); }
+  .group-head .blurb { color: var(--color-text-muted); font-size: 0.72rem; }
+  .palette-link { display: inline-block; margin-top: var(--space-sm); font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-accent); text-decoration: none; }
+  .palette-link:hover { color: var(--color-accent-hover); }
   .tree { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-muted); white-space: pre; line-height: 1.5; padding: var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); overflow-x: auto; }
   footer { margin-top: var(--space-3xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted); text-align: center; }
   footer a { color: var(--color-accent); text-decoration: none; }
   footer a:hover { color: var(--color-accent-hover); }
   .pill { display: inline-block; font-family: var(--font-mono); font-size: 0.7rem; background: var(--color-accent-subtle); color: var(--color-accent); padding: 2px 8px; border-radius: var(--radius-pill); margin-left: 8px; }
+  .filter-bar { display: flex; align-items: center; gap: 10px; margin: var(--space-lg) 0 var(--space-md); padding: 10px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg-subtle); font-family: var(--font-mono); font-size: 0.84rem; }
+  .filter-bar:focus-within { border-color: var(--color-accent); }
+  .filter-bar input { flex: 1; font: inherit; background: transparent; border: none; color: var(--color-text); padding: 2px 4px; min-width: 0; }
+  .filter-bar input:focus { outline: none; }
+  .filter-bar .glyph { color: var(--color-text-faint); font-size: 0.9rem; }
+  .filter-bar .count { color: var(--color-text-muted); font-size: 0.72rem; white-space: nowrap; }
+  .filter-bar .clear { font: inherit; font-size: 0.72rem; padding: 2px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; }
+  .filter-bar .clear:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .filter-bar .clear:disabled { opacity: 0.4; cursor: default; }
+  .is-hidden-by-filter { display: none !important; }
+  .empty-state { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text-faint); padding: var(--space-md); text-align: center; }
+  .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-sm); }
+  .chip { font-family: var(--font-mono); font-size: 0.78rem; padding: 6px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); color: var(--color-text); text-decoration: none; transition: border-color var(--transition-fast); }
+  .chip:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .chip:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .chip .keys { color: var(--color-text-faint); font-size: 0.66rem; margin-left: 6px; }
 </style>
 <script>
   try {
@@ -71,19 +101,30 @@
     </div>
   </header>
 
-  <h2 class="section">core palette</h2>
-  <div class="swatches" id="palette-swatches"></div>
+  <div class="filter-bar" id="filter-bar">
+    <span class="glyph">⌕</span>
+    <input id="filter" type="search" placeholder="filter swatches, components, paths …  (press / to focus, Esc to clear)" autocomplete="off" spellcheck="false">
+    <span class="count" id="filter-count"></span>
+    <button class="clear" id="filter-clear" type="button" disabled>clear</button>
+  </div>
 
-  <h2 class="section">syntax</h2>
+  <h2 class="section" data-no-filter>core palette</h2>
+  <div id="palette-groups"></div>
+  <a class="palette-link" href="./palette.html">view full palette reference (rgb · hsl · oklch · contrast pairs) ▸</a>
+
+  <h2 class="section" data-no-filter>syntax · modus</h2>
+  <div class="group-head"><span class="label">Modus</span><span class="blurb">Operandi (light) and Vivendi (dark) syntax colors, imported verbatim from Protesilaos.</span></div>
   <div class="swatches" id="syntax-swatches"></div>
 
-  <h2 class="section">status</h2>
+  <h2 class="section" data-no-filter>status · signal</h2>
+  <div class="group-head"><span class="label">Signal</span><span class="blurb">err · warn · ok · info; reuses the Modus accents.</span></div>
   <div class="swatches" id="status-swatches"></div>
 
-  <h2 class="section">ansi 16</h2>
+  <h2 class="section" data-no-filter>ansi 16 · spectrum</h2>
+  <div class="group-head"><span class="label">Spectrum</span><span class="blurb">slot 11 is intentionally overridden to brand copper.</span></div>
   <div class="swatches" id="ansi-swatches"></div>
 
-  <h2 class="section">specs &amp; guides</h2>
+  <h2 class="section" data-no-filter>specs &amp; guides</h2>
   <div class="grid">
     <a class="card" href="./md.html?src=tokens.md">
       <span class="title">tokens.md</span>
@@ -100,6 +141,21 @@
       <span class="desc">Focus ring, kbd chip, leader key, command palette, selected item, dismiss hints, tab order, canonical shortcuts.</span>
       <span class="path">./platforms/KEYBOARD.md</span>
     </a>
+    <a class="card" href="./md.html?src=docs/STYLE-GUIDE.md" data-search="style guide usage do dont rules accent paper ink copper linen modus signal spectrum">
+      <span class="title">style guide</span>
+      <span class="desc">Opinionated usage rules — when to pick which color, type, spacing, motion. The do/don't list mirrored from Catppuccin's style-guide pattern.</span>
+      <span class="path">./docs/STYLE-GUIDE.md</span>
+    </a>
+    <a class="card" href="./md.html?src=docs/ACCESSIBILITY.md" data-search="accessibility wcag aaa aa contrast cvd colour vision deuteranopia tritanopia">
+      <span class="title">accessibility</span>
+      <span class="desc">WCAG numbers per pair, CVD notes, simulator recommendations, what's in scope vs. what isn't. Status colors require glyph + label.</span>
+      <span class="path">./docs/ACCESSIBILITY.md</span>
+    </a>
+    <a class="card" href="./md.html?src=CONTRIBUTING.md" data-search="contributing workflow add token add platform pull request">
+      <span class="title">contributing</span>
+      <span class="desc">How to change a token, add a role, add a platform target, write a preview card. Includes the PR checklist.</span>
+      <span class="path">./CONTRIBUTING.md</span>
+    </a>
     <a class="card" href="./md.html?src=CHANGELOG.md">
       <span class="title">changelog</span>
       <span class="desc">Semver history — what changed, when, and why. Pin a tag or SHA in consumer projects.</span>
@@ -107,7 +163,7 @@
     </a>
   </div>
 
-  <h2 class="section">live previews</h2>
+  <h2 class="section" data-no-filter>live previews</h2>
   <div class="grid">
     <a class="card" href="./prototypes/desktop.html">
       <span class="title">desktop environment</span>
@@ -161,7 +217,46 @@
     </a>
   </div>
 
-  <h2 class="section">repo layout</h2>
+  <h2 class="section">components</h2>
+  <div class="chip-grid" id="components-grid">
+    <a class="chip" href="./preview/buttons.html" data-search="buttons primary secondary destructive ghost search trigger kbd theme toggle interactive">buttons</a>
+    <a class="chip" href="./preview/cards.html" data-search="cards flat surface raised">cards</a>
+    <a class="chip" href="./preview/tables.html" data-search="tables zebra sortable thead data table monospace cells">tables</a>
+    <a class="chip" href="./preview/forms.html" data-search="forms input textarea select checkbox radio submit ghost focus error">forms</a>
+    <a class="chip" href="./preview/alerts.html" data-search="alerts callouts info warn ok err status currently">alerts</a>
+    <a class="chip" href="./preview/tabs.html" data-search="tabs tablist panel rail folder navigation">tabs</a>
+    <a class="chip" href="./preview/modal.html" data-search="modal dialog scrim destructive surface raised">modal</a>
+    <a class="chip" href="./preview/breadcrumb.html" data-search="breadcrumb chevron path navigation">breadcrumb</a>
+    <a class="chip" href="./preview/pagination.html" data-search="pagination prev next pager numbered load more">pagination</a>
+    <a class="chip" href="./preview/kbd.html" data-search="kbd keyboard shortcut chord chip accent typewriter">kbd</a>
+    <a class="chip" href="./preview/blockquote.html" data-search="blockquote pull quote literata cite quotation marker">blockquote</a>
+    <a class="chip" href="./preview/motion.html" data-search="motion fast base slow spring duration easing reduced motion underline link">motion</a>
+    <a class="chip" href="./preview/code-block.html" data-search="code block inline modus syntax fenced">code · single</a>
+    <a class="chip" href="./preview/code-languages.html" data-search="code python javascript js go rust bash shell nix json diff modus syntax language">code · multi-language</a>
+    <a class="chip" href="./preview/icons.html" data-search="icons unicode chevron tree dashes glyphs decorators">icons</a>
+    <a class="chip" href="./preview/decorators.html" data-search="decorators tree dashes chevrons rules unicode">decorators</a>
+    <a class="chip" href="./preview/spacing.html" data-search="spacing 4px grid xs sm md lg xl 2xl 3xl">spacing</a>
+    <a class="chip" href="./preview/radii-elevation.html" data-search="radii corners 2px 3px 4px elevation surface">radii &amp; elevation</a>
+    <a class="chip" href="./preview/type-headings.html" data-search="type headings monospace jetbrains mono scale">type · headings</a>
+    <a class="chip" href="./preview/type-body.html" data-search="type body literata serif prose reading">type · body</a>
+    <a class="chip" href="./preview/type-mono.html" data-search="type mono monospace inline code labels">type · mono</a>
+    <a class="chip" href="./preview/links.html" data-search="links hover underline animation accent">links</a>
+    <a class="chip" href="./preview/header.html" data-search="header logo wordmark nav site">header</a>
+    <a class="chip" href="./preview/footer.html" data-search="footer dashes identity links colophon">footer</a>
+    <a class="chip" href="./preview/sidenote.html" data-search="sidenote sidebar right rail accent">sidenote</a>
+    <a class="chip" href="./preview/currently-block.html" data-search="currently home accent left border">currently block</a>
+    <a class="chip" href="./preview/cv-entry.html" data-search="cv resume editor line numbered">cv entry</a>
+    <a class="chip" href="./preview/tags-badges.html" data-search="tags badges status active archived experimental contributed">tags &amp; badges</a>
+    <a class="chip" href="./preview/terminal-listing.html" data-search="terminal shell ls listing ansi colors">terminal listing</a>
+    <a class="chip" href="./preview/logo.html" data-search="logo makers mark svg copper accent rune">logo</a>
+    <a class="chip" href="./preview/colors-core.html" data-search="colors palette specimen">colors · core</a>
+    <a class="chip" href="./preview/colors-syntax.html" data-search="colors syntax modus operandi vivendi">colors · syntax</a>
+    <a class="chip" href="./preview/colors-text-borders.html" data-search="colors text borders muted faint">colors · text &amp; borders</a>
+    <a class="chip" href="./preview/colors-dark.html" data-search="colors dark roast palette">colors · dark</a>
+  </div>
+  <p id="components-empty" class="empty-state is-hidden-by-filter">no components match.</p>
+
+  <h2 class="section" data-no-filter>repo layout</h2>
   <pre class="tree">design/
 ├── tokens.json                ← source of truth
 ├── tokens.css                 ← generated (CSS variables)
@@ -205,27 +300,85 @@
     if (match) { tokenData = JSON.parse(match[1]); renderSwatches(); }
   }).catch(() => {});
 
-  const makeSwatch = (name, hex) => {
-    const sw = document.createElement("div");
+  const ratioClass = (tag) => {
+    if (tag === "AAA") return "aaa";
+    if (tag === "AA") return "aa";
+    if (tag === "fail") return "fail";
+    return "";
+  };
+
+  const makeSwatch = (role, hex, ratioInfo, group) => {
+    const sw = document.createElement("button");
+    sw.type = "button";
     sw.className = "sw";
-    sw.innerHTML = `<div class="chip" style="background:${hex}"></div><div class="meta"><span class="name">${name}</span><span class="hex">${hex.toUpperCase()}</span></div>`;
+    sw.dataset.hex = hex;
+    sw.dataset.search = [role, hex, hex.toLowerCase().replace(/^#/, ""), group, ratioInfo?.tag].filter(Boolean).join(" ").toLowerCase();
+    sw.setAttribute("aria-label", `copy ${hex}`);
+    const ratioRow = ratioInfo
+      ? `<span class="ratio ${ratioClass(ratioInfo.tag)}">${ratioInfo.ratio.toFixed(2)}:1 ${ratioInfo.tag}</span>`
+      : `<span class="ratio">&nbsp;</span>`;
+    sw.innerHTML = `
+      <div class="chip" style="background:${hex}"></div>
+      <div class="meta">
+        <div class="row"><span class="name">${role}</span><span class="hex">${hex.toUpperCase()}</span></div>
+        <div class="row">${ratioRow}</div>
+      </div>
+      <div class="copied">copied</div>`;
     return sw;
   };
 
   const renderSwatches = () => {
     if (!tokenData) return;
     const mode = doc.dataset.theme === "dark" ? "dark" : "light";
-    const fill = (id, entries) => {
+    const swatchContrast = (tokenData.swatchContrast && tokenData.swatchContrast[mode]) || {};
+
+    // Palette: grouped under thematic banners (paperstock / ink / copper / linen).
+    const paletteHost = document.getElementById("palette-groups");
+    if (paletteHost) {
+      paletteHost.innerHTML = "";
+      const paletteGroups = ["paperstock", "ink", "copper", "linen"];
+      for (const gKey of paletteGroups) {
+        const g = tokenData.groups && tokenData.groups[gKey];
+        if (!g) continue;
+        const head = document.createElement("div");
+        head.className = "group-head";
+        head.innerHTML = `<span class="label">${g.label}</span><span class="blurb">${g.blurb}</span>`;
+        paletteHost.appendChild(head);
+        const grid = document.createElement("div");
+        grid.className = "swatches";
+        for (const role of g.members) {
+          const entry = tokenData.palette[role];
+          if (!entry) continue;
+          grid.appendChild(makeSwatch(role, entry[mode], swatchContrast[role], g.label));
+        }
+        paletteHost.appendChild(grid);
+      }
+    }
+
+    const fill = (id, entries, groupLabel) => {
       const el = document.getElementById(id);
       if (!el) return;
       el.innerHTML = "";
-      for (const [name, hex] of entries) el.appendChild(makeSwatch(name, hex));
+      for (const [name, hex, ratio] of entries) el.appendChild(makeSwatch(name, hex, ratio, groupLabel));
     };
-    fill("palette-swatches", Object.entries(tokenData.palette).map(([k, v]) => [k, v[mode]]));
-    fill("syntax-swatches", Object.entries(tokenData.syntax).map(([k, v]) => [k.replace("syn-", ""), v[mode]]));
-    fill("status-swatches", Object.entries(tokenData.status).map(([k, v]) => [k.replace("status-", ""), v[mode]]));
-    fill("ansi-swatches", tokenData.ansi.map((a, i) => [`${i} ${a.name}`, a[mode]]));
+    fill("syntax-swatches", Object.entries(tokenData.syntax).map(([k, v]) => [k.replace("syn-", ""), v[mode]]), "Modus");
+    fill("status-swatches", Object.entries(tokenData.status).map(([k, v]) => [k.replace("status-", ""), v[mode], swatchContrast[k]]), "Signal");
+    fill("ansi-swatches", tokenData.ansi.map((a, i) => [`${i} ${a.name}`, a[mode]]), "Spectrum");
+
+    applyFilter();
   };
+
+  // Click-to-copy on any swatch. Uses event delegation so it survives re-renders.
+  document.addEventListener("click", async (e) => {
+    const sw = e.target.closest(".sw");
+    if (!sw || !sw.dataset.hex) return;
+    if (!navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(sw.dataset.hex.toUpperCase());
+      sw.classList.add("is-copied");
+      setTimeout(() => sw.classList.remove("is-copied"), 900);
+    } catch {}
+  });
 
   const apply = (mode, persist = true) => {
     if (mode === "dark") { doc.dataset.theme = "dark"; label.textContent = "roast"; btn.textContent = "☀"; }
@@ -238,6 +391,75 @@
   apply(saved ?? (mq.matches ? "dark" : "light"), saved !== null);
   btn.addEventListener("click", () => apply(doc.dataset.theme === "dark" ? "light" : "dark"));
   mq.addEventListener("change", (e) => { if (!safeGet("jylhis-theme")) apply(e.matches ? "dark" : "light", false); });
+
+  // ─── Filter / search across swatches, components, and cards ─────────
+  // Single text box matches against:
+  //   - swatch data-search ("role hex group tag")
+  //   - chip/card data-search (role + descriptive keywords)
+  //   - card text content (titles + descriptions)
+  // Hides non-matching items via .is-hidden-by-filter. Section headers
+  // marked data-no-filter stay put.
+  const filter = document.getElementById("filter");
+  const filterBar = document.getElementById("filter-bar");
+  const filterCount = document.getElementById("filter-count");
+  const filterClear = document.getElementById("filter-clear");
+  const componentsEmpty = document.getElementById("components-empty");
+
+  const matchesQuery = (el, q) => {
+    const haystack = ((el.dataset.search || "") + " " + el.textContent).toLowerCase();
+    return haystack.includes(q);
+  };
+
+  const applyFilter = () => {
+    const q = (filter?.value || "").trim().toLowerCase();
+    const swatches = document.querySelectorAll(".sw");
+    const chips = document.querySelectorAll(".chip");
+    const cards = document.querySelectorAll("a.card");
+    const groupHeads = document.querySelectorAll(".group-head");
+
+    let shown = 0;
+    const apply = (el) => {
+      if (!q || matchesQuery(el, q)) { el.classList.remove("is-hidden-by-filter"); shown++; }
+      else { el.classList.add("is-hidden-by-filter"); }
+    };
+    swatches.forEach(apply);
+    chips.forEach(apply);
+    cards.forEach(apply);
+
+    // Hide a thematic group banner when none of its swatches match.
+    groupHeads.forEach(head => {
+      const grid = head.nextElementSibling;
+      if (!grid || !grid.classList.contains("swatches")) return;
+      const anyVisible = [...grid.children].some(c => !c.classList.contains("is-hidden-by-filter"));
+      head.classList.toggle("is-hidden-by-filter", !!q && !anyVisible);
+    });
+
+    if (componentsEmpty) {
+      const grid = document.getElementById("components-grid");
+      const anyChip = grid && [...grid.children].some(c => !c.classList.contains("is-hidden-by-filter"));
+      componentsEmpty.classList.toggle("is-hidden-by-filter", !q || anyChip);
+    }
+
+    filterCount.textContent = q ? `${shown} match${shown === 1 ? "" : "es"}` : "";
+    filterClear.disabled = !q;
+  };
+
+  filter?.addEventListener("input", applyFilter);
+  filterClear?.addEventListener("click", () => { filter.value = ""; applyFilter(); filter.focus(); });
+
+  // Keyboard: `/` focuses, Esc clears + blurs.
+  document.addEventListener("keydown", (e) => {
+    const tag = (e.target?.tagName || "").toLowerCase();
+    const inEditable = tag === "input" || tag === "textarea" || tag === "select" || e.target?.isContentEditable;
+    if (e.key === "/" && !inEditable && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      e.preventDefault();
+      filter?.focus();
+      filter?.select();
+    } else if (e.key === "Escape" && document.activeElement === filter) {
+      if (filter.value) { filter.value = ""; applyFilter(); }
+      else filter.blur();
+    }
+  });
 </script>
 
 </body>

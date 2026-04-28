@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Breadcrumb</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: "JetBrains Mono", monospace; font-size: 12px; }
+  .label { font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
+  nav.crumb { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 18px; }
+  nav.crumb a { color: var(--color-text-muted); text-decoration: none; }
+  nav.crumb a:hover { color: var(--color-accent); }
+  nav.crumb a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: var(--radius-xs); }
+  nav.crumb .sep { color: var(--color-accent); margin: 0 0.4ch; }
+  nav.crumb [aria-current="page"] { color: var(--color-text-heading); }
+
+  /* path-style variant — uses slashes like a filesystem path */
+  nav.path .sep { color: var(--color-text-faint); margin: 0 0.2ch; }
+</style></head>
+<body>
+  <span class="label">breadcrumb · ▸ separator (canonical)</span>
+  <nav class="crumb" aria-label="breadcrumb">
+    <a href="#">home</a>
+    <span class="sep">▸</span>
+    <a href="#">notes</a>
+    <span class="sep">▸</span>
+    <a href="#">2026</a>
+    <span class="sep">▸</span>
+    <span aria-current="page">Modus syntax fidelity</span>
+  </nav>
+
+  <span class="label">breadcrumb · path style · / separator</span>
+  <nav class="crumb path" aria-label="breadcrumb">
+    <a href="#">~</a>
+    <span class="sep">/</span>
+    <a href="#">projects</a>
+    <span class="sep">/</span>
+    <a href="#">design</a>
+    <span class="sep">/</span>
+    <span aria-current="page">tokens.json</span>
+  </nav>
+
+  <span class="label">breadcrumb · single-level · with man-page label</span>
+  <nav class="crumb" aria-label="breadcrumb">
+    <a href="#">notes</a>
+    <span class="sep">▸</span>
+    <span aria-current="page" style="color: var(--color-text-heading);">CRAFT(7)</span>
+  </nav>
+</body></html>

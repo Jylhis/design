@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>Tables</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--color-text); }
+  .label { font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-bottom: 22px; font-family: inherit; }
+  thead th { text-align: left; font-weight: 600; color: var(--color-text-faint); border-bottom: 2px solid var(--color-border-strong); padding: 8px 10px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  tbody td { padding: 7px 10px; border-bottom: 1px solid var(--color-border); color: var(--color-text); vertical-align: middle; }
+  tbody tr:hover td { background: var(--color-bg-subtle); }
+  tbody tr.zebra td { background: var(--color-bg-subtle); }
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable::after { content: " ▸"; color: var(--color-text-faint); font-size: 0.62rem; }
+  th.sortable.active::after { content: " ▾"; color: var(--color-accent); }
+  td .num { color: var(--color-text-muted); }
+  td .ok { color: var(--color-status-ok); }
+  td .err { color: var(--color-status-err); }
+  td.code { font-family: "JetBrains Mono", monospace; color: var(--color-syntax-string); }
+</style></head>
+<body>
+  <span class="label">data table · zebra · hover · sort indicator</span>
+  <table>
+    <thead>
+      <tr>
+        <th class="sortable active">role</th>
+        <th class="sortable">hex</th>
+        <th class="sortable">contrast</th>
+        <th>status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>bg</td><td class="code">#FAF7F2</td><td><span class="num">— · base</span></td><td><span class="ok">ok</span></td></tr>
+      <tr class="zebra"><td>text</td><td class="code">#2C2825</td><td><span class="num">13.7:1</span></td><td><span class="ok">AAA</span></td></tr>
+      <tr><td>text-muted</td><td class="code">#6B5F54</td><td><span class="num">5.81:1</span></td><td><span class="ok">AA</span></td></tr>
+      <tr class="zebra"><td>accent</td><td class="code">#9A5A2A</td><td><span class="num">4.62:1</span></td><td><span class="ok">AA</span></td></tr>
+      <tr><td>text-faint</td><td class="code">#8A7F72</td><td><span class="num">3.21:1</span></td><td><span class="err">AA Large only</span></td></tr>
+    </tbody>
+  </table>
+
+  <span class="label">code-row table · monospace cells</span>
+  <table>
+    <thead>
+      <tr><th>file</th><th>lines</th><th>last touched</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="code">scripts/generate.mjs</td><td><span class="num">1465</span></td><td><span class="num">2 min ago</span></td></tr>
+      <tr><td class="code">tokens.json</td><td><span class="num">160</span></td><td><span class="num">5 min ago</span></td></tr>
+      <tr><td class="code">platforms/emacs/jylhis-paper-theme.el</td><td><span class="num">430</span></td><td><span class="num">2 days ago</span></td></tr>
+    </tbody>
+  </table>
+</body></html>
