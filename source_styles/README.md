@@ -9,15 +9,17 @@ stack) remain visible.
 ## Direction of truth
 
 ```
-tokens.md  →  colors_and_type.css  →  jylhis.com (Astro)
+tokens.json  →  tokens.css  →  colors_and_type.css  →  jylhis.com (Astro)
 ```
 
-- [`tokens.md`](../tokens.md) is the **canonical spec** for every value.
+- [`tokens.json`](../tokens.json) is the **canonical source** for every token value.
+- [`tokens.md`](../tokens.md) is the human-readable companion spec derived
+  from the same token contract.
 - [`colors_and_type.css`](../colors_and_type.css) is the CSS
   implementation of that spec and is what downstream consumers import.
 - `source_styles/` is a **snapshot** of what the live site shipped. It
   does not flow back into the system; if the live site drifts from
-  `tokens.md`, that is a bug to fix on the site, not a reason to update
+  `tokens.json`, that is a bug to fix on the site, not a reason to update
   tokens.
 
 ## Files

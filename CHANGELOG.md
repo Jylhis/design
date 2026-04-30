@@ -9,6 +9,15 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 
 ## [Unreleased]
 
+### Fixed
+- CSS transition tokens now preserve the cubic-bezier easing values from
+  `tokens.json`.
+- The showcase version badge is rendered from token metadata instead of
+  hardcoded page text.
+- Website UI kit note/project rows are keyboard-accessible native links.
+
+## [0.3.0] — 2026-04-30
+
 ### Added
 - Integration guide at `docs/INTEGRATION.md`.
 - Semver changelog and policy (this file).
@@ -50,5 +59,6 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 ### Removed
 - Fish support (kept bash and zsh only).
 
-[Unreleased]: https://github.com/jylhis/design/commits/main
+[Unreleased]: https://github.com/jylhis/design/compare/v0.3.0...main
+[0.3.0]: https://github.com/jylhis/design/releases/tag/v0.3.0
 <!-- Restore [0.1.0] link once the v0.1.0 tag is cut. -->

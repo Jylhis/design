@@ -116,7 +116,7 @@ function generateTokensCSS() {
     .join("\n");
 
   const transitionVars = Object.entries(tokens.motion)
-    .map(([k, v]) => `  --transition-${k}: ${v.duration} ease-out;`)
+    .map(([k, v]) => `  --transition-${k}: ${v.duration} ${v.css};`)
     .join("\n");
 
   // Accent-subtle rgba values (derived, not in tokens.json as they use opacity)

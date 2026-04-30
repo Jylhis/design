@@ -90,7 +90,7 @@
 <main>
   <header class="hero">
     <p class="eyebrow">jylhis design system</p>
-    <h1>Warm paper, earth copper. <span class="pill">v0.1</span></h1>
+    <h1>Warm paper, earth copper. <span class="pill" id="version-pill">version</span></h1>
     <p>A design system for <a href="https://jylhis.com" style="color: var(--color-accent); text-decoration: none;">jylhis.com</a> — one accent, muted taupe everything else, monospace headings, serif body. Ten platform targets from Ghostty to Charm TUI, all driven by a single <a href="./md.html?src=tokens.md" style="color: var(--color-accent); text-decoration: none;">token spec</a>.</p>
     <div class="tags">
       <span class="tag">WCAG AAA body</span>
@@ -297,8 +297,13 @@
   fetch("./tokens-data.js").then(r => r.text()).then(text => {
     // tokens-data.js is an ES module; extract the JSON from it
     const match = text.match(/export const tokens = ({[\s\S]+});/);
-    if (match) { tokenData = JSON.parse(match[1]); renderSwatches(); }
+    if (match) { tokenData = JSON.parse(match[1]); renderVersion(); renderSwatches(); }
   }).catch(() => {});
+
+  const renderVersion = () => {
+    const el = document.getElementById("version-pill");
+    if (el && tokenData?.meta?.version) el.textContent = `v${tokenData.meta.version}`;
+  };
 
   const ratioClass = (tag) => {
     if (tag === "AAA") return "aaa";

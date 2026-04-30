@@ -62,9 +62,15 @@
 
     /* Notes */
     .notes-list { list-style: none; padding: 0; margin: 0; }
-    .note-item { display: grid; grid-template-columns: 7rem 1fr; gap: var(--space-lg); padding: var(--space-md) 0; border-bottom: 1px solid var(--color-border); cursor: pointer; }
-    .note-item:first-child { border-top: 1px solid var(--color-border); }
+    .note-item { display: grid; grid-template-columns: 7rem 1fr; gap: var(--space-lg); padding: var(--space-md) 0; border-bottom: 1px solid var(--color-border); cursor: pointer; color: inherit; text-decoration: none; }
+    .notes-list li:first-child .note-item { border-top: 1px solid var(--color-border); }
     .note-item:hover { background: var(--color-bg-subtle); }
+    .note-item:focus-visible,
+    .project-entry:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
     .note-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted); padding-top: 0.15em; }
     .note-title { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 500; color: var(--color-text-heading); cursor: pointer; }
     .note-title:hover { color: var(--color-accent); }
@@ -74,14 +80,14 @@
 
     /* Tags */
     .tag-list { list-style: none; padding: 0; margin: var(--space-xs) 0 0; display:flex; flex-wrap:wrap; gap: var(--space-sm); }
-    .tag { font-family: var(--font-mono); font-size: 0.78rem; padding: 0.15em 0.55em; border-radius: 3px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); color: var(--color-text-muted); cursor: pointer; }
+    .tag { font-family: var(--font-mono); font-size: 0.78rem; padding: 0.15em 0.55em; border-radius: 3px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); color: var(--color-text-muted); }
     .tag:hover { color: var(--color-accent); border-color: var(--color-accent); }
 
     /* Projects */
     .terminal-prompt { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: var(--space-xl); }
     .prompt-char { color: var(--color-accent); margin-right: 0.5em; }
     .projects-list { display:flex; flex-direction: column; gap: var(--space-xl); }
-    .project-entry { padding: var(--space-lg); background: var(--color-bg-subtle); border-radius: 4px; border: 1px solid transparent; cursor: pointer; transition: border-color var(--transition-fast), background var(--transition-fast); }
+    .project-entry { display: block; padding: var(--space-lg); background: var(--color-bg-subtle); border-radius: 4px; border: 1px solid transparent; cursor: pointer; transition: border-color var(--transition-fast), background var(--transition-fast); color: inherit; text-decoration: none; }
     .project-entry:hover { border-color: var(--color-border); background: var(--color-surface); }
     .project-header { font-family: var(--font-mono); font-size: 0.8rem; display: flex; gap: var(--space-md); align-items: baseline; margin-bottom: var(--space-sm); flex-wrap: wrap; }
     .perms { color: var(--color-text-faint); }
@@ -91,6 +97,7 @@
     .project-desc { font-size: 0.95rem; margin: 0 0 var(--space-sm); line-height: 1.5; }
     .project-links { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-faint); margin-top: var(--space-sm); }
     .tree-item a { color: var(--color-text-muted); }
+    .tree-item span { color: var(--color-text-muted); }
 
     /* Status badges */
     .project-status { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.1em 0.5em; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; margin-left: var(--space-sm); }
@@ -147,6 +154,7 @@
     .tweaks-panel button { background: var(--color-bg-subtle); border: 1px solid var(--color-border); color: var(--color-text-muted); border-radius: 3px; padding: 4px 10px; cursor: pointer; font-family: var(--font-mono); font-size: 0.72rem; }
     .tweaks-panel button.active { color: var(--color-accent); border-color: var(--color-accent); }
     .tweaks-panel [hidden] { display: none; }
+    .search-notice { max-width: 48rem; margin: 0 auto; padding: 0 var(--layout-padding-mobile); font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); }
   </style>
 </head>
 <body>
@@ -173,6 +181,7 @@
       const [activeProject, setActiveProject] = React.useState(null);
       const [theme, setTheme] = React.useState(TWEAK_DEFAULTS.colorMode || 'light');
       const [tweaksOn, setTweaksOn] = React.useState(false);
+      const [searchNotice, setSearchNotice] = React.useState(false);
 
       React.useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -219,7 +228,8 @@
 
       return (
         <>
-          <Header crumbs={crumbs} onNav={navTo} theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} onSearch={() => alert('search: not wired in this kit')}/>
+          <Header crumbs={crumbs} onNav={navTo} theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} onSearch={() => setSearchNotice(true)}/>
+          {searchNotice && <div className="search-notice" role="status">search is not wired in this kit</div>}
           <main className="page-content">{page}</main>
           <Footer onNav={navTo}/>
           {tweaksOn && (

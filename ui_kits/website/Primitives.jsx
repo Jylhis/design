@@ -1,6 +1,6 @@
 // Primitives.jsx — tags, status badges, dividers, code block
 const TagList = ({ tags = [] }) => tags.length ? (
-  <ul className="tag-list">{tags.map(t => <li key={t}><a className="tag">{t}</a></li>)}</ul>
+  <ul className="tag-list">{tags.map(t => <li key={t}><span className="tag">{t}</span></li>)}</ul>
 ) : null;
 
 const StatusBadge = ({ status }) => (

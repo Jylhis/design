@@ -1,6 +1,6 @@
 # Jylhis Design System — Platform Tokens
 
-This is the **canonical palette spec**. Every platform-specific file in `platforms/` derives from this table. When a color changes, update the table here first, then propagate to each target by hand (small palette, controlled drift is acceptable).
+This is the human-readable companion to the canonical token source, [`tokens.json`](./tokens.json). Every platform-specific file in `platforms/` derives from `tokens.json` through `scripts/generate.mjs`; when a value changes, update `tokens.json` first, then regenerate and validate the targets.
 
 ## 0. Principles
 

@@ -34,13 +34,15 @@ const NotesPage = ({ onOpenNote }) => (
     <p className="rss-line"><a className="rss-link">rss feed</a> · {NOTES.length} notes</p>
     <ul className="notes-list">
       {NOTES.map(n => (
-        <li className="note-item" key={n.slug} onClick={()=>onOpenNote(n)}>
-          <time className="note-date">{new Date(n.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time>
-          <div className="note-content">
-            <a className="note-title">{n.title}</a>
-            <p className="note-excerpt">{n.description}</p>
-            <TagList tags={n.tags} />
-          </div>
+        <li key={n.slug}>
+          <a className="note-item" href={`/notes/${n.slug}/`} onClick={(e)=>{e.preventDefault(); onOpenNote(n);}}>
+            <time className="note-date">{new Date(n.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time>
+            <div className="note-content">
+              <span className="note-title">{n.title}</span>
+              <p className="note-excerpt">{n.description}</p>
+              <TagList tags={n.tags} />
+            </div>
+          </a>
         </li>
       ))}
     </ul>
@@ -84,15 +86,17 @@ const ProjectsPage = ({ onOpenProject }) => (
     <p className="terminal-prompt"><span className="prompt-char">$</span> ls -la ~/projects/</p>
     <div className="projects-list">
       {PROJECTS.map(p => (
-        <article className="project-entry" key={p.slug} onClick={()=>onOpenProject(p)}>
-          <div className="project-header">
-            <span className="perms">{p.perms}</span>
-            <a className="project-name">{p.title}</a>
-            <span className="project-date">{new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
-          </div>
-          <p className="project-desc">{p.description}</p>
-          <TagList tags={p.tags}/>
-          {p.github && <div className="project-links"><span className="tree-item">└── <a>github</a></span></div>}
+        <article key={p.slug}>
+          <a className="project-entry" href={`/projects/${p.slug}/`} onClick={(e)=>{e.preventDefault(); onOpenProject(p);}}>
+            <div className="project-header">
+              <span className="perms">{p.perms}</span>
+              <span className="project-name">{p.title}</span>
+              <span className="project-date">{new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+            </div>
+            <p className="project-desc">{p.description}</p>
+            <TagList tags={p.tags}/>
+            {p.github && <div className="project-links"><span className="tree-item">└── <span>github</span></span></div>}
+          </a>
         </article>
       ))}
     </div>
