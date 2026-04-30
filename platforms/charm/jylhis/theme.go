@@ -54,7 +54,7 @@ type Theme struct {
 // NewTheme returns a Theme for the given mode with all styles pre-built.
 func NewTheme(m Mode) Theme {
 	p := PaletteFor(m)
-	col := func(hex string) lipgloss.Color { return lipgloss.Color(hex) }
+	col := lipgloss.Color
 
 	t := Theme{Mode: m, Palette: p}
 

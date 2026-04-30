@@ -1,8 +1,10 @@
 package jylhis
 
 import (
+	"image/color"
+
+	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
-	tea "github.com/charmbracelet/bubbletea/v2"
 )
 
 // ThemeMsg is emitted by the Detect command when the terminal background
@@ -34,10 +36,10 @@ func ApplyBackground(msg tea.Msg) (Theme, bool) {
 	return NewTheme(Paper), true
 }
 
-// AdaptiveColor returns a lipgloss.Color that picks the paper or roast
+// AdaptiveColor returns a color.Color that picks the paper or roast
 // variant given a known-dark-background boolean (e.g. from BackgroundColorMsg).
 // Useful when you want a single adaptive color outside of the Theme struct.
-func AdaptiveColor(isDark bool, light, dark string) lipgloss.Color {
+func AdaptiveColor(isDark bool, light, dark string) color.Color {
 	if isDark {
 		return lipgloss.Color(dark)
 	}

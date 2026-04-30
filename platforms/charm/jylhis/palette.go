@@ -21,7 +21,11 @@
 // tea.BackgroundColorMsg (see bubbletea.go).
 package jylhis
 
-import "charm.land/lipgloss/v2"
+import (
+	"image/color"
+
+	"charm.land/lipgloss/v2"
+)
 
 // Mode selects the light (Paper) or dark (Roast) variant.
 type Mode int
@@ -91,4 +95,4 @@ func PaletteFor(m Mode) Palette {
 }
 
 // C is a convenience wrapper: lipgloss color from a hex string in the palette.
-func C(hex string) lipgloss.Color { return lipgloss.Color(hex) }
+func C(hex string) color.Color { return lipgloss.Color(hex) }

@@ -11,11 +11,11 @@ import (
 	"fmt"
 	"os"
 
+	"charm.land/bubbles/v2/help"
+	"charm.land/bubbles/v2/list"
+	"charm.land/bubbles/v2/spinner"
+	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
-	"github.com/charmbracelet/bubbles/v2/help"
-	"github.com/charmbracelet/bubbles/v2/list"
-	"github.com/charmbracelet/bubbles/v2/spinner"
-	tea "github.com/charmbracelet/bubbletea/v2"
 
 	"github.com/jylhis/design/charm/jylhis"
 )
@@ -122,9 +122,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, tea.Batch(cmds...)
 }
 
-func (m model) View() string {
+func (m model) View() tea.View {
 	if !m.ready {
-		return ""
+		v := tea.NewView("")
+		v.AltScreen = true
+		return v
 	}
 	t := m.theme
 
@@ -151,7 +153,7 @@ func (m model) View() string {
 	)
 
 	body := t.Border.
-		Width(m.width - 4).
+		Width(m.width-4).
 		Padding(0, 1).
 		Render(m.list.View())
 
@@ -160,7 +162,7 @@ func (m model) View() string {
 		msg = t.Accent.Render("· " + m.message)
 	}
 
-	return lipgloss.JoinVertical(lipgloss.Left,
+	content := lipgloss.JoinVertical(lipgloss.Left,
 		"",
 		"  "+header,
 		"  "+badges+"  "+msg,
@@ -170,10 +172,13 @@ func (m model) View() string {
 		"  "+kbd,
 		"",
 	)
+	v := tea.NewView(content)
+	v.AltScreen = true
+	return v
 }
 
 func main() {
-	p := tea.NewProgram(initialModel(), tea.WithAltScreen())
+	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Fprintln(os.Stderr, "error:", err)
 		os.Exit(1)

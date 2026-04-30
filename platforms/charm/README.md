@@ -49,7 +49,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 ## Companion libraries
 
-The palette is intentionally plain `lipgloss.Color` strings, so anything that consumes `lipgloss.Style` works:
+The palette is intentionally plain hex strings. Convert them with `lipgloss.Color(...)` wherever a Lip Gloss style or component expects a color:
 
 - **[harmonica](https://github.com/charmbracelet/harmonica)** — spring animations. Use `t.Palette.Accent` as the fill color while spring-tweening a progress bar width.
 - **[ntcharts](https://github.com/NimbleMarkets/ntcharts)** — TUI charts. Pass `t.Palette.ANSI[:]` to get a palette-compliant series color cycle; use `t.Accent` for highlighted series and `t.Rule` for axes.

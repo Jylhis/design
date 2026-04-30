@@ -1,12 +1,12 @@
 package jylhis
 
 import (
+	"charm.land/bubbles/v2/help"
+	"charm.land/bubbles/v2/key"
+	"charm.land/bubbles/v2/list"
+	"charm.land/bubbles/v2/spinner"
+	"charm.land/bubbles/v2/textinput"
 	"charm.land/lipgloss/v2"
-	"github.com/charmbracelet/bubbles/v2/help"
-	"github.com/charmbracelet/bubbles/v2/key"
-	"github.com/charmbracelet/bubbles/v2/list"
-	"github.com/charmbracelet/bubbles/v2/spinner"
-	"github.com/charmbracelet/bubbles/v2/textinput"
 )
 
 // --- Key bindings ---------------------------------------------------------
@@ -67,9 +67,9 @@ func (k KeyMap) FullHelp() [][]key.Binding {
 
 // ListStyles returns list.DefaultStyles themed for Jylhis.
 func ListStyles(t Theme) list.Styles {
-	s := list.DefaultStyles()
+	s := list.DefaultStyles(t.Mode == Roast)
 	p := t.Palette
-	c := func(hex string) lipgloss.Color { return lipgloss.Color(hex) }
+	c := lipgloss.Color
 
 	s.Title = s.Title.
 		Foreground(c(p.TextHeading)).
@@ -82,8 +82,9 @@ func ListStyles(t Theme) list.Styles {
 	s.StatusEmpty = s.StatusEmpty.Foreground(c(p.TextFaint))
 	s.NoItems = s.NoItems.Foreground(c(p.TextFaint)).Italic(true)
 
-	s.FilterPrompt = s.FilterPrompt.Foreground(c(p.Accent))
-	s.FilterCursor = s.FilterCursor.Foreground(c(p.Accent))
+	s.Filter.Focused.Prompt = s.Filter.Focused.Prompt.Foreground(c(p.Accent))
+	s.Filter.Blurred.Prompt = s.Filter.Blurred.Prompt.Foreground(c(p.Accent))
+	s.Filter.Cursor.Color = c(p.Accent)
 
 	s.DividerDot = s.DividerDot.Foreground(c(p.Decorator))
 	s.HelpStyle = s.HelpStyle.Foreground(c(p.TextMuted))
@@ -98,9 +99,9 @@ func ListStyles(t Theme) list.Styles {
 // DelegateStyles returns list.DefaultDelegate styles themed for Jylhis.
 // Selected items get the copper bar + copper title treatment.
 func DelegateStyles(t Theme) list.DefaultItemStyles {
-	d := list.NewDefaultItemStyles()
+	d := list.NewDefaultItemStyles(t.Mode == Roast)
 	p := t.Palette
-	c := func(hex string) lipgloss.Color { return lipgloss.Color(hex) }
+	c := lipgloss.Color
 
 	d.NormalTitle = d.NormalTitle.Foreground(c(p.Text))
 	d.NormalDesc = d.NormalDesc.Foreground(c(p.TextMuted))
@@ -131,13 +132,18 @@ func TextInput(t Theme, placeholder string) textinput.Model {
 	ti := textinput.New()
 	ti.Placeholder = placeholder
 	p := t.Palette
-	c := func(hex string) lipgloss.Color { return lipgloss.Color(hex) }
+	c := lipgloss.Color
 
 	ti.Prompt = "» "
-	ti.PromptStyle = lipgloss.NewStyle().Foreground(c(p.Accent)).Bold(true)
-	ti.TextStyle = lipgloss.NewStyle().Foreground(c(p.Text))
-	ti.PlaceholderStyle = lipgloss.NewStyle().Foreground(c(p.TextFaint))
-	ti.CursorStyle = lipgloss.NewStyle().Foreground(c(p.Accent))
+	styles := textinput.DefaultStyles(t.Mode == Roast)
+	styles.Focused.Prompt = lipgloss.NewStyle().Foreground(c(p.Accent)).Bold(true)
+	styles.Blurred.Prompt = styles.Focused.Prompt
+	styles.Focused.Text = lipgloss.NewStyle().Foreground(c(p.Text))
+	styles.Blurred.Text = styles.Focused.Text
+	styles.Focused.Placeholder = lipgloss.NewStyle().Foreground(c(p.TextFaint))
+	styles.Blurred.Placeholder = styles.Focused.Placeholder
+	styles.Cursor.Color = c(p.Accent)
+	ti.SetStyles(styles)
 	return ti
 }
 
@@ -153,7 +159,7 @@ func Spinner(t Theme) spinner.Model {
 func Help(t Theme) help.Model {
 	h := help.New()
 	p := t.Palette
-	c := func(hex string) lipgloss.Color { return lipgloss.Color(hex) }
+	c := lipgloss.Color
 
 	h.Styles.ShortKey = lipgloss.NewStyle().Foreground(c(p.TextHeading)).Bold(true)
 	h.Styles.ShortDesc = lipgloss.NewStyle().Foreground(c(p.TextMuted))
