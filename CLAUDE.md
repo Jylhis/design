@@ -12,9 +12,10 @@ A personal design system for jylhis.com. Warm cream paper, single copper accent,
 bun scripts/generate.mjs          # regenerate all 20 platform targets from tokens.json
 bun scripts/generate.mjs --check  # exit 1 if committed files diverge from tokens.json (CI mode)
 bun scripts/validate-tokens.mjs   # validate tokens.json schema + WCAG contrast + CSS var() resolution
+serve-pages                       # build the GitHub Pages artifact, serve _site locally, rebuild on changes
 ```
 
-Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and two convenience scripts: `generate` and `validate-tokens`.
+Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and three convenience scripts: `generate`, `validate-tokens`, and `serve-pages`.
 
 CI (`.github/workflows/validate.yml`) runs `generate.mjs --check` and `validate-tokens.mjs` on every push/PR — so any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
 

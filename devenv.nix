@@ -4,7 +4,7 @@
   # https://devenv.sh/basics/
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git pkgs.bun ];
+  packages = [ pkgs.git pkgs.bun pkgs.python3 ];
 
   # https://devenv.sh/languages/
   # languages.rust.enable = true;
@@ -16,6 +16,7 @@
   # the naming convention, and that contrast ratios meet the AAA/AA claims.
   scripts.validate-tokens.exec = "bun scripts/validate-tokens.mjs";
   scripts.generate.exec = "bun scripts/generate.mjs";
+  scripts.serve-pages.exec = "bash scripts/serve-pages.sh";
 
   # https://devenv.sh/processes/
   # processes.dev.exec = "${lib.getExe pkgs.watchexec} -n -- ls -la";

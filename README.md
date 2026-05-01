@@ -113,6 +113,7 @@ ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 bun scripts/generate.mjs          # regenerate all 16 targets from tokens.json
 bun scripts/generate.mjs --check  # verify committed files match (CI mode)
 bun scripts/validate-tokens.mjs   # schema + contrast validation
+serve-pages                       # build the GitHub Pages artifact, serve _site locally, rebuild on changes
 ```
 
 Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md).
