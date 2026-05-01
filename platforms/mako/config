@@ -48,7 +48,7 @@ default-timeout=0
 
 # Specific app rules
 [app-name=Emacs]
-border-color=#b6a0ff          # Modus magenta-cooler (syn-keyword)
+border-color=#c8a5ff          # Modus magenta-cooler (syn-keyword)
 
 [category=mpd]
 border-color=#44bc44          # Modus green (status-ok)

@@ -9,12 +9,14 @@ A personal design system for jylhis.com. Warm cream paper, single copper accent,
 ## Commands
 
 ```bash
-bun scripts/generate.mjs          # regenerate all 16 platform targets from tokens.json
+bun scripts/generate.mjs          # regenerate all 20 platform targets from tokens.json
 bun scripts/generate.mjs --check  # exit 1 if committed files diverge from tokens.json (CI mode)
 bun scripts/validate-tokens.mjs   # validate tokens.json schema + WCAG contrast + CSS var() resolution
 ```
 
 Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and two convenience scripts: `generate` and `validate-tokens`.
+
+CI (`.github/workflows/validate.yml`) runs `generate.mjs --check` and `validate-tokens.mjs` on every push/PR — so any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
 
 ## Architecture
 
@@ -68,7 +70,7 @@ Static HTML at `index.html`, deployed via GitHub Pages. Color swatches render dy
 1. Edit `tokens.json`
 2. Run `bun scripts/generate.mjs`
 3. Verify with `bun scripts/validate-tokens.mjs`
-4. All 18 generated files update automatically
+4. All 20 generated files update automatically
 
 ## Thematic groups
 

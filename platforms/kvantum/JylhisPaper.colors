@@ -25,7 +25,7 @@
   <color role="Highlight">#9a5a2a</color>
   <color role="HighlightedText">#faf7f2</color>
   <color role="Link">#9a5a2a</color>
-  <color role="LinkVisited">#3548cf</color><!-- Modus blue-warmer -->
+  <color role="LinkVisited">#1f4d8a</color><!-- Modus blue-warmer -->
 
   <color role="ToolTipBase">#fefdfb</color>
   <color role="ToolTipText">#2c2825</color>

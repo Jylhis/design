@@ -21,15 +21,15 @@ Columns: 4
 176 168 152	border-strong
 196 186 168	decorator
 # Modus
- 83  26 182	syn-keyword
-  0   0 176	syn-string
- 53  72 207	syn-number
-114  16  69	syn-function
-143   0 117	syn-builtin
-  0  95  95	syn-type
-  0  94 139	syn-variable
-127  16  16	syn-comment
- 42  80  69	syn-docstring
+ 74  45 128	syn-keyword
+ 61  90  31	syn-string
+ 31  77 138	syn-number
+138  35  72	syn-function
+111  31 106	syn-builtin
+ 19  74  74	syn-type
+ 42  74 106	syn-variable
+126 108  77	syn-comment
+ 42  90  58	syn-docstring
 # Signal
 166   0   0	status-err
 111  85   0	status-warn

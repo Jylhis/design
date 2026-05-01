@@ -83,7 +83,7 @@ window#waybar {
 }
 
 /* Custom modules — match syntax family */
-#custom-nix       { color: #6ae4b9; }     /* Modus cyan-cooler — syn-type */
+#custom-nix       { color: #80c8b3; }     /* Modus cyan-cooler — syn-type */
 #custom-notifications.dnd { color: #6b6157; }
 
 /* Focus ring — when waybar modules are navigated via keyboard */

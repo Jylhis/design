@@ -30,7 +30,7 @@
 ;;; Code:
 
 (deftheme jylhis-paper
-  "Jylhis — light theme. Copper accent on warm paper, Modus Operandi syntax.")
+  "Jylhis — light theme. Copper accent on warm paper, Modus-derived syntax tuned for paper.")
 
 (let ((class '((class color) (min-colors 256)))
 
@@ -51,17 +51,17 @@
       (border-strong "#b0a898")
       (decorator     "#c4baa8")
 
-      ;; ── Syntax / semantic — Modus Operandi (tokens.json) ──
-      (syn-keyword   "#531ab6") ; magenta-cooler
-      (syn-string    "#0000b0") ; blue-cooler
-      (syn-number    "#3548cf") ; blue-warmer  (constants/numbers)
-      (syn-function  "#721045") ; magenta
-      (syn-builtin   "#8f0075") ; magenta-warmer
-      (syn-type      "#005f5f") ; cyan-cooler
-      (syn-variable  "#005e8b") ; cyan
-      (syn-tag       "#005f5f") ; cyan-cooler (alias of type)
-      (syn-comment   "#7f1010") ; red-faint
-      (syn-docstring "#2a5045") ; green-faint
+      ;; ── Syntax / semantic — Modus role taxonomy, tuned for paper (tokens.json) ──
+      (syn-keyword   "#4a2d80") ; from magenta-cooler
+      (syn-string    "#3d5a1f") ; from blue-cooler
+      (syn-number    "#1f4d8a") ; from blue-warmer (constants/numbers)
+      (syn-function  "#8a2348") ; from magenta
+      (syn-builtin   "#6f1f6a") ; from magenta-warmer
+      (syn-type      "#134a4a") ; from cyan-cooler
+      (syn-variable  "#2a4a6a") ; from cyan
+      (syn-tag       "#134a4a") ; alias of type
+      (syn-comment   "#7e6c4d") ; from red-faint
+      (syn-docstring "#2a5a3a") ; from green-faint
       ;; Semantic status — Modus red/yellow/green/blue accents
       (err  "#a60000")
       (warn "#6f5500")

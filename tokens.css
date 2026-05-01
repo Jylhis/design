@@ -29,16 +29,16 @@
   --color-code-text: #2c2825;
   --color-code-border: #d5cec4;
   /* Syntax */
-  --color-syntax-keyword: #531ab6;
-  --color-syntax-string: #0000b0;
-  --color-syntax-number: #3548cf;
-  --color-syntax-function: #721045;
-  --color-syntax-builtin: #8f0075;
-  --color-syntax-type: #005f5f;
-  --color-syntax-variable: #005e8b;
-  --color-syntax-comment: #7f1010;
-  --color-syntax-docstring: #2a5045;
-  --color-syntax-tag: #005f5f;
+  --color-syntax-keyword: #4a2d80;
+  --color-syntax-string: #3d5a1f;
+  --color-syntax-number: #1f4d8a;
+  --color-syntax-function: #8a2348;
+  --color-syntax-builtin: #6f1f6a;
+  --color-syntax-type: #134a4a;
+  --color-syntax-variable: #2a4a6a;
+  --color-syntax-comment: #7e6c4d;
+  --color-syntax-docstring: #2a5a3a;
+  --color-syntax-tag: #134a4a;
   /* Status */
   --color-status-err: #a60000;
   --color-status-warn: #6f5500;
@@ -96,16 +96,16 @@
   --color-code-text: #c8bca8;
   --color-code-border: #3d3830;
   /* Syntax */
-  --color-syntax-keyword: #b6a0ff;
-  --color-syntax-string: #79a8ff;
-  --color-syntax-number: #00bcff;
-  --color-syntax-function: #feacd0;
-  --color-syntax-builtin: #f78fe7;
-  --color-syntax-type: #6ae4b9;
-  --color-syntax-variable: #2fafff;
-  --color-syntax-comment: #ff9f80;
-  --color-syntax-docstring: #88c0a1;
-  --color-syntax-tag: #6ae4b9;
+  --color-syntax-keyword: #c8a5ff;
+  --color-syntax-string: #b3c785;
+  --color-syntax-number: #a8b4dc;
+  --color-syntax-function: #f0a8c3;
+  --color-syntax-builtin: #e3a0d8;
+  --color-syntax-type: #80c8b3;
+  --color-syntax-variable: #95b3cc;
+  --color-syntax-comment: #9c8c6e;
+  --color-syntax-docstring: #9bbf9b;
+  --color-syntax-tag: #80c8b3;
   /* Status */
   --color-status-err: #ff5f59;
   --color-status-warn: #d0bc00;

@@ -63,8 +63,8 @@ var paper = Palette{
 	Text: "#2c2825", TextMuted: "#6b5f54", TextHeading: "#1e1b18", TextFaint: "#8a7f72",
 	Accent: "#9a5a2a", AccentHover: "#7a4622", Brand: "#b5703c",
 	Border: "#d5cec4", BorderStrong: "#b0a898", Decorator: "#c4baa8",
-	SynKeyword: "#531ab6", SynString: "#0000b0", SynNumber: "#3548cf", SynFunction: "#721045", SynBuiltin: "#8f0075", SynType: "#005f5f", SynVariable: "#005e8b", SynComment: "#7f1010", SynDocstring: "#2a5045",
-	SynTag: "#005f5f",
+	SynKeyword: "#4a2d80", SynString: "#3d5a1f", SynNumber: "#1f4d8a", SynFunction: "#8a2348", SynBuiltin: "#6f1f6a", SynType: "#134a4a", SynVariable: "#2a4a6a", SynComment: "#7e6c4d", SynDocstring: "#2a5a3a",
+	SynTag: "#134a4a",
 	StatusErr: "#a60000", StatusWarn: "#6f5500", StatusOk: "#006800", StatusInfo: "#0031a9",
 	ANSI: [16]string{
 		"#2c2825", "#a60000", "#006800", "#6f5500", "#0031a9", "#721045", "#005f5f", "#e8e1d6",
@@ -77,8 +77,8 @@ var roast = Palette{
 	Text: "#e8e0d4", TextMuted: "#b0a496", TextHeading: "#f0eae0", TextFaint: "#8a7f72",
 	Accent: "#e89b5e", AccentHover: "#f5b07a", Brand: "#d4884a",
 	Border: "#3d3830", BorderStrong: "#5a5248", Decorator: "#4a4338",
-	SynKeyword: "#b6a0ff", SynString: "#79a8ff", SynNumber: "#00bcff", SynFunction: "#feacd0", SynBuiltin: "#f78fe7", SynType: "#6ae4b9", SynVariable: "#2fafff", SynComment: "#ff9f80", SynDocstring: "#88c0a1",
-	SynTag: "#6ae4b9",
+	SynKeyword: "#c8a5ff", SynString: "#b3c785", SynNumber: "#a8b4dc", SynFunction: "#f0a8c3", SynBuiltin: "#e3a0d8", SynType: "#80c8b3", SynVariable: "#95b3cc", SynComment: "#9c8c6e", SynDocstring: "#9bbf9b",
+	SynTag: "#80c8b3",
 	StatusErr: "#ff5f59", StatusWarn: "#d0bc00", StatusOk: "#44bc44", StatusInfo: "#2fafff",
 	ANSI: [16]string{
 		"#1a1714", "#ff5f59", "#44bc44", "#d0bc00", "#2fafff", "#feacd0", "#6ae4b9", "#e8e0d4",

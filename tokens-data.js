@@ -48,7 +48,7 @@ export const tokens = {
     },
     "modus": {
       "label": "Modus",
-      "blurb": "Operandi (light) and Vivendi (dark) syntax colors, imported verbatim from Protesilaos",
+      "blurb": "Modus role taxonomy — keyword, string, type, comment — with hex values hue-tuned for warm paper and dark roast (not the upstream Modus values)",
       "members": [
         "syn-keyword",
         "syn-string",
@@ -164,49 +164,49 @@ export const tokens = {
   },
   "syntax": {
     "syn-keyword": {
-      "light": "#531ab6",
-      "dark": "#b6a0ff",
-      "modus": "magenta-cooler"
+      "light": "#4a2d80",
+      "dark": "#c8a5ff",
+      "modus": "from magenta-cooler — warmed indigo"
     },
     "syn-string": {
-      "light": "#0000b0",
-      "dark": "#79a8ff",
-      "modus": "blue-cooler / blue-warmer"
+      "light": "#3d5a1f",
+      "dark": "#b3c785",
+      "modus": "from blue-cooler — olive/sage"
     },
     "syn-number": {
-      "light": "#3548cf",
-      "dark": "#00bcff",
-      "modus": "blue-warmer / blue-cooler"
+      "light": "#1f4d8a",
+      "dark": "#a8b4dc",
+      "modus": "from blue-warmer — muted indigo"
     },
     "syn-function": {
-      "light": "#721045",
-      "dark": "#feacd0",
-      "modus": "magenta"
+      "light": "#8a2348",
+      "dark": "#f0a8c3",
+      "modus": "from magenta — rose-wine"
     },
     "syn-builtin": {
-      "light": "#8f0075",
-      "dark": "#f78fe7",
-      "modus": "magenta-warmer"
+      "light": "#6f1f6a",
+      "dark": "#e3a0d8",
+      "modus": "from magenta-warmer — deep magenta"
     },
     "syn-type": {
-      "light": "#005f5f",
-      "dark": "#6ae4b9",
-      "modus": "cyan-cooler"
+      "light": "#134a4a",
+      "dark": "#80c8b3",
+      "modus": "from cyan-cooler — desaturated teal"
     },
     "syn-variable": {
-      "light": "#005e8b",
-      "dark": "#2fafff",
-      "modus": "cyan"
+      "light": "#2a4a6a",
+      "dark": "#95b3cc",
+      "modus": "from cyan — slate-blue"
     },
     "syn-comment": {
-      "light": "#7f1010",
-      "dark": "#ff9f80",
-      "modus": "red-faint"
+      "light": "#7e6c4d",
+      "dark": "#9c8c6e",
+      "modus": "from red-faint — warm tan (italic)"
     },
     "syn-docstring": {
-      "light": "#2a5045",
-      "dark": "#88c0a1",
-      "modus": "green-faint"
+      "light": "#2a5a3a",
+      "dark": "#9bbf9b",
+      "modus": "from green-faint — moss/sage"
     }
   },
   "status": {
@@ -248,7 +248,7 @@ export const tokens = {
       "name": "green",
       "light": "#006800",
       "dark": "#44bc44",
-      "role": "Modus green — ok / syn-docstring"
+      "role": "Modus green — ok"
     },
     {
       "name": "yellow",
@@ -260,19 +260,19 @@ export const tokens = {
       "name": "blue",
       "light": "#0031a9",
       "dark": "#2fafff",
-      "role": "Modus blue — info / syn-variable"
+      "role": "Modus blue — info"
     },
     {
       "name": "magenta",
       "light": "#721045",
       "dark": "#feacd0",
-      "role": "Modus magenta — syn-function"
+      "role": "Modus magenta"
     },
     {
       "name": "cyan",
       "light": "#005f5f",
       "dark": "#6ae4b9",
-      "role": "Modus cyan-cooler — syn-type/tag"
+      "role": "Modus cyan-cooler"
     },
     {
       "name": "white",
@@ -307,19 +307,19 @@ export const tokens = {
       "name": "bright-blue",
       "light": "#3548cf",
       "dark": "#79a8ff",
-      "role": "blue-warmer — syn-number/constant"
+      "role": "Modus blue-warmer"
     },
     {
       "name": "bright-magenta",
       "light": "#531ab6",
       "dark": "#b6a0ff",
-      "role": "magenta-cooler — syn-keyword"
+      "role": "Modus magenta-cooler"
     },
     {
       "name": "bright-cyan",
       "light": "#005e8b",
       "dark": "#00d3d0",
-      "role": "cyan — syn-variable"
+      "role": "Modus cyan"
     },
     {
       "name": "bright-white",
@@ -483,6 +483,132 @@ export const tokens = {
       "mode": "dark",
       "min": 7,
       "label": "AAA accent on dark"
+    },
+    {
+      "fg": "syn-keyword",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7,
+      "label": "AAA syn-keyword (light)"
+    },
+    {
+      "fg": "syn-keyword",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7,
+      "label": "AAA syn-keyword (dark)"
+    },
+    {
+      "fg": "syn-string",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7,
+      "label": "AAA syn-string (light)"
+    },
+    {
+      "fg": "syn-string",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7,
+      "label": "AAA syn-string (dark)"
+    },
+    {
+      "fg": "syn-function",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7,
+      "label": "AAA syn-function (light)"
+    },
+    {
+      "fg": "syn-function",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7,
+      "label": "AAA syn-function (dark)"
+    },
+    {
+      "fg": "syn-type",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7,
+      "label": "AAA syn-type (light)"
+    },
+    {
+      "fg": "syn-type",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7,
+      "label": "AAA syn-type (dark)"
+    },
+    {
+      "fg": "syn-number",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5,
+      "label": "AA syn-number (light)"
+    },
+    {
+      "fg": "syn-number",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5,
+      "label": "AA syn-number (dark)"
+    },
+    {
+      "fg": "syn-builtin",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5,
+      "label": "AA syn-builtin (light)"
+    },
+    {
+      "fg": "syn-builtin",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5,
+      "label": "AA syn-builtin (dark)"
+    },
+    {
+      "fg": "syn-variable",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5,
+      "label": "AA syn-variable (light)"
+    },
+    {
+      "fg": "syn-variable",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5,
+      "label": "AA syn-variable (dark)"
+    },
+    {
+      "fg": "syn-comment",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5,
+      "label": "AA syn-comment (light)"
+    },
+    {
+      "fg": "syn-comment",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5,
+      "label": "AA syn-comment (dark)"
+    },
+    {
+      "fg": "syn-docstring",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5,
+      "label": "AA syn-docstring (light)"
+    },
+    {
+      "fg": "syn-docstring",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5,
+      "label": "AA syn-docstring (dark)"
     }
   ],
   "contrastPairs": [

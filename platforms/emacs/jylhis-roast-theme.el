@@ -30,7 +30,7 @@
 ;;; Code:
 
 (deftheme jylhis-roast
-  "Jylhis — dark theme. Copper accent on warm roast, Modus Vivendi syntax.")
+  "Jylhis — dark theme. Copper accent on warm roast, Modus-derived syntax tuned for roast.")
 
 (let ((class '((class color) (min-colors 256)))
 
@@ -51,17 +51,17 @@
       (border-strong "#5a5248")
       (decorator     "#4a4338")
 
-      ;; ── Syntax / semantic — Modus Vivendi (tokens.json) ──
-      (syn-keyword   "#b6a0ff") ; magenta-cooler
-      (syn-string    "#79a8ff") ; blue-cooler
-      (syn-number    "#00bcff") ; blue-warmer  (constants/numbers)
-      (syn-function  "#feacd0") ; magenta
-      (syn-builtin   "#f78fe7") ; magenta-warmer
-      (syn-type      "#6ae4b9") ; cyan-cooler
-      (syn-variable  "#2fafff") ; cyan
-      (syn-tag       "#6ae4b9") ; cyan-cooler (alias of type)
-      (syn-comment   "#ff9f80") ; red-faint
-      (syn-docstring "#88c0a1") ; green-faint
+      ;; ── Syntax / semantic — Modus role taxonomy, tuned for roast (tokens.json) ──
+      (syn-keyword   "#c8a5ff") ; from magenta-cooler
+      (syn-string    "#b3c785") ; from blue-cooler
+      (syn-number    "#a8b4dc") ; from blue-warmer (constants/numbers)
+      (syn-function  "#f0a8c3") ; from magenta
+      (syn-builtin   "#e3a0d8") ; from magenta-warmer
+      (syn-type      "#80c8b3") ; from cyan-cooler
+      (syn-variable  "#95b3cc") ; from cyan
+      (syn-tag       "#80c8b3") ; alias of type
+      (syn-comment   "#9c8c6e") ; from red-faint
+      (syn-docstring "#9bbf9b") ; from green-faint
       ;; Semantic status — Modus red/yellow/green/blue accents
       (err  "#ff5f59")
       (warn "#d0bc00")

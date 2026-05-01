@@ -34,13 +34,14 @@
   --color-code-text: #2c2825;
   --color-code-border: #d5cec4;
 
-  /* Syntax highlighting */
-  --color-syntax-keyword: #8b5a3c;
-  --color-syntax-string: #6b7f3a;
-  --color-syntax-comment: #9a9080;
-  --color-syntax-number: #7b6b8a;
-  --color-syntax-function: #a0623c;
-  --color-syntax-tag: #5a7a8a;
+  /* Syntax highlighting — mirrored from tokens.json#syntax (Modus role taxonomy, paper-tuned).
+     Snapshot of the canonical design-system values; update this block when tokens.json changes. */
+  --color-syntax-keyword: #4a2d80;
+  --color-syntax-string: #3d5a1f;
+  --color-syntax-comment: #7e6c4d;
+  --color-syntax-number: #1f4d8a;
+  --color-syntax-function: #8a2348;
+  --color-syntax-tag: #134a4a;
 
   /* Spacing (4px grid) */
   --space-xs: 0.25rem; /*  4px */
@@ -88,12 +89,13 @@
   --color-code-text: #c8bca8;
   --color-code-border: #3d3830;
 
-  --color-syntax-keyword: #e8a070;
-  --color-syntax-string: #7daf68;
-  --color-syntax-comment: #6b6157;
-  --color-syntax-number: #a090c0;
-  --color-syntax-function: #c8885a;
-  --color-syntax-tag: #7aaaba;
+  /* Syntax highlighting — mirrored from tokens.json#syntax (dark / roast). */
+  --color-syntax-keyword: #c8a5ff;
+  --color-syntax-string: #b3c785;
+  --color-syntax-comment: #9c8c6e;
+  --color-syntax-number: #a8b4dc;
+  --color-syntax-function: #f0a8c3;
+  --color-syntax-tag: #80c8b3;
 }
 
 /* ── Minimal reset ──────────────────────────────────────── */

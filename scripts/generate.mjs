@@ -463,8 +463,8 @@ function generateEmacs(mode) {
   const themeName = mode === "light" ? "jylhis-paper" : "jylhis-roast";
   const label = mode === "light" ? "light" : "dark";
   const desc = mode === "light"
-    ? "Jylhis \u2014 light theme. Copper accent on warm paper, Modus Operandi syntax."
-    : "Jylhis \u2014 dark theme. Copper accent on warm roast, Modus Vivendi syntax.";
+    ? "Jylhis \u2014 light theme. Copper accent on warm paper, Modus-derived syntax tuned for paper."
+    : "Jylhis \u2014 dark theme. Copper accent on warm roast, Modus-derived syntax tuned for roast.";
   const commentary = mode === "light"
     ? 'Light "paper" variant'
     : 'Dark "roast" variant';
@@ -538,17 +538,17 @@ function generateEmacs(mode) {
       (border-strong "${c("border-strong")}")
       (decorator     "${c("decorator")}")
 
-      ;; \u2500\u2500 Syntax / semantic \u2014 Modus ${modus} (tokens.json) \u2500\u2500
-      (syn-keyword   "${tokens.syntax["syn-keyword"][mode]}") ; magenta-cooler
-      (syn-string    "${tokens.syntax["syn-string"][mode]}") ; blue-cooler
-      (syn-number    "${tokens.syntax["syn-number"][mode]}") ; blue-warmer  (constants/numbers)
-      (syn-function  "${tokens.syntax["syn-function"][mode]}") ; magenta
-      (syn-builtin   "${tokens.syntax["syn-builtin"][mode]}") ; magenta-warmer
-      (syn-type      "${tokens.syntax["syn-type"][mode]}") ; cyan-cooler
-      (syn-variable  "${tokens.syntax["syn-variable"][mode]}") ; cyan
-      (syn-tag       "${tokens.syntax["syn-type"][mode]}") ; cyan-cooler (alias of type)
-      (syn-comment   "${tokens.syntax["syn-comment"][mode]}") ; red-faint
-      (syn-docstring "${tokens.syntax["syn-docstring"][mode]}") ; green-faint
+      ;; \u2500\u2500 Syntax / semantic \u2014 Modus role taxonomy, tuned for ${mode === "light" ? "paper" : "roast"} (tokens.json) \u2500\u2500
+      (syn-keyword   "${tokens.syntax["syn-keyword"][mode]}") ; from magenta-cooler
+      (syn-string    "${tokens.syntax["syn-string"][mode]}") ; from blue-cooler
+      (syn-number    "${tokens.syntax["syn-number"][mode]}") ; from blue-warmer (constants/numbers)
+      (syn-function  "${tokens.syntax["syn-function"][mode]}") ; from magenta
+      (syn-builtin   "${tokens.syntax["syn-builtin"][mode]}") ; from magenta-warmer
+      (syn-type      "${tokens.syntax["syn-type"][mode]}") ; from cyan-cooler
+      (syn-variable  "${tokens.syntax["syn-variable"][mode]}") ; from cyan
+      (syn-tag       "${tokens.syntax["syn-type"][mode]}") ; alias of type
+      (syn-comment   "${tokens.syntax["syn-comment"][mode]}") ; from red-faint
+      (syn-docstring "${tokens.syntax["syn-docstring"][mode]}") ; from green-faint
       ;; Semantic status \u2014 Modus red/yellow/green/blue accents
       (err  "${tokens.status["status-err"][mode]}")
       (warn "${tokens.status["status-warn"][mode]}")
