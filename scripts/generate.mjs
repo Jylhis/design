@@ -604,6 +604,20 @@ function generateEmacs(mode) {
    \`(mode-line-emphasis  ((,class :foreground ,accent :weight bold)))
    \`(mode-line-buffer-id ((,class :foreground ,fg-heading :weight bold)))
 
+   ;; doom-modeline
+   \`(doom-modeline-bar              ((,class :background ,accent)))
+   \`(doom-modeline-bar-inactive     ((,class :background ,surface)))
+   \`(doom-modeline-buffer-file      ((,class :foreground ,fg-heading :weight bold)))
+   \`(doom-modeline-buffer-modified  ((,class :foreground ,warn :weight bold)))
+   \`(doom-modeline-buffer-major-mode ((,class :foreground ,syn-tag :weight bold)))
+   \`(doom-modeline-project-dir      ((,class :foreground ,fg-muted)))
+   \`(doom-modeline-info             ((,class :foreground ,ok)))
+   \`(doom-modeline-warning          ((,class :foreground ,warn)))
+   \`(doom-modeline-urgent           ((,class :foreground ,err)))
+   \`(doom-modeline-lsp-success      ((,class :foreground ,ok)))
+   \`(doom-modeline-lsp-warning      ((,class :foreground ,warn)))
+   \`(doom-modeline-lsp-error        ((,class :foreground ,err)))
+
    ;; Header-line = the "second toolbar". Kept quiet.
    \`(header-line          ((,class :background ,bg-subtle :foreground ,fg-muted
                                    :box (:line-width 3 :color ,bg-subtle))))
@@ -880,7 +894,13 @@ ${ansiBlock}
 
    ;; tab-line / centaur-tabs
    \`(tab-line-tab-current      ((,class :background ,surface :foreground ,accent :weight bold)))
-   \`(tab-line-tab              ((,class :background ,bg-subtle :foreground ,fg-muted)))))
+   \`(tab-line-tab              ((,class :background ,bg-subtle :foreground ,fg-muted)))
+
+   ;; hl-todo
+   \`(hl-todo                   ((,class :foreground ,warn :weight bold)))
+
+   ;; indent-bars
+   \`(indent-bars-face          ((,class :foreground ,fg-faint)))))
 
 (custom-theme-set-variables
  '${themeName}

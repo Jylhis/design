@@ -22,10 +22,22 @@ Drop the directory on `custom-theme-load-path` and load one of the themes:
 ;; (load-theme 'jylhis-roast t)      ; dark
 ```
 
-Optional toggle (`C-c T` by default):
+Or use the `jylhis-themes` feature file to register the path automatically:
 
 ```elisp
-(load-file "~/path/to/design/platforms/emacs/jylhis-theme-toggle.el")
+(require 'jylhis-themes)
+(load-theme 'jylhis-paper t)
+```
+
+### Toggle
+
+`jylhis-theme-toggle.el` provides `M-x jylhis-toggle-theme` for manual light/dark switching. If you use `auto-dark` to follow system appearance, you do not need the toggle -- configure auto-dark directly:
+
+```elisp
+(require 'jylhis-themes)
+(setq auto-dark-light-theme 'jylhis-paper
+      auto-dark-dark-theme  'jylhis-roast)
+(auto-dark-mode 1)
 ```
 
 ## Nix
@@ -39,6 +51,8 @@ programs.emacs.extraPackages = epkgs: [
 ```
 
 See [`../../nix/emacs.nix`](../../nix/emacs.nix).
+
+Nix's `trivialBuild` does not process `###autoload` cookies into an autoloads file. This means Emacs's `load-theme` will not find the themes on `custom-theme-load-path` automatically. Add `(require 'jylhis-themes)` to your init file before calling `load-theme` -- this registers the theme directory at require time.
 
 ## What you get
 

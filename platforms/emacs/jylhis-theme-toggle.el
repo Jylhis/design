@@ -3,6 +3,11 @@
 ;;; Commentary:
 ;;  Minimal toggle helper. Binds to M-x jylhis-toggle-theme.
 ;;  Pairs with platforms/hyprland/jylhis.conf bind: SUPER+SHIFT+T.
+;;
+;;  If you use auto-dark to follow system appearance, you do not need
+;;  this file.  Configure auto-dark-light-theme / auto-dark-dark-theme
+;;  instead (see jylhis-themes.el for an example).  This toggle helper
+;;  is for consumers who want a manual keybinding to switch themes.
 
 ;;; Code:
 
