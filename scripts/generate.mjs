@@ -907,7 +907,15 @@ ${ansiBlock}
  '(ansi-color-names-vector
    ${ansiVectorStr})
  '(ansi-color-faces-vector
-   [default default default italic underline success warning error]))
+   [default default default italic underline success warning error])
+ '(hl-todo-keyword-faces
+   '(("FIXME"      . "${tokens.status["status-err"][mode]}")
+     ("BUG"        . "${tokens.status["status-err"][mode]}")
+     ("TODO"       . "${tokens.status["status-warn"][mode]}")
+     ("HACK"       . "${tokens.status["status-warn"][mode]}")
+     ("NOTE"       . "${tokens.status["status-info"][mode]}")
+     ("REVIEW"     . "${tokens.status["status-info"][mode]}")
+     ("DEPRECATED" . "${c("text-faint")}"))))
 
 (provide-theme '${themeName})
 

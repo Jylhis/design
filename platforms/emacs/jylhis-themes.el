@@ -24,6 +24,13 @@
 ;;          auto-dark-dark-theme  'jylhis-roast)
 ;;    (auto-dark-mode 1)
 ;;
+;;  Batch mode: `emacs --batch' does not run site-start.el, so
+;;  custom-theme-load-path is not populated by the Nix wrapper.
+;;  Guard top-level load-theme calls in init files that are
+;;  byte-compiled:
+;;    (unless noninteractive
+;;      (load-theme 'jylhis-paper t))
+;;
 ;;; Code:
 
 ;;;###autoload

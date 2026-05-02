@@ -54,6 +54,17 @@ See [`../../nix/emacs.nix`](../../nix/emacs.nix).
 
 Nix's `trivialBuild` does not process `###autoload` cookies into an autoloads file. This means Emacs's `load-theme` will not find the themes on `custom-theme-load-path` automatically. Add `(require 'jylhis-themes)` to your init file before calling `load-theme` -- this registers the theme directory at require time.
 
+### Batch mode / byte-compilation
+
+When Emacs starts in batch mode (`emacs --batch`), `site-start.el` does not run, so `custom-theme-load-path` is not populated by the Nix wrapper. A top-level `(load-theme ...)` in your init will error during byte-compilation or CI linting. Guard the call:
+
+```elisp
+(unless noninteractive
+  (load-theme 'jylhis-paper t))
+```
+
+This affects any Nix-packaged theme, not just Jylhis.
+
 ## What you get
 
 - Modus Operandi (light) and Vivendi (dark) syntax palettes verbatim, so this theme is byte-compatible with `modus-operandi` / `modus-vivendi` for code rendering.

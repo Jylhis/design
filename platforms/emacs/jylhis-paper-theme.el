@@ -436,7 +436,15 @@
    ["#2c2825" "#a60000" "#006800" "#6f5500"
     "#0031a9" "#721045" "#005f5f" "#e8e1d6"])
  '(ansi-color-faces-vector
-   [default default default italic underline success warning error]))
+   [default default default italic underline success warning error])
+ '(hl-todo-keyword-faces
+   '(("FIXME"      . "#a60000")
+     ("BUG"        . "#a60000")
+     ("TODO"       . "#6f5500")
+     ("HACK"       . "#6f5500")
+     ("NOTE"       . "#0031a9")
+     ("REVIEW"     . "#0031a9")
+     ("DEPRECATED" . "#8a7f72"))))
 
 (provide-theme 'jylhis-paper)
 
