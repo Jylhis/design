@@ -10,7 +10,7 @@
 //
 // Usage:
 //
-//	import "github.com/jylhis/design/charm/jylhis"
+//	import "github.com/jylhis/design/platforms/charm/jylhis"
 //
 //	t := jylhis.NewTheme(jylhis.Paper) // or jylhis.Roast
 //	fmt.Println(t.Title.Render("Notes"))

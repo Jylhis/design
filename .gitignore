@@ -3,6 +3,11 @@
 devenv.local.nix
 devenv.local.yaml
 
+# Generated local artifacts
+_site/
+result
+result-*
+
 # direnv
 .direnv
 

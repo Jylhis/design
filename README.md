@@ -13,7 +13,7 @@ The site is personal, technical, and deliberately paper‑like: warm cream backg
 5. **Modus syntax everywhere.** Code in Emacs, the web showcase, `bat`, `delta`, and Charm TUIs all render with the same Operandi/Vivendi colors. One source, one grammar.
 6. **Unicode is the icon set.** `›` `▸` `»` `└──` `☾` `☀` `★` `⑂`. No icon font, no SVG sprite, no emoji.
 7. **No shadow, no gradient, no glass.** Elevation is conveyed with 1px borders and background-color steps. Animation is color and translate only — no springs, no scale, no opacity tricks.
-8. **One source of truth.** Every color, spacing, motion, typography, and ANSI value lives in `tokens.json`. Sixteen platform targets are generated from it.
+8. **One source of truth.** Every color, spacing, motion, typography, and ANSI value lives in `tokens.json`. Platform targets are generated from it.
 
 ## Inspired by, different from
 
@@ -68,15 +68,15 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `tokens.md` | Generated human‑readable spec with markdown tables. |
 | `tokens-data.js` | Generated JS module for the showcase website. |
 | `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css`. |
-| `scripts/generate.mjs` | Reads `tokens.json`, writes 16 platform target files. |
+| `scripts/generate.mjs` | Reads `tokens.json`, writes generated platform target files. |
 | `scripts/validate-tokens.mjs` | Schema validation, contrast checks, CSS `var()` resolution. |
 | `nix/ghostty.nix` | Nix derivation: wraps Ghostty with Jylhis themes. |
 | `nix/emacs.nix` | Nix derivation: Emacs theme package via `trivialBuild`. |
 | `nix/themes.nix` | Nix derivation: all theme files as a single package. |
-| `platforms/` | Generated theme files for 10 targets. `shell/` and `KEYBOARD.md` are hand‑authored. |
+| `platforms/` | Generated theme files. `shell/` and `KEYBOARD.md` are hand‑authored. |
 | `platforms/charm/` | Go package (`jylhis`) for Charm TUIs — palette + pre-built lipgloss styles + themed bubbles + Bubble Tea light/dark detection. |
 | `docs/INTEGRATION.md` | How to consume the system from web, Go, terminal, Emacs, Wayland, Nix; how to add a new platform. |
-| `preview/` | 23 HTML specimen cards for the showcase. |
+| `preview/` | HTML specimen cards for the showcase. |
 | `prototypes/` | Desktop and tablet interactive prototypes. |
 | `ui_kits/website/` | React recreation of the Astro site. |
 | `source_styles/` | Verbatim copies of the real site's CSS for reference. |
@@ -110,7 +110,7 @@ ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 ### Development
 
 ```bash
-bun scripts/generate.mjs          # regenerate all 16 targets from tokens.json
+bun scripts/generate.mjs          # regenerate targets from tokens.json
 bun scripts/generate.mjs --check  # verify committed files match (CI mode)
 bun scripts/validate-tokens.mjs   # schema + contrast validation
 serve-pages                       # build the GitHub Pages artifact, serve _site locally, rebuild on changes

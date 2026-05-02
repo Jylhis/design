@@ -14,11 +14,27 @@
 
 { lib, stdenvNoCC }:
 
+let
+  root = ./..;
+  src = lib.cleanSourceWith {
+    src = root;
+    filter = path: type:
+      let
+        rel = lib.removePrefix ((toString root) + "/") (toString path);
+        first = builtins.head (lib.splitString "/" rel);
+      in
+        first != ".git"
+        && first != "_site"
+        && first != "result"
+        && !lib.hasPrefix ".devenv" first
+        && !lib.hasPrefix "result-" first;
+  };
+in
 stdenvNoCC.mkDerivation {
   pname = "jylhis-themes";
   version = "0.3.0";
 
-  src = ./..;
+  inherit src;
 
   dontBuild = true;
 

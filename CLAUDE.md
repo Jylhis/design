@@ -9,7 +9,7 @@ A personal design system for jylhis.com. Warm cream paper, single copper accent,
 ## Commands
 
 ```bash
-bun scripts/generate.mjs          # regenerate all 20 platform targets from tokens.json
+bun scripts/generate.mjs          # regenerate platform targets from tokens.json
 bun scripts/generate.mjs --check  # exit 1 if committed files diverge from tokens.json (CI mode)
 bun scripts/validate-tokens.mjs   # validate tokens.json schema + WCAG contrast + CSS var() resolution
 serve-pages                       # build the GitHub Pages artifact, serve _site locally, rebuild on changes
@@ -27,7 +27,7 @@ All colors, spacing, typography, motion, ANSI palette, and contrast requirements
 
 ### Generation pipeline: `scripts/generate.mjs`
 
-A single Bun script with zero dependencies reads `tokens.json` and writes 20 files:
+A single Bun script with zero dependencies reads `tokens.json` and writes generated files:
 
 | Generated file | What |
 |---|---|
@@ -35,7 +35,7 @@ A single Bun script with zero dependencies reads `tokens.json` and writes 20 fil
 | `tokens-data.js` | JS export for the showcase website (includes derived `contrastPairs` + `swatchContrast`) |
 | `platforms/ghostty/jylhis-{paper,roast}` | Ghostty color themes |
 | `platforms/charm/jylhis/palette.go` | Go lipgloss palette struct |
-| `platforms/emacs/jylhis-{paper,roast}-theme.el` | Emacs deftheme (430 lines each with face mappings) |
+| `platforms/emacs/jylhis-{paper,roast}-theme.el` | Emacs deftheme with face mappings |
 | `platforms/hyprland/jylhis-{paper,roast}.conf` | Hyprland border colors |
 | `platforms/rofi/jylhis-{paper,roast}.rasi` | Rofi command palette theme |
 | `platforms/gtk/gtk.css` | GTK 3/4 Adwaita overrides |
@@ -71,7 +71,7 @@ Static HTML at `index.html`, deployed via GitHub Pages. Color swatches render dy
 1. Edit `tokens.json`
 2. Run `bun scripts/generate.mjs`
 3. Verify with `bun scripts/validate-tokens.mjs`
-4. All 20 generated files update automatically
+4. Generated files update automatically
 
 ## Thematic groups
 

@@ -252,7 +252,7 @@ function generateGoPalette() {
 //
 // Usage:
 //
-//\timport "github.com/jylhis/design/charm/jylhis"
+//\timport "github.com/jylhis/design/platforms/charm/jylhis"
 //
 //\tt := jylhis.NewTheme(jylhis.Paper) // or jylhis.Roast
 //\tfmt.Println(t.Title.Render("Notes"))

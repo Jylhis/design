@@ -16,7 +16,7 @@ platforms/charm/
 ## Quick start
 
 ```go
-import "github.com/jylhis/design/charm/jylhis"
+import "github.com/jylhis/design/platforms/charm/jylhis"
 
 t := jylhis.NewTheme(jylhis.Paper) // or jylhis.Roast
 

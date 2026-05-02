@@ -1,4 +1,4 @@
-module github.com/jylhis/design/charm
+module github.com/jylhis/design/platforms/charm
 
 go 1.24.2
 

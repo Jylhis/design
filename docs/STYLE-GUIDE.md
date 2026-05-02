@@ -144,5 +144,3 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 1. Check whether an existing token covers it. Most of the time one does.
 2. If not, file an issue or a PR adding it to `tokens.json` first. Don't fork the value into a hex literal in your consumer code.
 3. Document why it can't be solved by an existing token. The bar to add a token is high — keeping the system small is the system's main value.
-
-See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for the full add-a-token / add-a-platform workflow.
