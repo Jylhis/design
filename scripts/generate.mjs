@@ -490,7 +490,7 @@ function generateEmacs(mode) {
 ;; GENERATED from tokens.json. Do not edit by hand.
 ;; Run: bun scripts/generate.mjs
 ;;
-;; Author:      Henrik Jylh\u00e4
+;; Author:      Markus Jylh\u00e4nkangas
 ;; Homepage:    https://jylhis.com
 ;; Keywords:    faces, theme
 ;; Package-Requires: ((emacs "28.1"))

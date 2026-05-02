@@ -3,7 +3,7 @@
 ;; GENERATED from tokens.json. Do not edit by hand.
 ;; Run: bun scripts/generate.mjs
 ;;
-;; Author:      Henrik Jylhä
+;; Author:      Markus Jylhänkangas
 ;; Homepage:    https://jylhis.com
 ;; Keywords:    faces, theme
 ;; Package-Requires: ((emacs "28.1"))

@@ -1,6 +1,6 @@
 ;;; jylhis-themes.el --- Register Jylhis themes -*- lexical-binding: t; -*-
 ;;
-;; Author:      Henrik Jylhä
+;; Author:      Markus Jylhänkangas
 ;; Homepage:    https://jylhis.com
 ;; Keywords:    faces, theme
 ;; Package-Requires: ((emacs "28.1"))
