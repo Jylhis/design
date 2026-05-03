@@ -84,6 +84,28 @@ stdenvNoCC.mkDerivation {
     mkdir -p $out/share/jylhis/kvantum
     cp platforms/kvantum/JylhisPaper.colors $out/share/jylhis/kvantum/
     cp platforms/kvantum/JylhisRoast.colors $out/share/jylhis/kvantum/
+
+    # Base16
+    mkdir -p $out/share/jylhis/base16
+    cp platforms/base16/jylhis-paper.yaml $out/share/jylhis/base16/
+    cp platforms/base16/jylhis-roast.yaml $out/share/jylhis/base16/
+
+    # Shell (fzf, starship)
+    mkdir -p $out/share/jylhis/shell
+    cp platforms/shell/fzf-paper.sh $out/share/jylhis/shell/
+    cp platforms/shell/fzf-roast.sh $out/share/jylhis/shell/
+    cp platforms/shell/starship.toml $out/share/jylhis/shell/
+
+    # bat/delta tmTheme
+    mkdir -p $out/share/jylhis/bat
+    cp platforms/bat/jylhis-paper.tmTheme $out/share/jylhis/bat/
+    cp platforms/bat/jylhis-roast.tmTheme $out/share/jylhis/bat/
+
+    # Waybar paper variant
+    cp platforms/waybar/style-paper.css $out/share/jylhis/waybar/
+
+    # Mako paper variant
+    cp platforms/mako/config-paper $out/share/jylhis/mako/
   '';
 
   meta = {

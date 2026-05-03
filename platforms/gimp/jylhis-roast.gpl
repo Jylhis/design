@@ -16,6 +16,9 @@ Columns: 4
 232 155  94	accent
 245 176 122	accent-hover
 212 136  74	brand
+ 46  37  32	accent-subtle
+ 74  58  40	selection-bg
+232 155  94	cursor
 # Linen
  61  56  48	border
  90  82  72	border-strong

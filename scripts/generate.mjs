@@ -8,7 +8,7 @@
 //   (default)  — write generated files in-place
 //   --check    — generate to temp dir, diff against committed files, exit 1 if different
 
-import { readFileSync, writeFileSync, mkdtempSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join } from "node:path";
@@ -176,17 +176,10 @@ function generateGhostty(mode) {
   lines.push("");
   lines.push(`background         = ${color("bg", mode)}`);
   lines.push(`foreground         = ${color("text", mode)}`);
-  lines.push(`cursor-color       = ${color("accent", mode)}`);
+  lines.push(`cursor-color       = ${color("cursor", mode)}`);
   lines.push(`cursor-text        = ${color("bg", mode)}`);
-
-  // Selection colors — derived from the palette
-  if (mode === "light") {
-    lines.push("selection-background = #e8d4b8");
-    lines.push("selection-foreground = #2c2825");
-  } else {
-    lines.push("selection-background = #4a3a28");
-    lines.push("selection-foreground = #e8e0d4");
-  }
+  lines.push(`selection-background = ${color("selection-bg", mode)}`);
+  lines.push(`selection-foreground = ${color("text", mode)}`);
 
   return lines.join("\n") + "\n";
 }
@@ -1271,14 +1264,16 @@ scrollbar slider:hover {
 // ─── 9. Waybar CSS ──────────────────────────────────────────────────
 // Waybar is hardcoded dark (roast) in the original. We generate it the same way.
 
-function generateWaybar() {
-  const dc = (role) => color(role, "dark");
-  const synType = tokens.syntax["syn-type"].dark;
+function generateWaybar(mode = "dark") {
+  const c = (role) => color(role, mode);
+  const synType = tokens.syntax["syn-type"][mode];
 
-  return `/* Jylhis Waybar — GENERATED from tokens.json. Do not edit by hand.
+  const label = mode === "light" ? "Paper" : "Roast";
+  const modus = mode === "light" ? "Operandi" : "Vivendi";
+
+  return `/* Jylhis Waybar ${label} — GENERATED from tokens.json. Do not edit by hand.
  * ~/.config/waybar/style.css
- * Paper background, copper accent, monospace. Top bar.
- * Swap bg/fg for roast mode with a simple sed or a second file.
+ * ${label} background, copper accent, monospace. Top bar.
  *
  * Tokens referenced: tokens.json palette, typography, density
  */
@@ -1294,9 +1289,9 @@ function generateWaybar() {
 }
 
 window#waybar {
-    background: ${dc("bg")};                 /* roast \u2014 swap to ${color("bg", "light")} for paper */
-    color:      ${dc("text")};                 /* or ${color("text", "light")} */
-    border-bottom: 1px solid ${dc("border")};    /* or ${color("border", "light")} */
+    background: ${c("bg")};                 
+    color:      ${c("text")};                 
+    border-bottom: 1px solid ${c("border")};    
 }
 
 /* \u2500\u2500 Modules \u2500\u2500 spacing is TUI-density: 1ch equivalent */
@@ -1317,55 +1312,55 @@ window#waybar {
 /* Workspaces \u2014 same selected-item language as platforms/KEYBOARD.md */
 #workspaces button {
     padding: 0 10px;
-    color: ${dc("text-muted")};                       /* text-muted */
+    color: ${c("text-muted")};                       /* text-muted */
     background: transparent;
     border-left: 3px solid transparent;
     border-radius: 0;
 }
 
 #workspaces button.active {
-    color: ${dc("accent")};                       /* accent */
-    background: ${dc("surface-raised")};                  /* accent-subtle equivalent */
-    border-left: 3px solid ${dc("accent")};       /* canonical selected marker */
+    color: ${c("accent")};                       /* accent */
+    background: ${c("accent-subtle")};           /* accent-subtle */
+    border-left: 3px solid ${c("accent")};       /* canonical selected marker */
 }
 
 #workspaces button:hover {
-    color: ${dc("accent")};
+    color: ${c("accent")};
     background: transparent;
-    box-shadow: inset 0 -2px 0 ${dc("accent")};
+    box-shadow: inset 0 -2px 0 ${c("accent")};
     text-shadow: none;
 }
 
 /* Clock \u2014 keeps the accent quiet */
 #clock {
-    color: ${dc("text")};
+    color: ${c("text")};
 }
 
 /* Battery with semantic states \u2014 Modus Vivendi accents */
-#battery.warning { color: ${tokens.status["status-warn"].dark}; }      /* status-warn (Modus yellow) */
-#battery.critical { color: ${tokens.status["status-err"].dark}; }     /* status-err  (Modus red)    */
-#battery.charging { color: ${tokens.status["status-ok"].dark}; }     /* status-ok   (Modus green)  */
+#battery.warning { color: ${tokens.status["status-warn"][mode]}; }      /* status-warn (Modus yellow) */
+#battery.critical { color: ${tokens.status["status-err"][mode]}; }     /* status-err  (Modus red)    */
+#battery.charging { color: ${tokens.status["status-ok"][mode]}; }     /* status-ok   (Modus green)  */
 
 /* Network / audio */
 #network.disconnected,
 #pulseaudio.muted {
-    color: #6b6157;                       /* text-faint */
+    color: ${c("text-faint")};
 }
 
 /* Tray */
 #tray > .passive { -gtk-icon-effect: dim; }
 #tray > .needs-attention {
-    color: ${dc("accent")};
+    color: ${c("accent")};
     -gtk-icon-effect: highlight;
 }
 
 /* Custom modules \u2014 match syntax family */
 #custom-nix       { color: ${synType}; }     /* Modus cyan-cooler \u2014 syn-type */
-#custom-notifications.dnd { color: #6b6157; }
+#custom-notifications.dnd { color: ${c("text-faint")}; }
 
 /* Focus ring \u2014 when waybar modules are navigated via keyboard */
 button:focus {
-    outline: 2px solid ${dc("accent")};
+    outline: 2px solid ${c("accent")};
     outline-offset: -2px;
 }
 
@@ -1375,8 +1370,8 @@ button:focus {
 
 // ─── 10. Mako config ────────────────────────────────────────────────
 
-function generateMako() {
-  const dc = (role) => color(role, "dark");
+function generateMako(mode = "dark") {
+  const c = (role) => color(role, mode);
 
   return `# Jylhis Mako — GENERATED from tokens.json. Do not edit by hand.
 # ~/.config/mako/config
@@ -1393,11 +1388,11 @@ border-radius=4
 max-icon-size=32
 icon-path=/usr/share/icons/Adwaita
 
-# Default \u2014 dark roast
-background-color=${dc("surface")}
-text-color=${dc("text")}
-border-color=${dc("border-strong")}
-progress-color=over ${dc("accent")}
+# Default \u2014 ${mode === "light" ? "paper" : "roast"}
+background-color=${c("surface")}
+text-color=${c("text")}
+border-color=${c("border-strong")}
+progress-color=over ${c("accent")}
 
 # Layout / animation
 layer=overlay
@@ -1405,33 +1400,33 @@ anchor=top-right
 default-timeout=6000
 ignore-timeout=0
 
-format=<b>%s</b>\\n%b\\n<span foreground='${dc("text-faint")}' font='JetBrains Mono 9'>esc to dismiss \u00b7 meta+n to focus</span>
+format=<b>%s</b>\\n%b\\n<span foreground='${c("text-faint")}' font='JetBrains Mono 9'>esc to dismiss \u00b7 meta+n to focus</span>
 
 # Selected marker \u2014 matches KEYBOARD.md \u00a7"Selected item (universal)"
 [focused]
-background-color=${dc("surface-raised")}
-border-color=${dc("accent")}
+background-color=${c("surface-raised")}
+border-color=${c("accent")}
 # Mako can't draw a left-border only, but border + color does the job.
 
 # Urgency levels \u2014 map to semantic family
 [urgency=low]
-border-color=#6b6157
+border-color=${c("text-faint")}
 
 [urgency=normal]
-border-color=${dc("border-strong")}
+border-color=${c("border-strong")}
 
 [urgency=critical]
-background-color=#3a1f1c
-text-color=#ff7f7f
-border-color=${tokens.status["status-err"].dark}          # Modus red (status-err)
+background-color=${mode === "light" ? "#f5e0dc" : "#3a1f1c"}
+text-color=${color("status-err", mode)}
+border-color=${tokens.status["status-err"][mode]}          # Modus red (status-err)
 default-timeout=0
 
 # Specific app rules
 [app-name=Emacs]
-border-color=${tokens.syntax["syn-keyword"].dark}          # Modus magenta-cooler (syn-keyword)
+border-color=${tokens.syntax["syn-keyword"][mode]}          # Modus magenta-cooler (syn-keyword)
 
 [category=mpd]
-border-color=${tokens.status["status-ok"].dark}          # Modus green (status-ok)
+border-color=${tokens.status["status-ok"][mode]}          # Modus green (status-ok)
 `;
 }
 
@@ -1605,6 +1600,210 @@ function generateAdobeSwatch(mode) {
   return Buffer.concat([header, ...blocks]);
 }
 
+// ─── 14. Base16 YAML ────────────────────────────────────────────────
+
+function generateBase16(mode) {
+  const label = mode === "light" ? "Jylhis Paper" : "Jylhis Roast";
+  const author = "Markus Jylhankangas (https://jylhis.com)";
+
+  // Base16 slot mapping from tokens.json roles
+  const slots = {
+    "base00": color("bg", mode),
+    "base01": color("bg-subtle", mode),
+    "base02": color("surface", mode),
+    "base03": color("text-faint", mode),
+    "base04": color("text-muted", mode),
+    "base05": color("text", mode),
+    "base06": color("text-heading", mode),
+    "base07": color("surface-raised", mode),
+    "base08": color("status-err", mode),
+    "base09": color("accent", mode),
+    "base0A": color("status-warn", mode),
+    "base0B": tokens.syntax["syn-string"][mode],
+    "base0C": tokens.syntax["syn-type"][mode],
+    "base0D": color("status-info", mode),
+    "base0E": tokens.syntax["syn-keyword"][mode],
+    "base0F": color("brand", mode),
+  };
+
+  const lines = [
+    `scheme: "${label}"`,
+    `author: "${author}"`,
+  ];
+
+  for (const [slot, hex] of Object.entries(slots)) {
+    lines.push(`${slot}: "${hex.slice(1)}"`);
+  }
+
+  return lines.join("\n") + "\n";
+}
+
+// ─── 15. fzf color export ───────────────────────────────────────────
+
+function generateFzf(mode) {
+  const label = mode === "light" ? "paper" : "roast";
+  const c = (role) => color(role, mode);
+
+  // fzf uses --color= with named fields
+  const colors = [
+    `fg:${c("text")}`,
+    `bg:${c("bg")}`,
+    `hl:${c("accent")}`,
+    `fg+:${c("text-heading")}`,
+    `bg+:${c("accent-subtle")}`,
+    `hl+:${c("accent-hover")}`,
+    `info:${c("text-muted")}`,
+    `marker:${tokens.status["status-ok"][mode]}`,
+    `prompt:${c("accent")}`,
+    `spinner:${c("accent")}`,
+    `pointer:${c("accent")}`,
+    `header:${c("text-muted")}`,
+    `border:${c("border")}`,
+    `separator:${c("border")}`,
+    `gutter:${c("bg")}`,
+  ];
+
+  return `# Jylhis fzf ${label} — GENERATED from tokens.json. Do not edit by hand.
+# Source this file or add to your shell profile:
+#   source ~/.config/fzf/jylhis-${label}.sh
+
+export FZF_DEFAULT_OPTS="\$FZF_DEFAULT_OPTS --color=${colors.join(",")}"
+`;
+}
+
+// ─── 16. bat/delta tmTheme ──────────────────────────────────────────
+
+function generateTmTheme(mode) {
+  const label = mode === "light" ? "Jylhis Paper" : "Jylhis Roast";
+  const c = (role) => color(role, mode);
+  const syn = (role) => tokens.syntax[role][mode];
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  ${label} — GENERATED from tokens.json. Do not edit by hand.
+  Install for bat:  cp this ~/.config/bat/themes/ && bat cache --build
+  Install for delta: set syntax-theme in .gitconfig
+-->
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>${label}</string>
+  <key>settings</key>
+  <array>
+    <dict>
+      <key>settings</key>
+      <dict>
+        <key>background</key>
+        <string>${c("bg")}</string>
+        <key>foreground</key>
+        <string>${c("text")}</string>
+        <key>caret</key>
+        <string>${c("cursor")}</string>
+        <key>selection</key>
+        <string>${c("selection-bg")}</string>
+        <key>lineHighlight</key>
+        <string>${c("bg-subtle")}</string>
+        <key>gutterForeground</key>
+        <string>${c("text-faint")}</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Comment</string>
+      <key>scope</key><string>comment, punctuation.definition.comment</string>
+      <key>settings</key><dict>
+        <key>foreground</key><string>${syn("syn-comment")}</string>
+        <key>fontStyle</key><string>italic</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key><string>String</string>
+      <key>scope</key><string>string, constant.other.symbol</string>
+      <key>settings</key><dict><key>foreground</key><string>${syn("syn-string")}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Number</string>
+      <key>scope</key><string>constant.numeric</string>
+      <key>settings</key><dict><key>foreground</key><string>${syn("syn-number")}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Keyword</string>
+      <key>scope</key><string>keyword, storage.type, storage.modifier</string>
+      <key>settings</key><dict>
+        <key>foreground</key><string>${syn("syn-keyword")}</string>
+        <key>fontStyle</key><string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Function</string>
+      <key>scope</key><string>entity.name.function, support.function</string>
+      <key>settings</key><dict>
+        <key>foreground</key><string>${syn("syn-function")}</string>
+        <key>fontStyle</key><string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Type</string>
+      <key>scope</key><string>entity.name.type, entity.name.class, support.type, support.class</string>
+      <key>settings</key><dict><key>foreground</key><string>${syn("syn-type")}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Variable</string>
+      <key>scope</key><string>variable, variable.other</string>
+      <key>settings</key><dict><key>foreground</key><string>${syn("syn-variable")}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Builtin</string>
+      <key>scope</key><string>support.constant, constant.language</string>
+      <key>settings</key><dict><key>foreground</key><string>${syn("syn-builtin")}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Tag</string>
+      <key>scope</key><string>entity.name.tag</string>
+      <key>settings</key><dict><key>foreground</key><string>${syn("syn-type")}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Attribute</string>
+      <key>scope</key><string>entity.other.attribute-name</string>
+      <key>settings</key><dict><key>foreground</key><string>${syn("syn-variable")}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Doc comment</string>
+      <key>scope</key><string>comment.block.documentation</string>
+      <key>settings</key><dict>
+        <key>foreground</key><string>${syn("syn-docstring")}</string>
+        <key>fontStyle</key><string>italic</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Error</string>
+      <key>scope</key><string>invalid, invalid.illegal</string>
+      <key>settings</key><dict>
+        <key>foreground</key><string>${color("status-err", mode)}</string>
+        <key>fontStyle</key><string>underline</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Diff added</string>
+      <key>scope</key><string>markup.inserted</string>
+      <key>settings</key><dict><key>foreground</key><string>${color("status-ok", mode)}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Diff deleted</string>
+      <key>scope</key><string>markup.deleted</string>
+      <key>settings</key><dict><key>foreground</key><string>${color("status-err", mode)}</string></dict>
+    </dict>
+    <dict>
+      <key>name</key><string>Diff changed</string>
+      <key>scope</key><string>markup.changed</string>
+      <key>settings</key><dict><key>foreground</key><string>${color("status-warn", mode)}</string></dict>
+    </dict>
+  </array>
+</dict>
+</plist>
+`;
+}
+
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
@@ -1620,12 +1819,20 @@ out("platforms/emacs/jylhis-roast-theme.el", generateEmacs("dark"));
 out("platforms/rofi/jylhis-paper.rasi", generateRofi("light"));
 out("platforms/rofi/jylhis-roast.rasi", generateRofi("dark"));
 out("platforms/gtk/gtk.css", generateGTK());
-out("platforms/waybar/style.css", generateWaybar());
-out("platforms/mako/config", generateMako());
+out("platforms/waybar/style.css", generateWaybar("dark"));
+out("platforms/waybar/style-paper.css", generateWaybar("light"));
+out("platforms/mako/config", generateMako("dark"));
+out("platforms/mako/config-paper", generateMako("light"));
 out("platforms/gimp/jylhis-paper.gpl", generateGimpPalette("light"));
 out("platforms/gimp/jylhis-roast.gpl", generateGimpPalette("dark"));
 out("platforms/adobe/jylhis-paper.ase", generateAdobeSwatch("light"));
 out("platforms/adobe/jylhis-roast.ase", generateAdobeSwatch("dark"));
+out("platforms/base16/jylhis-paper.yaml", generateBase16("light"));
+out("platforms/base16/jylhis-roast.yaml", generateBase16("dark"));
+out("platforms/shell/fzf-paper.sh", generateFzf("light"));
+out("platforms/shell/fzf-roast.sh", generateFzf("dark"));
+out("platforms/bat/jylhis-paper.tmTheme", generateTmTheme("light"));
+out("platforms/bat/jylhis-roast.tmTheme", generateTmTheme("dark"));
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────
@@ -1663,6 +1870,8 @@ if (checkMode) {
 } else {
   for (const [relPath, content] of outputs) {
     const fullPath = resolve(ROOT, relPath);
+    const dir = dirname(fullPath);
+    if (!existsSync(dir)) { mkdirSync(dir, { recursive: true }); }
     writeFileSync(fullPath, content);
   }
   console.log(`\u2713 Generated ${outputs.size} files from tokens.json`);

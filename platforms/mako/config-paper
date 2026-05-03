@@ -13,11 +13,11 @@ border-radius=4
 max-icon-size=32
 icon-path=/usr/share/icons/Adwaita
 
-# Default — roast
-background-color=#2a2520
-text-color=#e8e0d4
-border-color=#5a5248
-progress-color=over #e89b5e
+# Default — paper
+background-color=#e8e1d6
+text-color=#2c2825
+border-color=#b0a898
+progress-color=over #9a5a2a
 
 # Layout / animation
 layer=overlay
@@ -29,8 +29,8 @@ format=<b>%s</b>\n%b\n<span foreground='#8a7f72' font='JetBrains Mono 9'>esc to 
 
 # Selected marker — matches KEYBOARD.md §"Selected item (universal)"
 [focused]
-background-color=#363230
-border-color=#e89b5e
+background-color=#fefdfb
+border-color=#9a5a2a
 # Mako can't draw a left-border only, but border + color does the job.
 
 # Urgency levels — map to semantic family
@@ -38,17 +38,17 @@ border-color=#e89b5e
 border-color=#8a7f72
 
 [urgency=normal]
-border-color=#5a5248
+border-color=#b0a898
 
 [urgency=critical]
-background-color=#3a1f1c
-text-color=#ff5f59
-border-color=#ff5f59          # Modus red (status-err)
+background-color=#f5e0dc
+text-color=#a60000
+border-color=#a60000          # Modus red (status-err)
 default-timeout=0
 
 # Specific app rules
 [app-name=Emacs]
-border-color=#c8a5ff          # Modus magenta-cooler (syn-keyword)
+border-color=#4a2d80          # Modus magenta-cooler (syn-keyword)
 
 [category=mpd]
-border-color=#44bc44          # Modus green (status-ok)
+border-color=#006800          # Modus green (status-ok)

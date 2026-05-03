@@ -34,7 +34,10 @@ export const tokens = {
       "members": [
         "accent",
         "accent-hover",
-        "brand"
+        "brand",
+        "accent-subtle",
+        "selection-bg",
+        "cursor"
       ]
     },
     "linen": {
@@ -160,6 +163,21 @@ export const tokens = {
       "light": "#c4baa8",
       "dark": "#4a4338",
       "notes": "dashed rules"
+    },
+    "accent-subtle": {
+      "light": "#f0e6da",
+      "dark": "#2e2520",
+      "notes": "opaque approximation of accent @ 12-15% on bg"
+    },
+    "selection-bg": {
+      "light": "#e8d4b8",
+      "dark": "#4a3a28",
+      "notes": "text selection highlight"
+    },
+    "cursor": {
+      "light": "#9a5a2a",
+      "dark": "#e89b5e",
+      "notes": "input cursor (matches accent)"
     }
   },
   "syntax": {
@@ -866,6 +884,114 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "accent-subtle",
+      "bg": "bg",
+      "fgHex": "#f0e6da",
+      "bgHex": "#faf7f2",
+      "ratio": 1.15,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "accent-subtle",
+      "bg": "bg-subtle",
+      "fgHex": "#f0e6da",
+      "bgHex": "#f0ebe3",
+      "ratio": 1.04,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "accent-subtle",
+      "bg": "surface",
+      "fgHex": "#f0e6da",
+      "bgHex": "#e8e1d6",
+      "ratio": 1.05,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "accent-subtle",
+      "bg": "surface-raised",
+      "fgHex": "#f0e6da",
+      "bgHex": "#fefdfb",
+      "ratio": 1.21,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "selection-bg",
+      "bg": "bg",
+      "fgHex": "#e8d4b8",
+      "bgHex": "#faf7f2",
+      "ratio": 1.35,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "selection-bg",
+      "bg": "bg-subtle",
+      "fgHex": "#e8d4b8",
+      "bgHex": "#f0ebe3",
+      "ratio": 1.22,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "selection-bg",
+      "bg": "surface",
+      "fgHex": "#e8d4b8",
+      "bgHex": "#e8e1d6",
+      "ratio": 1.11,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "selection-bg",
+      "bg": "surface-raised",
+      "fgHex": "#e8d4b8",
+      "bgHex": "#fefdfb",
+      "ratio": 1.42,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "cursor",
+      "bg": "bg",
+      "fgHex": "#9a5a2a",
+      "bgHex": "#faf7f2",
+      "ratio": 5.08,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "cursor",
+      "bg": "bg-subtle",
+      "fgHex": "#9a5a2a",
+      "bgHex": "#f0ebe3",
+      "ratio": 4.57,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "cursor",
+      "bg": "surface",
+      "fgHex": "#9a5a2a",
+      "bgHex": "#e8e1d6",
+      "ratio": 4.18,
+      "tag": "AA Large"
+    },
+    {
+      "mode": "light",
+      "fg": "cursor",
+      "bg": "surface-raised",
+      "fgHex": "#9a5a2a",
+      "bgHex": "#fefdfb",
+      "ratio": 5.34,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
       "fg": "status-err",
       "bg": "bg",
       "fgHex": "#a60000",
@@ -1262,6 +1388,114 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "bg",
+      "fgHex": "#2e2520",
+      "bgHex": "#1a1714",
+      "ratio": 1.19,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "bg-subtle",
+      "fgHex": "#2e2520",
+      "bgHex": "#242019",
+      "ratio": 1.08,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "surface",
+      "fgHex": "#2e2520",
+      "bgHex": "#2a2520",
+      "ratio": 1.01,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "surface-raised",
+      "fgHex": "#2e2520",
+      "bgHex": "#363230",
+      "ratio": 1.18,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "bg",
+      "fgHex": "#4a3a28",
+      "bgHex": "#1a1714",
+      "ratio": 1.64,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "bg-subtle",
+      "fgHex": "#4a3a28",
+      "bgHex": "#242019",
+      "ratio": 1.49,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "surface",
+      "fgHex": "#4a3a28",
+      "bgHex": "#2a2520",
+      "ratio": 1.39,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "surface-raised",
+      "fgHex": "#4a3a28",
+      "bgHex": "#363230",
+      "ratio": 1.16,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "bg",
+      "fgHex": "#e89b5e",
+      "bgHex": "#1a1714",
+      "ratio": 7.89,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "bg-subtle",
+      "fgHex": "#e89b5e",
+      "bgHex": "#242019",
+      "ratio": 7.16,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "surface",
+      "fgHex": "#e89b5e",
+      "bgHex": "#2a2520",
+      "ratio": 6.71,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "surface-raised",
+      "fgHex": "#e89b5e",
+      "bgHex": "#363230",
+      "ratio": 5.61,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
       "fg": "status-err",
       "bg": "bg",
       "fgHex": "#ff5f59",
@@ -1435,6 +1669,18 @@ export const tokens = {
         "ratio": 3.67,
         "tag": "AA Large"
       },
+      "accent-subtle": {
+        "ratio": 1.15,
+        "tag": "fail"
+      },
+      "selection-bg": {
+        "ratio": 1.35,
+        "tag": "fail"
+      },
+      "cursor": {
+        "ratio": 5.08,
+        "tag": "AA"
+      },
       "status-err": {
         "ratio": 7.5,
         "tag": "AAA"
@@ -1480,6 +1726,18 @@ export const tokens = {
       "brand": {
         "ratio": 6.31,
         "tag": "AA"
+      },
+      "accent-subtle": {
+        "ratio": 1.19,
+        "tag": "fail"
+      },
+      "selection-bg": {
+        "ratio": 1.64,
+        "tag": "fail"
+      },
+      "cursor": {
+        "ratio": 7.89,
+        "tag": "AAA"
       },
       "status-err": {
         "ratio": 5.98,
