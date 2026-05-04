@@ -265,7 +265,49 @@ base16 palette, which can also come from `jylhis-themes` via the
 
 ---
 
-## Boot path (NixOS console)
+## Boot path (Plymouth + NixOS console)
+
+The boot path is covered end-to-end so the look stays cohesive from
+power-on to login: Plymouth splash → kernel TTY palette → greeter →
+desktop.
+
+### Plymouth splash
+
+A minimal text-and-spinner Plymouth theme is shipped per variant.
+No PNG assets — every color is derived from `tokens.json` at
+generation time, so the splash always matches the active palette.
+
+```nix
+{ pkgs, ... }:
+{
+  boot.plymouth = {
+    enable = true;
+    themePackages = [ pkgs.jylhis-themes ];
+    theme = "jylhis-roast";  # or "jylhis-paper"
+  };
+}
+```
+
+Plymouth searches `themePackages` for `share/plymouth/themes/<theme>`,
+so a small overlay (or a shim package) may be needed to symlink
+`share/jylhis/plymouth/jylhis-{paper,roast}/` into the path Plymouth
+expects:
+
+```nix
+nixpkgs.overlays = [(final: prev: {
+  plymouth-theme-jylhis = final.runCommand "plymouth-theme-jylhis" {} ''
+    mkdir -p $out/share/plymouth/themes
+    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-paper $out/share/plymouth/themes/jylhis-paper
+    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-roast $out/share/plymouth/themes/jylhis-roast
+  '';
+})];
+boot.plymouth.themePackages = [ pkgs.plymouth-theme-jylhis ];
+```
+
+Untested on real hardware; verified by `nix build` only. Boot-test
+in a NixOS VM before rolling out.
+
+### Linux virtual console
 
 The Linux virtual console (`Ctrl-Alt-F1..F6`) reads its 16-color
 palette from `console.colors`. The Jylhis ANSI 16 is shipped as a

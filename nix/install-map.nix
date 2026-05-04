@@ -88,4 +88,15 @@
     { src = "platforms/console/jylhis-paper.nix"; dest = "share/jylhis/console/jylhis-paper.nix"; }
     { src = "platforms/console/jylhis-roast.nix"; dest = "share/jylhis/console/jylhis-roast.nix"; }
   ];
+
+  plymouth = [
+    { src = "platforms/plymouth/jylhis-paper/jylhis.plymouth";
+      dest = "share/jylhis/plymouth/jylhis-paper/jylhis.plymouth"; }
+    { src = "platforms/plymouth/jylhis-paper/jylhis.script";
+      dest = "share/jylhis/plymouth/jylhis-paper/jylhis.script"; }
+    { src = "platforms/plymouth/jylhis-roast/jylhis.plymouth";
+      dest = "share/jylhis/plymouth/jylhis-roast/jylhis.plymouth"; }
+    { src = "platforms/plymouth/jylhis-roast/jylhis.script";
+      dest = "share/jylhis/plymouth/jylhis-roast/jylhis.script"; }
+  ];
 }

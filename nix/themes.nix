@@ -116,6 +116,14 @@ stdenvNoCC.mkDerivation {
     mkdir -p $out/share/jylhis/console
     cp platforms/console/jylhis-paper.nix $out/share/jylhis/console/
     cp platforms/console/jylhis-roast.nix $out/share/jylhis/console/
+
+    # Plymouth boot splash (text + spinner, no PNG assets)
+    mkdir -p $out/share/jylhis/plymouth/jylhis-paper
+    mkdir -p $out/share/jylhis/plymouth/jylhis-roast
+    cp platforms/plymouth/jylhis-paper/jylhis.plymouth $out/share/jylhis/plymouth/jylhis-paper/
+    cp platforms/plymouth/jylhis-paper/jylhis.script   $out/share/jylhis/plymouth/jylhis-paper/
+    cp platforms/plymouth/jylhis-roast/jylhis.plymouth $out/share/jylhis/plymouth/jylhis-roast/
+    cp platforms/plymouth/jylhis-roast/jylhis.script   $out/share/jylhis/plymouth/jylhis-roast/
   '';
 
   meta = {
