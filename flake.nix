@@ -26,6 +26,14 @@
       mkTargetPackages = pkgs:
         nixpkgs.lib.genAttrs targets
           (target: pkgs.callPackage ./nix/themes-per-target.nix { inherit target; });
+
+      mkGhosttyPackage = pkgs:
+        pkgs.callPackage ./nix/ghostty.nix {
+          ghostty =
+            if pkgs.stdenv.isDarwin
+            then pkgs.ghostty-bin
+            else pkgs.ghostty;
+        };
     in
     {
       # packages.<system>.default          — all themes (alias: jylhis-themes)
@@ -35,7 +43,7 @@
         {
           default = pkgs.callPackage ./nix/themes.nix { };
           jylhis-themes = pkgs.callPackage ./nix/themes.nix { };
-          ghostty-jylhis = pkgs.callPackage ./nix/ghostty.nix { };
+          ghostty-jylhis = mkGhosttyPackage pkgs;
         }
         // mkTargetPackages pkgs
       );
