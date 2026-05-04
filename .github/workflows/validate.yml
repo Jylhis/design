@@ -9,8 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  tokens:
-    name: token sync & contrast
+  validate:
+    name: tokens, a11y, CLI conventions
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,3 +19,9 @@ jobs:
         run: bun scripts/generate.mjs --check
       - name: Validate token schema and contrast ratios
         run: bun scripts/validate-tokens.mjs
+      - name: Validate HTML accessibility
+        run: bun scripts/validate-a11y-html.mjs
+      - name: Validate CSS accessibility
+        run: bun scripts/validate-a11y-css.mjs
+      - name: Validate CLI conventions
+        run: bun scripts/validate-cli-conventions.mjs

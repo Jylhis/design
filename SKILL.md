@@ -19,7 +19,7 @@ If the user invokes this skill without any other guidance, ask them what they wa
 
 ## Cross-platform
 
-The system extends beyond the web. Canonical palette lives in `tokens.md`; keyboard primitives (focus, kbd, command-palette, selected-item, dismiss) in `platforms/KEYBOARD.md`. Platform-specific files (hand-maintained from the token spec):
+The system extends beyond the web. Canonical palette lives in `tokens.md`; keyboard primitives (focus, kbd, command-palette, selected-item, dismiss) in `platforms/KEYBOARD.md`. CLI/TUI design conventions for any tool that ships with the system in `docs/CLI-TUI-GUIDELINES.md`. Accessibility commitments and what the validators enforce in `docs/ACCESSIBILITY.md`. Platform-specific files (hand-maintained from the token spec):
 
 | Target | Files |
 |---|---|

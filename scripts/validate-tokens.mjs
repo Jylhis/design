@@ -17,6 +17,24 @@ import { dirname, resolve } from "node:path";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(resolve(ROOT, p), "utf8");
+
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  process.stdout.write(`Usage: validate-tokens [--help] [--version]
+
+Validates tokens.json (the single source of truth):
+  - schema: required fields, hex format
+  - WCAG contrast ratio claims
+  - CSS var(--…) references in colors_and_type.css resolve
+
+Exits 0 on success, 1 on validation failure.
+`);
+  process.exit(0);
+}
+if (process.argv.includes("--version")) {
+  process.stdout.write("validate-tokens 1.0.0\n");
+  process.exit(0);
+}
+
 const errors = [];
 const fail = (msg) => errors.push(msg);
 
@@ -109,6 +127,42 @@ for (const { fg, bg, mode, min, label } of checks) {
   if (ratio < min) fail(`contrast: ${label} ${fgc} on ${bgc} = ${ratio.toFixed(2)}:1 (< ${min}:1)`);
 }
 
+// ─── 2b. Extended sweep across every paperstock surface ──────────────
+// Beyond the seven hand-listed pairs in tokens.json#contrast, body text and
+// the accent need to clear minimum thresholds against EVERY surface, not
+// just `bg`. Cards use `bg-subtle`, modals use `surface-raised`, etc.
+// Thresholds reflect docs/ACCESSIBILITY.md#what-we-measure:
+//   - text, text-heading: AA (4.5:1) against any paperstock surface
+//   - text-muted:        3:1 against any paperstock surface (AA Large)
+//   - accent:            3:1 against any paperstock surface (non-text)
+//   - status-*:          3:1 against bg (non-text indicator)
+const SURFACES = ["bg", "bg-subtle", "surface", "surface-raised"];
+const sweep = [
+  ...["text", "text-heading"].flatMap((fg) =>
+    SURFACES.flatMap((bg) =>
+      ["light", "dark"].map((mode) => ({ fg, bg, mode, min: 4.5, label: `${fg} on ${bg} (${mode})` })),
+    ),
+  ),
+  ...SURFACES.flatMap((bg) =>
+    ["light", "dark"].map((mode) => ({ fg: "text-muted", bg, mode, min: 3, label: `text-muted on ${bg} (${mode})` })),
+  ),
+  ...SURFACES.flatMap((bg) =>
+    ["light", "dark"].map((mode) => ({ fg: "accent", bg, mode, min: 3, label: `accent on ${bg} (${mode})` })),
+  ),
+  ...["status-err", "status-warn", "status-ok", "status-info"].flatMap((fg) =>
+    ["light", "dark"].map((mode) => ({ fg, bg: "bg", mode, min: 3, label: `${fg} on bg (${mode})` })),
+  ),
+];
+let sweepCount = 0;
+for (const { fg, bg, mode, min, label } of sweep) {
+  const fgc = colorFor(fg, mode);
+  const bgc = colorFor(bg, mode);
+  if (!fgc || !bgc) continue;
+  sweepCount++;
+  const ratio = contrast(fgc, bgc);
+  if (ratio < min) fail(`sweep: ${label} ${fgc} on ${bgc} = ${ratio.toFixed(2)}:1 (< ${min}:1)`);
+}
+
 // ─── 3. CSS var(--…) resolution in colors_and_type.css ───────────────
 
 const css = read("colors_and_type.css");
@@ -134,4 +188,4 @@ if (errors.length) {
 }
 
 const roleCount = requiredPalette.length + requiredSyntax.length + 4 + 16;
-console.log(`\u2713 token validation passed (${roleCount} roles, ${checks.length} contrast checks)`);
+console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept contrast checks)`);

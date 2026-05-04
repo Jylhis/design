@@ -2,6 +2,8 @@
 
 Design system for [Bubble Tea](https://github.com/charmbracelet/bubbletea) + [Lip Gloss](https://github.com/charmbracelet/lipgloss) + [Bubbles](https://github.com/charmbracelet/bubbles) apps. Ships the Jylhis palette as pre-built lipgloss styles and wires up the common bubbles (list, help, spinner, textinput) so every Jylhis TUI looks like the rest of the ecosystem.
 
+> Before designing a new TUI, read [`../../docs/CLI-TUI-GUIDELINES.md`](../../docs/CLI-TUI-GUIDELINES.md). It is the canonical spec for command-interface conventions in this system: layout patterns, keybindings, focus, render-target choice, and the accessibility rules (`NO_COLOR`, `--plain`, no-animation fallback, status-with-glyph) that every Jylhis TUI must respect.
+
 ```
 platforms/charm/
 ├── jylhis/

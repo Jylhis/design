@@ -15,6 +15,24 @@ For exact ratios on every foreground × background pair, open [`palette.html`](.
 
 ---
 
+## Running validation
+
+Five scripts enforce the parts of this spec that are mechanically checkable. CI runs all five on every push.
+
+```bash
+bun scripts/validate-tokens.mjs           # WCAG contrast (explicit + extended sweep), schema, CSS var() resolution
+bun scripts/validate-a11y-html.mjs        # lang, alt, labels, heading hierarchy, focus, reduced-motion, status-with-glyph, skip links
+bun scripts/validate-a11y-css.mjs         # transitions guarded by prefers-reduced-motion, outline:none paired with :focus-visible
+bun scripts/validate-cli-conventions.mjs  # bun scripts follow docs/CLI-TUI-GUIDELINES.md (--help, --version, stderr, exit codes)
+bun scripts/generate.mjs --check          # generated files in sync with tokens.json
+```
+
+Each validator distinguishes errors (block CI), warnings (visible signal, do not block), and suggestions (advisory). Errors usually mean a documented commitment is being broken; warnings usually mean an embedded preview card is missing the meta-tag rigour expected of a full page. Run `--help` on any script for its specific check list.
+
+For deeper review beyond static checks (manual screen-reader testing, CVD inspection, structured-output alternatives, keyboard walk-throughs), invoke the `/design-review` skill in [`../.claude/skills/design-review/`](../.claude/skills/design-review/).
+
+---
+
 ## What we measure
 
 `scripts/validate-tokens.mjs` fails the build if any of these claims drops below its threshold. The claims live in [`tokens.json`](../tokens.json) under `contrast`:

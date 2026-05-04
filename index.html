@@ -102,8 +102,8 @@
   </header>
 
   <div class="filter-bar" id="filter-bar">
-    <span class="glyph">⌕</span>
-    <input id="filter" type="search" placeholder="filter swatches, components, paths …  (press / to focus, Esc to clear)" autocomplete="off" spellcheck="false">
+    <label for="filter" class="glyph" aria-hidden="true">⌕</label>
+    <input id="filter" type="search" aria-label="Filter swatches, components, and paths" placeholder="filter swatches, components, paths …  (press / to focus, Esc to clear)" autocomplete="off" spellcheck="false">
     <span class="count" id="filter-count"></span>
     <button class="clear" id="filter-clear" type="button" disabled>clear</button>
   </div>
