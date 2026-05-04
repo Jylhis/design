@@ -6,6 +6,53 @@ generated from it by `bun scripts/generate.mjs`.
 
 ---
 
+## Nix (flake — preferred)
+
+The repository is a flake. Pin it as an input and use the exposed
+modules, overlay, and packages directly — no `callPackage` boilerplate
+or wrapper packages needed.
+
+```nix
+{
+  inputs.jylhis-design.url = "github:Jylhis/design";
+
+  outputs = { self, nixpkgs, home-manager, jylhis-design, ... }: {
+    homeConfigurations.you = home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [ jylhis-design.overlays.default ];
+      };
+      modules = [
+        jylhis-design.homeManagerModules.default   # or homeModules.default
+        ({ ... }: {
+          jylhis.theme.enable  = true;
+          jylhis.theme.variant = "roast";          # or "paper"
+        })
+      ];
+    };
+  };
+}
+```
+
+After enabling the overlay, `pkgs.jylhis-themes` is available with the
+full theme tree under `${pkgs.jylhis-themes}/share/jylhis/`. Per-target
+packages (`pkgs.jylhis-themes-targets.waybar`, `…bat`, `…scripts`, …)
+expose just one target's files — useful when you only need a single
+slice of the system.
+
+Direct package builds:
+
+```bash
+nix build github:Jylhis/design#default        # all themes
+nix build github:Jylhis/design#waybar         # just waybar/* + tokens
+nix build github:Jylhis/design#ghostty-jylhis # ghostty wrapper
+```
+
+Available per-target attributes correspond to the keys in
+[`nix/install-map.nix`](../nix/install-map.nix).
+
+---
+
 ## Web (CSS)
 
 Copy `tokens.css` and `colors_and_type.css` into your project and import
@@ -80,13 +127,20 @@ identity.
 
 ### Nix (Ghostty with themes)
 
+With flakes (preferred):
+
 ```nix
-# In your NixOS or home-manager config:
+environment.systemPackages = [ jylhis-design.packages.${system}.ghostty-jylhis ];
+```
+
+Without flakes:
+
+```nix
 ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 ```
 
-This wraps Ghostty so that `theme = jylhis-paper` and `theme = jylhis-roast`
-work out of the box without manually copying files.
+Either form wraps Ghostty so `theme = jylhis-paper` and
+`theme = jylhis-roast` work out of the box without manually copying files.
 
 ---
 
@@ -113,6 +167,13 @@ programs.emacs.extraPackages = epkgs: [
   })
 ];
 ```
+
+With flakes the same callPackage works against
+`jylhis-design.outPath`, e.g.
+`pkgs.callPackage "${jylhis-design}/nix/emacs.nix" { inherit (epkgs) trivialBuild; }`.
+A dedicated emacs flake output is not exposed because it depends on
+`epkgs.trivialBuild`, which is only available inside
+`programs.emacs.extraPackages`.
 
 ---
 
