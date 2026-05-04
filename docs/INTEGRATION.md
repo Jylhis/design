@@ -154,6 +154,37 @@ This avoids re-deriving the palette in your config.
 
 ---
 
+## Coexisting with Stylix
+
+Importing the Jylhis Home-Manager module on a system that also runs
+Stylix produces several `home.sessionVariables` and config-file
+collisions, because both projects target the same applications.
+
+The Jylhis HM module is authoritative for the targets it owns
+(`mkForce` on the FZF colors). To avoid the collision, disable
+the duplicated Stylix targets on the Home-Manager side:
+
+```nix
+stylix.targets = {
+  fzf.enable      = false;
+  bat.enable      = false;
+  gtk.enable      = false;
+  starship.enable = false;
+  hyprland.enable = false;
+  waybar.enable   = false;
+  mako.enable     = false;
+  ghostty.enable  = false;
+  hyprlock.enable = false;
+  console.enable  = false;
+};
+```
+
+Stylix's `qt` target can stay enabled — it derives Qt colors from the
+base16 palette, which can also come from `jylhis-themes` via the
+`stylix.base16Scheme` one-liner above.
+
+---
+
 ## Adding a new platform
 
 1. **Read `tokens.json`** — every value you need is there.
