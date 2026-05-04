@@ -83,4 +83,9 @@
       mode = "0755";
     }
   ];
+
+  console = [
+    { src = "platforms/console/jylhis-paper.nix"; dest = "share/jylhis/console/jylhis-paper.nix"; }
+    { src = "platforms/console/jylhis-roast.nix"; dest = "share/jylhis/console/jylhis-roast.nix"; }
+  ];
 }

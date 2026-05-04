@@ -265,6 +265,27 @@ base16 palette, which can also come from `jylhis-themes` via the
 
 ---
 
+## Boot path (NixOS console)
+
+The Linux virtual console (`Ctrl-Alt-F1..F6`) reads its 16-color
+palette from `console.colors`. The Jylhis ANSI 16 is shipped as a
+ready-to-import NixOS fragment:
+
+```nix
+imports = [
+  "${pkgs.jylhis-themes}/share/jylhis/console/jylhis-roast.nix"
+  # or jylhis-paper.nix
+];
+```
+
+After `nixos-rebuild switch`, the kernel TTY and any greeter that
+inherits the console palette (tuigreet over `console-on-tty1`, etc.)
+will use the Jylhis colors. ANSI 11 is intentionally the brand copper
+across all targets, so prompts and active controls carry the Jylhis
+identity from the very first line of console output.
+
+---
+
 ## Greeters (tuigreet / regreet)
 
 Login greeters render in the kernel/console palette, so they pick up

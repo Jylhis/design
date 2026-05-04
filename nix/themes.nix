@@ -111,6 +111,11 @@ stdenvNoCC.mkDerivation {
     mkdir -p $out/share/jylhis/scripts
     install -m 0755 platforms/scripts/jylhis-theme-toggle.sh \
       $out/share/jylhis/scripts/jylhis-theme-toggle.sh
+
+    # NixOS console.colors fragment
+    mkdir -p $out/share/jylhis/console
+    cp platforms/console/jylhis-paper.nix $out/share/jylhis/console/
+    cp platforms/console/jylhis-roast.nix $out/share/jylhis/console/
   '';
 
   meta = {

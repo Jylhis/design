@@ -1830,6 +1830,33 @@ function generateTmTheme(mode) {
 `;
 }
 
+// ─── 17. NixOS console.colors fragment ──────────────────────────────
+
+function generateConsole(mode = "dark") {
+  const label = mode === "light" ? "Paper" : "Roast";
+  const hex = (i) => tokens.ansi[i][mode].slice(1); // drop leading #
+  const cols = tokens.ansi.map((_, i) => hex(i));
+
+  // console.colors expects 16 hex strings (no '#'), in ANSI 0..15 order.
+  return `# Jylhis ${label} — GENERATED from tokens.json. Do not edit by hand.
+#
+# NixOS Linux virtual console (TTY) palette. Import from your
+# configuration.nix or a NixOS module:
+#
+#   imports = [ "\${pkgs.jylhis-themes}/share/jylhis/console/jylhis-${mode === "light" ? "paper" : "roast"}.nix" ];
+#
+# After a rebuild, the kernel TTY (Ctrl-Alt-F1..6) and any greeter that
+# inherits the console palette will use the Jylhis ANSI 16.
+
+{
+  console.colors = [
+    "${cols[0]}" "${cols[1]}" "${cols[2]}" "${cols[3]}" "${cols[4]}" "${cols[5]}" "${cols[6]}" "${cols[7]}"
+    "${cols[8]}" "${cols[9]}" "${cols[10]}" "${cols[11]}" "${cols[12]}" "${cols[13]}" "${cols[14]}" "${cols[15]}"
+  ];
+}
+`;
+}
+
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
@@ -1859,6 +1886,8 @@ out("platforms/shell/fzf-paper.sh", generateFzf("light"));
 out("platforms/shell/fzf-roast.sh", generateFzf("dark"));
 out("platforms/bat/jylhis-paper.tmTheme", generateTmTheme("light"));
 out("platforms/bat/jylhis-roast.tmTheme", generateTmTheme("dark"));
+out("platforms/console/jylhis-paper.nix", generateConsole("light"));
+out("platforms/console/jylhis-roast.nix", generateConsole("dark"));
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────
