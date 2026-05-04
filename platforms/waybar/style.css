@@ -28,11 +28,16 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
+#wireplumber,
+#bluetooth,
+#power-profiles-daemon,
 #cpu,
 #memory,
 #tray,
 #custom-notifications,
-#custom-nix {
+#custom-nix,
+#custom-expand-icon,
+#hyprland-language {
     padding: 0 10px;
 }
 
@@ -68,10 +73,27 @@ window#waybar {
 #battery.critical { color: #ff5f59; }     /* status-err  (Modus red)    */
 #battery.charging { color: #44bc44; }     /* status-ok   (Modus green)  */
 
-/* Network / audio */
+/* Network / audio / power */
 #network.disconnected,
-#pulseaudio.muted {
+#pulseaudio.muted,
+#wireplumber.muted,
+#bluetooth.disabled,
+#bluetooth.off,
+#power-profiles-daemon.power-saver {
     color: #8a7f72;
+}
+
+/* WirePluMber / Bluetooth / power-profiles-daemon — default text-muted */
+#wireplumber,
+#bluetooth,
+#power-profiles-daemon,
+#hyprland-language {
+    color: #b0a496;
+}
+
+#bluetooth.connected,
+#power-profiles-daemon.performance {
+    color: #e89b5e;
 }
 
 /* Tray */
@@ -84,6 +106,10 @@ window#waybar {
 /* Custom modules — match syntax family */
 #custom-nix       { color: #80c8b3; }     /* Modus cyan-cooler — syn-type */
 #custom-notifications.dnd { color: #8a7f72; }
+
+/* Tray drawer toggle (waybar tray expand pattern) */
+#custom-expand-icon { color: #b0a496; }
+#custom-expand-icon:hover { color: #e89b5e; }
 
 /* Focus ring — when waybar modules are navigated via keyboard */
 button:focus {

@@ -1301,11 +1301,16 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
+#wireplumber,
+#bluetooth,
+#power-profiles-daemon,
 #cpu,
 #memory,
 #tray,
 #custom-notifications,
-#custom-nix {
+#custom-nix,
+#custom-expand-icon,
+#hyprland-language {
     padding: 0 10px;
 }
 
@@ -1341,10 +1346,27 @@ window#waybar {
 #battery.critical { color: ${tokens.status["status-err"][mode]}; }     /* status-err  (Modus red)    */
 #battery.charging { color: ${tokens.status["status-ok"][mode]}; }     /* status-ok   (Modus green)  */
 
-/* Network / audio */
+/* Network / audio / power */
 #network.disconnected,
-#pulseaudio.muted {
+#pulseaudio.muted,
+#wireplumber.muted,
+#bluetooth.disabled,
+#bluetooth.off,
+#power-profiles-daemon.power-saver {
     color: ${c("text-faint")};
+}
+
+/* WirePluMber / Bluetooth / power-profiles-daemon — default text-muted */
+#wireplumber,
+#bluetooth,
+#power-profiles-daemon,
+#hyprland-language {
+    color: ${c("text-muted")};
+}
+
+#bluetooth.connected,
+#power-profiles-daemon.performance {
+    color: ${c("accent")};
 }
 
 /* Tray */
@@ -1357,6 +1379,10 @@ window#waybar {
 /* Custom modules \u2014 match syntax family */
 #custom-nix       { color: ${synType}; }     /* Modus cyan-cooler \u2014 syn-type */
 #custom-notifications.dnd { color: ${c("text-faint")}; }
+
+/* Tray drawer toggle (waybar tray expand pattern) */
+#custom-expand-icon { color: ${c("text-muted")}; }
+#custom-expand-icon:hover { color: ${c("accent")}; }
 
 /* Focus ring \u2014 when waybar modules are navigated via keyboard */
 button:focus {
