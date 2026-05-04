@@ -118,12 +118,39 @@ programs.emacs.extraPackages = epkgs: [
 
 ## Wayland / Linux desktop
 
-- **Hyprland:** `source = /path/to/platforms/hyprland/jylhis.conf`
+### Hyprland
+
+Source the shared file, the variant file, and (optionally) the keybinds
+file from `~/.config/hypr/hyprland.conf`. Order matters — variant must
+come after the shared base because it overrides `general:col.*` and
+`decoration:col.shadow`:
+
+```
+source = ~/.config/hypr/jylhis.conf            # shared (general/decoration/animations)
+source = ~/.config/hypr/jylhis-roast.conf      # or jylhis-paper.conf
+source = ~/.config/hypr/jylhis-keys.conf       # optional
+# … your overrides below …
+```
+
+### Other Wayland targets
+
 - **Waybar:** `include-path` the CSS in `platforms/waybar/`
 - **Mako:** symlink `platforms/mako/config` to `~/.config/mako/config`
 - **Rofi:** set `@theme "platforms/rofi/jylhis-paper"` (or `jylhis-roast`)
 - **GTK 3/4:** import `platforms/gtk/gtk.css` from your user GTK stylesheet
 - **Kvantum/Qt:** point `kvantummanager` at `platforms/kvantum/`
+
+### Stylix base16 one-liner
+
+If you use Stylix, the generated base16 YAML is shipped at a stable
+path under the Nix derivation — point Stylix at it directly:
+
+```nix
+stylix.base16Scheme = "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-roast.yaml";
+# or jylhis-paper.yaml
+```
+
+This avoids re-deriving the palette in your config.
 
 ---
 
