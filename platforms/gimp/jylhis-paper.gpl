@@ -46,7 +46,7 @@ Columns: 4
   0  49 169	ansi-4-blue
 114  16  69	ansi-5-magenta
   0  95  95	ansi-6-cyan
-232 225 214	ansi-7-white
+107  95  84	ansi-7-white
 138 127 114	ansi-8-bright-black
 151  37   0	ansi-9-bright-red
  49  91   0	ansi-10-bright-green
@@ -54,4 +54,4 @@ Columns: 4
  53  72 207	ansi-12-bright-blue
  83  26 182	ansi-13-bright-magenta
   0  94 139	ansi-14-bright-cyan
-254 253 251	ansi-15-bright-white
+ 44  40  37	ansi-15-bright-white
