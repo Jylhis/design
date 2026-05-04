@@ -69,13 +69,20 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `tokens-data.js` | Generated JS module for the showcase website. |
 | `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css`. |
 | `scripts/generate.mjs` | Reads `tokens.json`, writes generated platform target files. |
-| `scripts/validate-tokens.mjs` | Schema validation, contrast checks, CSS `var()` resolution. |
+| `scripts/validate-tokens.mjs` | Schema validation, contrast checks (explicit + extended sweep), CSS `var()` resolution. |
+| `scripts/validate-a11y-html.mjs` | HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph). |
+| `scripts/validate-a11y-css.mjs` | CSS accessibility (transitions guarded, outline replaced on `:focus-visible`). |
+| `scripts/validate-cli-conventions.mjs` | bun scripts follow [`docs/CLI-TUI-GUIDELINES.md`](./docs/CLI-TUI-GUIDELINES.md). |
 | `nix/ghostty.nix` | Nix derivation: wraps Ghostty with Jylhis themes. |
 | `nix/emacs.nix` | Nix derivation: Emacs theme package via `trivialBuild`. |
 | `nix/themes.nix` | Nix derivation: all theme files as a single package. |
 | `platforms/` | Generated theme files. `shell/` and `KEYBOARD.md` are hand‑authored. |
 | `platforms/charm/` | Go package (`jylhis`) for Charm TUIs — palette + pre-built lipgloss styles + themed bubbles + Bubble Tea light/dark detection. |
 | `docs/INTEGRATION.md` | How to consume the system from web, Go, terminal, Emacs, Wayland, Nix; how to add a new platform. |
+| `docs/CLI-TUI-GUIDELINES.md` | Design conventions for any CLI/TUI shipped with the system. |
+| `docs/ACCESSIBILITY.md` | Measurable WCAG commitments, CVD policy, and what the validators enforce. |
+| `docs/STYLE-GUIDE.md` | Visual language: when to pick which token. |
+| `platforms/KEYBOARD.md` | Focus, kbd, command-palette, selected-row, canonical shortcuts. |
 | `preview/` | HTML specimen cards for the showcase. |
 | `prototypes/` | Desktop and tablet interactive prototypes. |
 | `ui_kits/website/` | React recreation of the Astro site. |
@@ -110,13 +117,18 @@ ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 ### Development
 
 ```bash
-bun scripts/generate.mjs          # regenerate targets from tokens.json
-bun scripts/generate.mjs --check  # verify committed files match (CI mode)
-bun scripts/validate-tokens.mjs   # schema + contrast validation
-serve-pages                       # build the GitHub Pages artifact, serve _site locally, rebuild on changes
+bun scripts/generate.mjs                  # regenerate targets from tokens.json
+bun scripts/generate.mjs --check          # verify committed files match (CI mode)
+bun scripts/validate-tokens.mjs           # schema + contrast validation
+bun scripts/validate-a11y-html.mjs        # HTML accessibility
+bun scripts/validate-a11y-css.mjs         # CSS accessibility
+bun scripts/validate-cli-conventions.mjs  # CLI conventions audit
+serve-pages                               # build the GitHub Pages artifact, serve locally, rebuild on changes
 ```
 
-Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md).
+All five validators support `--help` and `--version` and run in CI on every push.
+
+Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md). Design conventions for command-line tools: [`docs/CLI-TUI-GUIDELINES.md`](./docs/CLI-TUI-GUIDELINES.md). Accessibility commitments: [`docs/ACCESSIBILITY.md`](./docs/ACCESSIBILITY.md).
 Version history: [`CHANGELOG.md`](./CHANGELOG.md).
 
 ---

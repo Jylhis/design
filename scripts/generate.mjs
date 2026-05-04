@@ -16,6 +16,30 @@ import { tmpdir } from "node:os";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(resolve(ROOT, p), "utf8");
+
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  process.stdout.write(`Usage: generate [--check] [--help] [--version]
+
+Reads tokens.json (the single source of truth) and writes all platform-
+specific theme files (tokens.css, tokens-data.js, platforms/*).
+
+Options:
+  --check     Generate to a temp dir, diff against committed files, exit 1
+              if any file is out of sync. Use in CI.
+  -h, --help  Show this help and exit.
+  --version   Show version and exit.
+
+Examples:
+  bun scripts/generate.mjs            # write generated files in-place
+  bun scripts/generate.mjs --check    # CI mode: fail if files diverge
+`);
+  process.exit(0);
+}
+if (process.argv.includes("--version")) {
+  process.stdout.write("generate 1.0.0\n");
+  process.exit(0);
+}
+
 const tokens = JSON.parse(read("tokens.json"));
 
 const checkMode = process.argv.includes("--check");

@@ -9,15 +9,22 @@ A personal design system for jylhis.com. Warm cream paper, single copper accent,
 ## Commands
 
 ```bash
-bun scripts/generate.mjs          # regenerate platform targets from tokens.json
-bun scripts/generate.mjs --check  # exit 1 if committed files diverge from tokens.json (CI mode)
-bun scripts/validate-tokens.mjs   # validate tokens.json schema + WCAG contrast + CSS var() resolution
-serve-pages                       # build the GitHub Pages artifact, serve _site locally, rebuild on changes
+bun scripts/generate.mjs                  # regenerate platform targets from tokens.json
+bun scripts/generate.mjs --check          # exit 1 if committed files diverge from tokens.json (CI mode)
+bun scripts/validate-tokens.mjs           # tokens.json schema + WCAG contrast + CSS var() resolution
+bun scripts/validate-a11y-html.mjs        # HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph)
+bun scripts/validate-a11y-css.mjs         # CSS accessibility (transitions guarded; outline:none has :focus-visible replacement)
+bun scripts/validate-cli-conventions.mjs  # bun scripts follow docs/CLI-TUI-GUIDELINES.md (--help, --version, stderr, exit codes)
+serve-pages                               # build the GitHub Pages artifact, serve _site locally, rebuild on changes
 ```
+
+All five validators support `--help` and `--version`.
 
 Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and three convenience scripts: `generate`, `validate-tokens`, and `serve-pages`.
 
-CI (`.github/workflows/validate.yml`) runs `generate.mjs --check` and `validate-tokens.mjs` on every push/PR — so any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
+CI (`.github/workflows/validate.yml`) runs all five validators on every push/PR. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
+
+Specs the validators enforce live in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md), [`docs/CLI-TUI-GUIDELINES.md`](docs/CLI-TUI-GUIDELINES.md), and [`platforms/KEYBOARD.md`](platforms/KEYBOARD.md). For deeper review beyond static checks, invoke the `/design-review` skill in `.claude/skills/design-review/`.
 
 ## Architecture
 
