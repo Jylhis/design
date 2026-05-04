@@ -152,6 +152,25 @@ stylix.base16Scheme = "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-roast.ya
 
 This avoids re-deriving the palette in your config.
 
+### Variant switching
+
+A small shell helper at `platforms/scripts/jylhis-theme-toggle.sh`
+flips between paper and roast and reloads waybar / mako / hyprland.
+It mirrors `platforms/emacs/jylhis-theme-toggle.el` for the desktop
+side, so a single keybind can flip both.
+
+```bash
+# Path under the Nix package:
+$(jylhis-themes)/share/jylhis/scripts/jylhis-theme-toggle.sh
+
+# Bind in Hyprland:
+bind = SUPER SHIFT, T, exec, ~/.local/bin/jylhis-theme-toggle.sh
+```
+
+State lives at `$XDG_STATE_HOME/jylhis/active-theme` (defaults to
+`~/.local/state/jylhis/active-theme`). The script writes atomically
+and prints the new variant on stdout for callers that want to chain.
+
 ---
 
 ## Coexisting with Stylix

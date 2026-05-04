@@ -106,6 +106,11 @@ stdenvNoCC.mkDerivation {
 
     # Mako paper variant
     cp platforms/mako/config-paper $out/share/jylhis/mako/
+
+    # Helper scripts
+    mkdir -p $out/share/jylhis/scripts
+    install -m 0755 platforms/scripts/jylhis-theme-toggle.sh \
+      $out/share/jylhis/scripts/jylhis-theme-toggle.sh
   '';
 
   meta = {
