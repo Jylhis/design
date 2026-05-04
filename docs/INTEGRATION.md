@@ -185,6 +185,39 @@ base16 palette, which can also come from `jylhis-themes` via the
 
 ---
 
+## Greeters (tuigreet / regreet)
+
+Login greeters render in the kernel/console palette, so they pick up
+whatever the active ANSI 16 looks like — there's no separate Jylhis
+theme file to drop in. The mapping below is what you should pass to
+`tuigreet --theme` (or set in regreet's TOML) to get a coherent
+look across boot → login → desktop.
+
+| Greeter slot | ANSI name        | Role / hex (paper · roast)     |
+|---|---|---|
+| `border`     | `bright-black`   | faint — `#8a7f72` · `#6b6157`  |
+| `text`       | `white` / `bright-white` | text-muted · text-bright |
+| `time`       | `cyan`           | syn-type — Modus cyan-cooler   |
+| `container`  | `black`          | bg inversion — `#2c2825` · `#1a1714` |
+| `prompt`     | `bright-yellow`  | **brand copper** — `#b5703c` · `#e89b5e` |
+| `input`      | `white`          | text-muted (foreground)        |
+| `action`     | `bright-yellow`  | brand copper                   |
+| `button`     | `magenta`        | Modus magenta                  |
+| `greet`      | `bright-magenta` | Modus magenta-cooler           |
+
+Example tuigreet invocation:
+
+```
+tuigreet \
+  --theme 'border=bright_black;text=white;time=cyan;container=black;prompt=bright_yellow;input=white;action=bright_yellow;button=magenta;greet=bright_magenta'
+```
+
+`bright-yellow` is the intentional override — it's always the brand
+copper across all terminal-adjacent targets, so prompts and active
+controls carry the Jylhis identity even on the login screen.
+
+---
+
 ## Adding a new platform
 
 1. **Read `tokens.json`** — every value you need is there.
