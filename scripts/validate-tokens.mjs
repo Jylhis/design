@@ -163,6 +163,27 @@ for (const { fg, bg, mode, min, label } of sweep) {
   if (ratio < min) fail(`sweep: ${label} ${fgc} on ${bgc} = ${ratio.toFixed(2)}:1 (< ${min}:1)`);
 }
 
+// ─── 2c. ANSI 7 / 15 must be foreground tones ────────────────────────
+// Many TUI apps emit \e[37m or \e[97m for plain text — if those slots
+// resolve to background tones, paragraphs become unreadable on the bg.
+// Require AA-Normal (4.5:1) against palette.bg in both modes.
+let ansiFgChecksDone = 0;
+for (const slot of [7, 15]) {
+  for (const mode of ["light", "dark"]) {
+    const a = tokens.ansi?.[slot];
+    const bg = tokens.palette?.bg?.[mode];
+    if (!a || !bg) continue;
+    const ratio = contrast(a[mode], bg);
+    ansiFgChecksDone++;
+    if (ratio < 4.5) {
+      fail(
+        `contrast: ANSI ${slot} (${a.name}, ${mode}) ${a[mode]} on bg ${bg} ` +
+        `= ${ratio.toFixed(2)}:1 (< 4.5:1) — these slots must be foreground tones`,
+      );
+    }
+  }
+}
+
 // ─── 3. CSS var(--…) resolution in colors_and_type.css ───────────────
 
 const css = read("colors_and_type.css");
@@ -181,11 +202,11 @@ for (const [, ref] of allCss.matchAll(/var\((--[a-z0-9-]+)[,)]/g)) {
 // ─── Report ──────────────────────────────────────────────────────────
 
 if (errors.length) {
-  console.error(`\n\u2717 ${errors.length} validation issue(s):\n`);
+  console.error(`\n✗ ${errors.length} validation issue(s):\n`);
   for (const e of errors) console.error(`  - ${e}`);
   console.error("");
   process.exit(1);
 }
 
 const roleCount = requiredPalette.length + requiredSyntax.length + 4 + 16;
-console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept contrast checks)`);
+console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg contrast checks)`);

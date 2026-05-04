@@ -395,7 +395,7 @@
    `(ansi-color-blue                ((,class :foreground "#0031a9" :background "#0031a9")))
    `(ansi-color-magenta             ((,class :foreground "#721045" :background "#721045")))
    `(ansi-color-cyan                ((,class :foreground "#005f5f" :background "#005f5f")))
-   `(ansi-color-white               ((,class :foreground "#e8e1d6" :background "#e8e1d6")))
+   `(ansi-color-white               ((,class :foreground "#6b5f54" :background "#6b5f54")))
    `(ansi-color-bright-black        ((,class :foreground "#8a7f72" :background "#8a7f72")))
    `(ansi-color-bright-red          ((,class :foreground "#972500" :background "#972500")))
    `(ansi-color-bright-green        ((,class :foreground "#315b00" :background "#315b00")))
@@ -403,7 +403,7 @@
    `(ansi-color-bright-blue         ((,class :foreground "#3548cf" :background "#3548cf")))
    `(ansi-color-bright-magenta      ((,class :foreground "#531ab6" :background "#531ab6")))
    `(ansi-color-bright-cyan         ((,class :foreground "#005e8b" :background "#005e8b")))
-   `(ansi-color-bright-white        ((,class :foreground "#fefdfb" :background "#fefdfb")))
+   `(ansi-color-bright-white        ((,class :foreground "#2c2825" :background "#2c2825")))
 
    ;; ─────────────────────────────────────────────
    ;; Misc
@@ -434,7 +434,7 @@
  'jylhis-paper
  '(ansi-color-names-vector
    ["#2c2825" "#a60000" "#006800" "#6f5500"
-    "#0031a9" "#721045" "#005f5f" "#e8e1d6"])
+    "#0031a9" "#721045" "#005f5f" "#6b5f54"])
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(hl-todo-keyword-faces

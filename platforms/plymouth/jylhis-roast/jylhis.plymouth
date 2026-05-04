@@ -1,0 +1,9 @@
+# Jylhis Roast — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Roast
+Description=Jylhis design system — roast variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

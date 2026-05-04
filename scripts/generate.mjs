@@ -1325,11 +1325,16 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
+#wireplumber,
+#bluetooth,
+#power-profiles-daemon,
 #cpu,
 #memory,
 #tray,
 #custom-notifications,
-#custom-nix {
+#custom-nix,
+#custom-expand-icon,
+#hyprland-language {
     padding: 0 10px;
 }
 
@@ -1365,10 +1370,27 @@ window#waybar {
 #battery.critical { color: ${tokens.status["status-err"][mode]}; }     /* status-err  (Modus red)    */
 #battery.charging { color: ${tokens.status["status-ok"][mode]}; }     /* status-ok   (Modus green)  */
 
-/* Network / audio */
+/* Network / audio / power */
 #network.disconnected,
-#pulseaudio.muted {
+#pulseaudio.muted,
+#wireplumber.muted,
+#bluetooth.disabled,
+#bluetooth.off,
+#power-profiles-daemon.power-saver {
     color: ${c("text-faint")};
+}
+
+/* WirePluMber / Bluetooth / power-profiles-daemon — default text-muted */
+#wireplumber,
+#bluetooth,
+#power-profiles-daemon,
+#hyprland-language {
+    color: ${c("text-muted")};
+}
+
+#bluetooth.connected,
+#power-profiles-daemon.performance {
+    color: ${c("accent")};
 }
 
 /* Tray */
@@ -1381,6 +1403,10 @@ window#waybar {
 /* Custom modules \u2014 match syntax family */
 #custom-nix       { color: ${synType}; }     /* Modus cyan-cooler \u2014 syn-type */
 #custom-notifications.dnd { color: ${c("text-faint")}; }
+
+/* Tray drawer toggle (waybar tray expand pattern) */
+#custom-expand-icon { color: ${c("text-muted")}; }
+#custom-expand-icon:hover { color: ${c("accent")}; }
 
 /* Focus ring \u2014 when waybar modules are navigated via keyboard */
 button:focus {
@@ -1828,6 +1854,119 @@ function generateTmTheme(mode) {
 `;
 }
 
+// ─── 17. NixOS console.colors fragment ──────────────────────────────
+
+function generateConsole(mode = "dark") {
+  const label = mode === "light" ? "Paper" : "Roast";
+  const hex = (i) => tokens.ansi[i][mode].slice(1); // drop leading #
+  const cols = tokens.ansi.map((_, i) => hex(i));
+
+  // console.colors expects 16 hex strings (no '#'), in ANSI 0..15 order.
+  return `# Jylhis ${label} — GENERATED from tokens.json. Do not edit by hand.
+#
+# NixOS Linux virtual console (TTY) palette. Import from your
+# configuration.nix or a NixOS module:
+#
+#   imports = [ "\${pkgs.jylhis-themes}/share/jylhis/console/jylhis-${mode === "light" ? "paper" : "roast"}.nix" ];
+#
+# After a rebuild, the kernel TTY (Ctrl-Alt-F1..6) and any greeter that
+# inherits the console palette will use the Jylhis ANSI 16.
+
+{
+  console.colors = [
+    "${cols[0]}" "${cols[1]}" "${cols[2]}" "${cols[3]}" "${cols[4]}" "${cols[5]}" "${cols[6]}" "${cols[7]}"
+    "${cols[8]}" "${cols[9]}" "${cols[10]}" "${cols[11]}" "${cols[12]}" "${cols[13]}" "${cols[14]}" "${cols[15]}"
+  ];
+}
+`;
+}
+
+// ─── 18. Plymouth boot splash (text + spinner, no PNG) ──────────────
+
+function hexToRgbFloats(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const f = (v) => (v / 255).toFixed(3);
+  return { r: f((n >> 16) & 255), g: f((n >> 8) & 255), b: f(n & 255) };
+}
+
+function generatePlymouthManifest(mode) {
+  const variant = mode === "light" ? "paper" : "roast";
+  const label = mode === "light" ? "Paper" : "Roast";
+
+  return `# Jylhis ${label} — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis ${label}
+Description=Jylhis design system — ${variant} variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script
+`;
+}
+
+function generatePlymouthScript(mode) {
+  const variant = mode === "light" ? "paper" : "roast";
+  const bg = hexToRgbFloats(color("bg", mode));
+  const text = hexToRgbFloats(color("text", mode));
+  const accent = hexToRgbFloats(color("accent", mode));
+
+  return `# Jylhis ${variant} — GENERATED from tokens.json. Do not edit by hand.
+#
+# Text + spinner Plymouth theme. No PNG assets — purely script-driven so
+# every color comes from tokens.json. Renders centered "JYLHIS" wordmark
+# above an 8-dot spinner using palette.accent.
+
+# Solid-color background fill.
+Window.SetBackgroundTopColor(${bg.r}, ${bg.g}, ${bg.b});
+Window.SetBackgroundBottomColor(${bg.r}, ${bg.g}, ${bg.b});
+
+# Wordmark — Plymouth's default font is fine; we don't ship JetBrains Mono.
+title_image = Image.Text("JYLHIS", ${text.r}, ${text.g}, ${text.b}, 1.0);
+title = Sprite(title_image);
+title.SetX(Window.GetWidth() / 2 - title_image.GetWidth() / 2);
+title.SetY(Window.GetHeight() / 2 - title_image.GetHeight() / 2 - 32);
+
+# Spinner — 8 dots arranged on a circle, one highlighted at a time.
+NUM_DOTS = 8;
+RADIUS   = 28;
+PI       = 3.14159265;
+cx       = Window.GetWidth()  / 2;
+cy       = Window.GetHeight() / 2 + 24;
+
+for (i = 0; i < NUM_DOTS; i++) {
+  dot_image[i] = Image.Text("●", ${accent.r}, ${accent.g}, ${accent.b}, 1.0);
+  dot[i] = Sprite(dot_image[i]);
+  angle = i * 2 * PI / NUM_DOTS;
+  dot[i].SetX(cx + Math.Cos(angle) * RADIUS - dot_image[i].GetWidth()  / 2);
+  dot[i].SetY(cy + Math.Sin(angle) * RADIUS - dot_image[i].GetHeight() / 2);
+  dot[i].SetOpacity(0.20);
+}
+
+# Rotate the brightest dot around the ring at ~3 revolutions per second.
+phase = 0;
+fun refresh() {
+  for (i = 0; i < NUM_DOTS; i++) {
+    d = (i - Math.Int(phase) + NUM_DOTS) % NUM_DOTS;
+    if (d == 0)      dot[i].SetOpacity(1.00);
+    else if (d == 1) dot[i].SetOpacity(0.60);
+    else if (d == 2) dot[i].SetOpacity(0.35);
+    else             dot[i].SetOpacity(0.18);
+  }
+  phase = phase + 0.05;
+  if (phase >= NUM_DOTS) phase = 0;
+}
+Plymouth.SetRefreshFunction(refresh);
+
+# Hide on quit (system has booted).
+fun quit() {
+  title.SetOpacity(0);
+  for (i = 0; i < NUM_DOTS; i++) dot[i].SetOpacity(0);
+}
+Plymouth.SetQuitFunction(quit);
+`;
+}
+
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
@@ -1857,6 +1996,12 @@ out("platforms/shell/fzf-paper.sh", generateFzf("light"));
 out("platforms/shell/fzf-roast.sh", generateFzf("dark"));
 out("platforms/bat/jylhis-paper.tmTheme", generateTmTheme("light"));
 out("platforms/bat/jylhis-roast.tmTheme", generateTmTheme("dark"));
+out("platforms/console/jylhis-paper.nix", generateConsole("light"));
+out("platforms/console/jylhis-roast.nix", generateConsole("dark"));
+out("platforms/plymouth/jylhis-paper/jylhis.plymouth", generatePlymouthManifest("light"));
+out("platforms/plymouth/jylhis-paper/jylhis.script",   generatePlymouthScript("light"));
+out("platforms/plymouth/jylhis-roast/jylhis.plymouth", generatePlymouthManifest("dark"));
+out("platforms/plymouth/jylhis-roast/jylhis.script",   generatePlymouthScript("dark"));
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────

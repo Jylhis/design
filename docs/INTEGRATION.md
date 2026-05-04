@@ -6,6 +6,53 @@ generated from it by `bun scripts/generate.mjs`.
 
 ---
 
+## Nix (flake — preferred)
+
+The repository is a flake. Pin it as an input and use the exposed
+modules, overlay, and packages directly — no `callPackage` boilerplate
+or wrapper packages needed.
+
+```nix
+{
+  inputs.jylhis-design.url = "github:Jylhis/design";
+
+  outputs = { self, nixpkgs, home-manager, jylhis-design, ... }: {
+    homeConfigurations.you = home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [ jylhis-design.overlays.default ];
+      };
+      modules = [
+        jylhis-design.homeManagerModules.default   # or homeModules.default
+        ({ ... }: {
+          jylhis.theme.enable  = true;
+          jylhis.theme.variant = "roast";          # or "paper"
+        })
+      ];
+    };
+  };
+}
+```
+
+After enabling the overlay, `pkgs.jylhis-themes` is available with the
+full theme tree under `${pkgs.jylhis-themes}/share/jylhis/`. Per-target
+packages (`pkgs.jylhis-themes-targets.waybar`, `…bat`, `…scripts`, …)
+expose just one target's files — useful when you only need a single
+slice of the system.
+
+Direct package builds:
+
+```bash
+nix build github:Jylhis/design#default        # all themes
+nix build github:Jylhis/design#waybar         # just waybar/* + tokens
+nix build github:Jylhis/design#ghostty-jylhis # ghostty wrapper
+```
+
+Available per-target attributes correspond to the keys in
+[`nix/install-map.nix`](../nix/install-map.nix).
+
+---
+
 ## Web (CSS)
 
 Copy `tokens.css` and `colors_and_type.css` into your project and import
@@ -80,13 +127,20 @@ identity.
 
 ### Nix (Ghostty with themes)
 
+With flakes (preferred):
+
 ```nix
-# In your NixOS or home-manager config:
+environment.systemPackages = [ jylhis-design.packages.${system}.ghostty-jylhis ];
+```
+
+Without flakes:
+
+```nix
 ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 ```
 
-This wraps Ghostty so that `theme = jylhis-paper` and `theme = jylhis-roast`
-work out of the box without manually copying files.
+Either form wraps Ghostty so `theme = jylhis-paper` and
+`theme = jylhis-roast` work out of the box without manually copying files.
 
 ---
 
@@ -114,16 +168,196 @@ programs.emacs.extraPackages = epkgs: [
 ];
 ```
 
+With flakes the same callPackage works against
+`jylhis-design.outPath`, e.g.
+`pkgs.callPackage "${jylhis-design}/nix/emacs.nix" { inherit (epkgs) trivialBuild; }`.
+A dedicated emacs flake output is not exposed because it depends on
+`epkgs.trivialBuild`, which is only available inside
+`programs.emacs.extraPackages`.
+
 ---
 
 ## Wayland / Linux desktop
 
-- **Hyprland:** `source = /path/to/platforms/hyprland/jylhis.conf`
+### Hyprland
+
+Source the shared file, the variant file, and (optionally) the keybinds
+file from `~/.config/hypr/hyprland.conf`. Order matters — variant must
+come after the shared base because it overrides `general:col.*` and
+`decoration:col.shadow`:
+
+```
+source = ~/.config/hypr/jylhis.conf            # shared (general/decoration/animations)
+source = ~/.config/hypr/jylhis-roast.conf      # or jylhis-paper.conf
+source = ~/.config/hypr/jylhis-keys.conf       # optional
+# … your overrides below …
+```
+
+### Other Wayland targets
+
 - **Waybar:** `include-path` the CSS in `platforms/waybar/`
 - **Mako:** symlink `platforms/mako/config` to `~/.config/mako/config`
 - **Rofi:** set `@theme "platforms/rofi/jylhis-paper"` (or `jylhis-roast`)
 - **GTK 3/4:** import `platforms/gtk/gtk.css` from your user GTK stylesheet
 - **Kvantum/Qt:** point `kvantummanager` at `platforms/kvantum/`
+
+### Stylix base16 one-liner
+
+If you use Stylix, the generated base16 YAML is shipped at a stable
+path under the Nix derivation — point Stylix at it directly:
+
+```nix
+stylix.base16Scheme = "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-roast.yaml";
+# or jylhis-paper.yaml
+```
+
+This avoids re-deriving the palette in your config.
+
+### Variant switching
+
+A small shell helper at `platforms/scripts/jylhis-theme-toggle.sh`
+flips between paper and roast and reloads waybar / mako / hyprland.
+It mirrors `platforms/emacs/jylhis-theme-toggle.el` for the desktop
+side, so a single keybind can flip both.
+
+```bash
+# Path under the Nix package:
+$(jylhis-themes)/share/jylhis/scripts/jylhis-theme-toggle.sh
+
+# Bind in Hyprland:
+bind = SUPER SHIFT, T, exec, ~/.local/bin/jylhis-theme-toggle.sh
+```
+
+State lives at `$XDG_STATE_HOME/jylhis/active-theme` (defaults to
+`~/.local/state/jylhis/active-theme`). The script writes atomically
+and prints the new variant on stdout for callers that want to chain.
+
+---
+
+## Coexisting with Stylix
+
+Importing the Jylhis Home-Manager module on a system that also runs
+Stylix produces several `home.sessionVariables` and config-file
+collisions, because both projects target the same applications.
+
+The Jylhis HM module is authoritative for the targets it owns
+(`mkForce` on the FZF colors). To avoid the collision, disable
+the duplicated Stylix targets on the Home-Manager side:
+
+```nix
+stylix.targets = {
+  fzf.enable      = false;
+  bat.enable      = false;
+  gtk.enable      = false;
+  starship.enable = false;
+  hyprland.enable = false;
+  waybar.enable   = false;
+  mako.enable     = false;
+  ghostty.enable  = false;
+  hyprlock.enable = false;
+  console.enable  = false;
+};
+```
+
+Stylix's `qt` target can stay enabled — it derives Qt colors from the
+base16 palette, which can also come from `jylhis-themes` via the
+`stylix.base16Scheme` one-liner above.
+
+---
+
+## Boot path (Plymouth + NixOS console)
+
+The boot path is covered end-to-end so the look stays cohesive from
+power-on to login: Plymouth splash → kernel TTY palette → greeter →
+desktop.
+
+### Plymouth splash
+
+A minimal text-and-spinner Plymouth theme is shipped per variant.
+No PNG assets — every color is derived from `tokens.json` at
+generation time, so the splash always matches the active palette.
+
+```nix
+{ pkgs, ... }:
+{
+  boot.plymouth = {
+    enable = true;
+    themePackages = [ pkgs.jylhis-themes ];
+    theme = "jylhis-roast";  # or "jylhis-paper"
+  };
+}
+```
+
+Plymouth searches `themePackages` for `share/plymouth/themes/<theme>`,
+so a small overlay (or a shim package) may be needed to symlink
+`share/jylhis/plymouth/jylhis-{paper,roast}/` into the path Plymouth
+expects:
+
+```nix
+nixpkgs.overlays = [(final: prev: {
+  plymouth-theme-jylhis = final.runCommand "plymouth-theme-jylhis" {} ''
+    mkdir -p $out/share/plymouth/themes
+    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-paper $out/share/plymouth/themes/jylhis-paper
+    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-roast $out/share/plymouth/themes/jylhis-roast
+  '';
+})];
+boot.plymouth.themePackages = [ pkgs.plymouth-theme-jylhis ];
+```
+
+Untested on real hardware; verified by `nix build` only. Boot-test
+in a NixOS VM before rolling out.
+
+### Linux virtual console
+
+The Linux virtual console (`Ctrl-Alt-F1..F6`) reads its 16-color
+palette from `console.colors`. The Jylhis ANSI 16 is shipped as a
+ready-to-import NixOS fragment:
+
+```nix
+imports = [
+  "${pkgs.jylhis-themes}/share/jylhis/console/jylhis-roast.nix"
+  # or jylhis-paper.nix
+];
+```
+
+After `nixos-rebuild switch`, the kernel TTY and any greeter that
+inherits the console palette (tuigreet over `console-on-tty1`, etc.)
+will use the Jylhis colors. ANSI 11 is intentionally the brand copper
+across all targets, so prompts and active controls carry the Jylhis
+identity from the very first line of console output.
+
+---
+
+## Greeters (tuigreet / regreet)
+
+Login greeters render in the kernel/console palette, so they pick up
+whatever the active ANSI 16 looks like — there's no separate Jylhis
+theme file to drop in. The mapping below is what you should pass to
+`tuigreet --theme` (or set in regreet's TOML) to get a coherent
+look across boot → login → desktop.
+
+| Greeter slot | ANSI name        | Role / hex (paper · roast)     |
+|---|---|---|
+| `border`     | `bright-black`   | faint — `#8a7f72` · `#6b6157`  |
+| `text`       | `white` / `bright-white` | text-muted · text-bright |
+| `time`       | `cyan`           | syn-type — Modus cyan-cooler   |
+| `container`  | `black`          | bg inversion — `#2c2825` · `#1a1714` |
+| `prompt`     | `bright-yellow`  | **brand copper** — `#b5703c` · `#e89b5e` |
+| `input`      | `white`          | text-muted (foreground)        |
+| `action`     | `bright-yellow`  | brand copper                   |
+| `button`     | `magenta`        | Modus magenta                  |
+| `greet`      | `bright-magenta` | Modus magenta-cooler           |
+
+Example tuigreet invocation:
+
+```
+tuigreet \
+  --theme 'border=bright_black;text=white;time=cyan;container=black;prompt=bright_yellow;input=white;action=bright_yellow;button=magenta;greet=bright_magenta'
+```
+
+`bright-yellow` is the intentional override — it's always the brand
+copper across all terminal-adjacent targets, so prompts and active
+controls carry the Jylhis identity even on the login screen.
 
 ---
 

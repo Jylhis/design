@@ -294,8 +294,9 @@ export const tokens = {
     },
     {
       "name": "white",
-      "light": "#e8e1d6",
-      "dark": "#e8e0d4"
+      "light": "#6b5f54",
+      "dark": "#e8e0d4",
+      "role": "ANSI 7 — text-muted on paper, surface-faint on roast"
     },
     {
       "name": "bright-black",
@@ -341,8 +342,9 @@ export const tokens = {
     },
     {
       "name": "bright-white",
-      "light": "#fefdfb",
-      "dark": "#f0eae0"
+      "light": "#2c2825",
+      "dark": "#f0eae0",
+      "role": "ANSI 15 — text on paper, fg-bright on roast"
     }
   ],
   "typography": {
