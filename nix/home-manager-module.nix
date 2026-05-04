@@ -113,9 +113,11 @@ in
       gtk4.extraCss = builtins.readFile "${themes}/share/jylhis/gtk/gtk.css";
     };
 
-    # fzf colors via session variables
+    # fzf colors via session variables.
+    # mkForce: importing this HM module is an explicit ask for jylhis colors —
+    # win over Stylix's `programs.fzf` target, which writes the same var.
     home.sessionVariables = lib.mkIf cfg.fzf.enable {
-      FZF_DEFAULT_OPTS = "--color=fg:${
+      FZF_DEFAULT_OPTS = lib.mkForce "--color=fg:${
         if variant == "roast" then "#e8e0d4" else "#2c2825"
       },bg:${
         if variant == "roast" then "#1a1714" else "#faf7f2"
