@@ -5,8 +5,10 @@
 #
 #   imports = [ "${pkgs.jylhis-themes}/share/jylhis/console/jylhis-roast.nix" ];
 #
-# After a rebuild, the kernel TTY (Ctrl-Alt-F1..6) and any greeter that
-# inherits the console palette will use the Jylhis ANSI 16.
+# Slots 0/7/15 are derived from the semantic palette (bg / text /
+# text-heading) rather than tokens.ansi — the kernel TTY uses slot 0 as the
+# actual background, so the ANSI-escape "text/bg inversion" mapping doesn't
+# apply here. All other slots match the ANSI Modus accents in tokens.ansi.
 
 {
   console.colors = [

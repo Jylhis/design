@@ -310,8 +310,8 @@ in a NixOS VM before rolling out.
 ### Linux virtual console
 
 The Linux virtual console (`Ctrl-Alt-F1..F6`) reads its 16-color
-palette from `console.colors`. The Jylhis ANSI 16 is shipped as a
-ready-to-import NixOS fragment:
+palette from `console.colors`. The Jylhis console palette is shipped
+as a ready-to-import NixOS fragment:
 
 ```nix
 imports = [
@@ -326,33 +326,41 @@ will use the Jylhis colors. ANSI 11 is intentionally the brand copper
 across all targets, so prompts and active controls carry the Jylhis
 identity from the very first line of console output.
 
+The console palette is **not** a verbatim copy of `tokens.ansi` — slot
+0 (background), slot 7 (default foreground), and slot 15 (bright
+foreground) are derived from the semantic palette (`bg`, `text`,
+`text-heading`) so the kernel TTY renders readably in both Paper and
+Roast. The kernel virtual console uses slot 0 as the actual background
+and has no separate page-bg channel, so the "text/bg inversion" role
+that `ansi.black` carries for terminal apps doesn't apply here.
+
 ---
 
 ## Greeters (tuigreet / regreet)
 
 Login greeters render in the kernel/console palette, so they pick up
-whatever the active ANSI 16 looks like — there's no separate Jylhis
-theme file to drop in. The mapping below is what you should pass to
-`tuigreet --theme` (or set in regreet's TOML) to get a coherent
-look across boot → login → desktop.
+whatever the active console palette looks like — there's no separate
+Jylhis theme file to drop in. The mapping below is what you should
+pass to `tuigreet --theme` (or set in regreet's TOML) to get a
+coherent look across boot → login → desktop.
 
 | Greeter slot | ANSI name        | Role / hex (paper · roast)     |
 |---|---|---|
 | `border`     | `bright-black`   | faint — `#8a7f72` · `#6b6157`  |
-| `text`       | `white` / `bright-white` | text-muted · text-bright |
+| `text`       | `white`          | body text — `#2c2825` · `#e8e0d4` |
 | `time`       | `cyan`           | syn-type — Modus cyan-cooler   |
-| `container`  | `black`          | bg inversion — `#2c2825` · `#1a1714` |
+| `container`  | `black`          | bg — `#faf7f2` · `#1a1714`     |
 | `prompt`     | `bright-yellow`  | **brand copper** — `#b5703c` · `#e89b5e` |
-| `input`      | `white`          | text-muted (foreground)        |
+| `input`      | `white`          | body text (foreground)         |
 | `action`     | `bright-yellow`  | brand copper                   |
 | `button`     | `magenta`        | Modus magenta                  |
-| `greet`      | `bright-magenta` | Modus magenta-cooler           |
+| `greet`      | `bright-white`   | text-heading — `#1e1b18` · `#f0eae0` |
 
 Example tuigreet invocation:
 
 ```
 tuigreet \
-  --theme 'border=bright_black;text=white;time=cyan;container=black;prompt=bright_yellow;input=white;action=bright_yellow;button=magenta;greet=bright_magenta'
+  --theme 'border=bright_black;text=white;time=cyan;container=black;prompt=bright_yellow;input=white;action=bright_yellow;button=magenta;greet=bright_white'
 ```
 
 `bright-yellow` is the intentional override — it's always the brand

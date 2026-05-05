@@ -184,6 +184,33 @@ for (const slot of [7, 15]) {
   }
 }
 
+// ─── 2d. Kernel TTY palette contrast ─────────────────────────────────
+// The Linux virtual console renders text using ANSI slot 0 as the actual
+// background and slot 7/15 as the default/bright foregrounds — there is
+// no separate page-bg channel. The generated console.colors fragment
+// (scripts/generate.mjs generateConsole) overrides those three slots from
+// palette.bg / palette.text / palette.text-heading; require AAA contrast
+// between them so the bare TTY and tuigreet stay readable in both modes.
+let ttyChecksDone = 0;
+for (const mode of ["light", "dark"]) {
+  const bg = tokens.palette?.bg?.[mode];
+  const checks = [
+    ["text",         tokens.palette?.text?.[mode]],
+    ["text-heading", tokens.palette?.["text-heading"]?.[mode]],
+  ];
+  for (const [name, fg] of checks) {
+    if (!fg || !bg) continue;
+    const ratio = contrast(fg, bg);
+    ttyChecksDone++;
+    if (ratio < 7) {
+      fail(
+        `contrast: TTY ${name} (${mode}) ${fg} on bg ${bg} ` +
+        `= ${ratio.toFixed(2)}:1 (< 7:1) — kernel TTY needs AAA fg-on-bg`,
+      );
+    }
+  }
+}
+
 // ─── 3. CSS var(--…) resolution in colors_and_type.css ───────────────
 
 const css = read("colors_and_type.css");
@@ -209,4 +236,4 @@ if (errors.length) {
 }
 
 const roleCount = requiredPalette.length + requiredSyntax.length + 4 + 16;
-console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg contrast checks)`);
+console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg + ${ttyChecksDone} TTY contrast checks)`);

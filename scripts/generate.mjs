@@ -1858,8 +1858,24 @@ function generateTmTheme(mode) {
 
 function generateConsole(mode = "dark") {
   const label = mode === "light" ? "Paper" : "Roast";
-  const hex = (i) => tokens.ansi[i][mode].slice(1); // drop leading #
-  const cols = tokens.ansi.map((_, i) => hex(i));
+  const sh = (s) => s.slice(1); // drop leading #
+
+  // The kernel TTY uses ANSI slot 0 as the actual screen background and slot
+  // 7 as the default foreground — there's no separate page-bg channel like
+  // terminal apps have. The tokens.ansi array is tuned for the terminal-app
+  // case (slot 0 carries the "text/bg inversion" role, slot 7 is text-muted
+  // on paper bg), so it produces an unreadable Paper TTY when copied verbatim.
+  //
+  // Override slots 0/7/15 from the semantic palette so the bare TTY and any
+  // greeter inheriting it stay readable in both variants. Accent slots
+  // (1-6, 9-14, including the brand-copper override at slot 11) keep the
+  // Modus values from tokens.ansi unchanged.
+  const semantic = {
+    0: tokens.palette.bg[mode],
+    7: tokens.palette.text[mode],
+    15: tokens.palette["text-heading"][mode],
+  };
+  const cols = tokens.ansi.map((slot, i) => sh(semantic[i] ?? slot[mode]));
 
   // console.colors expects 16 hex strings (no '#'), in ANSI 0..15 order.
   return `# Jylhis ${label} — GENERATED from tokens.json. Do not edit by hand.
@@ -1869,8 +1885,10 @@ function generateConsole(mode = "dark") {
 #
 #   imports = [ "\${pkgs.jylhis-themes}/share/jylhis/console/jylhis-${mode === "light" ? "paper" : "roast"}.nix" ];
 #
-# After a rebuild, the kernel TTY (Ctrl-Alt-F1..6) and any greeter that
-# inherits the console palette will use the Jylhis ANSI 16.
+# Slots 0/7/15 are derived from the semantic palette (bg / text /
+# text-heading) rather than tokens.ansi — the kernel TTY uses slot 0 as the
+# actual background, so the ANSI-escape "text/bg inversion" mapping doesn't
+# apply here. All other slots match the ANSI Modus accents in tokens.ansi.
 
 {
   console.colors = [
