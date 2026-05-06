@@ -13,7 +13,14 @@ import (
 // DefaultKeys is the Jylhis canonical keymap. It deliberately mirrors the
 // web app's command palette conventions so muscle memory transfers.
 //
-// Navigation is vim-native (hjkl) with arrow-key fallbacks everywhere.
+// Navigation primaries are GNU/Emacs (readline) — Ctrl-N/P/F/B — with
+// arrow-key fallbacks everywhere. This matches the GNU Readline default
+// (`set editing-mode emacs`) and the Emacs row in
+// platforms/KEYBOARD.md#shortcuts---canonical-bindings.
+//
+// VimKeys returns the opt-in vim variant (hjkl) for callers whose users
+// have explicitly chosen vim mode (--vim, $EDITOR=vi*, set -o vi).
+//
 // Escape always dismisses the topmost transient surface (filter, modal).
 
 type KeyMap struct {
@@ -28,8 +35,30 @@ type KeyMap struct {
 	Quit                  key.Binding // q / ctrl+c
 }
 
-// DefaultKeys returns the Jylhis keymap.
+// DefaultKeys returns the Jylhis keymap with Emacs/readline primaries.
 func DefaultKeys() KeyMap {
+	return KeyMap{
+		Up:    key.NewBinding(key.WithKeys("up", "ctrl+p"), key.WithHelp("↑/^p", "up")),
+		Down:  key.NewBinding(key.WithKeys("down", "ctrl+n"), key.WithHelp("↓/^n", "down")),
+		Left:  key.NewBinding(key.WithKeys("left", "ctrl+b"), key.WithHelp("←/^b", "left")),
+		Right: key.NewBinding(key.WithKeys("right", "ctrl+f"), key.WithHelp("→/^f", "right")),
+		Next:  key.NewBinding(key.WithKeys("tab"), key.WithHelp("tab", "next pane")),
+		Prev:  key.NewBinding(key.WithKeys("shift+tab"), key.WithHelp("⇧tab", "prev pane")),
+
+		Enter:       key.NewBinding(key.WithKeys("enter"), key.WithHelp("↵", "open")),
+		Back:        key.NewBinding(key.WithKeys("esc", "ctrl+g"), key.WithHelp("esc", "back")),
+		Filter:      key.NewBinding(key.WithKeys("/"), key.WithHelp("/", "filter")),
+		Palette:     key.NewBinding(key.WithKeys("ctrl+k"), key.WithHelp("^k", "palette")),
+		ToggleTheme: key.NewBinding(key.WithKeys("ctrl+shift+l"), key.WithHelp("^⇧L", "toggle theme")),
+		Help:        key.NewBinding(key.WithKeys("?"), key.WithHelp("?", "help")),
+		Quit:        key.NewBinding(key.WithKeys("q", "ctrl+c"), key.WithHelp("q", "quit")),
+	}
+}
+
+// VimKeys returns the opt-in vim variant of the Jylhis keymap. Use only
+// when the user has opted into vim mode. The Emacs primaries remain
+// reachable via the underlying bubbles defaults.
+func VimKeys() KeyMap {
 	return KeyMap{
 		Up:    key.NewBinding(key.WithKeys("up", "k"), key.WithHelp("↑/k", "up")),
 		Down:  key.NewBinding(key.WithKeys("down", "j"), key.WithHelp("↓/j", "down")),

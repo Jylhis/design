@@ -9,6 +9,9 @@
 // - non-zero exit on failure (process.exit with a non-zero arg)
 // - no spinner / redraw animation primitives in the default code path
 // - NO_COLOR honoured if the script emits ANSI colour
+// - if a colour library is imported, FORCE_COLOR is also honoured (warn)
+// - literal "--json" flag → suggest --format migration (warn)
+// - bare process.env.DEBUG read → suggest JYLHIS_DEBUG/JYLHIS_LOG (warn)
 //
 // This is a lightweight grep-style audit, not a runtime test.
 //
@@ -31,8 +34,11 @@ from docs/CLI-TUI-GUIDELINES.md:
   - non-zero exit on failure
   - no spinner / redraw glyphs in the default code path
   - NO_COLOR honoured if a colour library is imported
+  - FORCE_COLOR honoured alongside NO_COLOR (warn)
+  - literal "--json" flag → prefer --format json (warn)
+  - bare process.env.DEBUG read (warn; prefer JYLHIS_DEBUG/JYLHIS_LOG)
 
-Errors fail the script (exit 1).
+Errors fail the script (exit 1); warnings do not.
 `);
   process.exit(0);
 }
@@ -108,6 +114,40 @@ function checkScript(rel) {
   // 5. If a colour library is imported, NO_COLOR must be honoured somewhere.
   if (COLOR_LIB.test(src) && !/NO_COLOR/.test(src)) {
     record(rel, "error", "colour library imported but NO_COLOR is not honoured");
+  }
+
+  // 6. If a colour library is imported, FORCE_COLOR should be honoured too —
+  //    NO_COLOR disables, FORCE_COLOR/CLICOLOR_FORCE re-enable on non-TTY.
+  //    Warn, don't error: many scripts only need to suppress colour, not
+  //    force it.
+  if (COLOR_LIB.test(src) && !/FORCE_COLOR|CLICOLOR_FORCE/.test(src)) {
+    record(rel, "warn", "colour library imported but FORCE_COLOR / CLICOLOR_FORCE not honoured");
+  }
+
+  // Rules 7 and 8 are self-referential by nature: the validator's source
+  // must contain the patterns it looks for. Skip them on the validator
+  // itself; every other script in scripts/ is fair game.
+  const isSelf = rel.endsWith("validate-cli-conventions.mjs");
+
+  // 7. Literal "--json" flag string. The canonical form per
+  //    docs/CLI-TUI-GUIDELINES.md §2.2 is `-F json` / `--format json`,
+  //    with `--json` accepted only as a back-compat alias. Lines that
+  //    mention both `--json` and `--format` are treated as documentation
+  //    or alias-handling code, not as policy violations.
+  if (!isSelf) {
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!/["']--json["']/.test(line)) continue;
+      if (/--format/.test(line)) continue;
+      record(rel, "warn", `line ${i + 1}: literal "--json" — prefer --format json (alias permitted if --format also handled)`);
+    }
+  }
+
+  // 8. Bare `process.env.DEBUG` read. Collides with the npm `debug`
+  //    package's namespace convention; project tools should read
+  //    JYLHIS_DEBUG or JYLHIS_LOG instead.
+  if (!isSelf && /process\.env\.DEBUG\b/.test(src) && !/JYLHIS_DEBUG|JYLHIS_LOG/.test(src)) {
+    record(rel, "warn", "bare process.env.DEBUG — prefer JYLHIS_DEBUG / JYLHIS_LOG");
   }
 }
 
