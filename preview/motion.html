@@ -23,7 +23,14 @@
 
   .demo { margin: 22px 0 0; }
   .underline { font-family: "Literata", Georgia, serif; font-size: 16px; color: var(--color-accent); text-decoration: none; background-image: linear-gradient(currentColor, currentColor); background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px; transition: background-size 250ms cubic-bezier(0.2, 0.6, 0.2, 1); }
-  .underline:hover { background-size: 100% 1px; }
+  .underline:hover, .underline:focus, .underline.is-active { background-size: 100% 1px; }
+
+  @media (max-width: 480px) {
+    .row { grid-template-columns: 1fr; gap: 6px; }
+    .row .name { display: flex; align-items: baseline; gap: 8px; }
+    .row .name .duration { display: inline; margin-top: 0; }
+    .play { justify-self: end; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .puck { transition: none !important; }
@@ -65,6 +72,12 @@
       const tok = btn.dataset.target;
       const puck = document.querySelector(`.puck[data-token="${tok}"]`);
       puck.classList.toggle("move");
+    });
+  });
+  document.querySelectorAll(".underline").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      link.classList.toggle("is-active");
     });
   });
 </script>

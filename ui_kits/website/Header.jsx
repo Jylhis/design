@@ -15,7 +15,7 @@ const Header = ({ crumbs = [{label: 'home', href: '/', current: true}], onNav, o
   <header className="site-header">
     <a className="site-wordmark-group" onClick={(e)=>{e.preventDefault(); onNav && onNav('/');}} href="/">
       <span className="makers-mark"><Rune size={28}/></span>
-      <span className="wordmark">markus jylhänkangas</span>
+      <span className="wordmark">your name</span>
     </a>
     <div className="header-right">
       <nav className="breadcrumb" aria-label="Breadcrumb">

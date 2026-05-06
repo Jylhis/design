@@ -1,6 +1,6 @@
-# Jylhis website UI kit
+# Website UI kit
 
-Click-thru recreation of [jylhis.com](https://jylhis.com) (Astro 5.x) as a React prototype. Visuals lifted 1:1 from `src/styles/*.css` and `src/components/*.astro`.
+Click-thru recreation of a personal site as a React prototype, using the Jylhis design system tokens. Generic placeholder copy throughout — fork and replace with your own.
 
 ## Files
 - `index.html` — interactive prototype: home → notes list → note detail → projects list → project detail → resume → 404. Includes Tweaks panel (palette + light/dark).
@@ -11,9 +11,9 @@ Click-thru recreation of [jylhis.com](https://jylhis.com) (Astro 5.x) as a React
 
 ## Tweaks
 The Tweaks panel switches **light / dark**. There is only one palette:
-the warm copper-on-paper Jylhis brand. Syntax highlights inside code
-blocks are drawn from **Emacs Modus** (Operandi light / Vivendi dark) so
-code looks identical in the browser, in the editor, and in the terminal.
+the warm copper-on-paper Jylhis design system. Syntax highlights inside
+code blocks are drawn from **Emacs Modus** (Operandi light / Vivendi dark)
+so code looks identical in the browser, in the editor, and in the terminal.
 
 ## Gaps
 - Search overlay is stubbed (button alerts). In the real site, `/` opens an Orama-powered overlay.

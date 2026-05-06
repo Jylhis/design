@@ -4,9 +4,9 @@ const Footer = ({ onNav }) => (
     <div className="footer-rule" aria-hidden="true">────────────────────────────────────────────────────────────────────────</div>
     <nav className="footer-nav">
       {[
-        ['home', [['about','/'], ['currently','/#currently'], ['docs','https://docs.jylhis.com']]],
+        ['home', [['about','/'], ['currently','/#currently'], ['docs','https://docs.example.com']]],
         ['resume', [['experience','/resume/'], ['skills','/resume/'], ['education','/resume/']]],
-        ['projects', [['nixos','/projects/nixos/'], ['emacs','/projects/emacs/'], ['all projects','/projects/']]],
+        ['projects', [['workstation','/projects/workstation/'], ['editor','/projects/editor/'], ['all projects','/projects/']]],
         ['notes', [['latest','/notes/'], ['tags','/tags/'], ['rss feed','/rss.xml']]],
       ].map(([title, links]) => (
         <div className="nav-col" key={title}>
@@ -24,13 +24,13 @@ const Footer = ({ onNav }) => (
     <div className="footer-identity">
       <span className="dash">───</span>
       <span className="rune"><Rune size={14}/></span>
-      <span className="identity-text">markus jylhä · senior software engineer</span>
+      <span className="identity-text">your name · your role</span>
       <span className="dash">───</span>
     </div>
     <div className="footer-social">
-      <a href="https://github.com/Jylhis">github</a>
-      <a href="https://linkedin.com/in/jylhis">linkedin</a>
-      <a href="mailto:markus@jylhis.com">email</a>
+      <a href="https://github.com/your-org">github</a>
+      <a href="https://linkedin.com/in/your-handle">linkedin</a>
+      <a href="mailto:hello@example.com">email</a>
     </div>
     <div className="footer-colophon">set in literata &amp; jetbrains mono · built with astro · hosted on cloudflare</div>
     <div className="footer-rule" aria-hidden="true">────────────────────────────────────────────────────────────────────────</div>

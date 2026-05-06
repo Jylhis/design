@@ -2,21 +2,21 @@
 const HomePage = ({ onNav }) => (
   <div className="home-intro">
     <h1 className="headline">Build More, Work Less</h1>
-    <p className="role">senior software engineer · Zürich, CH</p>
-    <p className="tagline">Ship code from embedded firmware to distributed cloud systems. Transform how teams build, test, and deploy software.</p>
+    <p className="role">your role · your city</p>
+    <p className="tagline">A short tagline describing what you do. Two clauses, present tense, ending with the kind of impact you want a reader to remember.</p>
     <div className="home-greeting">
-      <p>I don't have enough hours in the day to build everything I want — and neither do you. That's why I focus on creating more with less time, actively working on not working by automating my job away one solution at a time.</p>
-      <p>Drive organisational change through DevOps transformations, security implementations, and developer workflow optimization. The kind of engineer who fixes problems before customers notice them.</p>
+      <p>One paragraph that opens the door — what you're working on, who you're working with, and the angle you take when you sit down at the keyboard. Specific, not breathless.</p>
+      <p>A second paragraph that sets up the rest of the site — links to deeper reads, current focus, anything you want a stranger to know in the first thirty seconds.</p>
     </div>
     <div className="currently-box" id="currently">
       <h3 className="currently-label">// currently</h3>
       <ul className="currently-list">
-        <li>building robotics and DevOps platforms at <a>Hexagon</a> in Zürich</li>
-        <li>rewriting this site with Astro 5.x and a new design system</li>
+        <li>shipping a small thing at <a>your company</a></li>
+        <li>learning a new tool worth writing about</li>
       </ul>
     </div>
     <div className="contact-links">
-      <a>markus@jylhis.com</a><a>github</a><a>linkedin</a>
+      <a>you@example.com</a><a>github</a><a>linkedin</a>
     </div>
   </div>
 );
@@ -72,11 +72,11 @@ alias grep='rg'`}
 );
 
 const PROJECTS = [
-  { slug: 'nixos', title: 'NixOS Configuration', status: 'active', perms: 'drwxr-xr-x', date: '2024-07-17', description: 'Personal spin of Omarchy with NixOS.', tags: ['nix','flakes'], github: 'Jylhis/marchyo' },
-  { slug: 'emacs', title: 'Emacs Configuration', status: 'active', perms: 'drwxr-xr-x', date: '2021-03-10', description: 'Modular literate Emacs config. Org-mode, Magit, Vertico.', tags: ['elisp','emacs'], github: 'Jylhis/emacs' },
-  { slug: 'nixpkgs', title: 'nixpkgs', status: 'contributed', perms: 'dr-xr-xr-x', date: '2023-03-04', description: 'Packages and modules contributed upstream.', tags: ['nix'], github: 'NixOS/nixpkgs' },
-  { slug: 'sympa', title: 'Sympa at CERN', status: 'archived', perms: 'drwxr--r--', date: '2020-08-01', description: '4× performance improvement for e-group lists. Patches upstreamed.', tags: ['perl','infra'] },
-  { slug: 'ghost-spawner', title: 'Ghost Spawner', status: 'experimental', perms: 'drwx------', date: '2024-02-14', description: 'Procedural entity generator for a Godot project.', tags: ['godot','gamedev'] },
+  { slug: 'workstation', title: 'Workstation Config', status: 'active', perms: 'drwxr-xr-x', date: '2024-07-17', description: 'Reproducible dev environment, dotfiles, and system setup.', tags: ['nix','flakes'], github: 'your-org/dotfiles' },
+  { slug: 'editor', title: 'Editor Config', status: 'active', perms: 'drwxr-xr-x', date: '2021-03-10', description: 'Modular literate editor setup with batteries included.', tags: ['elisp','emacs'], github: 'your-org/editor' },
+  { slug: 'upstream', title: 'upstream library', status: 'contributed', perms: 'dr-xr-xr-x', date: '2023-03-04', description: 'Patches and modules contributed to a popular package.', tags: ['oss'], github: 'upstream/library' },
+  { slug: 'mailing-list', title: 'mailing-list infra', status: 'archived', perms: 'drwxr--r--', date: '2020-08-01', description: 'Performance improvements to a self-hosted list manager.', tags: ['perl','infra'] },
+  { slug: 'ghost-spawner', title: 'Ghost Spawner', status: 'experimental', perms: 'drwx------', date: '2024-02-14', description: 'Procedural entity generator for a side game project.', tags: ['godot','gamedev'] },
 ];
 
 const ProjectsPage = ({ onOpenProject }) => (
@@ -113,8 +113,8 @@ const ProjectDetail = ({ project }) => (
     <p className="subtitle">{project.description}</p>
     <h2>Highlights</h2>
     <ul>
-      <li>Declarative system configuration</li>
-      <li>Home Manager integration</li>
+      <li>One specific outcome per bullet</li>
+      <li>Numbers where they help, words where they don't</li>
       <li>Modular architecture</li>
       <li>Reproducible builds</li>
     </ul>
@@ -128,20 +128,20 @@ const ProjectDetail = ({ project }) => (
 const ResumePage = () => (
   <div className="cv-page">
     <h1>resume</h1>
-    <p className="subtitle">Senior Software Engineer & DevOps Specialist — Zürich, CH</p>
+    <p className="subtitle">Your role · your specialty — your city</p>
     <DividerLabeled label="experience" />
     <CvEntry>
-      <CvRow role>Senior Software Engineer (DevOps)</CvRow>
-      <CvRow><span className="cv-company"><a>Hexagon Robotics</a></span> · <span className="cv-date">May 2025 — present</span> · Zürich</CvRow>
-      <CvRow desc>Early DevOps engineer for the project.</CvRow>
-      <CvRow highlight>Scaled CI infrastructure significantly</CvRow>
-      <CvRow highlight>Helped introduce fully reproducible dev environments, builds and packaging</CvRow>
-      <CvRow highlight>Promoted DevOps practices and culture</CvRow>
+      <CvRow role>Senior Engineer</CvRow>
+      <CvRow><span className="cv-company"><a>Acme Corp</a></span> · <span className="cv-date">May 2025 — present</span> · your city</CvRow>
+      <CvRow desc>One-line description of what the role is and the team you sit on.</CvRow>
+      <CvRow highlight>One specific outcome with a number where useful</CvRow>
+      <CvRow highlight>A second outcome that shows breadth, not a duplicate of the first</CvRow>
+      <CvRow highlight>A third outcome — keep the verbs strong</CvRow>
       <CvRow blank/>
-      <CvRow role>Fellow — Software Development & Infrastructure</CvRow>
-      <CvRow><span className="cv-company"><a>CERN</a></span> · <span className="cv-date">Aug 2020 — Apr 2022</span> · Geneva</CvRow>
-      <CvRow desc>Contributed to MALT, CERN's org-wide migration from Exchange to open source.</CvRow>
-      <CvRow highlight>Optimized Sympa for CERN e-groups, 4× performance improvement</CvRow>
+      <CvRow role>Engineer</CvRow>
+      <CvRow><span className="cv-company"><a>MegaOrg</a></span> · <span className="cv-date">Aug 2020 — Apr 2022</span> · previous city</CvRow>
+      <CvRow desc>One-line description of the team or programme you contributed to.</CvRow>
+      <CvRow highlight>The outcome you'd lead with in an interview</CvRow>
       <CvRow blank/>
     </CvEntry>
     <DividerLabeled label="skills" />
