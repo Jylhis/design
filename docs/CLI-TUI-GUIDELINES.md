@@ -47,9 +47,11 @@ Stable across the system. New tools adopt these names verbatim before inventing 
 | `-q` | `--quiet` | Suppress non-error output. |
 | `-n` | `--dry-run` | Show what would happen; do not mutate. |
 | `-f` | `--force` | Skip confirmation. Reserve for destructive commands. |
-| `-o` | `--output` | Write to path. `-` means stdout. |
-| `-i` |  | Read from stdin (or `--input`); `-` means stdin. |
-|  | `--json` | Emit machine-readable JSON. Mutually exclusive with `--plain`. |
+| `-o` | `--output PATH` | Write payload to a file. `-` means stdout. |
+| `-i` | `--input PATH` | Read payload from a file. `-` means stdin. |
+| `-F` | `--format FMT` | Output encoding. `text` (default, human-readable) · `json` · `yaml` · `tsv` · `csv` · `template=<go-template>` · `jsonpath=<expr>`. Only `text` may contain ANSI / decoration. |
+|  | `--input-format FMT` | Override input encoding when content-type sniffing isn't enough. Same vocabulary as `--format` minus templating. |
+|  | `--json` | Back-compat alias for `--format json`. Mutually exclusive with `--plain`. |
 |  | `--plain` | Strip colour, animation, decoration, box-drawing. |
 |  | `--no-color` | Force no colour even on a TTY. |
 |  | `--no-input` | Disable interactive prompts; fail on required input. |
@@ -77,14 +79,125 @@ tool <area> <verb> --help # detailed help with examples
 - **stderr** is for diagnostics: progress, prompts, warnings, errors.
 - **Exit codes**: `0` success; `1` runtime failure (couldn't find file, network error, validation failed); `2` usage error (bad flags, missing required arg). Reserve other codes for tool-specific signal and document them.
 - **TTY detection** drives default behaviour: colour, paging, prompts, animation only when stdout is a TTY (`process.stdout.isTTY` / `[ -t 1 ]` / `isatty(1)`). Piped output is plain by default.
-- **Structured output** for anything tabular, hierarchical, or long: support `--json` (and where useful `--yaml`, `--csv`). The plain text is for humans skimming; the structured form is for scripts and screen readers.
+- **Structured output** for anything tabular, hierarchical, or long: support `-F`/`--format` with the value vocabulary above. `text` is the human default; `json`, `yaml`, `tsv`, `csv`, `template=…`, `jsonpath=…` are the machine modes. Machine formats always go to **stdout**; progress and errors stay on **stderr** regardless of `--format`. `--json` remains as a back-compat alias for `--format json`. Auto-disable colour and animation when stdout is not a TTY, regardless of `--format` value.
 
 ### 2.5 Configuration
 
-- Follow the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/latest/): `$XDG_CONFIG_HOME/<tool>/config` (default `~/.config/<tool>/`), `$XDG_DATA_HOME`, `$XDG_CACHE_HOME`. Don't drop dotfiles in `$HOME`.
-- Precedence, highest first: command-line flags → environment variables → project config (`./.<tool>rc`) → user config (`~/.config/<tool>/`) → system config (`/etc/<tool>/`).
-- Document every env var the tool reads, prefixed with the tool name (`JYLHIS_NO_COLOR`, never bare `NO_COLOR` for tool-specific behaviour — that one is reserved for the cross-tool standard at <https://no-color.org>).
+- Follow the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/latest/). Don't drop dotfiles in `$HOME`. The full path map and the layered-merge order live in §2.5.2 below.
+- The full list of cross-tool environment variables every Jylhis tool must respect lives in §2.5.1.
+- Document every project-specific env var the tool reads, prefixed with the tool name (`JYLHIS_NO_COLOR`, never bare `NO_COLOR` for tool-specific behaviour — that one is reserved for the cross-tool standard at <https://no-color.org>).
 - **Never accept secrets via flags or env vars.** Both leak into `ps`, shell history, `systemctl show`, `docker inspect`. Take secrets from a file path, stdin, or a secret manager.
+
+### 2.5.1 Standard environment variables
+
+Every Jylhis tool honours the following without opt-in. Sources at the bottom of the doc.
+
+**Colour & rendering** — sources: [no-color.org](https://no-color.org/), [bixense.com/clicolors](https://bixense.com/clicolors/), `terminfo(5)`, POSIX.
+
+| Var | Behaviour |
+|---|---|
+| `NO_COLOR` | Set (any value, including empty) → disable all ANSI colour. |
+| `FORCE_COLOR` | `0` disables; `1`/`2`/`3` force-enable at 16 / 256 / 24-bit (Node `supports-color` convention). |
+| `CLICOLOR` | Default. Colour iff stdout is a TTY and `TERM != dumb`. `CLICOLOR=0` disables. |
+| `CLICOLOR_FORCE` | Force colour even when stdout is piped. |
+| `COLORTERM=truecolor`/`24bit` | Opt into 24-bit RGB; otherwise stay on the 16 named ANSI slots. |
+| `TERM`, `TERM=dumb` | `dumb` → no escape sequences at all. |
+| `TERMINFO`, `TERMCAP` | Override capability database path; respect when set. |
+| `LINES`, `COLUMNS` | Override detected terminal size; honour before `ioctl(TIOCGWINSZ)` fallback. |
+
+**Canonical colour-precedence chain** (highest priority first):
+
+1. `NO_COLOR` set → no colour.
+2. `--no-color` / `--color=never` flag → no colour.
+3. `CLICOLOR_FORCE` set, or `--color=always` flag → force colour.
+4. `FORCE_COLOR` non-zero → force colour.
+5. Default: colour iff `isatty(stdout)` and `TERM != dumb`.
+
+**Locale** — POSIX, GNU libc `locale(7)`.
+
+| Var | Use |
+|---|---|
+| `LC_ALL` | Overrides everything else. If set, use it. |
+| `LANG` | Default fallback. |
+| `LC_MESSAGES` | Translation catalogue selection. |
+| `LC_CTYPE` | Character classification (UTF-8 detection). Fall back to ASCII glyphs when locale is `C` / `POSIX`. |
+
+**Paths (XDG Base Directory Spec v0.8)** — [freedesktop.org](https://specifications.freedesktop.org/basedir-spec/latest/). Already honoured by `platforms/scripts/jylhis-theme-toggle.sh` for `active-theme` state.
+
+| Var | Default if unset | Use for |
+|---|---|---|
+| `XDG_CONFIG_HOME` | `~/.config` | User config files |
+| `XDG_DATA_HOME` | `~/.local/share` | App-generated user data (themes, plugins, dbs) |
+| `XDG_STATE_HOME` | `~/.local/state` | History, logs, recent-files |
+| `XDG_CACHE_HOME` | `~/.cache` | Disposable derived data |
+| `XDG_RUNTIME_DIR` | (must be set; usually `/run/user/$UID`) | Sockets, pipes, locks. Mode 0700. |
+| `XDG_CONFIG_DIRS` | `/etc/xdg` | System-wide config search path (colon-separated) |
+| `XDG_DATA_DIRS` | `/usr/local/share:/usr/share` | System-wide data search path |
+
+All XDG paths must be absolute; treat relative as invalid.
+
+**User & shell** — POSIX + freedesktop mime-apps spec.
+
+| Var | Use |
+|---|---|
+| `HOME`, `USER` / `LOGNAME`, `SHELL` | Don't re-derive when set. |
+| `EDITOR` | Line-based editor. |
+| `VISUAL` | Full-screen editor. **`VISUAL` wins over `EDITOR`** (POSIX). |
+| `PAGER` | Default `less -FRX`; degrade to `cat` if `TERM=dumb`. |
+| `BROWSER` | Colon-separated preference list. |
+| `TMPDIR` | Honour before `/tmp`. |
+| `HTTP_PROXY` / `HTTPS_PROXY` / `ALL_PROXY` / `NO_PROXY` | Honour both upper- and lower-case forms. |
+
+**Non-interactive / CI**
+
+| Var | Convention |
+|---|---|
+| `CI` | Any non-empty value → CI environment. Suppress prompts and animation. |
+| `DEBIAN_FRONTEND=noninteractive` | "No prompts allowed." |
+| `TERM=dumb` | No ANSI, no spinners, line-buffered. Emacs `M-x shell` sets this. |
+
+A robust interactivity check: stdin and stdout are both TTYs, `$CI` is unset, `$TERM != "dumb"`, and `--no-input` was not passed.
+
+**Debug / log verbosity**
+
+| Var | Convention |
+|---|---|
+| `JYLHIS_LOG=trace`/`debug`/`info`/`warn`/`error` | RUST_LOG-style level. Project-prefixed. |
+| `JYLHIS_DEBUG` | Boolean / namespace list. |
+| `JYLHIS_NO_COLOR`, `JYLHIS_FORCE_COLOR` | Per-tool overrides where the cross-tool ones are too coarse. |
+
+Read bare `DEBUG`, `RUST_LOG`, `NODE_DEBUG`, `GODEBUG` etc. **only** for tooling that already participates in those ecosystems — never to change cross-tool behaviour. Bare `DEBUG` collides with the npm `debug` package.
+
+### 2.5.2 Configuration file format
+
+**Locations** (XDG, ranked search order):
+
+```
+$XDG_CONFIG_HOME/<tool>/config.toml      # primary user config
+$XDG_CONFIG_HOME/<tool>/conf.d/*.toml    # drop-ins, applied alphabetically
+/etc/xdg/<tool>/config.toml              # system-wide
+./<tool>.toml or ./.<tool>.toml          # project-local (walked up from cwd)
+```
+
+**Format ranking** (community trend 2024–2026):
+
+1. **TOML** — preferred for human-edited config (Cargo, pyproject, starship, ghostty, gh). Strong typing, comments, predictable.
+2. **YAML** — only for k8s-adjacent or CI-pipeline tools. Whitespace-significant, error-prone for hand editing.
+3. **JSON** — machine-generated only; no comments. Use JSONC / JSON5 only if your parser supports them.
+4. **INI** — legacy git-style. Avoid for new tools.
+
+Don't ship dotfiles in arbitrary formats; pick one.
+
+**Layered resolution** (lowest → highest priority, per [12-factor §III](https://12factor.net/config) and [clig.dev](https://clig.dev/#configuration)):
+
+1. Built-in defaults (compiled in).
+2. System config (`/etc/xdg/<tool>/`, `XDG_CONFIG_DIRS`).
+3. User config (`$XDG_CONFIG_HOME/<tool>/`).
+4. Project config (walk up from cwd).
+5. Environment variables (`<TOOL>_*`).
+6. Command-line flags.
+
+`tool config show --format json` exposes the resolved values so scripts and humans can introspect what won. `.env` files are acceptable for project-local dev overrides but **not** a substitute for real config — no version history, strings only, security risk.
 
 ### 2.6 Errors and prompts
 
@@ -143,11 +256,14 @@ Pick one. Don't combine "floating overlay" and "multi-pane" in one screen — it
 
 ### 3.3 Keybindings
 
-- **vim-style by default**: `h`/`j`/`k`/`l` for navigation, `/` for search, `?` for help, `q` to quit, `g`/`G` for top/bottom.
-- **Always offer arrow-key fallback** — vim isn't universal, and the WCAG keyboard guideline is "operable through a keyboard interface", not "operable through a vim user".
-- **Visible hints**: a footer bar with the active bindings in muted text. Even one row is enough. `?` opens a full help overlay.
-- **Single-character shortcuts must be focus-scoped or remappable** (WCAG 2.1.4). When a text input has focus, `q` types `q`; it doesn't quit. When help is open, `j` scrolls help; it doesn't navigate the parent list.
-- Canonical bindings shared with the rest of the system live in [`../platforms/KEYBOARD.md#shortcuts---canonical-bindings`](../platforms/KEYBOARD.md#shortcuts--canonical-bindings).
+- **GNU/Emacs (readline) bindings by default.** Cursor movement `C-f` / `C-b` / `C-a` / `C-e`, history `C-p` / `C-n` / `C-r`, edit `C-d` / `C-h` / `C-k` / `C-u` / `C-w` / `M-f` / `M-b` / `M-d` / `C-y`, redraw `C-l`, cancel `C-g`. This is the [GNU Readline](https://tiswww.case.edu/php/chet/readline/readline.html) default (`set editing-mode emacs`) and matches the Emacs row of [`../platforms/KEYBOARD.md`](../platforms/KEYBOARD.md#shortcuts--canonical-bindings).
+- **Always offer arrow + `Home`/`End`/`PgUp`/`PgDn` fallback.** The WCAG keyboard guideline is "operable through a keyboard interface" — readline bindings aren't universal, and direction keys are.
+- **Minimum text-input subset** every Jylhis tool must support: `C-A` `C-E` `C-F` `C-B` `C-K` `C-U` `C-W` `C-D` `C-H` `C-L` `C-Y` `C-R`. The Charm `bubbles/textinput` already implements most of this. `C-S` (forward i-search) is best-effort — terminal flow control intercepts it; suggest `stty -ixon` in shell init for users who want it.
+- **Universally honoured**: `C-c` cancels; `C-d` on empty input is EOF.
+- **Vim mode is opt-in.** Activated via `--vim`, `set -o vi` / `bindkey -v`, or `set editing-mode vi` in `~/.inputrc`. When active, `h`/`j`/`k`/`l`/`0`/`$`/`g`/`G`/`/` work as expected; the Emacs primaries remain reachable so `?` overlays and footer hints stay accurate. Honour `$EDITOR`/`$VISUAL` for an auto-hint (vi/vim/nvim → suggest `--vim`).
+- **Visible hints**: a footer bar with the active bindings in `text-muted`. Even one row is enough. `?` opens a full help overlay. The hints reflect the active mode.
+- **Single-character shortcuts must be focus-scoped or remappable** (WCAG 2.1.4). When a text input has focus, `C-a` goes to start of line, not "select all"; `q` types `q`; it doesn't quit. When help is open, `C-n` scrolls help; it doesn't navigate the parent list.
+- Canonical action ↔ shortcut pairs shared with the rest of the system live in [`../platforms/KEYBOARD.md#shortcuts---canonical-bindings`](../platforms/KEYBOARD.md#shortcuts--canonical-bindings).
 
 ### 3.4 Focus and selection
 
@@ -167,6 +283,27 @@ Where a TUI writes its UI matters because it changes piping behaviour:
 
 Document which mode the tool uses, and provide a `--once` / `--plain` static path when both makes sense (a process viewer should also have `tool --once` that prints once and exits).
 
+### 3.6 Small interactive components
+
+Most tools don't need a full-screen layout — they need one well-behaved widget: a picker, a confirm, a text input. The Charm `bubbles` set wired up in [`../platforms/charm/jylhis/bubbles.go`](../platforms/charm/jylhis/bubbles.go) is the canonical small-component library; the shell-level peers are [`fzf`](https://github.com/junegunn/fzf), [`gum`](https://github.com/charmbracelet/gum), and [`rlwrap`](https://github.com/hanslub42/rlwrap).
+
+| Component | Use for | Charm model | Shell equivalent | Keymap |
+|---|---|---|---|---|
+| Single-select list | "Pick one of N" | `bubbles/list` (single) | `gum choose --limit 1`, `fzf` | `↓`/`C-n` and `↑`/`C-p` move; `Enter` selects; `C-g`/`Esc` cancels. Vim primaries (`j`/`k`) only when vim mode is on. |
+| Multi-select list | "Pick any of N" | `bubbles/list` + selection set | `gum choose --no-limit`, `fzf -m` | Above plus **`Tab`** to toggle. (Matches `fzf`/`gum`; `Space` is reserved for filter-or-pager paging.) |
+| Filter / fuzzy-pick | Long lists | `list` with `Filter` enabled | `fzf` | `/` enters filter (vim mode) or just type (default `fzf` style). `C-g` exits filter, restores list. |
+| Text input | Free-form value | `bubbles/textinput` | `gum input`; wrap non-readline tools in `rlwrap` | The minimum readline subset from §3.3. |
+| Confirm | Y/N gate | inline render or `gum confirm` | `read -r` | `y`/`n`, default capitalised, `Esc` cancels. |
+| Help overlay | Discoverable bindings | `bubbles/help` (`Help()` in `bubbles.go`) | n/a | `?` toggles, `Esc` closes. |
+| Progress / status | Long-running op | static text + milestone updates; `bubbles/spinner` only when `--no-animation` is *off* | static echo lines | n/a |
+
+Each component must:
+
+- Render an explicit empty-state line (`No items matching "<query>"`) — never a blank pane.
+- Restore caller focus on dismiss.
+- Honour `--plain`: drop borders and decorative glyphs, fall back to inverse-video for the selected row (per §3.4).
+- Announce its result on **stdout** suitable for command substitution (`vim "$(jylhis pick …)"`); send the UI itself to **stderr** if the result must pipe onward (the `fzf`/`gum` pattern, already covered in §3.5).
+
 ---
 
 ## 4. Accessibility specifics
@@ -175,7 +312,7 @@ The terminal predates WCAG. There is no comprehensive standard. WCAG2ICT and the
 
 ### 4.1 Colour and decoration
 
-- Honour `NO_COLOR`, `TERM=dumb`, and `--no-color` unconditionally. Honour an app-specific `JYLHIS_NO_COLOR` for finer control where the cross-tool one is too coarse.
+- Honour the colour-precedence chain in §2.5.1 unconditionally: `NO_COLOR` / `CLICOLOR=0` / `TERM=dumb` / `--no-color` disable; `FORCE_COLOR` / `CLICOLOR_FORCE` / `--color=always` force-enable. Honour app-specific `JYLHIS_NO_COLOR` / `JYLHIS_FORCE_COLOR` for finer control.
 - Provide `--plain` (or `--no-decoration`) that strips box-drawing characters, Unicode-glyph icons, ASCII art, and styled text. Useful for screen readers and scripts.
 - Status colour is **always** paired with a glyph or word. The system's canonical pattern lives in [`../preview/alerts.html`](../preview/alerts.html):
 
@@ -200,7 +337,7 @@ The terminal predates WCAG. There is no comprehensive standard. WCAG2ICT and the
 
 ### 4.3 Output structure
 
-- **Tables are an optional visual summary, not the only representation.** Long or hierarchical content needs a structured alternative: `--json`, `--yaml`, `--csv`. Screen readers cannot navigate a wall of cell-aligned ASCII; they can navigate JSON.
+- **Tables are an optional visual summary, not the only representation.** Long or hierarchical content needs a structured alternative: `--format json`, `--format yaml`, `--format tsv`/`csv`. Screen readers cannot navigate a wall of cell-aligned ASCII; they can navigate JSON.
 - **Labels before values, one concept per line.** Prefer `Path: ./docs` over `┌─────┐ ./docs ┌─────┐`. Whitespace beats box-drawing for assistive tech.
 - **Decorative Unicode glyphs** (`›`, `▸`, `└──`, `★`) inside output should be discardable by `--plain`. They are ornament; the meaning is in the words next to them.
 
@@ -225,7 +362,7 @@ The terminal predates WCAG. There is no comprehensive standard. WCAG2ICT and the
 | `--help` snapshot | Render at 80, 100, 120 cols. Compare to a committed fixture. CI fails on diff. |
 | TTY vs pipe | Run with stdout piped to `cat`; assert no ANSI escapes leak through. |
 | `NO_COLOR` | Set env var; assert plain output. |
-| `--json` round-trip | Parse the output with the language's JSON parser; assert structure. |
+| `--format json` round-trip | Parse the output with the language's JSON parser; assert structure. Repeat for `yaml`, `tsv`, `csv` if supported. |
 | Unicode width | Render content containing CJK, combining marks, zero-width joiners; assert no overflow. |
 | Destructive paths | `--dry-run` produces full plan with zero side effects; `--force` skips confirmation; cancel at the prompt produces exit 0 with no changes. |
 | Keyboard-only walkthrough | Hands off the mouse for an entire scenario. |
@@ -239,7 +376,7 @@ The terminal predates WCAG. There is no comprehensive standard. WCAG2ICT and the
 |---|---|---|
 | Colour-only error/success/warning | Colour-blind and speech users see no signal | Glyph + word + colour |
 | Spinner-only progress | Unintelligible to screen readers; redraw stutter | Static text milestones |
-| Dense ASCII tables as the only output | Unparseable by screen readers; brittle to resize | Plain labels first; `--json`/`--csv` for structure |
+| Dense ASCII tables as the only output | Unparseable by screen readers; brittle to resize | Plain labels first; `--format json`/`csv` for structure |
 | Hidden modes (no visible mode indicator) | Users get lost; speech users especially | Mode in the status bar at all times |
 | Shortcut overload (no `?` help) | Discoverability collapses | `?`/`F1` help; visible binding hints |
 | Box-drawing decoration around prose | Read aloud as punctuation noise | Whitespace, single rule character if needed |
@@ -277,4 +414,9 @@ The guidelines above are a synthesis of:
 - [Ratatui FAQ](https://ratatui.rs/faq/), [Bubble Tea](https://github.com/charmbracelet/bubbletea), [Textual docs](https://textual.textualize.io/).
 - [WAI-ARIA Authoring Practices: Keyboard Interaction](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/).
 - [no-color.org](https://no-color.org/) — the `NO_COLOR` standard.
+- [bixense.com/clicolors](https://bixense.com/clicolors/) — `CLICOLOR` / `CLICOLOR_FORCE` convention.
+- [npm `supports-color`](https://github.com/chalk/supports-color) — `FORCE_COLOR=0|1|2|3` levels.
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/latest/).
+- [GNU Readline manual](https://tiswww.case.edu/php/chet/readline/readline.html) — emacs vs vi editing modes, default keymap.
+- [GitHub CLI formatting manual](https://cli.github.com/manual/gh_help_formatting) · [kubectl output reference](https://kubernetes.io/docs/reference/kubectl/jsonpath/) · [aws CLI output formats](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-output-format.html) · [Docker CLI formatting](https://docs.docker.com/engine/cli/formatting/) · [Azure CLI output](https://learn.microsoft.com/en-us/cli/azure/format-output-azure-cli) — `--format` precedent.
+- [`fzf`](https://github.com/junegunn/fzf), [`gum`](https://github.com/charmbracelet/gum), [`rlwrap`](https://github.com/hanslub42/rlwrap) — shell-level small-component reference.
