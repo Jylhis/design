@@ -421,18 +421,33 @@ function App() {
     document.documentElement.style.setProperty('--font-body', `"${tweaks.fontBody}", Charter, Georgia, serif`);
   }, [tweaks.fontMono, tweaks.fontBody]);
 
-  // Stage scaling — fit 1920x1080 to viewport
+  // Stage scaling — fit 1920x1080 to viewport. On narrow portrait viewports,
+  // fit to height only and let the user pan horizontally so the canvas stays legible.
   const [scale, setScale] = useState(1);
+  const [panMode, setPanMode] = useState(false);
+  const [panBannerDismissed, setPanBannerDismissed] = useState(() => {
+    try { return localStorage.getItem('jylhis-pan-banner') === 'dismissed'; } catch { return false; }
+  });
   useEffect(() => {
     const fit = () => {
-      const sx = window.innerWidth / 1920;
-      const sy = window.innerHeight / 1080;
-      setScale(Math.min(sx, sy));
+      const w = window.innerWidth, h = window.innerHeight;
+      const portraitNarrow = w < 700 && h > w;
+      if (portraitNarrow) {
+        setScale(h / 1080);
+        setPanMode(true);
+      } else {
+        setScale(Math.min(w / 1920, h / 1080));
+        setPanMode(false);
+      }
     };
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
   }, []);
+  const dismissPanBanner = () => {
+    setPanBannerDismissed(true);
+    try { localStorage.setItem('jylhis-pan-banner', 'dismissed'); } catch {}
+  };
 
   // Time ticker
   const [time, setTime] = useState('14:02');
@@ -474,7 +489,18 @@ function App() {
   const activeRoom = ROOMS.find(r => r.layout === scene.layout) || ROOMS[0];
 
   return (
-    <div className="stage">
+    <div className="stage" data-pan={panMode ? '1' : undefined}>
+      {panMode && !panBannerDismissed && (
+        <button type="button" className="pan-banner" onClick={dismissPanBanner}
+                aria-label="Dismiss desktop-only notice">
+          <span aria-hidden="true">›</span> Designed for desktop · scroll to pan
+          <span className="pan-banner-x" aria-hidden="true">✕</span>
+        </button>
+      )}
+      <div
+        className="stage-canvas"
+        style={panMode ? { width: Math.round(1920 * scale), height: Math.round(1080 * scale) } : undefined}
+      >
       <div
         className={`stage-inner ${densityClass} ${accentClass}`}
         style={{ transform: `scale(${scale})`, fontFamily: 'var(--font-mono)' }}
@@ -549,6 +575,7 @@ function App() {
             aiSuggestion={scene.aiSuggestion}
           />
         )}
+      </div>
       </div>
 
       <Walkthrough

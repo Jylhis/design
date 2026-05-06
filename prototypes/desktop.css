@@ -43,6 +43,56 @@ html, body {
   box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
 }
 
+/* ── Stage canvas wrapper ──
+ * In default fit-to-fit mode, .stage-canvas is layout-transparent so the
+ * grid centering on .stage applies directly to .stage-inner. In pan mode it
+ * gets explicit pixel dimensions equal to the scaled visual box, which
+ * constrains the parent's scrollWidth and prevents panning into blank space.
+ */
+.stage-canvas { display: contents; }
+
+/* ── Pan mode (narrow portrait viewports) ──
+ * Fit the canvas to height and let the user scroll horizontally instead of
+ * shrinking the entire 1920×1080 mockup to thumbnail size.
+ */
+.stage[data-pan="1"] {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.stage[data-pan="1"] .stage-canvas {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.stage[data-pan="1"] .stage-inner {
+  transform-origin: top left;
+  box-shadow: none;
+}
+.pan-banner {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+.pan-banner > span:first-child { color: var(--color-accent); }
+.pan-banner-x { margin-left: auto; color: var(--color-text-faint); }
+.pan-banner:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
 /* ── Wallpaper variants ── */
 .wallpaper {
   position: absolute; inset: 0;
