@@ -3,7 +3,7 @@
  * centered inside it at 1640x1024 (16:10 landscape).
  */
 
-@import url("colors_and_type.css");
+@import url("../_shared/colors_and_type.css");
 
 * { box-sizing: border-box; }
 

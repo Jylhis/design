@@ -1,0 +1,368 @@
+/*
+ * hybrid.css — Brutalism × Neumorphism × Warm Paper
+ *
+ * Three new elevation languages layered on top of tokens.css.
+ * Every variant respects the dual-theme + AAA contrast rules.
+ *
+ *   .br-*    Brutalist     hard offset block, 2px ink border, no radius
+ *   .nu-*    Neumorphic    pressed-paper, inset 1px valleys, no blur
+ *   .hy-*    Hybrid        copper stamp + linen press, the house style
+ *
+ * Author tokens are namespaced --hy-* so they cannot collide with --color-*.
+ */
+
+@import url("../tokens.css");
+
+:root {
+  /* Brutal — solid offsets, never blurred */
+  --br-stroke: 2px;
+  --br-stroke-bold: 3px;
+  --br-offset: 4px;
+  --br-offset-lg: 6px;
+  --br-shadow-ink: var(--color-text-heading);
+  --br-shadow-copper: var(--color-brand);
+
+  /* Neumorphic — letterpress, never glossy */
+  --nu-valley: color-mix(in oklab, var(--color-text-heading) 14%, transparent);
+  --nu-ridge:  color-mix(in oklab, #ffffff 70%, transparent);
+  --nu-press-bg: color-mix(in oklab, var(--color-bg) 60%, var(--color-surface) 40%);
+
+  /* Hybrid — the house mix */
+  --hy-radius: 3px;
+  --hy-corner: 0 4px 0 0;          /* tab-cut, top-right only */
+}
+
+[data-theme="dark"] {
+  --nu-valley: color-mix(in oklab, #000000 60%, transparent);
+  --nu-ridge:  color-mix(in oklab, var(--color-text) 8%, transparent);
+  --nu-press-bg: color-mix(in oklab, var(--color-bg) 40%, var(--color-surface) 60%);
+}
+
+/* ───────── BRUTAL ───────── */
+
+.br-card {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  border: var(--br-stroke) solid var(--color-text-heading);
+  border-radius: 0;
+  box-shadow: var(--br-offset) var(--br-offset) 0 0 var(--color-text-heading);
+  padding: var(--space-lg);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.br-card.is-copper {
+  box-shadow: var(--br-offset) var(--br-offset) 0 0 var(--color-brand);
+}
+.br-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--br-offset) + 2px) calc(var(--br-offset) + 2px) 0 0 var(--color-text-heading);
+}
+.br-card.is-copper:hover {
+  box-shadow: calc(var(--br-offset) + 2px) calc(var(--br-offset) + 2px) 0 0 var(--color-brand);
+}
+
+.br-btn {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--color-bg);
+  color: var(--color-text-heading);
+  border: var(--br-stroke) solid var(--color-text-heading);
+  border-radius: 0;
+  padding: 0.6rem 1.1rem;
+  box-shadow: var(--br-offset) var(--br-offset) 0 0 var(--color-text-heading);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.br-btn:hover { transform: translate(-1px, -1px); box-shadow: calc(var(--br-offset) + 1px) calc(var(--br-offset) + 1px) 0 0 var(--color-text-heading); }
+.br-btn:active { transform: translate(var(--br-offset), var(--br-offset)); box-shadow: 0 0 0 0 var(--color-text-heading); }
+.br-btn.is-copper { background: var(--color-brand); color: #faf7f2; border-color: var(--color-text-heading); }
+
+.br-tag {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border: var(--br-stroke) solid var(--color-text-heading);
+  background: var(--color-bg);
+  color: var(--color-text-heading);
+  border-radius: 0;
+}
+.br-tag.is-copper { background: var(--color-brand); color: #faf7f2; }
+
+.br-input {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.95rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: var(--br-stroke) solid var(--color-text-heading);
+  border-radius: 0;
+  padding: 0.6rem 0.7rem;
+  box-shadow: var(--br-offset) var(--br-offset) 0 0 var(--color-text-heading);
+  outline: none;
+  width: 100%;
+}
+.br-input:focus { box-shadow: var(--br-offset) var(--br-offset) 0 0 var(--color-brand); border-color: var(--color-brand); }
+
+/* ───────── NEUMORPHIC (letterpress, paper-safe) ───────── */
+
+.nu-card {
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow:
+    inset 1px 1px 0 0 var(--nu-ridge),
+    inset -1px -1px 0 0 var(--nu-valley);
+}
+.nu-card.is-pressed {
+  background: var(--nu-press-bg);
+  box-shadow:
+    inset 2px 2px 0 0 var(--nu-valley),
+    inset -1px -1px 0 0 var(--nu-ridge);
+}
+
+.nu-btn {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  background: var(--color-bg);
+  color: var(--color-text-heading);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  box-shadow:
+    inset 1px 1px 0 0 var(--nu-ridge),
+    inset -1px -1px 0 0 var(--nu-valley);
+  transition: background var(--transition-fast);
+}
+.nu-btn:hover { background: var(--color-bg-subtle); }
+.nu-btn:active,
+.nu-btn.is-pressed {
+  background: var(--nu-press-bg);
+  box-shadow:
+    inset 2px 2px 0 0 var(--nu-valley),
+    inset -1px -1px 0 0 var(--nu-ridge);
+}
+.nu-btn.is-copper { color: #faf7f2; background: var(--color-accent); border-color: var(--color-accent-hover); }
+.nu-btn.is-copper:hover { background: var(--color-accent-hover); }
+
+.nu-input {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.95rem;
+  background: var(--nu-press-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.55rem 0.7rem;
+  width: 100%;
+  outline: none;
+  box-shadow:
+    inset 2px 2px 0 0 var(--nu-valley),
+    inset -1px -1px 0 0 var(--nu-ridge);
+}
+.nu-input:focus { border-color: var(--color-accent); }
+
+.nu-tag {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  padding: 0.18rem 0.55rem;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  box-shadow:
+    inset 1px 1px 0 0 var(--nu-ridge),
+    inset -1px -1px 0 0 var(--nu-valley);
+}
+
+/* ───────── HYBRID — the recommended house style ───────── */
+
+.hy-card {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--hy-radius) var(--hy-radius) var(--hy-radius) var(--hy-radius);
+  padding: var(--space-lg);
+  position: relative;
+  box-shadow:
+    3px 3px 0 0 var(--color-text-heading),
+    inset 1px 1px 0 0 var(--nu-ridge);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.hy-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    4px 4px 0 0 var(--color-brand),
+    inset 1px 1px 0 0 var(--nu-ridge);
+}
+.hy-card .hy-corner-tag {
+  position: absolute;
+  top: -1px; right: -1px;
+  background: var(--color-brand);
+  color: #faf7f2;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.45rem;
+  text-transform: uppercase;
+}
+
+.hy-btn {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: var(--color-surface-raised);
+  color: var(--color-text-heading);
+  border: 1.5px solid var(--color-text-heading);
+  border-radius: var(--hy-radius);
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  box-shadow:
+    2px 2px 0 0 var(--color-text-heading),
+    inset 1px 1px 0 0 var(--nu-ridge);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+.hy-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    3px 3px 0 0 var(--color-brand),
+    inset 1px 1px 0 0 var(--nu-ridge);
+  border-color: var(--color-brand);
+}
+.hy-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    inset 2px 2px 0 0 var(--nu-valley),
+    inset -1px -1px 0 0 var(--nu-ridge);
+}
+.hy-btn.is-copper {
+  background: var(--color-brand);
+  color: #faf7f2;
+  border-color: var(--color-text-heading);
+}
+
+.hy-tag {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  background: var(--color-bg-subtle);
+  color: var(--color-text-heading);
+  border: 1px solid var(--color-text-heading);
+  border-radius: var(--hy-radius);
+  box-shadow: 2px 2px 0 0 var(--color-text-heading);
+}
+.hy-tag.is-copper { background: var(--color-brand); color: #faf7f2; }
+
+.hy-input {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.95rem;
+  background: var(--nu-press-bg);
+  color: var(--color-text);
+  border: 1.5px solid var(--color-text-heading);
+  border-radius: var(--hy-radius);
+  padding: 0.55rem 0.7rem;
+  width: 100%;
+  outline: none;
+  box-shadow:
+    inset 2px 2px 0 0 var(--nu-valley);
+}
+.hy-input:focus {
+  border-color: var(--color-brand);
+  box-shadow:
+    inset 2px 2px 0 0 var(--nu-valley),
+    3px 3px 0 0 var(--color-brand);
+}
+
+/* Currently-block hybrid — the house hero element */
+.hy-currently {
+  background: var(--color-surface-raised);
+  border: 1.5px solid var(--color-text-heading);
+  border-left: 4px solid var(--color-brand);
+  border-radius: 0 var(--hy-radius) var(--hy-radius) 0;
+  padding: var(--space-md) var(--space-lg);
+  box-shadow:
+    3px 3px 0 0 var(--color-text-heading),
+    inset 1px 1px 0 0 var(--nu-ridge);
+}
+.hy-currently .label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-brand);
+  margin-bottom: 0.4rem;
+}
+
+/* Status pill — letterpressed */
+.nu-status {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.55rem;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  box-shadow: inset 2px 2px 0 0 var(--nu-valley), inset -1px -1px 0 0 var(--nu-ridge);
+}
+.nu-status::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--dot, var(--color-accent)); }
+.nu-status.is-ok    { color: var(--color-status-ok);   --dot: var(--color-status-ok); }
+.nu-status.is-warn  { color: var(--color-status-warn); --dot: var(--color-status-warn); }
+.nu-status.is-err   { color: var(--color-status-err);  --dot: var(--color-status-err); }
+.nu-status.is-info  { color: var(--color-status-info); --dot: var(--color-status-info); }
+
+/* ───────── Mobile / touch (<= 640px) ─────────
+ * Hard offset shadows lose meaning when an artboard is rendered at phone
+ * width — they push content out of the column or eat the touch target.
+ * Scale offsets down, lift hit targets to 44px, kill hover-only transforms.
+ */
+@media (max-width: 640px) {
+  :root {
+    --br-stroke: 1.5px;
+    --br-stroke-bold: 2px;
+    --br-offset: 3px;
+    --br-offset-lg: 4px;
+  }
+
+  .br-card,
+  .hy-card { box-shadow: 2px 2px 0 0 var(--color-text-heading); }
+  .br-card.is-copper,
+  .hy-card:hover { box-shadow: 2px 2px 0 0 var(--color-brand); }
+
+  .br-btn, .nu-btn, .hy-btn,
+  .br-input, .nu-input, .hy-input {
+    min-height: 44px;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.9rem;
+  }
+  .br-btn { box-shadow: 2px 2px 0 0 var(--color-text-heading); }
+  .hy-btn { box-shadow: 2px 2px 0 0 var(--color-text-heading), inset 1px 1px 0 0 var(--nu-ridge); }
+  .br-input:focus { box-shadow: 2px 2px 0 0 var(--color-brand); }
+  .hy-input:focus { box-shadow: inset 2px 2px 0 0 var(--nu-valley), 2px 2px 0 0 var(--color-brand); }
+
+  .br-tag, .hy-tag {
+    font-size: 0.72rem;
+    padding: 0.22rem 0.5rem;
+    box-shadow: 1px 1px 0 0 var(--color-text-heading);
+  }
+}
+
+/* Coarse-pointer (touch) — disable lift transforms; they only confuse on tap */
+@media (hover: none) {
+  .br-card:hover,
+  .hy-card:hover,
+  .br-btn:hover,
+  .hy-btn:hover { transform: none; }
+}

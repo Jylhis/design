@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Brutal × Neumorphic × Paper — exploration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<link rel="stylesheet" href="hybrid.css" />
+<style>
+  /* paper baseline (the existing system, for comparison) */
+  .paper-card { background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); }
+  .paper-currently { background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-md) var(--space-lg); }
+  .paper-btn { font-family: var(--font-mono); font-size: 0.85rem; padding: 0.55rem 1rem; background: var(--color-bg); color: var(--color-text-heading); border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); cursor: pointer; }
+  .paper-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .paper-btn.is-copper { background: var(--color-accent); color: #faf7f2; border-color: var(--color-accent); }
+  .paper-btn.is-copper:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); color: #faf7f2; }
+  .paper-btn.is-ghost { background: transparent; border-color: var(--color-border); color: var(--color-text-muted); }
+  .paper-tag { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em; padding: 0.18rem 0.55rem; background: var(--color-bg-subtle); color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-pill); }
+  .paper-input { font-family: var(--font-mono); font-size: 0.95rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); padding: 0.55rem 0.7rem; outline: none; width: 100%; }
+  .paper-input:focus { border-color: var(--color-accent); }
+  html, body { margin: 0; }
+  body { background: var(--color-bg); color: var(--color-text); }
+  /* canvas chrome */
+  dc-canvas { background: var(--color-bg); }
+
+  /* ── mobile guards ──────────────────────────────────────
+   * The design canvas owns its own pan/zoom, so artboards keep their
+   * intrinsic widths on phones (you pinch). What we DO need to guard:
+   *  - touch targets ≥ 44px on every button + input
+   *  - the tweaks panel must shrink + stay reachable
+   *  - hover-only lift effects must not stick after a tap
+   */
+  @media (max-width: 640px) {
+    .twk-panel { width: calc(100vw - 24px); right: 12px; bottom: 12px; max-height: 60vh; }
+    .paper-btn, .paper-input { min-height: 44px; font-size: 0.95rem; padding: 0.65rem 0.9rem; }
+    .paper-tag { font-size: 0.72rem; padding: 0.22rem 0.5rem; }
+  }
+  @media (hover: none) {
+    .paper-btn:hover { border-color: var(--color-border-strong); color: var(--color-text-heading); }
+    .paper-btn.is-copper:hover { background: var(--color-accent); border-color: var(--color-accent); color: #faf7f2; }
+  }
+</style>
+</head>
+<body data-screen-label="Brutal × Neumorphic × Paper">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="keyboard.jsx"></script>
+<script type="text/babel" src="artboards.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const { useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "light",
+  "brandHue": "midnight"
+}/*EDITMODE-END*/;
+
+const HUES = {
+  copper:    { brand: "#b5703c", accent: "#9a5a2a", accentHover: "#7a4622", brandDark: "#d4884a", accentDark: "#e89b5e", accentHoverDark: "#f5b07a" },
+  oxblood:   { brand: "#8c2c2c", accent: "#6f1f1f", accentHover: "#561414", brandDark: "#c66464", accentDark: "#e88080", accentHoverDark: "#f5a0a0" },
+  forest:    { brand: "#3d6b3a", accent: "#2a5a30", accentHover: "#1c4220", brandDark: "#7ab078", accentDark: "#9ccc94", accentHoverDark: "#b8dcb0" },
+  midnight:  { brand: "#2c4a7a", accent: "#1f3a66", accentHover: "#152a4a", brandDark: "#7090c0", accentDark: "#9ab4d8", accentHoverDark: "#b8ccea" },
+};
+
+const HUE_ORDER = ['copper', 'oxblood', 'forest', 'midnight'];
+
+function App() {
+  const [tweaks, setTweak] = (window.useTweaks || ((d) => [d, () => {}]))(TWEAK_DEFAULTS);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = tweaks.theme === 'dark' ? 'dark' : '';
+    const root = document.documentElement;
+    const h = HUES[tweaks.brandHue] || HUES.copper;
+    root.style.setProperty('--color-brand', tweaks.theme === 'dark' ? h.brandDark : h.brand);
+    root.style.setProperty('--color-accent', tweaks.theme === 'dark' ? h.accentDark : h.accent);
+    root.style.setProperty('--color-accent-hover', tweaks.theme === 'dark' ? h.accentHoverDark : h.accentHover);
+  }, [tweaks.theme, tweaks.brandHue]);
+
+  const toggleTheme = () => setTweak('theme', tweaks.theme === 'dark' ? 'light' : 'dark');
+  const cycleHue = () => {
+    const i = HUE_ORDER.indexOf(tweaks.brandHue);
+    setTweak('brandHue', HUE_ORDER[(i + 1) % HUE_ORDER.length]);
+  };
+
+  const T = window.TweaksPanel;
+  const TS = window.TweakSection;
+  const TR = window.TweakRadio;
+  const KL = window.KeyboardLayer;
+
+  return (
+    <>
+      <window.DesignCanvas title="Brutal × Neumorphic × Paper">
+        <window.DCSection id="overview" title="01 · Overview">
+          <window.DCArtboard id="compare" label="Compare — same card, three voices" width={920} height={460}>
+            <window.CompareBoard />
+          </window.DCArtboard>
+        </window.DCSection>
+
+        <window.DCSection id="buttons" title="02 · Buttons & tags">
+          <window.DCArtboard id="btn-paper" label="Paper · baseline" width={420} height={320}><window.ButtonsBoard family="paper" /></window.DCArtboard>
+          <window.DCArtboard id="btn-br"    label="Brutalist"        width={420} height={320}><window.ButtonsBoard family="br" /></window.DCArtboard>
+          <window.DCArtboard id="btn-nu"    label="Neumorphic"       width={420} height={320}><window.ButtonsBoard family="nu" /></window.DCArtboard>
+          <window.DCArtboard id="btn-hy"    label="Hybrid · house"   width={420} height={320}><window.ButtonsBoard family="hy" /></window.DCArtboard>
+        </window.DCSection>
+
+        <window.DCSection id="cards" title="03 · Cards">
+          <window.DCArtboard id="card-paper" label="Paper · baseline" width={820} height={300}><window.CardsBoard family="paper" /></window.DCArtboard>
+          <window.DCArtboard id="card-br"    label="Brutalist"        width={820} height={300}><window.CardsBoard family="br" /></window.DCArtboard>
+          <window.DCArtboard id="card-nu"    label="Neumorphic"       width={820} height={300}><window.CardsBoard family="nu" /></window.DCArtboard>
+          <window.DCArtboard id="card-hy"    label="Hybrid · house"   width={820} height={300}><window.CardsBoard family="hy" /></window.DCArtboard>
+        </window.DCSection>
+
+        <window.DCSection id="forms" title="04 · Form fields">
+          <window.DCArtboard id="form-paper" label="Paper · baseline" width={420} height={420}><window.InputsBoard family="paper" /></window.DCArtboard>
+          <window.DCArtboard id="form-br"    label="Brutalist"        width={420} height={420}><window.InputsBoard family="br" /></window.DCArtboard>
+          <window.DCArtboard id="form-nu"    label="Neumorphic"       width={420} height={420}><window.InputsBoard family="nu" /></window.DCArtboard>
+          <window.DCArtboard id="form-hy"    label="Hybrid · house"   width={420} height={420}><window.InputsBoard family="hy" /></window.DCArtboard>
+        </window.DCSection>
+
+        <window.DCSection id="currently" title="05 · Currently — hero block">
+          <window.DCArtboard id="cur-paper" label="Paper · baseline" width={560} height={300}><window.CurrentlyBoard family="paper" /></window.DCArtboard>
+          <window.DCArtboard id="cur-br"    label="Brutalist"        width={560} height={300}><window.CurrentlyBoard family="br" /></window.DCArtboard>
+          <window.DCArtboard id="cur-nu"    label="Neumorphic"       width={560} height={300}><window.CurrentlyBoard family="nu" /></window.DCArtboard>
+          <window.DCArtboard id="cur-hy"    label="Hybrid · house"   width={560} height={300}><window.CurrentlyBoard family="hy" /></window.DCArtboard>
+        </window.DCSection>
+
+        <window.DCSection id="status" title="06 · Status & alerts">
+          <window.DCArtboard id="status-hy" label="Letterpressed status pills + alert cards" width={560} height={420}><window.StatusBoard /></window.DCArtboard>
+        </window.DCSection>
+      </window.DesignCanvas>
+
+      {KL && <KL onTheme={toggleTheme} onHue={cycleHue} />}
+      {T && (
+        <T title="Tweaks">
+          <TS label="Theme" />
+          <TR label="Mode" value={tweaks.theme} options={['light', 'dark']} onChange={(v) => setTweak('theme', v)} />
+          <TS label="Brand hue" />
+          <TR label="Hue" value={tweaks.brandHue} options={['copper', 'oxblood', 'forest', 'midnight']} onChange={(v) => setTweak('brandHue', v)} />
+        </T>
+      )}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

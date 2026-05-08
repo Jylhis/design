@@ -2,7 +2,7 @@
  * Paper / roast palette; mono chrome, serif body; flat surfaces, copper accent.
  */
 
-@import url("colors_and_type.css");
+@import url("../_shared/colors_and_type.css");
 
 * { box-sizing: border-box; }
 
