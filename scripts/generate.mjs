@@ -1653,6 +1653,7 @@ function generateAdobeSwatch(mode) {
 // ─── 14. Base16 YAML ────────────────────────────────────────────────
 
 function generateBase16(mode) {
+  const slug = mode === "light" ? "jylhis-paper" : "jylhis-roast";
   const label = mode === "light" ? "Jylhis Paper" : "Jylhis Roast";
   const author = "Markus Jylhankangas (https://jylhis.com)";
 
@@ -1676,7 +1677,12 @@ function generateBase16(mode) {
     "base0F": color("brand", mode),
   };
 
+  // slug:    stable identifier consumed by Stylix (mkSchemeAttrs)
+  // name:    base16 0.11 display field
+  // scheme:  base16 0.9 display field, kept for back-compat
   const lines = [
+    `slug: "${slug}"`,
+    `name: "${label}"`,
     `scheme: "${label}"`,
     `author: "${author}"`,
   ];

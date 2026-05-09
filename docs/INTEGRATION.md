@@ -201,6 +201,18 @@ source = ~/.config/hypr/jylhis-keys.conf       # optional
 - **GTK 3/4:** import `platforms/gtk/gtk.css` from your user GTK stylesheet
 - **Kvantum/Qt:** point `kvantummanager` at `platforms/kvantum/`
 
+### Sharing one `jylhis-design` pin across consumers
+
+If your flake pulls in another flake that itself depends on
+`jylhis-design`, pin both to the same revision with `follows`:
+
+```nix
+inputs.<that-flake>.inputs.jylhis-design.follows = "jylhis-design";
+```
+
+This avoids two copies of the design system in your closure and stops
+silent palette drift between the two pins.
+
 ### Stylix base16 one-liner
 
 If you use Stylix, the generated base16 YAML is shipped at a stable
@@ -211,7 +223,39 @@ stylix.base16Scheme = "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-roast.ya
 # or jylhis-paper.yaml
 ```
 
+Or use the helper exposed by the flake (returns the same path):
+
+```nix
+stylix.base16Scheme =
+  inputs.jylhis-design.lib.variantToBase16Scheme pkgs "roast";
+```
+
 This avoids re-deriving the palette in your config.
+
+### NixOS / Darwin system module
+
+For system-wide Stylix wiring, import the system module instead of
+hand-writing `stylix.base16Scheme`:
+
+```nix
+# NixOS configuration.nix
+{ inputs, ... }: {
+  imports = [ inputs.jylhis-design.nixosModules.default ];
+  jylhis.theme = { enable = true; variant = "roast"; };
+}
+
+# nix-darwin
+{ inputs, ... }: {
+  imports = [ inputs.jylhis-design.darwinModules.default ];
+  jylhis.theme = { enable = true; variant = "paper"; };
+}
+```
+
+The module sets `stylix.enable` (via `mkDefault`), `stylix.polarity`,
+and `stylix.base16Scheme` from one variant choice. Per-target Stylix
+toggles (`stylix.targets.*.enable`) stay yours to set — see
+"Coexisting with Stylix" below for the list to disable when also
+importing the Home-Manager module.
 
 ### Variant switching
 
@@ -262,6 +306,30 @@ stylix.targets = {
 Stylix's `qt` target can stay enabled — it derives Qt colors from the
 base16 palette, which can also come from `jylhis-themes` via the
 `stylix.base16Scheme` one-liner above.
+
+### Handing off targets to another HM module
+
+If another Home-Manager module in your config writes the same files
+(Ghostty, Mako, Waybar, Hyprland, Starship, FZF, GTK, bat), let it own
+those targets and disable the Jylhis side per-target:
+
+```nix
+jylhis.theme = {
+  enable  = true;
+  variant = "roast";
+  ghostty.enable  = false;
+  mako.enable     = false;
+  waybar.enable   = false;
+  gtk.enable      = false;
+  starship.enable = false;
+  fzf.enable      = false;
+  bat.enable      = false;
+};
+```
+
+Combine with the system module above to keep the Stylix palette pin
+authoritative — the other module's targets pick the palette up via
+Stylix, no duplicate paths.
 
 ---
 

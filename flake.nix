@@ -52,6 +52,20 @@
       homeManagerModules.default = import ./nix/home-manager-module.nix;
       homeModules.default        = import ./nix/home-manager-module.nix;
 
+      # System-wide Stylix wiring. One file, both module systems.
+      nixosModules.default  = import ./nix/system-stylix-module.nix;
+      darwinModules.default = import ./nix/system-stylix-module.nix;
+
+      # Helpers consumers can call from their own configs.
+      lib = {
+        # Returns the absolute store path to the generated base16 YAML
+        # for a given variant ("paper" or "roast"), suitable for
+        # `stylix.base16Scheme`. Requires the overlay (or a pkgs set
+        # that already has `jylhis-themes`).
+        variantToBase16Scheme = pkgs: variant:
+          "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-${variant}.yaml";
+      };
+
       # Overlay: adds `jylhis-themes` (combined) and `jylhis-themes-targets`
       # (attrset of per-target derivations) into the consuming pkgs set.
       overlays.default = final: prev:
