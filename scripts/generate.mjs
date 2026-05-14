@@ -1991,6 +1991,51 @@ Plymouth.SetQuitFunction(quit);
 `;
 }
 
+// ─── 19. HyperOS theme exports (paper, roast, auto package) ─────────
+
+const HYPEROS_REQUIRED_ROLES = [
+  "bg", "bg-subtle", "surface", "surface-raised",
+  "text", "text-muted", "text-heading", "text-faint",
+  "accent", "accent-hover", "brand",
+  "border", "border-strong", "decorator",
+  "syn-keyword", "syn-string", "syn-number", "syn-function",
+  "syn-builtin", "syn-type", "syn-variable", "syn-comment", "syn-docstring",
+  "status-err", "status-warn", "status-ok", "status-info",
+];
+
+function generateHyperOSVariant(mode) {
+  const variant = mode === "light" ? "paper" : "roast";
+  const roleMap = Object.fromEntries(
+    HYPEROS_REQUIRED_ROLES.map((role) => [role, color(role, mode)]),
+  );
+  return `${JSON.stringify({
+    $schema: "https://jylhis.dev/schemas/hyperos-theme-variant.v1.json",
+    id: `jylhis-${variant}`,
+    name: `Jylhis ${mode === "light" ? "Paper" : "Roast"}`,
+    variant,
+    mode,
+    roles: roleMap,
+  }, null, 2)}\n`;
+}
+
+function generateHyperOSAutoPackage() {
+  return `${JSON.stringify({
+    $schema: "https://jylhis.dev/schemas/hyperos-theme-package.v1.json",
+    id: "jylhis-auto",
+    name: "Jylhis Auto",
+    variants: {
+      light: "jylhis-paper.hyperos.json",
+      dark: "jylhis-roast.hyperos.json",
+    },
+    applyWhen: [
+      { condition: "system_dark_mode", use: "dark", fallback: "light" },
+      { condition: "schedule", use: "dark", fallback: "light" },
+      { condition: "battery_saver", use: "dark", fallback: "light" },
+    ],
+    notes: "Conditions are evaluated in engine order. Unsupported conditions are skipped.",
+  }, null, 2)}\n`;
+}
+
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
@@ -2026,6 +2071,9 @@ out("platforms/plymouth/jylhis-paper/jylhis.plymouth", generatePlymouthManifest(
 out("platforms/plymouth/jylhis-paper/jylhis.script",   generatePlymouthScript("light"));
 out("platforms/plymouth/jylhis-roast/jylhis.plymouth", generatePlymouthManifest("dark"));
 out("platforms/plymouth/jylhis-roast/jylhis.script",   generatePlymouthScript("dark"));
+out("platforms/hyperos/jylhis-paper.hyperos.json", generateHyperOSVariant("light"));
+out("platforms/hyperos/jylhis-roast.hyperos.json", generateHyperOSVariant("dark"));
+out("platforms/hyperos/jylhis-auto.hyperos-package.json", generateHyperOSAutoPackage());
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────

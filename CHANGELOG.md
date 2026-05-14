@@ -9,6 +9,17 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 
 ## [Unreleased]
 
+### Added
+- HyperOS platform exports:
+  - `platforms/hyperos/jylhis-paper.hyperos.json` (light)
+  - `platforms/hyperos/jylhis-roast.hyperos.json` (dark)
+  - `platforms/hyperos/jylhis-auto.hyperos-package.json` (auto-switch metadata)
+- Token validation now checks HyperOS role completeness for both paper and roast variants.
+
+### Changed
+- Release-note guidance: call out whether each palette/theme change affects
+  **light** (`paper`), **dark** (`roast`), or **auto** package-switch metadata.
+
 ### Fixed
 - CSS transition tokens now preserve the cubic-bezier easing values from
   `tokens.json`.

@@ -144,6 +144,32 @@ Either form wraps Ghostty so `theme = jylhis-paper` and
 
 ---
 
+## HyperOS
+
+Jylhis ships explicit HyperOS exports under `platforms/hyperos/`:
+
+- `jylhis-paper.hyperos.json` (forced light)
+- `jylhis-roast.hyperos.json` (forced dark)
+- `jylhis-auto.hyperos-package.json` (composite package with auto rules)
+
+### Installation modes
+
+1. **Forced light**
+   - Import `jylhis-paper.hyperos.json` and select **Jylhis Paper**.
+   - This keeps the theme in light mode regardless of system state.
+2. **Forced dark**
+   - Import `jylhis-roast.hyperos.json` and select **Jylhis Roast**.
+   - This keeps the theme in dark mode regardless of system state.
+3. **Automatic**
+   - Import `jylhis-auto.hyperos-package.json`.
+   - The package references both variants and asks the HyperOS theme engine
+     to select dark when available signals indicate dark preference:
+     system dark mode, schedule, or battery saver.
+   - If a condition is unsupported by the device/theme-engine build, it is
+     skipped and the next supported condition applies.
+
+---
+
 ## Emacs
 
 Load the theme file from your `init.el`:
