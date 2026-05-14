@@ -56,6 +56,11 @@
     { src = "platforms/mako/config-paper"; dest = "share/jylhis/mako/config-paper"; }
   ];
 
+  hyperos = [
+    { src = "platforms/hyperos/jylhis-paper.mtz"; dest = "share/jylhis/hyperos/jylhis-paper.mtz"; }
+    { src = "platforms/hyperos/jylhis-roast.mtz"; dest = "share/jylhis/hyperos/jylhis-roast.mtz"; }
+  ];
+
   kvantum = [
     { src = "platforms/kvantum/JylhisPaper.colors"; dest = "share/jylhis/kvantum/JylhisPaper.colors"; }
     { src = "platforms/kvantum/JylhisRoast.colors"; dest = "share/jylhis/kvantum/JylhisRoast.colors"; }
