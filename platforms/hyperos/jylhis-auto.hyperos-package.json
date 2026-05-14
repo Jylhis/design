@@ -1,0 +1,27 @@
+{
+  "$schema": "https://jylhis.dev/schemas/hyperos-theme-package.v1.json",
+  "id": "jylhis-auto",
+  "name": "Jylhis Auto",
+  "variants": {
+    "light": "jylhis-paper.hyperos.json",
+    "dark": "jylhis-roast.hyperos.json"
+  },
+  "applyWhen": [
+    {
+      "condition": "system_dark_mode",
+      "use": "dark",
+      "fallback": "light"
+    },
+    {
+      "condition": "schedule",
+      "use": "dark",
+      "fallback": "light"
+    },
+    {
+      "condition": "battery_saver",
+      "use": "dark",
+      "fallback": "light"
+    }
+  ],
+  "notes": "Conditions are evaluated in engine order. Unsupported conditions are skipped."
+}

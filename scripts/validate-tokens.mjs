@@ -72,6 +72,11 @@ const requiredSyntax = [
   "syn-keyword", "syn-string", "syn-number", "syn-function",
   "syn-builtin", "syn-type", "syn-variable", "syn-comment", "syn-docstring",
 ];
+const requiredHyperOSRoles = [
+  ...requiredPalette,
+  ...requiredSyntax,
+  "status-err", "status-warn", "status-ok", "status-info",
+];
 for (const role of requiredSyntax) {
   if (!tokens.syntax[role]) fail(`syntax.${role}: missing`);
   else checkColorEntry("syntax", role, tokens.syntax[role]);
@@ -224,6 +229,17 @@ for (const [, name] of allCss.matchAll(/^\s*(--[a-z0-9-]+)\s*:/gm)) {
 
 for (const [, ref] of allCss.matchAll(/var\((--[a-z0-9-]+)[,)]/g)) {
   if (!allDeclared.has(ref)) fail(`CSS: var(${ref}) used but never declared`);
+}
+
+// ─── 4. HyperOS generated variants must be complete ──────────────────
+const hyperPaper = JSON.parse(read("platforms/hyperos/jylhis-paper.hyperos.json"));
+const hyperRoast = JSON.parse(read("platforms/hyperos/jylhis-roast.hyperos.json"));
+
+for (const role of requiredHyperOSRoles) {
+  if (!hyperPaper.roles?.[role]) fail(`hyperos.paper.roles.${role}: missing`);
+  else checkHex(`hyperos.paper.roles.${role}`, hyperPaper.roles[role]);
+  if (!hyperRoast.roles?.[role]) fail(`hyperos.roast.roles.${role}: missing`);
+  else checkHex(`hyperos.roast.roles.${role}`, hyperRoast.roles[role]);
 }
 
 // ─── Report ──────────────────────────────────────────────────────────
