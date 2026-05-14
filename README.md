@@ -48,6 +48,7 @@ tokens.json                        ← single source of truth
     ├── platforms/emacs/           ← Emacs themes
     ├── platforms/charm/           ← Go palette
     ├── platforms/hyprland/        ← Hyprland color configs
+    ├── platforms/hyperos/         ← HyperOS theme files
     ├── platforms/rofi/            ← Rofi themes
     ├── platforms/gtk/             ← GTK overrides
     ├── platforms/waybar/          ← Waybar CSS

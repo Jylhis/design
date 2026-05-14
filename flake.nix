@@ -37,7 +37,7 @@
     in
     {
       # packages.<system>.default          — all themes (alias: jylhis-themes)
-      # packages.<system>.<target>         — single-target (e.g. .#waybar)
+      # packages.<system>.<target>         — single-target (e.g. .#waybar, .#hyperos)
       # packages.<system>.ghostty-jylhis   — Ghostty wrapper with themes baked in
       packages = forAllSystems ({ system, pkgs }:
         {

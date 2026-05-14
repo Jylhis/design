@@ -45,6 +45,7 @@ Direct package builds:
 ```bash
 nix build github:Jylhis/design#default        # all themes
 nix build github:Jylhis/design#waybar         # just waybar/* + tokens
+nix build github:Jylhis/design#hyperos        # just hyperos/* + tokens
 nix build github:Jylhis/design#ghostty-jylhis # ghostty wrapper
 ```
 
@@ -198,6 +199,7 @@ source = ~/.config/hypr/jylhis-keys.conf       # optional
 - **Waybar:** `include-path` the CSS in `platforms/waybar/`
 - **Mako:** symlink `platforms/mako/config` to `~/.config/mako/config`
 - **Rofi:** set `@theme "platforms/rofi/jylhis-paper"` (or `jylhis-roast`)
+- **HyperOS:** copy files from `platforms/hyperos/` into your HyperOS theme config location
 - **GTK 3/4:** import `platforms/gtk/gtk.css` from your user GTK stylesheet
 - **Kvantum/Qt:** point `kvantummanager` at `platforms/kvantum/`
 
