@@ -15,10 +15,11 @@ bun scripts/validate-tokens.mjs           # tokens.json schema + WCAG contrast +
 bun scripts/validate-a11y-html.mjs        # HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph)
 bun scripts/validate-a11y-css.mjs         # CSS accessibility (transitions guarded; outline:none has :focus-visible replacement)
 bun scripts/validate-cli-conventions.mjs  # bun scripts follow docs/CLI-TUI-GUIDELINES.md (--help, --version, stderr, exit codes)
+bun scripts/validate-emacs-faces.mjs      # Emacs face list in jylhis-theme-core.el matches face-manifest.json
 serve-pages                               # build the GitHub Pages artifact, serve _site locally, rebuild on changes
 ```
 
-All five validators support `--help` and `--version`.
+All six validators support `--help` and `--version`.
 
 Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and three convenience scripts: `generate`, `validate-tokens`, and `serve-pages`.
 
@@ -42,7 +43,9 @@ A single Bun script with zero dependencies reads `tokens.json` and writes genera
 | `tokens-data.js` | JS export for the showcase website (includes derived `contrastPairs` + `swatchContrast`) |
 | `platforms/ghostty/jylhis-{paper,roast}` | Ghostty color themes |
 | `platforms/charm/jylhis/palette.go` | Go lipgloss palette struct |
-| `platforms/emacs/jylhis-{paper,roast}-theme.el` | Emacs deftheme with face mappings |
+| `platforms/emacs/jylhis-theme-core.el` | Shared face spec list + three-tier resolver macro (Tokyo-Themes-style framework) |
+| `platforms/emacs/jylhis-{paper,roast}-palette.el` | Three-tier (GUI / xterm-256 / 16-color ANSI) palette alist per variant |
+| `platforms/emacs/jylhis-{paper,roast}-theme.el` | Entry point: `require`s core+palette and calls `jylhis-apply-faces` |
 | `platforms/hyprland/jylhis-{paper,roast}.conf` | Hyprland border colors |
 | `platforms/rofi/jylhis-{paper,roast}.rasi` | Rofi command palette theme |
 | `platforms/gtk/gtk.css` | GTK 3/4 Adwaita overrides |
@@ -61,6 +64,9 @@ The ASE generator emits binary content; the `--check` mode handles both text and
 - `platforms/ghostty/config` — user preferences, not palette
 - `platforms/KEYBOARD.md` — focus ring, kbd chip, command palette, selected-item spec
 - `platforms/charm/jylhis/{theme,bubbles,bubbletea}.go` — lipgloss styles and Bubble Tea integration
+- `platforms/emacs/jylhis-themes.el` — autoload registration for `custom-theme-load-path`
+- `platforms/emacs/jylhis-theme-toggle.el` — `M-x jylhis-toggle-theme` (and `jylhis-load-theme`) helpers
+- `platforms/emacs/face-manifest.json` — curated face list for `validate-emacs-faces.mjs`; edit in lock-step with the spec list in `scripts/generate.mjs`
 
 ### Nix packaging (`nix/`)
 
@@ -93,3 +99,4 @@ Roles in `tokens.json` are grouped under a top-level `groups` block — Papersto
 - **Contrast:** body text AAA on both modes, text-muted AA, text-faint is decorative only.
 - **`accent-subtle`** uses rgba with opacity (not in `tokens.json` directly) — defined in `tokens.css` generation and as opaque approximations in Emacs/Rofi where rgba isn't supported.
 - **SynTag is an alias of SynType** — maintained in Go palette and CSS for backwards compatibility.
+- **Emacs themes ship three display tiers** — every face spec degrades from 24-bit GUI hex → nearest xterm-256 (`color-NNN`) → named ANSI slot (`red`, `brightyellow`). Roles may carry an optional `ansi` override on their token entry to pin the 16-color tier; `accent` is pinned to `bright-yellow` (ANSI 11).

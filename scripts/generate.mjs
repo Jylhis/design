@@ -85,6 +85,73 @@ function wcagTag(ratio) {
   return "fail";
 }
 
+// ─── Helper: hex → RGB triplet ───────────────────────────────────────
+
+function hexToRgb(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+// ─── Helper: hex → nearest xterm-256 indexed color ──────────────────
+// Returns "color-NNN" for use in Emacs terminal face specs.
+// xterm-256 layout: 16 ANSI + 216-cube (16-231) + 24 grayscale (232-255).
+
+const _xtermCubeSteps = [0, 95, 135, 175, 215, 255];
+function _nearestCubeIndex(v) {
+  let best = 0, bestDist = Infinity;
+  for (let i = 0; i < 6; i++) {
+    const d = Math.abs(v - _xtermCubeSteps[i]);
+    if (d < bestDist) { bestDist = d; best = i; }
+  }
+  return best;
+}
+function hexToXterm256(hex) {
+  const [r, g, b] = hexToRgb(hex);
+  const ri = _nearestCubeIndex(r);
+  const gi = _nearestCubeIndex(g);
+  const bi = _nearestCubeIndex(b);
+  const cubeIdx = 16 + 36 * ri + 6 * gi + bi;
+  const cR = _xtermCubeSteps[ri], cG = _xtermCubeSteps[gi], cB = _xtermCubeSteps[bi];
+  const cubeDist = (cR - r) ** 2 + (cG - g) ** 2 + (cB - b) ** 2;
+  let grayIdx = -1, grayDist = Infinity;
+  for (let i = 0; i < 24; i++) {
+    const gv = 8 + 10 * i;
+    const d = (gv - r) ** 2 + (gv - g) ** 2 + (gv - b) ** 2;
+    if (d < grayDist) { grayDist = d; grayIdx = 232 + i; }
+  }
+  return `color-${cubeDist <= grayDist ? cubeIdx : grayIdx}`;
+}
+
+// ─── Helper: token role → ANSI 16-color name ────────────────────────
+// Returns a name Emacs's tty driver accepts ("red", "brightyellow", ...).
+// Honors an optional `ansi` override field on the role entry.
+
+function _ansiNameForSlot(slotName) {
+  // tokens.json stores "bright-yellow"; Emacs expects "brightyellow".
+  return slotName.replace(/-/g, "");
+}
+
+function _nearestAnsi(hex, mode) {
+  const [r, g, b] = hexToRgb(hex);
+  let best = "white", bestDist = Infinity;
+  for (const slot of tokens.ansi) {
+    const [sr, sg, sb] = hexToRgb(slot[mode]);
+    const d = (sr - r) ** 2 + (sg - g) ** 2 + (sb - b) ** 2;
+    if (d < bestDist) { bestDist = d; best = _ansiNameForSlot(slot.name); }
+  }
+  return best;
+}
+
+function roleToAnsi16(roleName, mode) {
+  for (const section of [tokens.palette, tokens.syntax, tokens.status]) {
+    if (section[roleName]) {
+      if (section[roleName].ansi) return _ansiNameForSlot(section[roleName].ansi);
+      return _nearestAnsi(section[roleName][mode], mode);
+    }
+  }
+  throw new Error(`roleToAnsi16: unknown role ${roleName}`);
+}
+
 // ─── 1. tokens.css — CSS custom properties ───────────────────────────
 
 function generateTokensCSS() {
@@ -474,40 +541,154 @@ function generateKvantum(mode) {
   }
 }
 
-// ─── 6. Emacs themes (template-based) ───────────────────────────────
+// ─── 6. Emacs themes (Tokyo-Themes-style shared core, three-tier display fallbacks) ──
+//
+// Both Paper and Roast variants share `jylhis-theme-core.el`, which holds the
+// canonical face spec list as a small DSL and resolves each role across three
+// display tiers:
+//   - GUI / 24-bit:    exact hex from tokens.json
+//   - xterm-256:       "color-NNN" indexed slot
+//   - 16-color TTY:    named ANSI slot ("red", "brightyellow", …)
+//
+// Per-variant palette files (jylhis-{paper,roast}-palette.el) carry the
+// three tiers per role; per-variant entry-point files (jylhis-{paper,roast}-
+// theme.el) wire the palette into the shared core and call provide-theme.
 
-function generateEmacs(mode) {
-  const themeName = mode === "light" ? "jylhis-paper" : "jylhis-roast";
-  const label = mode === "light" ? "light" : "dark";
+// Maps the short aliases used in the Elisp DSL to their source-of-truth
+// role in tokens.json. The aliases match the locals used in the previous
+// monolithic generator to keep the face spec list readable.
+const EMACS_ROLE_MAP = {
+  bg:               { section: "palette", role: "bg" },
+  "bg-subtle":      { section: "palette", role: "bg-subtle" },
+  surface:          { section: "palette", role: "surface" },
+  "surface-raised": { section: "palette", role: "surface-raised" },
+  fg:               { section: "palette", role: "text" },
+  "fg-muted":       { section: "palette", role: "text-muted" },
+  "fg-heading":     { section: "palette", role: "text-heading" },
+  "fg-faint":       { section: "palette", role: "text-faint" },
+  accent:           { section: "palette", role: "accent" },
+  "accent-hover":   { section: "palette", role: "accent-hover" },
+  "accent-subtle":  { section: "palette", role: "accent-subtle" },
+  brand:            { section: "palette", role: "brand" },
+  border:           { section: "palette", role: "border" },
+  "border-strong":  { section: "palette", role: "border-strong" },
+  decorator:        { section: "palette", role: "decorator" },
+  "syn-keyword":    { section: "syntax",  role: "syn-keyword" },
+  "syn-string":     { section: "syntax",  role: "syn-string" },
+  "syn-number":     { section: "syntax",  role: "syn-number" },
+  "syn-function":   { section: "syntax",  role: "syn-function" },
+  "syn-builtin":    { section: "syntax",  role: "syn-builtin" },
+  "syn-type":       { section: "syntax",  role: "syn-type" },
+  "syn-variable":   { section: "syntax",  role: "syn-variable" },
+  "syn-tag":        { section: "syntax",  role: "syn-type" }, // alias of syn-type
+  "syn-comment":    { section: "syntax",  role: "syn-comment" },
+  "syn-docstring":  { section: "syntax",  role: "syn-docstring" },
+  err:              { section: "status",  role: "status-err" },
+  warn:             { section: "status",  role: "status-warn" },
+  ok:               { section: "status",  role: "status-ok" },
+  info:             { section: "status",  role: "status-info" },
+};
+
+function _emacsRoleEntry(alias) {
+  const m = EMACS_ROLE_MAP[alias];
+  if (!m) throw new Error(`Unknown Emacs palette alias: ${alias}`);
+  return tokens[m.section][m.role];
+}
+function _emacsRoleAnsi(alias, mode) {
+  const entry = _emacsRoleEntry(alias);
+  if (entry.ansi) return _ansiNameForSlot(entry.ansi);
+  return _nearestAnsi(entry[mode], mode);
+}
+
+function generateEmacsPalette(mode) {
+  const variant = mode === "light" ? "paper" : "roast";
+  const themeName = `jylhis-${variant}`;
+  const aliases = Object.keys(EMACS_ROLE_MAP);
+
+  const paletteLines = aliases.map((alias) => {
+    const entry = _emacsRoleEntry(alias);
+    const hex = entry[mode];
+    const x256 = hexToXterm256(hex);
+    const a16 = _emacsRoleAnsi(alias, mode);
+    return `    (${alias.padEnd(15)} ("${hex}" "${x256}" "${a16}"))`;
+  });
+
+  const ansiLines = tokens.ansi.map((slot) => {
+    const role = `ansi-${slot.name}`;
+    const hex = slot[mode];
+    const x256 = hexToXterm256(hex);
+    const a16 = _ansiNameForSlot(slot.name);
+    return `    (${role.padEnd(15)} ("${hex}" "${x256}" "${a16}"))`;
+  });
+
+  const fixme = tokens.status["status-err"][mode];
+  const todo = tokens.status["status-warn"][mode];
+  const note = tokens.status["status-info"][mode];
+  const deprecated = tokens.palette["text-faint"][mode];
+
+  return `;;; ${themeName}-palette.el --- Jylhis ${variant} palette  -*- lexical-binding: t; -*-
+;;
+;; GENERATED from tokens.json. Do not edit by hand.
+;; Run: bun scripts/generate.mjs
+;;
+;;; Commentary:
+;;
+;;  Three-tier color palette for the ${themeName} theme.
+;;  Each entry is (ROLE (GUI-HEX XTERM-256 ANSI-16-NAME)) and is consumed
+;;  by \`jylhis-apply-faces' in jylhis-theme-core.el.
+;;
+;;; Code:
+
+(defconst ${themeName}-palette
+  '(
+${paletteLines.join("\n")}
+
+    ;; ANSI 16-color slots (for ansi-color-* faces)
+${ansiLines.join("\n")}
+    )
+  "Three-tier palette for the Jylhis ${variant} theme.
+Each entry is (ROLE (GUI-HEX XTERM-256 ANSI-16-NAME)) and is consumed by
+\`jylhis-apply-faces' to emit a Custom face SPEC-LIST that degrades
+across display classes.")
+
+(defconst ${themeName}-hl-todo-faces
+  '(("FIXME"      . "${fixme}")
+    ("BUG"        . "${fixme}")
+    ("TODO"       . "${todo}")
+    ("HACK"       . "${todo}")
+    ("NOTE"       . "${note}")
+    ("REVIEW"     . "${note}")
+    ("DEPRECATED" . "${deprecated}"))
+  "Suggested \`hl-todo-keyword-faces' for the Jylhis ${variant} theme.")
+
+(provide '${themeName}-palette)
+;;; ${themeName}-palette.el ends here
+`;
+}
+
+function generateEmacsTheme(mode) {
+  const variant = mode === "light" ? "paper" : "roast";
+  const themeName = `jylhis-${variant}`;
   const desc = mode === "light"
-    ? "Jylhis \u2014 light theme. Copper accent on warm paper, Modus-derived syntax tuned for paper."
-    : "Jylhis \u2014 dark theme. Copper accent on warm roast, Modus-derived syntax tuned for roast.";
+    ? "Jylhis — light theme. Copper accent on warm paper, Modus-derived syntax tuned for paper."
+    : "Jylhis — dark theme. Copper accent on warm roast, Modus-derived syntax tuned for roast.";
   const commentary = mode === "light"
     ? 'Light "paper" variant'
     : 'Dark "roast" variant';
-  const modus = mode === "light" ? "Operandi" : "Vivendi";
   const sibling = mode === "light" ? "jylhis-roast-theme.el" : "jylhis-paper-theme.el";
   const otherTheme = mode === "light" ? "jylhis-roast" : "jylhis-paper";
+  const otherMode = mode === "light" ? "dark" : "light";
+  const label = mode === "light" ? "light" : "dark";
 
-  const c = (role) => color(role, mode);
-  // accent-subtle is a derived opaque color for Emacs (no rgba in elisp faces)
-  const accentSubtle = mode === "light" ? "#f0e2d1" : "#3a2c20";
-
-  const ansiBlock = tokens.ansi.map((a, i) => {
-    const name = `ansi-color-${a.name}`;
-    const hex = a[mode];
-    return `   \`(${name.padEnd(30)} ((,class :foreground "${hex}" :background "${hex}")))`;
-  }).join("\n");
-
-  const ansiVector = tokens.ansi.slice(0, 8).map(a => `"${a[mode]}"`);
-  const ansiVectorStr = `["${tokens.ansi[0][mode]}" "${tokens.ansi[1][mode]}" "${tokens.ansi[2][mode]}" "${tokens.ansi[3][mode]}"\n    "${tokens.ansi[4][mode]}" "${tokens.ansi[5][mode]}" "${tokens.ansi[6][mode]}" "${tokens.ansi[7][mode]}"]`;
+  const v = tokens.ansi.slice(0, 8).map((a) => `"${a[mode]}"`);
+  const ansiVectorStr = `[${v[0]} ${v[1]} ${v[2]} ${v[3]}\n    ${v[4]} ${v[5]} ${v[6]} ${v[7]}]`;
 
   return `;;; ${themeName}-theme.el --- Jylhis ${label} theme  -*- lexical-binding: t; -*-
 ;;
 ;; GENERATED from tokens.json. Do not edit by hand.
 ;; Run: bun scripts/generate.mjs
 ;;
-;; Author:      Markus Jylh\u00e4nkangas
+;; Author:      Markus Jylhänkangas
 ;; Homepage:    https://jylhis.com
 ;; Keywords:    faces, theme
 ;; Package-Requires: ((emacs "28.1"))
@@ -515,10 +696,10 @@ function generateEmacs(mode) {
 ;;; Commentary:
 ;;
 ;;  ${commentary} of the Jylhis design system for Emacs.
-;;  Modus-style semantic face targeting \u2014 see tokens.md \u00a72 for the source-of-truth
+;;  Modus-style semantic face targeting — see tokens.md §2 for the source-of-truth
 ;;  palette and platforms/KEYBOARD.md for the shared primitives (focus, kbd,
-;;  selected-item language).  A sibling \`${sibling}\` ships the ${mode === "light" ? "dark" : "light"}
-;;  variant; both reuse the same semantic face map below.
+;;  selected-item language).  A sibling \`${sibling}\` ships the ${otherMode}
+;;  variant; both reuse the same semantic face map in jylhis-theme-core.el.
 ;;
 ;;  Install:
 ;;    (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
@@ -533,391 +714,13 @@ function generateEmacs(mode) {
 ;;
 ;;; Code:
 
+(require 'jylhis-theme-core)
+(require '${themeName}-palette)
+
 (deftheme ${themeName}
   "${desc}")
 
-(let ((class '((class color) (min-colors 256)))
-
-      ;; \u2500\u2500 Core palette (tokens.json, ${mode} column) \u2500\u2500
-      (bg            "${c("bg")}")
-      (bg-subtle     "${c("bg-subtle")}")
-      (surface       "${c("surface")}")
-      (surface-raised "${c("surface-raised")}")
-      (fg            "${c("text")}")
-      (fg-muted      "${c("text-muted")}")
-      (fg-heading    "${c("text-heading")}")
-      (fg-faint      "${c("text-faint")}")
-      (accent        "${c("accent")}")
-      (accent-hover  "${c("accent-hover")}")
-      (accent-subtle "${accentSubtle}")
-      (brand         "${c("brand")}")
-      (border        "${c("border")}")
-      (border-strong "${c("border-strong")}")
-      (decorator     "${c("decorator")}")
-
-      ;; \u2500\u2500 Syntax / semantic \u2014 Modus role taxonomy, tuned for ${mode === "light" ? "paper" : "roast"} (tokens.json) \u2500\u2500
-      (syn-keyword   "${tokens.syntax["syn-keyword"][mode]}") ; from magenta-cooler
-      (syn-string    "${tokens.syntax["syn-string"][mode]}") ; from blue-cooler
-      (syn-number    "${tokens.syntax["syn-number"][mode]}") ; from blue-warmer (constants/numbers)
-      (syn-function  "${tokens.syntax["syn-function"][mode]}") ; from magenta
-      (syn-builtin   "${tokens.syntax["syn-builtin"][mode]}") ; from magenta-warmer
-      (syn-type      "${tokens.syntax["syn-type"][mode]}") ; from cyan-cooler
-      (syn-variable  "${tokens.syntax["syn-variable"][mode]}") ; from cyan
-      (syn-tag       "${tokens.syntax["syn-type"][mode]}") ; alias of type
-      (syn-comment   "${tokens.syntax["syn-comment"][mode]}") ; from red-faint
-      (syn-docstring "${tokens.syntax["syn-docstring"][mode]}") ; from green-faint
-      ;; Semantic status \u2014 Modus red/yellow/green/blue accents
-      (err  "${tokens.status["status-err"][mode]}")
-      (warn "${tokens.status["status-warn"][mode]}")
-      (ok   "${tokens.status["status-ok"][mode]}")
-      (info "${tokens.status["status-info"][mode]}"))
-
-  (custom-theme-set-faces
-   '${themeName}
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Frame / base
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(default             ((,class :background ,bg :foreground ,fg)))
-   \`(cursor              ((,class :background ,accent)))
-   \`(fringe              ((,class :background ,bg)))
-   \`(vertical-border     ((,class :foreground ,border)))
-   \`(window-divider      ((,class :foreground ,border)))
-   \`(window-divider-first-pixel  ((,class :foreground ,border)))
-   \`(window-divider-last-pixel   ((,class :foreground ,border)))
-   \`(shadow              ((,class :foreground ,fg-faint)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Text emphasis
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(bold                ((,class :weight bold :foreground ,fg-heading)))
-   \`(italic              ((,class :slant italic)))
-   \`(underline           ((,class :underline (:color ,fg-muted))))
-   \`(link                ((,class :foreground ,accent :underline (:color ,accent))))
-   \`(link-visited        ((,class :foreground ,syn-number :underline (:color ,syn-number))))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Selection + region  (KEYBOARD.md primitives)
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(region              ((,class :background ,accent-subtle :extend t)))
-   \`(secondary-selection ((,class :background ,surface :extend t)))
-   \`(highlight           ((,class :background ,surface-raised :extend t)))
-   \`(hl-line             ((,class :background ,bg-subtle :extend t)))
-   \`(match               ((,class :background ,accent-subtle :foreground ,accent :weight bold)))
-   \`(isearch             ((,class :background ,accent :foreground ,bg :weight bold)))
-   \`(isearch-fail        ((,class :background ,err :foreground ,bg)))
-   \`(lazy-highlight      ((,class :background ,accent-subtle :foreground ,fg)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Mode line
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(mode-line
-     ((,class :background ,surface :foreground ,fg
-              :box (:line-width 3 :color ,surface))))
-   \`(mode-line-inactive
-     ((,class :background ,bg-subtle :foreground ,fg-muted
-              :box (:line-width 3 :color ,bg-subtle))))
-   \`(mode-line-highlight ((,class :foreground ,accent :background ,surface-raised)))
-   \`(mode-line-emphasis  ((,class :foreground ,accent :weight bold)))
-   \`(mode-line-buffer-id ((,class :foreground ,fg-heading :weight bold)))
-
-   ;; doom-modeline
-   \`(doom-modeline-bar              ((,class :background ,accent)))
-   \`(doom-modeline-bar-inactive     ((,class :background ,surface)))
-   \`(doom-modeline-buffer-file      ((,class :foreground ,fg-heading :weight bold)))
-   \`(doom-modeline-buffer-modified  ((,class :foreground ,warn :weight bold)))
-   \`(doom-modeline-buffer-major-mode ((,class :foreground ,syn-tag :weight bold)))
-   \`(doom-modeline-project-dir      ((,class :foreground ,fg-muted)))
-   \`(doom-modeline-info             ((,class :foreground ,ok)))
-   \`(doom-modeline-warning          ((,class :foreground ,warn)))
-   \`(doom-modeline-urgent           ((,class :foreground ,err)))
-   \`(doom-modeline-lsp-success      ((,class :foreground ,ok)))
-   \`(doom-modeline-lsp-warning      ((,class :foreground ,warn)))
-   \`(doom-modeline-lsp-error        ((,class :foreground ,err)))
-
-   ;; Header-line = the "second toolbar". Kept quiet.
-   \`(header-line          ((,class :background ,bg-subtle :foreground ,fg-muted
-                                   :box (:line-width 3 :color ,bg-subtle))))
-
-   ;; Tab-bar / tab-line \u2014 selected tab uses the canonical language
-   \`(tab-bar              ((,class :background ,bg-subtle :foreground ,fg-muted)))
-   \`(tab-bar-tab          ((,class :background ,surface :foreground ,fg
-                                   :box (:line-width 3 :color ,surface)
-                                   :weight bold)))
-   \`(tab-bar-tab-inactive ((,class :background ,bg-subtle :foreground ,fg-muted
-                                   :box (:line-width 3 :color ,bg-subtle))))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Minibuffer / echo area
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(minibuffer-prompt    ((,class :foreground ,accent :weight bold)))
-   \`(error                ((,class :foreground ,err   :weight bold)))
-   \`(warning              ((,class :foreground ,warn  :weight bold)))
-   \`(success              ((,class :foreground ,ok    :weight bold)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Font-lock  (semantic face mapping tokens.json)
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(font-lock-builtin-face          ((,class :foreground ,syn-builtin)))
-   \`(font-lock-comment-face          ((,class :foreground ,syn-comment :slant italic)))
-   \`(font-lock-comment-delimiter-face ((,class :foreground ,syn-comment)))
-   \`(font-lock-constant-face         ((,class :foreground ,syn-number)))
-   \`(font-lock-doc-face              ((,class :foreground ,syn-docstring :slant italic)))
-   \`(font-lock-function-name-face    ((,class :foreground ,syn-function :weight bold)))
-   \`(font-lock-keyword-face          ((,class :foreground ,syn-keyword :weight bold)))
-   \`(font-lock-negation-char-face    ((,class :foreground ,err)))
-   \`(font-lock-preprocessor-face     ((,class :foreground ,syn-builtin)))
-   \`(font-lock-regexp-grouping-backslash ((,class :foreground ,syn-function :weight bold)))
-   \`(font-lock-regexp-grouping-construct ((,class :foreground ,syn-keyword :weight bold)))
-   \`(font-lock-string-face           ((,class :foreground ,syn-string)))
-   \`(font-lock-type-face             ((,class :foreground ,syn-type)))
-   \`(font-lock-variable-name-face    ((,class :foreground ,syn-variable)))
-   \`(font-lock-warning-face          ((,class :foreground ,warn :weight bold)))
-
-   ;; Tree-sitter richer faces (Emacs 29+)
-   \`(font-lock-bracket-face          ((,class :foreground ,fg-muted)))
-   \`(font-lock-delimiter-face        ((,class :foreground ,fg-muted)))
-   \`(font-lock-escape-face           ((,class :foreground ,syn-function)))
-   \`(font-lock-misc-punctuation-face ((,class :foreground ,fg-muted)))
-   \`(font-lock-number-face           ((,class :foreground ,syn-number)))
-   \`(font-lock-operator-face         ((,class :foreground ,syn-keyword)))
-   \`(font-lock-property-name-face    ((,class :foreground ,syn-tag)))
-   \`(font-lock-property-use-face     ((,class :foreground ,syn-tag)))
-   \`(font-lock-punctuation-face      ((,class :foreground ,fg-muted)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Line numbers
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(line-number              ((,class :background ,bg :foreground ,fg-faint)))
-   \`(line-number-current-line ((,class :background ,bg-subtle :foreground ,accent :weight bold)))
-   \`(line-number-major-tick   ((,class :foreground ,fg-muted)))
-   \`(line-number-minor-tick   ((,class :foreground ,fg-faint)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Parens / structure
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(show-paren-match         ((,class :background ,accent-subtle :foreground ,accent :weight bold)))
-   \`(show-paren-mismatch      ((,class :background ,err :foreground ,bg :weight bold)))
-
-   ;; rainbow-delimiters
-   \`(rainbow-delimiters-depth-1-face ((,class :foreground ,syn-keyword)))
-   \`(rainbow-delimiters-depth-2-face ((,class :foreground ,syn-string)))
-   \`(rainbow-delimiters-depth-3-face ((,class :foreground ,syn-tag)))
-   \`(rainbow-delimiters-depth-4-face ((,class :foreground ,syn-number)))
-   \`(rainbow-delimiters-depth-5-face ((,class :foreground ,syn-function)))
-   \`(rainbow-delimiters-depth-6-face ((,class :foreground ,accent)))
-   \`(rainbow-delimiters-depth-7-face ((,class :foreground ,fg-muted)))
-   \`(rainbow-delimiters-unmatched-face ((,class :foreground ,err :weight bold)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Vertico / Consult / Marginalia / Corfu / Orderless
-   ;; \u2014 this IS the command palette (KEYBOARD.md \u00a7"Command palette")
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(vertico-current        ((,class :background ,accent-subtle
-                                     :foreground ,fg :extend t
-                                     :weight normal)))
-   \`(vertico-group-title    ((,class :foreground ,fg-faint :slant italic)))
-   \`(vertico-group-separator ((,class :foreground ,decorator :strike-through t)))
-
-   \`(marginalia-key          ((,class :foreground ,accent :weight bold)))
-   \`(marginalia-documentation ((,class :foreground ,fg-muted :slant italic)))
-   \`(marginalia-date         ((,class :foreground ,syn-number)))
-   \`(marginalia-file-name    ((,class :foreground ,fg)))
-   \`(marginalia-size         ((,class :foreground ,fg-muted)))
-   \`(marginalia-mode         ((,class :foreground ,syn-tag)))
-   \`(marginalia-function     ((,class :foreground ,syn-function)))
-   \`(marginalia-type         ((,class :foreground ,syn-tag)))
-   \`(marginalia-null         ((,class :foreground ,fg-faint)))
-   \`(marginalia-value        ((,class :foreground ,fg)))
-
-   \`(consult-file           ((,class :foreground ,fg)))
-   \`(consult-bookmark       ((,class :foreground ,syn-number)))
-   \`(consult-line-number    ((,class :foreground ,fg-faint)))
-   \`(consult-preview-line   ((,class :background ,bg-subtle :extend t)))
-   \`(consult-preview-match  ((,class :background ,accent-subtle :foreground ,accent)))
-
-   \`(orderless-match-face-0  ((,class :foreground ,accent :weight bold)))
-   \`(orderless-match-face-1  ((,class :foreground ,syn-string :weight bold)))
-   \`(orderless-match-face-2  ((,class :foreground ,syn-tag :weight bold)))
-   \`(orderless-match-face-3  ((,class :foreground ,syn-number :weight bold)))
-
-   \`(corfu-default           ((,class :background ,surface-raised :foreground ,fg)))
-   \`(corfu-current           ((,class :background ,accent-subtle :foreground ,fg)))
-   \`(corfu-border            ((,class :background ,border-strong)))
-   \`(corfu-bar               ((,class :background ,accent)))
-   \`(corfu-echo              ((,class :foreground ,fg-muted :slant italic)))
-
-   ;; Eldoc / tooltip
-   \`(eldoc-highlight-function-argument ((,class :foreground ,accent :weight bold)))
-   \`(tooltip                 ((,class :background ,surface-raised :foreground ,fg
-                                      :inherit variable-pitch)))
-
-   ;; which-key \u2014 the leader cheatsheet (KEYBOARD.md \u00a7"Leader key cheatsheet")
-   \`(which-key-key-face        ((,class :foreground ,accent :weight bold)))
-   \`(which-key-group-description-face ((,class :foreground ,syn-tag)))
-   \`(which-key-command-description-face ((,class :foreground ,fg)))
-   \`(which-key-local-map-description-face ((,class :foreground ,syn-string)))
-   \`(which-key-separator-face  ((,class :foreground ,decorator)))
-   \`(which-key-note-face       ((,class :foreground ,fg-faint)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Org
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(org-level-1    ((,class :foreground ,accent       :weight bold :height 1.4)))
-   \`(org-level-2    ((,class :foreground ,syn-tag      :weight bold :height 1.2)))
-   \`(org-level-3    ((,class :foreground ,syn-string   :weight bold :height 1.1)))
-   \`(org-level-4    ((,class :foreground ,syn-number   :weight bold)))
-   \`(org-level-5    ((,class :foreground ,syn-function :weight bold)))
-   \`(org-level-6    ((,class :foreground ,syn-keyword)))
-   \`(org-level-7    ((,class :foreground ,fg-muted)))
-   \`(org-level-8    ((,class :foreground ,fg-faint)))
-
-   \`(org-document-title      ((,class :foreground ,fg-heading :weight bold :height 1.6)))
-   \`(org-document-info       ((,class :foreground ,fg-muted)))
-   \`(org-document-info-keyword ((,class :foreground ,fg-faint)))
-   \`(org-meta-line           ((,class :foreground ,fg-faint :slant italic)))
-   \`(org-drawer              ((,class :foreground ,fg-faint)))
-   \`(org-special-keyword     ((,class :foreground ,syn-tag)))
-
-   \`(org-todo                ((,class :foreground ,warn :weight bold :box (:line-width 1 :color ,warn))))
-   \`(org-done                ((,class :foreground ,ok :weight bold :box (:line-width 1 :color ,ok))))
-   \`(org-headline-done       ((,class :foreground ,fg-muted :strike-through nil)))
-
-   \`(org-date                ((,class :foreground ,syn-number :underline nil)))
-   \`(org-tag                 ((,class :foreground ,fg-muted :weight normal)))
-   \`(org-priority            ((,class :foreground ,accent :weight bold)))
-
-   \`(org-block               ((,class :background ,bg-subtle :extend t)))
-   \`(org-block-begin-line    ((,class :background ,bg-subtle :foreground ,fg-faint :extend t)))
-   \`(org-block-end-line      ((,class :background ,bg-subtle :foreground ,fg-faint :extend t)))
-   \`(org-code                ((,class :foreground ,syn-string :background ,bg-subtle)))
-   \`(org-verbatim            ((,class :foreground ,syn-string)))
-   \`(org-quote               ((,class :foreground ,fg-muted :slant italic)))
-
-   \`(org-table               ((,class :foreground ,fg :background ,bg-subtle)))
-   \`(org-table-header        ((,class :foreground ,fg-heading :background ,surface :weight bold)))
-
-   \`(org-link                ((,class :inherit link)))
-   \`(org-footnote            ((,class :foreground ,syn-number :underline t)))
-   \`(org-ellipsis            ((,class :foreground ,fg-faint :underline nil)))
-   \`(org-hide                ((,class :foreground ,bg)))
-
-   ;; org-modern helpers
-   \`(org-modern-tag          ((,class :foreground ,bg :background ,syn-tag :weight bold)))
-   \`(org-modern-date-active  ((,class :foreground ,bg :background ,accent :weight bold)))
-
-   ;; Agenda
-   \`(org-agenda-structure    ((,class :foreground ,accent :weight bold)))
-   \`(org-agenda-date         ((,class :foreground ,syn-tag :weight bold)))
-   \`(org-agenda-date-today   ((,class :foreground ,accent :weight bold :underline t)))
-   \`(org-agenda-date-weekend ((,class :foreground ,fg-muted)))
-   \`(org-scheduled           ((,class :foreground ,syn-string)))
-   \`(org-scheduled-today     ((,class :foreground ,ok :weight bold)))
-   \`(org-scheduled-previously ((,class :foreground ,warn)))
-   \`(org-upcoming-deadline   ((,class :foreground ,warn)))
-   \`(org-warning             ((,class :foreground ,warn :weight bold)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Dired
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(dired-directory         ((,class :foreground ,syn-tag :weight bold)))
-   \`(dired-symlink           ((,class :foreground ,info)))
-   \`(dired-broken-symlink    ((,class :foreground ,err :strike-through t)))
-   \`(dired-header            ((,class :foreground ,accent :weight bold)))
-   \`(dired-mark              ((,class :foreground ,accent)))
-   \`(dired-marked            ((,class :background ,accent-subtle :foreground ,accent :weight bold)))
-   \`(dired-perm-write        ((,class :foreground ,warn)))
-   \`(dired-flagged           ((,class :foreground ,err :weight bold)))
-   \`(dired-ignored           ((,class :foreground ,fg-faint)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Magit / diff
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(diff-added              ((,class :background ,bg-subtle :foreground ,ok)))
-   \`(diff-removed            ((,class :background ,bg-subtle :foreground ,err)))
-   \`(diff-context            ((,class :foreground ,fg-muted)))
-   \`(diff-hunk-header        ((,class :background ,surface :foreground ,fg-heading :weight bold)))
-   \`(diff-file-header        ((,class :background ,surface :foreground ,accent :weight bold)))
-   \`(diff-refine-added       ((,class :background ,accent-subtle :foreground ,ok :weight bold)))
-   \`(diff-refine-removed     ((,class :background ,accent-subtle :foreground ,err :weight bold)))
-
-   \`(magit-section-heading           ((,class :foreground ,accent :weight bold)))
-   \`(magit-section-highlight         ((,class :background ,bg-subtle :extend t)))
-   \`(magit-branch-local              ((,class :foreground ,syn-tag :weight bold)))
-   \`(magit-branch-remote             ((,class :foreground ,syn-string :weight bold)))
-   \`(magit-branch-current            ((,class :foreground ,accent :weight bold
-                                              :box (:line-width 1 :color ,accent))))
-   \`(magit-tag                       ((,class :foreground ,syn-number)))
-   \`(magit-hash                      ((,class :foreground ,fg-faint)))
-   \`(magit-log-author                ((,class :foreground ,syn-function)))
-   \`(magit-log-date                  ((,class :foreground ,fg-faint)))
-   \`(magit-diff-added                ((,class :background ,bg-subtle :foreground ,ok)))
-   \`(magit-diff-added-highlight      ((,class :background ,surface :foreground ,ok)))
-   \`(magit-diff-removed              ((,class :background ,bg-subtle :foreground ,err)))
-   \`(magit-diff-removed-highlight    ((,class :background ,surface :foreground ,err)))
-   \`(magit-diff-context              ((,class :foreground ,fg-muted)))
-   \`(magit-diff-context-highlight    ((,class :background ,bg-subtle :foreground ,fg)))
-   \`(magit-diff-hunk-heading         ((,class :background ,surface :foreground ,fg-heading)))
-   \`(magit-diff-hunk-heading-highlight ((,class :background ,surface-raised :foreground ,fg-heading :weight bold)))
-   \`(magit-diffstat-added            ((,class :foreground ,ok)))
-   \`(magit-diffstat-removed          ((,class :foreground ,err)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Flymake / Flycheck
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(flymake-error           ((,class :underline (:style wave :color ,err))))
-   \`(flymake-warning         ((,class :underline (:style wave :color ,warn))))
-   \`(flymake-note            ((,class :underline (:style wave :color ,info))))
-   \`(flycheck-error          ((,class :underline (:style wave :color ,err))))
-   \`(flycheck-warning        ((,class :underline (:style wave :color ,warn))))
-   \`(flycheck-info           ((,class :underline (:style wave :color ,info))))
-   \`(compilation-error       ((,class :foreground ,err :weight bold)))
-   \`(compilation-warning     ((,class :foreground ,warn :weight bold)))
-   \`(compilation-info        ((,class :foreground ,info)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Company + Eglot
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(company-tooltip                      ((,class :background ,surface-raised :foreground ,fg)))
-   \`(company-tooltip-selection            ((,class :background ,accent-subtle :foreground ,fg)))
-   \`(company-tooltip-common               ((,class :foreground ,accent :weight bold)))
-   \`(company-tooltip-annotation           ((,class :foreground ,fg-muted)))
-   \`(company-scrollbar-bg                 ((,class :background ,surface)))
-   \`(company-scrollbar-fg                 ((,class :background ,border-strong)))
-
-   \`(eglot-highlight-symbol-face          ((,class :background ,surface :weight bold)))
-   \`(eglot-mode-line                      ((,class :foreground ,accent)))
-   \`(eglot-diagnostic-tag-deprecated-face ((,class :strike-through t :foreground ,fg-faint)))
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Terminal (vterm / ansi-term)  \u2014 tokens.json ANSI palette
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-${ansiBlock}
-
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   ;; Misc
-   ;; \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-   \`(trailing-whitespace       ((,class :background ,err)))
-   \`(whitespace-tab            ((,class :foreground ,fg-faint)))
-   \`(whitespace-space          ((,class :foreground ,fg-faint)))
-   \`(whitespace-newline        ((,class :foreground ,fg-faint)))
-   \`(whitespace-indentation    ((,class :foreground ,fg-faint)))
-   \`(whitespace-line           ((,class :background ,bg-subtle)))
-   \`(whitespace-trailing       ((,class :background ,err)))
-
-   \`(hi-yellow                 ((,class :background ,warn :foreground ,bg)))
-   \`(hi-pink                   ((,class :background ,syn-number :foreground ,bg)))
-   \`(hi-green                  ((,class :background ,ok :foreground ,bg)))
-
-   ;; tab-line / centaur-tabs
-   \`(tab-line-tab-current      ((,class :background ,surface :foreground ,accent :weight bold)))
-   \`(tab-line-tab              ((,class :background ,bg-subtle :foreground ,fg-muted)))
-
-   ;; hl-todo
-   \`(hl-todo                   ((,class :foreground ,warn :weight bold)))
-
-   ;; indent-bars
-   \`(indent-bars-face          ((,class :foreground ,fg-faint)))))
+(jylhis-apply-faces '${themeName} ${themeName}-palette)
 
 (custom-theme-set-variables
  '${themeName}
@@ -925,14 +728,7 @@ ${ansiBlock}
    ${ansiVectorStr})
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(hl-todo-keyword-faces
-   '(("FIXME"      . "${tokens.status["status-err"][mode]}")
-     ("BUG"        . "${tokens.status["status-err"][mode]}")
-     ("TODO"       . "${tokens.status["status-warn"][mode]}")
-     ("HACK"       . "${tokens.status["status-warn"][mode]}")
-     ("NOTE"       . "${tokens.status["status-info"][mode]}")
-     ("REVIEW"     . "${tokens.status["status-info"][mode]}")
-     ("DEPRECATED" . "${c("text-faint")}"))))
+ \`(hl-todo-keyword-faces ',${themeName}-hl-todo-faces))
 
 (provide-theme '${themeName})
 
@@ -946,6 +742,428 @@ ${ansiBlock}
 ;;; ${themeName}-theme.el ends here
 `;
 }
+
+function generateEmacsCore() {
+  return `;;; jylhis-theme-core.el --- Shared face map for Jylhis themes  -*- lexical-binding: t; -*-
+;;
+;; GENERATED from tokens.json. Do not edit by hand.
+;; Run: bun scripts/generate.mjs
+;;
+;; Author:      Markus Jylhänkangas
+;; Homepage:    https://jylhis.com
+;; Keywords:    faces, theme
+;; Package-Requires: ((emacs "28.1"))
+;;
+;;; Commentary:
+;;
+;;  Canonical face spec list for the Jylhis design system, shared by both
+;;  the Paper (light) and Roast (dark) variants.  Each variant ships its
+;;  own three-tier palette in jylhis-{paper,roast}-palette.el; this file
+;;  resolves palette role symbols into per-display-class face specs.
+;;
+;;  Display tiers, in order of preference:
+;;    - GUI / 24-bit  -> (class color) (min-colors 16777216)  exact hex
+;;    - xterm-256     -> (class color) (min-colors 256)       "color-NNN"
+;;    - 16-color TTY  -> t                                    named ANSI
+;;
+;;  A face may carry GUI-only attributes via the :gui key in its attribute
+;;  plist; those attributes are folded only into the 24-bit tier so they
+;;  do not bleed into terminal fallbacks where they would not render
+;;  (e.g. :inherit variable-pitch, :distant-foreground).
+;;
+;;; Code:
+
+(defconst jylhis--display-gui '((class color) (min-colors 16777216))
+  "Display-class spec for full 24-bit GUI / true-color terminals.")
+
+(defconst jylhis--display-256 '((class color) (min-colors 256))
+  "Display-class spec for xterm-256 terminals.")
+
+(defun jylhis--resolve (value palette tier)
+  "Resolve VALUE against PALETTE at TIER (0=GUI, 1=xterm-256, 2=ANSI-16).
+Symbols matching a palette role are replaced with their tier value; nested
+keyword plists (e.g. \\='(:line-width 1 :color border)') are walked
+recursively.  All other values pass through unchanged."
+  (cond
+   ((symbolp value)
+    (let ((entry (assq value palette)))
+      (if entry (nth tier (cadr entry)) value)))
+   ((and (consp value) (keywordp (car value)))
+    (jylhis--rewrite-plist value palette tier))
+   (t value)))
+
+(defun jylhis--rewrite-plist (plist palette tier)
+  "Walk PLIST, resolving each value via \\='jylhis--resolve'."
+  (let (out)
+    (while plist
+      (let ((k (pop plist)) (v (pop plist)))
+        (push k out)
+        (push (jylhis--resolve v palette tier) out)))
+    (nreverse out)))
+
+(defun jylhis--strip-key (plist key)
+  "Return PLIST with all KEY/value entries removed."
+  (let (out)
+    (while plist
+      (let ((k (pop plist)) (v (pop plist)))
+        (unless (eq k key) (push k out) (push v out))))
+    (nreverse out)))
+
+(defun jylhis--build-face-spec (attrs palette)
+  "Build a three-tier Custom SPEC-LIST from ATTRS using PALETTE.
+ATTRS is a plist; an optional :gui key carries attributes that should
+appear only in the GUI tier (e.g. :inherit variable-pitch)."
+  (let* ((gui-extra (plist-get attrs :gui))
+         (base (jylhis--strip-key attrs :gui)))
+    (list
+     (list jylhis--display-gui
+           (append (jylhis--rewrite-plist base palette 0)
+                   (and gui-extra (jylhis--rewrite-plist gui-extra palette 0))))
+     (list jylhis--display-256
+           (jylhis--rewrite-plist base palette 1))
+     (list t
+           (jylhis--rewrite-plist base palette 2)))))
+
+(defconst jylhis--face-specs
+  '(
+    ;; ── Frame / base ─────────────────────────────────────────────────
+    (default                            :background bg :foreground fg)
+    (cursor                             :background accent :gui (:distant-foreground bg))
+    (fringe                             :background bg)
+    (vertical-border                    :foreground border)
+    (window-divider                     :foreground border)
+    (window-divider-first-pixel         :foreground border)
+    (window-divider-last-pixel          :foreground border)
+    (shadow                             :foreground fg-faint)
+
+    ;; ── Text emphasis ────────────────────────────────────────────────
+    (bold                               :weight bold :foreground fg-heading)
+    (italic                             :slant italic)
+    (underline                          :underline (:color fg-muted))
+    (link                               :foreground accent     :underline (:color accent))
+    (link-visited                       :foreground syn-number :underline (:color syn-number))
+
+    ;; ── Selection + region (KEYBOARD.md primitives) ─────────────────
+    (region                             :background accent-subtle  :extend t)
+    (secondary-selection                :background surface        :extend t)
+    (highlight                          :background surface-raised :extend t)
+    (hl-line                            :background bg-subtle      :extend t)
+    (match                              :background accent-subtle :foreground accent :weight bold)
+    (isearch                            :background accent        :foreground bg     :weight bold)
+    (isearch-fail                       :background err           :foreground bg)
+    (lazy-highlight                     :background accent-subtle :foreground fg)
+
+    ;; ── Mode line ───────────────────────────────────────────────────
+    (mode-line                          :background surface :foreground fg
+                                        :box (:line-width 3 :color surface))
+    (mode-line-inactive                 :background bg-subtle :foreground fg-muted
+                                        :box (:line-width 3 :color bg-subtle))
+    (mode-line-highlight                :foreground accent :background surface-raised)
+    (mode-line-emphasis                 :foreground accent :weight bold)
+    (mode-line-buffer-id                :foreground fg-heading :weight bold)
+
+    ;; doom-modeline
+    (doom-modeline-bar                  :background accent)
+    (doom-modeline-bar-inactive         :background surface)
+    (doom-modeline-buffer-file          :foreground fg-heading :weight bold)
+    (doom-modeline-buffer-modified      :foreground warn :weight bold)
+    (doom-modeline-buffer-major-mode    :foreground syn-tag :weight bold)
+    (doom-modeline-project-dir          :foreground fg-muted)
+    (doom-modeline-info                 :foreground ok)
+    (doom-modeline-warning              :foreground warn)
+    (doom-modeline-urgent               :foreground err)
+    (doom-modeline-lsp-success          :foreground ok)
+    (doom-modeline-lsp-warning          :foreground warn)
+    (doom-modeline-lsp-error            :foreground err)
+
+    (header-line                        :background bg-subtle :foreground fg-muted
+                                        :box (:line-width 3 :color bg-subtle))
+
+    ;; ── Tab-bar / tab-line ──────────────────────────────────────────
+    (tab-bar                            :background bg-subtle :foreground fg-muted)
+    (tab-bar-tab                        :background surface :foreground fg
+                                        :box (:line-width 3 :color surface)
+                                        :weight bold)
+    (tab-bar-tab-inactive               :background bg-subtle :foreground fg-muted
+                                        :box (:line-width 3 :color bg-subtle))
+
+    ;; ── Minibuffer / echo area ──────────────────────────────────────
+    (minibuffer-prompt                  :foreground accent :weight bold)
+    (error                              :foreground err  :weight bold)
+    (warning                            :foreground warn :weight bold)
+    (success                            :foreground ok   :weight bold)
+
+    ;; ── Font-lock ───────────────────────────────────────────────────
+    (font-lock-builtin-face              :foreground syn-builtin)
+    (font-lock-comment-face              :foreground syn-comment :slant italic)
+    (font-lock-comment-delimiter-face    :foreground syn-comment)
+    (font-lock-constant-face             :foreground syn-number)
+    (font-lock-doc-face                  :foreground syn-docstring :slant italic)
+    (font-lock-function-name-face        :foreground syn-function :weight bold)
+    (font-lock-keyword-face              :foreground syn-keyword  :weight bold)
+    (font-lock-negation-char-face        :foreground err)
+    (font-lock-preprocessor-face         :foreground syn-builtin)
+    (font-lock-regexp-grouping-backslash :foreground syn-function :weight bold)
+    (font-lock-regexp-grouping-construct :foreground syn-keyword  :weight bold)
+    (font-lock-string-face               :foreground syn-string)
+    (font-lock-type-face                 :foreground syn-type)
+    (font-lock-variable-name-face        :foreground syn-variable)
+    (font-lock-warning-face              :foreground warn :weight bold)
+
+    ;; Tree-sitter richer faces (Emacs 29+)
+    (font-lock-bracket-face              :foreground fg-muted)
+    (font-lock-delimiter-face            :foreground fg-muted)
+    (font-lock-escape-face               :foreground syn-function)
+    (font-lock-misc-punctuation-face     :foreground fg-muted)
+    (font-lock-number-face               :foreground syn-number)
+    (font-lock-operator-face             :foreground syn-keyword)
+    (font-lock-property-name-face        :foreground syn-tag)
+    (font-lock-property-use-face         :foreground syn-tag)
+    (font-lock-punctuation-face          :foreground fg-muted)
+
+    ;; ── Line numbers ────────────────────────────────────────────────
+    (line-number                        :background bg :foreground fg-faint)
+    (line-number-current-line           :background bg-subtle :foreground accent :weight bold)
+    (line-number-major-tick             :foreground fg-muted)
+    (line-number-minor-tick             :foreground fg-faint)
+
+    ;; ── Parens / structure ──────────────────────────────────────────
+    (show-paren-match                   :background accent-subtle :foreground accent :weight bold)
+    (show-paren-mismatch                :background err :foreground bg :weight bold)
+
+    (rainbow-delimiters-depth-1-face    :foreground syn-keyword)
+    (rainbow-delimiters-depth-2-face    :foreground syn-string)
+    (rainbow-delimiters-depth-3-face    :foreground syn-tag)
+    (rainbow-delimiters-depth-4-face    :foreground syn-number)
+    (rainbow-delimiters-depth-5-face    :foreground syn-function)
+    (rainbow-delimiters-depth-6-face    :foreground accent)
+    (rainbow-delimiters-depth-7-face    :foreground fg-muted)
+    (rainbow-delimiters-unmatched-face  :foreground err :weight bold)
+
+    ;; ── Vertico / Consult / Marginalia / Corfu / Orderless ─────────
+    (vertico-current                    :background accent-subtle :foreground fg :extend t :weight normal)
+    (vertico-group-title                :foreground fg-faint :slant italic)
+    (vertico-group-separator            :foreground decorator :strike-through t)
+
+    (marginalia-key                     :foreground accent :weight bold)
+    (marginalia-documentation           :foreground fg-muted :slant italic)
+    (marginalia-date                    :foreground syn-number)
+    (marginalia-file-name               :foreground fg)
+    (marginalia-size                    :foreground fg-muted)
+    (marginalia-mode                    :foreground syn-tag)
+    (marginalia-function                :foreground syn-function)
+    (marginalia-type                    :foreground syn-tag)
+    (marginalia-null                    :foreground fg-faint)
+    (marginalia-value                   :foreground fg)
+
+    (consult-file                       :foreground fg)
+    (consult-bookmark                   :foreground syn-number)
+    (consult-line-number                :foreground fg-faint)
+    (consult-preview-line               :background bg-subtle :extend t)
+    (consult-preview-match              :background accent-subtle :foreground accent)
+
+    (orderless-match-face-0             :foreground accent     :weight bold)
+    (orderless-match-face-1             :foreground syn-string :weight bold)
+    (orderless-match-face-2             :foreground syn-tag    :weight bold)
+    (orderless-match-face-3             :foreground syn-number :weight bold)
+
+    (corfu-default                      :background surface-raised :foreground fg)
+    (corfu-current                      :background accent-subtle  :foreground fg)
+    (corfu-border                       :background border-strong)
+    (corfu-bar                          :background accent)
+    (corfu-echo                         :foreground fg-muted :slant italic)
+
+    (eldoc-highlight-function-argument  :foreground accent :weight bold)
+    (tooltip                            :background surface-raised :foreground fg
+                                        :gui (:inherit variable-pitch))
+
+    (which-key-key-face                 :foreground accent :weight bold)
+    (which-key-group-description-face   :foreground syn-tag)
+    (which-key-command-description-face :foreground fg)
+    (which-key-local-map-description-face :foreground syn-string)
+    (which-key-separator-face           :foreground decorator)
+    (which-key-note-face                :foreground fg-faint)
+
+    ;; ── Org ─────────────────────────────────────────────────────────
+    (org-level-1                        :foreground accent       :weight bold :height 1.4
+                                        :gui (:inherit variable-pitch))
+    (org-level-2                        :foreground syn-tag      :weight bold :height 1.2
+                                        :gui (:inherit variable-pitch))
+    (org-level-3                        :foreground syn-string   :weight bold :height 1.1
+                                        :gui (:inherit variable-pitch))
+    (org-level-4                        :foreground syn-number   :weight bold)
+    (org-level-5                        :foreground syn-function :weight bold)
+    (org-level-6                        :foreground syn-keyword)
+    (org-level-7                        :foreground fg-muted)
+    (org-level-8                        :foreground fg-faint)
+
+    (org-document-title                 :foreground fg-heading :weight bold :height 1.6
+                                        :gui (:inherit variable-pitch))
+    (org-document-info                  :foreground fg-muted)
+    (org-document-info-keyword          :foreground fg-faint)
+    (org-meta-line                      :foreground fg-faint :slant italic)
+    (org-drawer                         :foreground fg-faint)
+    (org-special-keyword                :foreground syn-tag)
+
+    (org-todo                           :foreground warn :weight bold :box (:line-width 1 :color warn))
+    (org-done                           :foreground ok   :weight bold :box (:line-width 1 :color ok))
+    (org-headline-done                  :foreground fg-muted :strike-through nil)
+
+    (org-date                           :foreground syn-number :underline nil)
+    (org-tag                            :foreground fg-muted :weight normal)
+    (org-priority                       :foreground accent :weight bold)
+
+    (org-block                          :background bg-subtle :extend t)
+    (org-block-begin-line               :background bg-subtle :foreground fg-faint :extend t)
+    (org-block-end-line                 :background bg-subtle :foreground fg-faint :extend t)
+    (org-code                           :foreground syn-string :background bg-subtle)
+    (org-verbatim                       :foreground syn-string)
+    (org-quote                          :foreground fg-muted :slant italic)
+
+    (org-table                          :foreground fg :background bg-subtle)
+    (org-table-header                   :foreground fg-heading :background surface :weight bold)
+
+    (org-link                           :inherit link)
+    (org-footnote                       :foreground syn-number :underline t)
+    (org-ellipsis                       :foreground fg-faint :underline nil)
+    (org-hide                           :foreground bg)
+
+    (org-modern-tag                     :foreground bg :background syn-tag :weight bold)
+    (org-modern-date-active             :foreground bg :background accent  :weight bold)
+
+    (org-agenda-structure               :foreground accent :weight bold)
+    (org-agenda-date                    :foreground syn-tag :weight bold)
+    (org-agenda-date-today              :foreground accent :weight bold :underline t)
+    (org-agenda-date-weekend            :foreground fg-muted)
+    (org-scheduled                      :foreground syn-string)
+    (org-scheduled-today                :foreground ok :weight bold)
+    (org-scheduled-previously           :foreground warn)
+    (org-upcoming-deadline              :foreground warn)
+    (org-warning                        :foreground warn :weight bold)
+
+    ;; ── Dired ───────────────────────────────────────────────────────
+    (dired-directory                    :foreground syn-tag :weight bold)
+    (dired-symlink                      :foreground info)
+    (dired-broken-symlink               :foreground err :strike-through t)
+    (dired-header                       :foreground accent :weight bold)
+    (dired-mark                         :foreground accent)
+    (dired-marked                       :background accent-subtle :foreground accent :weight bold)
+    (dired-perm-write                   :foreground warn)
+    (dired-flagged                      :foreground err :weight bold)
+    (dired-ignored                      :foreground fg-faint)
+
+    ;; ── Magit / diff ────────────────────────────────────────────────
+    (diff-added                         :background bg-subtle :foreground ok)
+    (diff-removed                       :background bg-subtle :foreground err)
+    (diff-context                       :foreground fg-muted)
+    (diff-hunk-header                   :background surface :foreground fg-heading :weight bold)
+    (diff-file-header                   :background surface :foreground accent     :weight bold)
+    (diff-refine-added                  :background accent-subtle :foreground ok  :weight bold)
+    (diff-refine-removed                :background accent-subtle :foreground err :weight bold)
+
+    (magit-section-heading              :foreground accent :weight bold)
+    (magit-section-highlight            :background bg-subtle :extend t)
+    (magit-branch-local                 :foreground syn-tag :weight bold)
+    (magit-branch-remote                :foreground syn-string :weight bold)
+    (magit-branch-current               :foreground accent :weight bold :box (:line-width 1 :color accent))
+    (magit-tag                          :foreground syn-number)
+    (magit-hash                         :foreground fg-faint)
+    (magit-log-author                   :foreground syn-function)
+    (magit-log-date                     :foreground fg-faint)
+    (magit-diff-added                   :background bg-subtle :foreground ok)
+    (magit-diff-added-highlight         :background surface   :foreground ok)
+    (magit-diff-removed                 :background bg-subtle :foreground err)
+    (magit-diff-removed-highlight       :background surface   :foreground err)
+    (magit-diff-context                 :foreground fg-muted)
+    (magit-diff-context-highlight       :background bg-subtle :foreground fg)
+    (magit-diff-hunk-heading            :background surface   :foreground fg-heading)
+    (magit-diff-hunk-heading-highlight  :background surface-raised :foreground fg-heading :weight bold)
+    (magit-diffstat-added               :foreground ok)
+    (magit-diffstat-removed             :foreground err)
+
+    ;; ── Flymake / Flycheck ──────────────────────────────────────────
+    (flymake-error                      :underline (:style wave :color err))
+    (flymake-warning                    :underline (:style wave :color warn))
+    (flymake-note                       :underline (:style wave :color info))
+    (flycheck-error                     :underline (:style wave :color err))
+    (flycheck-warning                   :underline (:style wave :color warn))
+    (flycheck-info                      :underline (:style wave :color info))
+    (compilation-error                  :foreground err  :weight bold)
+    (compilation-warning                :foreground warn :weight bold)
+    (compilation-info                   :foreground info)
+
+    ;; ── Company + Eglot ─────────────────────────────────────────────
+    (company-tooltip                    :background surface-raised :foreground fg)
+    (company-tooltip-selection          :background accent-subtle  :foreground fg)
+    (company-tooltip-common             :foreground accent :weight bold)
+    (company-tooltip-annotation         :foreground fg-muted)
+    (company-scrollbar-bg               :background surface)
+    (company-scrollbar-fg               :background border-strong)
+
+    (eglot-highlight-symbol-face        :background surface :weight bold)
+    (eglot-mode-line                    :foreground accent)
+    (eglot-diagnostic-tag-deprecated-face :strike-through t :foreground fg-faint)
+
+    ;; ── Terminal (vterm / ansi-term) — tokens.json ANSI palette ─────
+    (ansi-color-black                   :foreground ansi-black          :background ansi-black)
+    (ansi-color-red                     :foreground ansi-red            :background ansi-red)
+    (ansi-color-green                   :foreground ansi-green          :background ansi-green)
+    (ansi-color-yellow                  :foreground ansi-yellow         :background ansi-yellow)
+    (ansi-color-blue                    :foreground ansi-blue           :background ansi-blue)
+    (ansi-color-magenta                 :foreground ansi-magenta        :background ansi-magenta)
+    (ansi-color-cyan                    :foreground ansi-cyan           :background ansi-cyan)
+    (ansi-color-white                   :foreground ansi-white          :background ansi-white)
+    (ansi-color-bright-black            :foreground ansi-bright-black   :background ansi-bright-black)
+    (ansi-color-bright-red              :foreground ansi-bright-red     :background ansi-bright-red)
+    (ansi-color-bright-green            :foreground ansi-bright-green   :background ansi-bright-green)
+    (ansi-color-bright-yellow           :foreground ansi-bright-yellow  :background ansi-bright-yellow)
+    (ansi-color-bright-blue             :foreground ansi-bright-blue    :background ansi-bright-blue)
+    (ansi-color-bright-magenta          :foreground ansi-bright-magenta :background ansi-bright-magenta)
+    (ansi-color-bright-cyan             :foreground ansi-bright-cyan    :background ansi-bright-cyan)
+    (ansi-color-bright-white            :foreground ansi-bright-white   :background ansi-bright-white)
+
+    ;; ── Misc ────────────────────────────────────────────────────────
+    (trailing-whitespace                :background err)
+    (whitespace-tab                     :foreground fg-faint)
+    (whitespace-space                   :foreground fg-faint)
+    (whitespace-newline                 :foreground fg-faint)
+    (whitespace-indentation             :foreground fg-faint)
+    (whitespace-line                    :background bg-subtle)
+    (whitespace-trailing                :background err)
+
+    (hi-yellow                          :background warn       :foreground bg)
+    (hi-pink                            :background syn-number :foreground bg)
+    (hi-green                           :background ok         :foreground bg)
+
+    (tab-line-tab-current               :background surface   :foreground accent :weight bold)
+    (tab-line-tab                       :background bg-subtle :foreground fg-muted)
+
+    (hl-todo                            :foreground warn :weight bold)
+    (indent-bars-face                   :foreground fg-faint))
+  "Canonical face spec list shared by all Jylhis theme variants.
+Each entry is (FACE :ATTR VALUE … [:gui (:ATTR VALUE …)]).
+Symbols in attribute positions are resolved against the active palette to a
+three-tier value (24-bit GUI / xterm-256 / 16-color ANSI). The :gui plist
+folds attributes into the GUI tier only — use it for attributes like
+\`:inherit variable-pitch' that do not render on a TTY.")
+
+(defun jylhis-apply-faces (theme palette)
+  "Apply the canonical Jylhis face mapping to THEME using PALETTE.
+PALETTE is the value of \\='jylhis-paper-palette' or \\='jylhis-roast-palette'
+\(or any alist of (ROLE (GUI-HEX XTERM-256 ANSI-16-NAME)))."
+  (let ((args (mapcar
+               (lambda (spec)
+                 (list 'quote
+                       (list (car spec)
+                             (jylhis--build-face-spec (cdr spec) palette))))
+               jylhis--face-specs)))
+    (eval \`(custom-theme-set-faces ',theme ,@args) t)))
+
+(provide 'jylhis-theme-core)
+;;; jylhis-theme-core.el ends here
+`;
+}
+
 
 // ─── 7. Rofi themes ─────────────────────────────────────────────────
 
@@ -2001,8 +2219,11 @@ out("platforms/hyprland/jylhis-paper.conf", generateHyprland("light"));
 out("platforms/hyprland/jylhis-roast.conf", generateHyprland("dark"));
 out("platforms/kvantum/JylhisPaper.colors", generateKvantum("light"));
 out("platforms/kvantum/JylhisRoast.colors", generateKvantum("dark"));
-out("platforms/emacs/jylhis-paper-theme.el", generateEmacs("light"));
-out("platforms/emacs/jylhis-roast-theme.el", generateEmacs("dark"));
+out("platforms/emacs/jylhis-theme-core.el",     generateEmacsCore());
+out("platforms/emacs/jylhis-paper-palette.el",  generateEmacsPalette("light"));
+out("platforms/emacs/jylhis-roast-palette.el",  generateEmacsPalette("dark"));
+out("platforms/emacs/jylhis-paper-theme.el",    generateEmacsTheme("light"));
+out("platforms/emacs/jylhis-roast-theme.el",    generateEmacsTheme("dark"));
 out("platforms/rofi/jylhis-paper.rasi", generateRofi("light"));
 out("platforms/rofi/jylhis-roast.rasi", generateRofi("dark"));
 out("platforms/gtk/gtk.css", generateGTK());

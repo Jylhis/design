@@ -95,6 +95,27 @@ if (!Array.isArray(tokens.ansi) || tokens.ansi.length !== 16) {
   }
 }
 
+// Optional ansi-slot overrides: a palette/syntax/status role may carry an
+// `ansi` field naming the slot to use on 16-color terminals (overrides the
+// nearest-RGB derivation used by the Emacs generator). The named slot must
+// exist in tokens.ansi.
+const ansiSlots = new Set(Array.isArray(tokens.ansi) ? tokens.ansi.map((a) => a.name) : []);
+for (const [section, entries] of [["palette", tokens.palette], ["syntax", tokens.syntax], ["status", tokens.status]]) {
+  for (const [role, entry] of Object.entries(entries)) {
+    if (entry && Object.prototype.hasOwnProperty.call(entry, "ansi")) {
+      if (typeof entry.ansi !== "string" || !ansiSlots.has(entry.ansi)) {
+        fail(`${section}.${role}.ansi: "${entry.ansi}" is not a valid ANSI slot name (expected one of ${[...ansiSlots].join(", ")})`);
+      }
+    }
+  }
+}
+
+// CLAUDE.md hard rule: ANSI slot 11 is always brand copper, so the `accent`
+// role's optional `ansi` override must point at bright-yellow if it's set.
+if (tokens.palette?.accent?.ansi && tokens.palette.accent.ansi !== "bright-yellow") {
+  fail(`palette.accent.ansi: must be "bright-yellow" (CLAUDE.md: ANSI 11 is always brand copper)`);
+}
+
 // ─── 2. Contrast (WCAG 2 relative luminance) ─────────────────────────
 
 function luminance(hex) {

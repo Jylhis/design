@@ -25,3 +25,5 @@ jobs:
         run: bun scripts/validate-a11y-css.mjs
       - name: Validate CLI conventions
         run: bun scripts/validate-cli-conventions.mjs
+      - name: Validate Emacs face coverage
+        run: bun scripts/validate-emacs-faces.mjs

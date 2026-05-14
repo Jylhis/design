@@ -140,7 +140,8 @@ export const tokens = {
     "accent": {
       "light": "#9a5a2a",
       "dark": "#e89b5e",
-      "notes": "copper UI accent (AA / AAA)"
+      "ansi": "bright-yellow",
+      "notes": "copper UI accent (AA / AAA); ANSI slot 11 is always brand copper"
     },
     "accent-hover": {
       "light": "#7a4622",
@@ -231,21 +232,25 @@ export const tokens = {
     "status-err": {
       "light": "#a60000",
       "dark": "#ff5f59",
+      "ansi": "red",
       "modus": "red"
     },
     "status-warn": {
       "light": "#6f5500",
       "dark": "#d0bc00",
+      "ansi": "yellow",
       "modus": "yellow"
     },
     "status-ok": {
       "light": "#006800",
       "dark": "#44bc44",
+      "ansi": "green",
       "modus": "green"
     },
     "status-info": {
       "light": "#0031a9",
       "dark": "#2fafff",
+      "ansi": "blue",
       "modus": "blue"
     }
   },

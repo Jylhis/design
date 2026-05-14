@@ -1,15 +1,32 @@
 # Jylhis for Emacs
 
-Two `deftheme` files (Paper + Roast) plus a small toggle helper. The themes target the same set of faces Modus tunes, so syntax highlighting in code buffers matches the web showcase, the terminal, and the Charm TUIs byte-for-byte.
+Two themes (Paper + Roast) sharing one face map. Every face degrades across three display tiers so a `-nw` session in an old console gets named ANSI fallbacks, an xterm-256 session gets indexed colours, and a GUI frame gets full 24-bit hex plus GUI-only attributes (`:inherit variable-pitch`, `:distant-foreground`, …).
 
 ```
 platforms/emacs/
-├── jylhis-paper-theme.el     ← generated  (430 lines, full face mapping)
-├── jylhis-roast-theme.el     ← generated  (430 lines, full face mapping)
-└── jylhis-theme-toggle.el    ← hand-authored  (light/dark switcher, default `C-c T`)
+├── jylhis-theme-core.el      ← generated  (face map + 3-tier resolver, shared by both variants)
+├── jylhis-paper-palette.el   ← generated  (paper three-tier palette alist)
+├── jylhis-roast-palette.el   ← generated  (roast three-tier palette alist)
+├── jylhis-paper-theme.el     ← generated  (entry point: deftheme + apply)
+├── jylhis-roast-theme.el     ← generated  (entry point: deftheme + apply)
+├── jylhis-themes.el          ← hand-authored  (autoload registration for `custom-theme-load-path`)
+├── jylhis-theme-toggle.el    ← hand-authored  (light/dark switcher, default `C-c T`)
+└── face-manifest.json        ← hand-authored  (curated face list, kept in sync by validate-emacs-faces.mjs)
 ```
 
-Both `*-theme.el` files are generated from `tokens.json` by `bun scripts/generate.mjs`. Edit the source, not the theme files.
+All five generated files come from `tokens.json` via `bun scripts/generate.mjs`. Edit the source, not the theme files. To extend the face map, edit the `EMACS_FACE_SPECS`-shaped Elisp list inside `scripts/generate.mjs::generateEmacsCore`, then add the new face(s) to `face-manifest.json` in lock-step (CI fails otherwise).
+
+## Architecture
+
+The face spec list is a small DSL: each entry is `(face-name :attr value …)` with optional `:gui (…)` for attributes that should only appear in the 24-bit tier. Attribute values that match a palette role symbol (`accent`, `syn-keyword`, `err`, …) are resolved through the per-variant palette into:
+
+| Display class spec                          | Tier         | Value form                  |
+|---|---|---|
+| `((class color) (min-colors 16777216))`     | GUI / 24-bit | exact hex (`#9a5a2a`)       |
+| `((class color) (min-colors 256))`          | xterm-256    | indexed slot (`color-94`)   |
+| `t`                                          | 16-color     | named ANSI (`brightyellow`) |
+
+The 16-color tier uses each role's optional `ansi` override field in `tokens.json` when set, otherwise the nearest ANSI slot by Euclidean RGB distance. The CLAUDE.md rule "ANSI 11 is always brand copper" is pinned: `accent.ansi = "bright-yellow"`.
 
 ## Install
 
