@@ -15,13 +15,20 @@
 ;;
 ;;  Usage:
 ;;    (require 'jylhis-themes)
-;;    (load-theme 'jylhis-paper t)   ; light
-;;    (load-theme 'jylhis-roast t)   ; dark
+;;    (load-theme 'jylhis-paper t)              ; light, copper-on-cream
+;;    (load-theme 'jylhis-roast t)              ; dark,  copper-on-roast
+;;    (load-theme 'jylhis-catppuccin-latte t)   ; light, Catppuccin Latte
+;;    (load-theme 'jylhis-catppuccin-mocha t)   ; dark,  Catppuccin Mocha
 ;;
-;;  With auto-dark:
+;;  With auto-dark (paper/roast):
 ;;    (require 'jylhis-themes)
 ;;    (setq auto-dark-light-theme 'jylhis-paper
 ;;          auto-dark-dark-theme  'jylhis-roast)
+;;    (auto-dark-mode 1)
+;;
+;;  With auto-dark (Catppuccin pair):
+;;    (setq auto-dark-light-theme 'jylhis-catppuccin-latte
+;;          auto-dark-dark-theme  'jylhis-catppuccin-mocha)
 ;;    (auto-dark-mode 1)
 ;;
 ;;  Batch mode: `emacs --batch' does not run site-start.el, so

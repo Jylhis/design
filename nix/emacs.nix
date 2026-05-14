@@ -24,7 +24,7 @@ trivialBuild {
   src = ../platforms/emacs;
 
   meta = {
-    description = "Jylhis Paper and Roast themes for Emacs — copper accent, Modus syntax";
+    description = "Jylhis themes for Emacs — Paper/Roast (copper accent, Modus syntax) plus Catppuccin Latte/Mocha siblings";
     homepage = "https://github.com/jylhis/design";
     license = lib.licenses.mit;
   };
