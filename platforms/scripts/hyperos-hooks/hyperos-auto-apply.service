@@ -1,0 +1,6 @@
+[Unit]
+Description=Apply Jylhis HyperOS variant from current desktop dark-mode state
+
+[Service]
+Type=oneshot
+ExecStart=/ABSOLUTE/PATH/TO/apply-hyperos.sh --auto
