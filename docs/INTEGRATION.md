@@ -492,3 +492,43 @@ The design system follows semver. See [`CHANGELOG.md`](../CHANGELOG.md).
 - **Patch** — contrast-preserving hex tweaks, doc fixes, tooling changes.
 
 Consumers should pin a specific tag or commit SHA.
+
+---
+
+## HyperOS role mapping
+
+HyperOS integrations must stay deterministic and token-driven. Use the machine-readable map at [`platforms/hyperos/map.json`](../platforms/hyperos/map.json) in generator scripts rather than hardcoding role translations.
+
+### Deterministic token → HyperOS role mapping
+
+| Existing token role | HyperOS role | Paper (light) | Roast (dark) | Fallback when no 1:1 role exists |
+|---|---|---|---|---|
+| `--color-bg` | `theme.background.primary` | `color.bg` | `color.bg` | `color.surface` |
+| `--color-bg-subtle` | `theme.background.secondary` | `color.bg-subtle` | `color.bg-subtle` | `color.surface` |
+| `--color-surface` | `theme.surface.default` | `color.surface` | `color.surface` | `color.bg-subtle` |
+| `--color-surface-raised` | `theme.surface.raised` | `color.surface-raised` | `color.surface-raised` | `color.surface` |
+| `--color-text` | `theme.text.primary` | `color.text` | `color.text` | `color.text-heading` |
+| `--color-text-muted` | `theme.text.secondary` | `color.text-muted` | `color.text-muted` | `color.text` |
+| `--color-text-heading` | `theme.text.heading` | `color.text-heading` | `color.text-heading` | `color.text` |
+| `--color-accent` | `theme.accent.primary` | `color.accent` | `color.accent` | `color.brand` |
+| `--color-accent-hover` | `theme.accent.hover` | `color.accent-hover` | `color.accent-hover` | `color.accent` |
+| `--color-border` | `theme.border.default` | `color.border` | `color.border` | `color.decorator` |
+| `--color-border-strong` | `theme.border.strong` | `color.border-strong` | `color.border-strong` | `color.border` |
+| status `err/warn/ok/info` | `theme.state.error/warning/success/info` | `status.err/.warn/.ok/.info` | `status.err/.warn/.ok/.info` | `syn.comment`, `color.accent`, `syn.docstring`, `syn.variable` |
+| syntax `syn-*` | `theme.syntax.*` | `syn.*` | `syn.*` | role-specific fallback chain in `map.json` |
+
+Paper and Roast map to the same token *roles* but resolve to different concrete values from `tokens.json`, which is why generators should select the variant first, then resolve the mapped token path.
+
+### Contrast constraints (must match accessibility policy)
+
+HyperOS text/background pairings inherit the same WCAG intent documented in [`docs/ACCESSIBILITY.md`](./ACCESSIBILITY.md):
+
+- `theme.text.primary` on `theme.background.primary`: **AAA (>= 7.0)** for Paper and Roast.
+- `theme.text.secondary` on `theme.background.primary`: **AA (>= 4.5)** for Paper and Roast.
+- `theme.accent.primary` on `theme.background.primary`: **AA (>= 4.5)** on Paper, **AAA (>= 7.0)** on Roast.
+
+These constraints are captured in `platforms/hyperos/map.json` so validators/generators can consume one source.
+
+### No raw hex in HyperOS source mappings
+
+Do **not** place raw hex values in HyperOS mapping logic. HyperOS outputs must be derived from `tokens.json` through token aliases in `platforms/hyperos/map.json`, then materialized at generation time.

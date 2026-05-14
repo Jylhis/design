@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "platform": "hyperos",
+  "source": "tokens.json",
+  "variants": ["paper", "roast"],
+  "roles": {
+    "theme.background.primary": {"paper": "color.bg", "roast": "color.bg", "fallback": "color.surface"},
+    "theme.background.secondary": {"paper": "color.bg-subtle", "roast": "color.bg-subtle", "fallback": "color.surface"},
+    "theme.surface.default": {"paper": "color.surface", "roast": "color.surface", "fallback": "color.bg-subtle"},
+    "theme.surface.raised": {"paper": "color.surface-raised", "roast": "color.surface-raised", "fallback": "color.surface"},
+    "theme.text.primary": {"paper": "color.text", "roast": "color.text", "fallback": "color.text-heading"},
+    "theme.text.secondary": {"paper": "color.text-muted", "roast": "color.text-muted", "fallback": "color.text"},
+    "theme.text.heading": {"paper": "color.text-heading", "roast": "color.text-heading", "fallback": "color.text"},
+    "theme.accent.primary": {"paper": "color.accent", "roast": "color.accent", "fallback": "color.brand"},
+    "theme.accent.hover": {"paper": "color.accent-hover", "roast": "color.accent-hover", "fallback": "color.accent"},
+    "theme.border.default": {"paper": "color.border", "roast": "color.border", "fallback": "color.decorator"},
+    "theme.border.strong": {"paper": "color.border-strong", "roast": "color.border-strong", "fallback": "color.border"},
+    "theme.state.error": {"paper": "status.err", "roast": "status.err", "fallback": "syn.comment"},
+    "theme.state.warning": {"paper": "status.warn", "roast": "status.warn", "fallback": "color.accent"},
+    "theme.state.success": {"paper": "status.ok", "roast": "status.ok", "fallback": "syn.docstring"},
+    "theme.state.info": {"paper": "status.info", "roast": "status.info", "fallback": "syn.variable"},
+    "theme.syntax.keyword": {"paper": "syn.keyword", "roast": "syn.keyword", "fallback": "theme.accent.primary"},
+    "theme.syntax.string": {"paper": "syn.string", "roast": "syn.string", "fallback": "theme.syntax.variable"},
+    "theme.syntax.number": {"paper": "syn.number", "roast": "syn.number", "fallback": "theme.syntax.keyword"},
+    "theme.syntax.function": {"paper": "syn.function", "roast": "syn.function", "fallback": "theme.syntax.keyword"},
+    "theme.syntax.type": {"paper": "syn.type", "roast": "syn.type", "fallback": "theme.syntax.variable"},
+    "theme.syntax.variable": {"paper": "syn.variable", "roast": "syn.variable", "fallback": "theme.text.primary"},
+    "theme.syntax.comment": {"paper": "syn.comment", "roast": "syn.comment", "fallback": "theme.text.secondary"},
+    "theme.syntax.docstring": {"paper": "syn.docstring", "roast": "syn.docstring", "fallback": "theme.text.secondary"}
+  },
+  "contrastConstraints": [
+    {"pair": ["theme.text.primary", "theme.background.primary"], "paper": ">= 7.0", "roast": ">= 7.0", "source": "docs/ACCESSIBILITY.md"},
+    {"pair": ["theme.text.secondary", "theme.background.primary"], "paper": ">= 4.5", "roast": ">= 4.5", "source": "docs/ACCESSIBILITY.md"},
+    {"pair": ["theme.accent.primary", "theme.background.primary"], "paper": ">= 4.5", "roast": ">= 7.0", "source": "docs/ACCESSIBILITY.md"}
+  ],
+  "policy": {
+    "rawHexForbidden": true,
+    "notes": "Generators must resolve every HyperOS role from tokens.json (via token aliases in this mapping) and may only emit hex in generated artifacts."
+  }
+}
