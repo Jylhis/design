@@ -5,7 +5,7 @@
 #
 # Consumed by:
 #   - nix/themes-per-target.nix (filters by target name)
-#   - eventually nix/themes.nix (currently still uses inline cp lines)
+#   - nix/themes.nix             (concatenates every target)
 #
 # Each target is a list of { src, dest, mode? } records.
 #   src   — path relative to the design repo root
