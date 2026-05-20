@@ -15,6 +15,16 @@
 { lib, stdenvNoCC }:
 
 let
+  installMap = import ./install-map.nix;
+
+  # Combined package = every target's files (and the shared tokens entries
+  # are already only listed once under the `tokens` key).
+  allFiles = lib.concatLists (builtins.attrValues installMap);
+
+  installLine = f:
+    let mode = f.mode or "0644";
+    in "install -D -m ${mode} ${f.src} $out/${f.dest}";
+
   root = ./..;
   src = lib.cleanSourceWith {
     src = root;
@@ -39,91 +49,9 @@ stdenvNoCC.mkDerivation {
   dontBuild = true;
 
   installPhase = ''
-    mkdir -p $out/share/jylhis
-
-    # Ghostty themes
-    mkdir -p $out/share/jylhis/ghostty
-    cp platforms/ghostty/jylhis-paper $out/share/jylhis/ghostty/
-    cp platforms/ghostty/jylhis-roast $out/share/jylhis/ghostty/
-
-    # Emacs themes
-    mkdir -p $out/share/jylhis/emacs
-    cp platforms/emacs/jylhis-paper-theme.el $out/share/jylhis/emacs/
-    cp platforms/emacs/jylhis-roast-theme.el $out/share/jylhis/emacs/
-    cp platforms/emacs/jylhis-theme-toggle.el $out/share/jylhis/emacs/
-
-    # CSS tokens
-    cp tokens.css $out/share/jylhis/
-    cp colors_and_type.css $out/share/jylhis/
-    cp tokens.json $out/share/jylhis/
-
-    # Hyprland
-    mkdir -p $out/share/jylhis/hyprland
-    cp platforms/hyprland/jylhis-paper.conf $out/share/jylhis/hyprland/
-    cp platforms/hyprland/jylhis-roast.conf $out/share/jylhis/hyprland/
-    cp platforms/hyprland/jylhis.conf $out/share/jylhis/hyprland/
-
-    # Rofi
-    mkdir -p $out/share/jylhis/rofi
-    cp platforms/rofi/jylhis-paper.rasi $out/share/jylhis/rofi/
-    cp platforms/rofi/jylhis-roast.rasi $out/share/jylhis/rofi/
-
-    # GTK
-    mkdir -p $out/share/jylhis/gtk
-    cp platforms/gtk/gtk.css $out/share/jylhis/gtk/
-
-    # Waybar
-    mkdir -p $out/share/jylhis/waybar
-    cp platforms/waybar/style.css $out/share/jylhis/waybar/
-
-    # Mako
-    mkdir -p $out/share/jylhis/mako
-    cp platforms/mako/config $out/share/jylhis/mako/
-
-    # Kvantum
-    mkdir -p $out/share/jylhis/kvantum
-    cp platforms/kvantum/JylhisPaper.colors $out/share/jylhis/kvantum/
-    cp platforms/kvantum/JylhisRoast.colors $out/share/jylhis/kvantum/
-
-    # Base16
-    mkdir -p $out/share/jylhis/base16
-    cp platforms/base16/jylhis-paper.yaml $out/share/jylhis/base16/
-    cp platforms/base16/jylhis-roast.yaml $out/share/jylhis/base16/
-
-    # Shell (fzf, starship)
-    mkdir -p $out/share/jylhis/shell
-    cp platforms/shell/fzf-paper.sh $out/share/jylhis/shell/
-    cp platforms/shell/fzf-roast.sh $out/share/jylhis/shell/
-    cp platforms/shell/starship.toml $out/share/jylhis/shell/
-
-    # bat/delta tmTheme
-    mkdir -p $out/share/jylhis/bat
-    cp platforms/bat/jylhis-paper.tmTheme $out/share/jylhis/bat/
-    cp platforms/bat/jylhis-roast.tmTheme $out/share/jylhis/bat/
-
-    # Waybar paper variant
-    cp platforms/waybar/style-paper.css $out/share/jylhis/waybar/
-
-    # Mako paper variant
-    cp platforms/mako/config-paper $out/share/jylhis/mako/
-
-    # Helper scripts
-    mkdir -p $out/share/jylhis/scripts
-    install -m 0755 platforms/scripts/jylhis-theme-toggle.sh \
-      $out/share/jylhis/scripts/jylhis-theme-toggle.sh
-
-    # NixOS console.colors fragment
-    mkdir -p $out/share/jylhis/console
-    cp platforms/console/jylhis-paper.nix $out/share/jylhis/console/
-    cp platforms/console/jylhis-roast.nix $out/share/jylhis/console/
-
-    # Plymouth boot splash (text + spinner, no PNG assets)
-    mkdir -p $out/share/jylhis/plymouth/jylhis-paper
-    mkdir -p $out/share/jylhis/plymouth/jylhis-roast
-    cp platforms/plymouth/jylhis-paper/jylhis.plymouth $out/share/jylhis/plymouth/jylhis-paper/
-    cp platforms/plymouth/jylhis-paper/jylhis.script   $out/share/jylhis/plymouth/jylhis-paper/
-    cp platforms/plymouth/jylhis-roast/jylhis.plymouth $out/share/jylhis/plymouth/jylhis-roast/
-    cp platforms/plymouth/jylhis-roast/jylhis.script   $out/share/jylhis/plymouth/jylhis-roast/
+    runHook preInstall
+    ${lib.concatMapStringsSep "\n" installLine allFiles}
+    runHook postInstall
   '';
 
   meta = {
