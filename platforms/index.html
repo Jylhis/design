@@ -18,6 +18,26 @@
     font-size: 16px;
     line-height: 1.65;
   }
+  .skip-link {
+    position: absolute;
+    left: 24px;
+    top: 16px;
+    z-index: 100;
+    transform: translateY(-160%);
+    padding: 8px 12px;
+    background: var(--color-bg);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-decoration: none;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
   header {
     max-width: var(--maxw);
@@ -358,6 +378,7 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 
 <header>
   <p class="eyebrow">jylhis design system · platforms index</p>
@@ -374,7 +395,7 @@
   </nav>
 </header>
 
-<main>
+<main id="content">
 
   <!-- ─────────── TERMINAL / GHOSTTY ─────────── -->
   <section class="target" id="terminal">
@@ -389,14 +410,14 @@
       <div class="mock paper">
         <div class="bar"><span>ghostty · jylhis-paper</span><span class="mode">light</span></div>
         <pre class="body term"><span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
-<span class="row"><span class="prompt-glyph">» </span>git status</span>
+<span class="row"><span class="prompt-glyph" aria-hidden="true">» </span>git status</span>
 <span class="row"><span class="comment"># On branch main · 2 ahead</span></span>
 <span class="row"><span class="kw">Changes</span> not staged for commit:</span>
 <span class="row">  <span class="fn">modified:</span>   flake.nix</span>
 <span class="row">  <span class="fn">modified:</span>   hosts/<span class="tag">gondor</span>/default.nix</span>
 <span class="row"> </span>
 <span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
-<span class="row"><span class="prompt-glyph">» </span>nix <span class="kw">build</span> .#homeConfigurations.<span class="str">"henrik@gondor"</span>.activationPackage</span>
+<span class="row"><span class="prompt-glyph" aria-hidden="true">» </span>nix <span class="kw">build</span> .#homeConfigurations.<span class="str">"henrik@gondor"</span>.activationPackage</span>
 <span class="row"><span class="num">1</span> derivation built · <span class="tag">cache-hit</span>=<span class="str">"true"</span></span>
 <span class="row"><span class="err">error:</span> undefined variable 'pkgs.plex-mono'</span></pre>
       </div>
@@ -405,14 +426,14 @@
       <div class="mock roast">
         <div class="bar"><span>ghostty · jylhis-roast</span><span class="mode">dark</span></div>
         <pre class="body term"><span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
-<span class="row"><span class="prompt-glyph">» </span>git status</span>
+<span class="row"><span class="prompt-glyph" aria-hidden="true">» </span>git status</span>
 <span class="row"><span class="comment"># On branch main · 2 ahead</span></span>
 <span class="row"><span class="kw">Changes</span> not staged for commit:</span>
 <span class="row">  <span class="fn">modified:</span>   flake.nix</span>
 <span class="row">  <span class="fn">modified:</span>   hosts/<span class="tag">gondor</span>/default.nix</span>
 <span class="row"> </span>
 <span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
-<span class="row"><span class="prompt-glyph">» </span>nix <span class="kw">build</span> .#homeConfigurations.<span class="str">"henrik@gondor"</span>.activationPackage</span>
+<span class="row"><span class="prompt-glyph" aria-hidden="true">» </span>nix <span class="kw">build</span> .#homeConfigurations.<span class="str">"henrik@gondor"</span>.activationPackage</span>
 <span class="row"><span class="num">1</span> derivation built · <span class="tag">cache-hit</span>=<span class="str">"true"</span></span>
 <span class="row"><span class="err">error:</span> undefined variable 'pkgs.plex-mono'</span></pre>
       </div>
@@ -430,7 +451,7 @@
 
       <div class="mock paper palette">
         <div class="bar"><span>rofi · jylhis-paper.rasi</span><span class="mode">light</span></div>
-        <div class="input"><span class="caret">» </span>nix<span style="opacity:.4"> rebuild</span></div>
+        <div class="input"><span class="caret" aria-hidden="true">» </span>nix<span style="opacity:.4"> rebuild</span></div>
         <div class="hint">type a filter · tab to cycle · esc to close</div>
         <div class="list">
           <div class="row">nixos-rebuild switch <span class="kbd">M-x</span></div>
@@ -443,7 +464,7 @@
 
       <div class="mock roast palette">
         <div class="bar"><span>rofi · jylhis-roast.rasi</span><span class="mode">dark</span></div>
-        <div class="input"><span class="caret">» </span>nix<span style="opacity:.4"> rebuild</span></div>
+        <div class="input"><span class="caret" aria-hidden="true">» </span>nix<span style="opacity:.4"> rebuild</span></div>
         <div class="hint">type a filter · tab to cycle · esc to close</div>
         <div class="list">
           <div class="row">nixos-rebuild switch <span class="kbd">M-x</span></div>
@@ -589,7 +610,7 @@
 <span class="row">│ Emacs deftheme                                  │</span>
 <span class="row">└─────────────────────────────────────────────────┘</span>
 <span class="row"> </span>
-<span class="row"><span class="kbd">↑↓/jk</span> navigate  <span class="kbd">/</span> filter  <span class="kbd">^⇧L</span> theme  <span class="kbd">q</span> quit</span></pre>
+<span class="row"><span class="kbd">↑↓/jk</span> navigate  <kbd class="kbd">/</kbd> filter  <span class="kbd">^⇧L</span> theme  <span class="kbd">q</span> quit</span></pre>
       </div>
 
       <div class="mock roast">
@@ -607,7 +628,7 @@
 <span class="row">│ Emacs deftheme                                  │</span>
 <span class="row">└─────────────────────────────────────────────────┘</span>
 <span class="row"> </span>
-<span class="row"><span class="kbd">↑↓/jk</span> navigate  <span class="kbd">/</span> filter  <span class="kbd">^⇧L</span> theme  <span class="kbd">q</span> quit</span></pre>
+<span class="row"><span class="kbd">↑↓/jk</span> navigate  <kbd class="kbd">/</kbd> filter  <span class="kbd">^⇧L</span> theme  <span class="kbd">q</span> quit</span></pre>
       </div>
     </div>
     <p style="margin-top:18px; color: var(--color-text-muted); font-size: 0.88rem;">Pairs with <a href="https://github.com/charmbracelet/harmonica" style="color:var(--color-accent)">harmonica</a> (spring animations — use <code>Palette.Accent</code> as fill) and <a href="https://github.com/NimbleMarkets/ntcharts" style="color:var(--color-accent)">ntcharts</a> (pass <code>Palette.ANSI[:]</code> as series colors). See <code>platforms/charm/README.md</code>.</p>

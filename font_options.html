@@ -25,6 +25,8 @@
   }
   html, body { margin: 0; background: var(--color-bg); color: var(--color-text); }
   body { font-family: var(--font-body); padding: var(--space-2xl); }
+  .skip-link { position: absolute; left: 24px; top: 16px; z-index: 100; transform: translateY(-160%); padding: 8px 12px; background: var(--color-bg); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8rem; text-decoration: none; }
+  .skip-link:focus-visible { transform: translateY(0); outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
   .intro { max-width: 68ch; margin: 0 auto var(--space-3xl); }
   .intro h1 { font-family: var(--font-mono); font-size: 1.3rem; letter-spacing: 0.02em; font-weight: 700; margin: 0 0 var(--space-sm); color: var(--color-text-heading); }
@@ -117,8 +119,9 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 
-<section class="intro">
+<section id="content" class="intro">
   <div class="ds-man-label" style="margin-bottom:var(--space-sm)">TYPE(5) — FONT OPTIONS</div>
   <h1>Five pairings for Jylhis</h1>
   <p class="lede">Each card shows the same content — display headline, title, body paragraph, monospace nav/chrome, code snippet, Finnish diacritics — in a different pairing. All are OFL/Apache, variable, and ship full Finnish coverage.</p>
@@ -167,7 +170,7 @@
 
     <div class="ratings">
       <div><span class="r-label">tech</span><span class="r-val">★★★★☆</span></div>
-      <div><span class="r-label">literary</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">literary</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
       <div><span class="r-label">modern</span><span class="r-val">★★★☆☆</span></div>
       <div><span class="r-label">editorial</span><span class="r-val">★★★☆☆</span></div>
     </div>
@@ -207,7 +210,7 @@
     </div>
 
     <div class="ratings">
-      <div><span class="r-label">tech</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">tech</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
       <div><span class="r-label">literary</span><span class="r-val">★★★★☆</span></div>
       <div><span class="r-label">modern</span><span class="r-val">★★★★☆</span></div>
       <div><span class="r-label">editorial</span><span class="r-val">★★★☆☆</span></div>
@@ -249,9 +252,9 @@
 
     <div class="ratings">
       <div><span class="r-label">tech</span><span class="r-val">★★★★☆</span></div>
-      <div><span class="r-label">literary</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">literary</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
       <div><span class="r-label">modern</span><span class="r-val">★★★★☆</span></div>
-      <div><span class="r-label">editorial</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">editorial</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
     </div>
   </article>
 
@@ -291,8 +294,8 @@
     <div class="ratings">
       <div><span class="r-label">tech</span><span class="r-val">★★★☆☆</span></div>
       <div><span class="r-label">literary</span><span class="r-val">★★★★☆</span></div>
-      <div><span class="r-label">modern</span><span class="r-val">★★★★★</span></div>
-      <div><span class="r-label">editorial</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">modern</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
+      <div><span class="r-label">editorial</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
     </div>
   </article>
 
@@ -330,9 +333,9 @@
     </div>
 
     <div class="ratings">
-      <div><span class="r-label">tech</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">tech</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
       <div><span class="r-label">literary</span><span class="r-val">★★☆☆☆</span></div>
-      <div><span class="r-label">modern</span><span class="r-val">★★★★★</span></div>
+      <div><span class="r-label">modern</span><span class="r-val" aria-label="5 of 5"><span aria-hidden="true">★★★★★</span></span></div>
       <div><span class="r-label">editorial</span><span class="r-val">★★★☆☆</span></div>
     </div>
   </article>
