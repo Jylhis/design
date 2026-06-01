@@ -2209,6 +2209,177 @@ Plymouth.SetQuitFunction(quit);
 `;
 }
 
+// ─── ZIP helpers (no external deps) ────────────────────────────────
+// Minimal STORE-only ZIP builder for binary theme archives (.mtz).
+// Uses fixed DOS timestamp 0x0000/0x0000 for deterministic output.
+
+const crc32 = (() => {
+  const table = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let j = 0; j < 8; j++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+    table[i] = c;
+  }
+  return (buf) => {
+    let crc = 0xFFFFFFFF;
+    for (let i = 0; i < buf.length; i++) crc = table[(crc ^ buf[i]) & 0xFF] ^ (crc >>> 8);
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  };
+})();
+
+function buildZipStore(entries) {
+  // Pass 1: build local file headers + data, track offsets for central dir
+  const locals = [];
+  const offsets = [];
+  let offset = 0;
+
+  for (const { name, data } of entries) {
+    const nameBytes = Buffer.from(name, "utf8");
+    const crc = crc32(data);
+    const header = Buffer.alloc(30);
+    header.writeUInt32LE(0x04034B50, 0);  // local file header sig
+    header.writeUInt16LE(20, 4);          // version needed (2.0)
+    header.writeUInt16LE(0, 6);           // flags
+    header.writeUInt16LE(0, 8);           // compression: STORE
+    header.writeUInt16LE(0, 10);          // mod time (fixed)
+    header.writeUInt16LE(0, 12);          // mod date (fixed)
+    header.writeUInt32LE(crc, 14);        // crc-32
+    header.writeUInt32LE(data.length, 18); // compressed size
+    header.writeUInt32LE(data.length, 22); // uncompressed size
+    header.writeUInt16LE(nameBytes.length, 26); // filename length
+    header.writeUInt16LE(0, 28);          // extra field length
+
+    const local = Buffer.concat([header, nameBytes, data]);
+    locals.push(local);
+    offsets.push(offset);
+    offset += local.length;
+  }
+
+  // Pass 2: central directory
+  const centrals = [];
+  for (let i = 0; i < entries.length; i++) {
+    const { name, data } = entries[i];
+    const nameBytes = Buffer.from(name, "utf8");
+    const crc = crc32(data);
+    const rec = Buffer.alloc(46);
+    rec.writeUInt32LE(0x02014B50, 0);  // central dir sig
+    rec.writeUInt16LE(20, 4);          // version made by
+    rec.writeUInt16LE(20, 6);          // version needed
+    rec.writeUInt16LE(0, 8);           // flags
+    rec.writeUInt16LE(0, 10);          // compression: STORE
+    rec.writeUInt16LE(0, 12);          // mod time
+    rec.writeUInt16LE(0, 14);          // mod date
+    rec.writeUInt32LE(crc, 16);        // crc-32
+    rec.writeUInt32LE(data.length, 20); // compressed size
+    rec.writeUInt32LE(data.length, 24); // uncompressed size
+    rec.writeUInt16LE(nameBytes.length, 28); // filename length
+    rec.writeUInt16LE(0, 30);          // extra field length
+    rec.writeUInt16LE(0, 32);          // comment length
+    rec.writeUInt16LE(0, 34);          // disk number start
+    rec.writeUInt16LE(0, 36);          // internal attrs
+    rec.writeUInt32LE(0, 38);          // external attrs
+    rec.writeUInt32LE(offsets[i], 42); // local header offset
+    centrals.push(Buffer.concat([rec, nameBytes]));
+  }
+
+  const centralDir = Buffer.concat(centrals);
+  const eocd = Buffer.alloc(22);
+  eocd.writeUInt32LE(0x06054B50, 0);  // EOCD sig
+  eocd.writeUInt16LE(0, 4);           // disk number
+  eocd.writeUInt16LE(0, 6);           // disk with central dir
+  eocd.writeUInt16LE(entries.length, 8);  // entries on this disk
+  eocd.writeUInt16LE(entries.length, 10); // total entries
+  eocd.writeUInt32LE(centralDir.length, 12); // central dir size
+  eocd.writeUInt32LE(offset, 16);    // central dir offset
+  eocd.writeUInt16LE(0, 20);         // comment length
+
+  return Buffer.concat([...locals, centralDir, eocd]);
+}
+
+// ─── 20. Xiaomi HyperOS/MIUI .mtz theme ───────────────────────────
+// Binary .mtz = ZIP with description.xml + framework color overrides.
+// Colors use #AARRGGBB (alpha-first 8-digit hex); all opaque → #ff prefix.
+
+function generateHyperOS(mode) {
+  const variant = mode === "light" ? "paper" : "roast";
+  const label = mode === "light" ? "Paper" : "Roast";
+  const version = tokens.meta.version;
+
+  // Convert #rrggbb → #ffrrggbb (MIUI alpha-first format, fully opaque)
+  const m = (role) => `#ff${color(role, mode).slice(1)}`;
+
+  // ── description.xml ──
+  const descriptionXml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<MIUI-Theme>',
+    `  <title>Jylhis ${label}</title>`,
+    '  <designer>Markus Jylhankangas</designer>',
+    '  <author>Markus Jylhankangas</author>',
+    `  <version>${version}</version>`,
+    '  <uiVersion>11</uiVersion>',
+    '</MIUI-Theme>',
+    '',
+  ].join('\n');
+
+  // ── framework-res color mapping ──
+  const frameworkColors = [
+    ["background_dark",                m("bg")],
+    ["background_light",               m("bg")],
+    ["background_holo_dark",           m("bg")],
+    ["background_holo_light",          m("bg")],
+    ["bright_foreground_dark",         m("text-heading")],
+    ["bright_foreground_light",        m("text-heading")],
+    ["bright_foreground_holo_dark",    m("text-heading")],
+    ["bright_foreground_holo_light",   m("text-heading")],
+    ["dim_foreground_holo_dark",       m("text-muted")],
+    ["dim_foreground_holo_light",      m("text-muted")],
+    ["hint_foreground_holo_dark",      m("text-faint")],
+    ["hint_foreground_holo_light",     m("text-faint")],
+    ["highlighted_text_holo_dark",     m("accent")],
+    ["highlighted_text_holo_light",    m("accent")],
+    ["link_text_holo_dark",            m("accent")],
+    ["link_text_holo_light",           m("accent")],
+    ["holo_blue_light",                m("accent")],
+    ["holo_blue_dark",                 m("accent-hover")],
+    ["holo_green_light",               m("status-ok")],
+    ["holo_green_dark",                m("status-ok")],
+    ["holo_red_light",                 m("status-err")],
+    ["holo_red_dark",                  m("status-err")],
+    ["holo_orange_light",              m("status-warn")],
+    ["holo_orange_dark",               m("status-warn")],
+    ["lockscreen_clock_foreground",    m("text-heading")],
+    ["lockscreen_clock_background",    m("bg")],
+  ];
+
+  // ── framework-miui-res color mapping ──
+  const miuiColors = [
+    ["background_dark",                m("bg")],
+    ["background_light",               m("bg")],
+    ["control_tint_color",             m("accent")],
+    ["control_activated_color",        m("accent")],
+    ["status_bar_background",          m("bg-subtle")],
+    ["navigation_bar_background",      m("bg-subtle")],
+    ["notification_panel_background",  m("surface")],
+  ];
+
+  const buildThemeValuesXml = (colors) => [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<MIUI_Theme_Values>',
+    ...colors.map(([name, val]) => `  <color name="${name}">${val}</color>`),
+    '</MIUI_Theme_Values>',
+    '',
+  ].join('\n');
+
+  return buildZipStore([
+    { name: "description.xml",
+      data: Buffer.from(descriptionXml, "utf8") },
+    { name: "framework-res/theme_values.xml",
+      data: Buffer.from(buildThemeValuesXml(frameworkColors), "utf8") },
+    { name: "framework-miui-res/theme_values.xml",
+      data: Buffer.from(buildThemeValuesXml(miuiColors), "utf8") },
+  ]);
+}
+
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
@@ -2247,6 +2418,8 @@ out("platforms/plymouth/jylhis-paper/jylhis.plymouth", generatePlymouthManifest(
 out("platforms/plymouth/jylhis-paper/jylhis.script",   generatePlymouthScript("light"));
 out("platforms/plymouth/jylhis-roast/jylhis.plymouth", generatePlymouthManifest("dark"));
 out("platforms/plymouth/jylhis-roast/jylhis.script",   generatePlymouthScript("dark"));
+out("platforms/hyperos/jylhis-paper.mtz", generateHyperOS("light"));
+out("platforms/hyperos/jylhis-roast.mtz", generateHyperOS("dark"));
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────

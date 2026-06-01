@@ -5,7 +5,7 @@
 #
 # Consumed by:
 #   - nix/themes-per-target.nix (filters by target name)
-#   - eventually nix/themes.nix (currently still uses inline cp lines)
+#   - nix/themes.nix             (concatenates every target)
 #
 # Each target is a list of { src, dest, mode? } records.
 #   src   — path relative to the design repo root
@@ -54,6 +54,11 @@
   mako = [
     { src = "platforms/mako/config";       dest = "share/jylhis/mako/config"; }
     { src = "platforms/mako/config-paper"; dest = "share/jylhis/mako/config-paper"; }
+  ];
+
+  hyperos = [
+    { src = "platforms/hyperos/jylhis-paper.mtz"; dest = "share/jylhis/hyperos/jylhis-paper.mtz"; }
+    { src = "platforms/hyperos/jylhis-roast.mtz"; dest = "share/jylhis/hyperos/jylhis-roast.mtz"; }
   ];
 
   kvantum = [

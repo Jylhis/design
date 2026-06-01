@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><title>Forms</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Forms</title>
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
@@ -50,30 +51,30 @@
 <body>
   <span class="label">text input · default / focus / error / disabled</span>
   <div class="field">
-    <span class="name">name</span>
-    <input type="text" placeholder="markus jylhänkangas">
+    <label class="name" for="demo-name">name</label>
+    <input id="demo-name" type="text" placeholder="markus jylhänkangas">
     <span class="help">your full name, the way you'd sign a letter.</span>
   </div>
   <div class="field">
-    <span class="name">email</span>
-    <input type="email" value="markus" aria-invalid="true">
+    <label class="name" for="demo-email">email</label>
+    <input id="demo-email" type="email" value="markus" aria-invalid="true">
     <span class="help">that's not a valid email address.</span>
   </div>
   <div class="field">
-    <span class="name">api token (read-only)</span>
-    <input type="text" value="zk_live_4f9a2b8e7c6d5a3b1f0e" disabled>
+    <label class="name" for="demo-token">api token (read-only)</label>
+    <input id="demo-token" type="text" value="zk_live_4f9a2b8e7c6d5a3b1f0e" disabled>
   </div>
 
   <span class="label">textarea</span>
   <div class="field">
-    <span class="name">notes</span>
-    <textarea placeholder="anything you want me to know …"></textarea>
+    <label class="name" for="demo-notes">notes</label>
+    <textarea id="demo-notes" placeholder="anything you want me to know …"></textarea>
   </div>
 
   <span class="label">select</span>
   <div class="field">
-    <span class="name">theme preference</span>
-    <select>
+    <label class="name" for="demo-theme">theme preference</label>
+    <select id="demo-theme">
       <option>system</option>
       <option>paper</option>
       <option>roast</option>

@@ -54,6 +54,7 @@ A single Bun script with zero dependencies reads `tokens.json` and writes genera
 | `platforms/kvantum/Jylhis{Paper,Roast}.colors` | Qt/Kvantum palette XML |
 | `platforms/gimp/jylhis-{paper,roast}.gpl` | GIMP / Inkscape / Krita swatch file |
 | `platforms/adobe/jylhis-{paper,roast}.ase` | Adobe Swatch Exchange (binary) — Photoshop / Illustrator / InDesign / Affinity |
+| `platforms/hyperos/jylhis-{paper,roast}.mtz` | Xiaomi HyperOS/MIUI theme (ZIP with color overrides) |
 
 The ASE generator emits binary content; the `--check` mode handles both text and binary outputs.
 

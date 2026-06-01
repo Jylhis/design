@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><title>Buttons</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Buttons</title>
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
@@ -17,12 +18,12 @@
 <body>
   <span class="label">search trigger</span>
   <div class="row">
-    <button class="search"><span>search</span><span class="kbd">/</span></button>
-    <button class="search hover"><span>search</span><span class="kbd">/</span></button>
+    <button class="search"><span>search</span><kbd class="kbd">/</kbd></button>
+    <button class="search hover"><span>search</span><kbd class="kbd">/</kbd></button>
   </div>
   <span class="label">theme toggle (the only circle in the system)</span>
   <div class="row">
-    <span class="theme">☾</span><span class="theme hover">☾</span><span class="theme">☀</span>
+    <span class="theme" aria-hidden="true">☾</span><span class="theme hover" aria-hidden="true">☾</span><span class="theme" aria-hidden="true">☀</span>
   </div>
   <span class="label">ghost link-button</span>
   <div class="row"><button class="ghost">GitHub →</button> <button class="ghost">rss feed</button></div>

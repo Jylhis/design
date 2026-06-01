@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
-<meta charset="utf-8"><title>Breadcrumb</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Breadcrumb</title>
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
@@ -20,29 +21,29 @@
   <span class="label">breadcrumb · ▸ separator (canonical)</span>
   <nav class="crumb" aria-label="breadcrumb">
     <a href="#">home</a>
-    <span class="sep">▸</span>
+    <span class="sep" aria-hidden="true">▸</span>
     <a href="#">notes</a>
-    <span class="sep">▸</span>
+    <span class="sep" aria-hidden="true">▸</span>
     <a href="#">2026</a>
-    <span class="sep">▸</span>
+    <span class="sep" aria-hidden="true">▸</span>
     <span aria-current="page">Modus syntax fidelity</span>
   </nav>
 
   <span class="label">breadcrumb · path style · / separator</span>
   <nav class="crumb path" aria-label="breadcrumb">
     <a href="#">~</a>
-    <span class="sep">/</span>
+    <span class="sep" aria-hidden="true">/</span>
     <a href="#">projects</a>
-    <span class="sep">/</span>
+    <span class="sep" aria-hidden="true">/</span>
     <a href="#">design</a>
-    <span class="sep">/</span>
+    <span class="sep" aria-hidden="true">/</span>
     <span aria-current="page">tokens.json</span>
   </nav>
 
   <span class="label">breadcrumb · single-level · with man-page label</span>
   <nav class="crumb" aria-label="breadcrumb">
     <a href="#">notes</a>
-    <span class="sep">▸</span>
+    <span class="sep" aria-hidden="true">▸</span>
     <span aria-current="page" style="color: var(--color-text-heading);">CRAFT(7)</span>
   </nav>
 </body></html>
