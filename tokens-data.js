@@ -101,7 +101,8 @@ export const tokens = {
     "bg": {
       "light": "#faf7f2",
       "dark": "#1a1714",
-      "notes": "warm paper / dark roast"
+      "ansi": "unspecified-bg",
+      "notes": "warm paper / dark roast; on 16-color TTY, inherit terminal's own bg"
     },
     "bg-subtle": {
       "light": "#f0ebe3",
@@ -120,7 +121,8 @@ export const tokens = {
     "text": {
       "light": "#2c2825",
       "dark": "#e8e0d4",
-      "notes": "body (AAA)"
+      "ansi": "unspecified-fg",
+      "notes": "body (AAA); on 16-color TTY, inherit terminal's own fg"
     },
     "text-muted": {
       "light": "#6b5f54",
@@ -140,7 +142,8 @@ export const tokens = {
     "accent": {
       "light": "#9a5a2a",
       "dark": "#e89b5e",
-      "notes": "copper UI accent (AA / AAA)"
+      "ansi": "bright-yellow",
+      "notes": "copper UI accent (AA / AAA); ANSI slot 11 is always brand copper"
     },
     "accent-hover": {
       "light": "#7a4622",
@@ -231,21 +234,25 @@ export const tokens = {
     "status-err": {
       "light": "#a60000",
       "dark": "#ff5f59",
+      "ansi": "red",
       "modus": "red"
     },
     "status-warn": {
       "light": "#6f5500",
       "dark": "#d0bc00",
+      "ansi": "yellow",
       "modus": "yellow"
     },
     "status-ok": {
       "light": "#006800",
       "dark": "#44bc44",
+      "ansi": "green",
       "modus": "green"
     },
     "status-info": {
       "light": "#0031a9",
       "dark": "#2fafff",
+      "ansi": "blue",
       "modus": "blue"
     }
   },
