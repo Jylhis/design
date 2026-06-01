@@ -9,6 +9,8 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-06-01
+
 ### Fixed
 - CSS transition tokens now preserve the cubic-bezier easing values from
   `tokens.json`.
@@ -59,6 +61,7 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 ### Removed
 - Fish support (kept bash and zsh only).
 
-[Unreleased]: https://github.com/jylhis/design/compare/v0.3.0...main
+[Unreleased]: https://github.com/jylhis/design/compare/v0.4.0...main
+[0.4.0]: https://github.com/jylhis/design/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/jylhis/design/releases/tag/v0.3.0
 <!-- Restore [0.1.0] link once the v0.1.0 tag is cut. -->
