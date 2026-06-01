@@ -1,0 +1,84 @@
+name: consumer-freshness
+
+on:
+  schedule:
+    # Every Monday at 08:00 UTC
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  freshness:
+    name: Check jylhis.com CSS drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Run freshness check
+        id: check
+        run: |
+          set +e
+          bun scripts/validate-consumer-freshness.mjs \
+            > /tmp/freshness-stdout.txt \
+            2> /tmp/freshness-stderr.txt
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+
+      - name: File or update drift issue
+        if: steps.check.outputs.exit_code != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          EXITCODE=${{ steps.check.outputs.exit_code }}
+
+          if [ "$EXITCODE" = "2" ]; then
+            SUMMARY="fetch error (could not reach live site)"
+          else
+            SUMMARY="drift detected"
+          fi
+
+          cat > /tmp/drift-body.md << EOF
+          ## jylhis.com CSS freshness — $TODAY
+
+          Weekly automated check found **$SUMMARY** (exit code $EXITCODE).
+
+          <details><summary>Output</summary>
+
+          \`\`\`
+          $(cat /tmp/freshness-stdout.txt)
+          \`\`\`
+
+          </details>
+
+          <details><summary>Diagnostics (stderr)</summary>
+
+          \`\`\`
+          $(cat /tmp/freshness-stderr.txt)
+          \`\`\`
+
+          </details>
+
+          **Next step:** run \`bun scripts/validate-consumer-freshness.mjs\` locally,
+          review the diff, then update \`source_styles/\` if the live site has changed,
+          or file a follow-up to update the site if tokens.json has diverged.
+          EOF
+
+          # Re-use an existing open drift issue to avoid noise; otherwise create one.
+          EXISTING=$(gh issue list \
+            --search "[automated] jylhis.com CSS drift in:title" \
+            --state open \
+            --json number \
+            --jq '.[0].number' 2>/dev/null)
+
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            gh issue comment "$EXISTING" --body-file /tmp/drift-body.md
+          else
+            gh issue create \
+              --title "[automated] jylhis.com CSS drift — $TODAY" \
+              --body-file /tmp/drift-body.md
+          fi

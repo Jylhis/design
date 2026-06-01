@@ -73,6 +73,7 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `scripts/validate-a11y-html.mjs` | HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph). |
 | `scripts/validate-a11y-css.mjs` | CSS accessibility (transitions guarded, outline replaced on `:focus-visible`). |
 | `scripts/validate-cli-conventions.mjs` | bun scripts follow [`docs/CLI-TUI-GUIDELINES.md`](./docs/CLI-TUI-GUIDELINES.md). |
+| `scripts/validate-consumer-freshness.mjs` | Fetches the live jylhis.com CSS and diffs against `source_styles/`; exits 1 when drift exceeds `--threshold`. Run manually or via the weekly `freshness-check` GitHub Actions workflow. |
 | `nix/ghostty.nix` | Nix derivation: wraps Ghostty with Jylhis themes. |
 | `nix/emacs.nix` | Nix derivation: Emacs theme package via `trivialBuild`. |
 | `nix/themes.nix` | Nix derivation: all theme files as a single package. |
@@ -123,10 +124,12 @@ bun scripts/validate-tokens.mjs           # schema + contrast validation
 bun scripts/validate-a11y-html.mjs        # HTML accessibility
 bun scripts/validate-a11y-css.mjs         # CSS accessibility
 bun scripts/validate-cli-conventions.mjs  # CLI conventions audit
+bun scripts/validate-consumer-freshness.mjs           # check live site for CSS drift
+bun scripts/validate-consumer-freshness.mjs --threshold 20  # exit 1 if drift > 20 lines
 serve-pages                               # build the GitHub Pages artifact, serve locally, rebuild on changes
 ```
 
-All five validators support `--help` and `--version` and run in CI on every push.
+All five static validators support `--help` and `--version` and run in CI on every push. The freshness check requires network access and runs on a separate weekly schedule.
 
 Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md). Design conventions for command-line tools: [`docs/CLI-TUI-GUIDELINES.md`](./docs/CLI-TUI-GUIDELINES.md). Accessibility commitments: [`docs/ACCESSIBILITY.md`](./docs/ACCESSIBILITY.md).
 Version history: [`CHANGELOG.md`](./CHANGELOG.md).
