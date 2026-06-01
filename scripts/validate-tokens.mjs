@@ -98,13 +98,17 @@ if (!Array.isArray(tokens.ansi) || tokens.ansi.length !== 16) {
 // Optional ansi-slot overrides: a palette/syntax/status role may carry an
 // `ansi` field naming the slot to use on 16-color terminals (overrides the
 // nearest-RGB derivation used by the Emacs generator). The named slot must
-// exist in tokens.ansi.
+// exist in tokens.ansi. The Emacs sentinel values "unspecified-bg" and
+// "unspecified-fg" are also allowed; they let the terminal's own bg/fg
+// show through on plain 16-color TTYs (Emacs treats them as "no color set").
 const ansiSlots = new Set(Array.isArray(tokens.ansi) ? tokens.ansi.map((a) => a.name) : []);
+const ansiSentinels = new Set(["unspecified-bg", "unspecified-fg"]);
 for (const [section, entries] of [["palette", tokens.palette], ["syntax", tokens.syntax], ["status", tokens.status]]) {
   for (const [role, entry] of Object.entries(entries)) {
     if (entry && Object.prototype.hasOwnProperty.call(entry, "ansi")) {
-      if (typeof entry.ansi !== "string" || !ansiSlots.has(entry.ansi)) {
-        fail(`${section}.${role}.ansi: "${entry.ansi}" is not a valid ANSI slot name (expected one of ${[...ansiSlots].join(", ")})`);
+      const v = entry.ansi;
+      if (typeof v !== "string" || (!ansiSlots.has(v) && !ansiSentinels.has(v))) {
+        fail(`${section}.${role}.ansi: "${v}" is not a valid ANSI slot name (expected one of ${[...ansiSlots].join(", ")}, ${[...ansiSentinels].join(", ")})`);
       }
     }
   }

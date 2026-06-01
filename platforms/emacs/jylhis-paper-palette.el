@@ -13,11 +13,11 @@
 
 (defconst jylhis-paper-palette
   '(
-    (bg              ("#faf7f2" "color-255" "brightblack"))
+    (bg              ("#faf7f2" "color-255" "unspecified-bg"))
     (bg-subtle       ("#f0ebe3" "color-255" "brightblack"))
     (surface         ("#e8e1d6" "color-254" "brightblack"))
     (surface-raised  ("#fefdfb" "color-231" "brightblack"))
-    (fg              ("#2c2825" "color-235" "black"))
+    (fg              ("#2c2825" "color-235" "unspecified-fg"))
     (fg-muted        ("#6b5f54" "color-59" "white"))
     (fg-heading      ("#1e1b18" "color-234" "black"))
     (fg-faint        ("#8a7f72" "color-244" "brightblack"))

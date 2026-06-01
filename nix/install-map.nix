@@ -26,9 +26,13 @@
   ];
 
   emacs = [
-    { src = "platforms/emacs/jylhis-paper-theme.el";  dest = "share/jylhis/emacs/jylhis-paper-theme.el"; }
-    { src = "platforms/emacs/jylhis-roast-theme.el";  dest = "share/jylhis/emacs/jylhis-roast-theme.el"; }
-    { src = "platforms/emacs/jylhis-theme-toggle.el"; dest = "share/jylhis/emacs/jylhis-theme-toggle.el"; }
+    { src = "platforms/emacs/jylhis-theme-core.el";      dest = "share/jylhis/emacs/jylhis-theme-core.el"; }
+    { src = "platforms/emacs/jylhis-paper-palette.el";   dest = "share/jylhis/emacs/jylhis-paper-palette.el"; }
+    { src = "platforms/emacs/jylhis-roast-palette.el";   dest = "share/jylhis/emacs/jylhis-roast-palette.el"; }
+    { src = "platforms/emacs/jylhis-paper-theme.el";     dest = "share/jylhis/emacs/jylhis-paper-theme.el"; }
+    { src = "platforms/emacs/jylhis-roast-theme.el";     dest = "share/jylhis/emacs/jylhis-roast-theme.el"; }
+    { src = "platforms/emacs/jylhis-themes.el";          dest = "share/jylhis/emacs/jylhis-themes.el"; }
+    { src = "platforms/emacs/jylhis-theme-toggle.el";    dest = "share/jylhis/emacs/jylhis-theme-toggle.el"; }
   ];
 
   hyprland = [

@@ -13,11 +13,11 @@
 
 (defconst jylhis-roast-palette
   '(
-    (bg              ("#1a1714" "color-233" "black"))
+    (bg              ("#1a1714" "color-233" "unspecified-bg"))
     (bg-subtle       ("#242019" "color-234" "black"))
     (surface         ("#2a2520" "color-235" "black"))
     (surface-raised  ("#363230" "color-236" "black"))
-    (fg              ("#e8e0d4" "color-253" "white"))
+    (fg              ("#e8e0d4" "color-253" "unspecified-fg"))
     (fg-muted        ("#b0a496" "color-144" "brightyellow"))
     (fg-heading      ("#f0eae0" "color-254" "brightwhite"))
     (fg-faint        ("#8a7f72" "color-244" "brightblack"))

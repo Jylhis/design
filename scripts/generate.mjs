@@ -126,7 +126,13 @@ function hexToXterm256(hex) {
 // Returns a name Emacs's tty driver accepts ("red", "brightyellow", ...).
 // Honors an optional `ansi` override field on the role entry.
 
+// Emacs sentinel values ("unspecified-bg", "unspecified-fg") are valid in
+// face specs and must pass through with their hyphen intact — Emacs accepts
+// them as a directive meaning "use the terminal's own bg/fg, do not impose".
+const _ANSI_SENTINELS = new Set(["unspecified-bg", "unspecified-fg"]);
+
 function _ansiNameForSlot(slotName) {
+  if (_ANSI_SENTINELS.has(slotName)) return slotName;
   // tokens.json stores "bright-yellow"; Emacs expects "brightyellow".
   return slotName.replace(/-/g, "");
 }
@@ -714,6 +720,16 @@ function generateEmacsTheme(mode) {
 ;;
 ;;; Code:
 
+;; \`load-theme\` calls \`load\` against \`custom-theme-load-path\`, which does not
+;; touch \`load-path\`. Users who only add this directory to
+;; \`custom-theme-load-path\` (the documented install path) would otherwise hit
+;; "Cannot open load file: jylhis-theme-core" on the requires below. Add the
+;; file's own directory to load-path so the sibling core + palette resolve.
+(eval-and-compile
+  (let ((dir (file-name-directory (or load-file-name buffer-file-name ""))))
+    (when (and dir (not (member dir load-path)))
+      (add-to-list 'load-path dir))))
+
 (require 'jylhis-theme-core)
 (require '${themeName}-palette)
 
@@ -773,8 +789,11 @@ function generateEmacsCore() {
 ;;
 ;;; Code:
 
-(defconst jylhis--display-gui '((class color) (min-colors 16777216))
-  "Display-class spec for full 24-bit GUI / true-color terminals.")
+(defconst jylhis--display-gui '((type graphic) (class color) (min-colors 16777216))
+  "Display-class spec for graphical frames with 24-bit color.
+Limited to (type graphic) so :gui-only face attributes (e.g.
+\\=':inherit variable-pitch', \\=':distant-foreground') do not leak onto
+truecolor TTY frames that also report 16777216 colors.")
 
 (defconst jylhis--display-256 '((class color) (min-colors 256))
   "Display-class spec for xterm-256 terminals.")

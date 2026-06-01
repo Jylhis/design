@@ -27,8 +27,11 @@
 ;;
 ;;; Code:
 
-(defconst jylhis--display-gui '((class color) (min-colors 16777216))
-  "Display-class spec for full 24-bit GUI / true-color terminals.")
+(defconst jylhis--display-gui '((type graphic) (class color) (min-colors 16777216))
+  "Display-class spec for graphical frames with 24-bit color.
+Limited to (type graphic) so :gui-only face attributes (e.g.
+\=':inherit variable-pitch', \=':distant-foreground') do not leak onto
+truecolor TTY frames that also report 16777216 colors.")
 
 (defconst jylhis--display-256 '((class color) (min-colors 256))
   "Display-class spec for xterm-256 terminals.")

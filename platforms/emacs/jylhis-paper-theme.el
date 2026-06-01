@@ -29,6 +29,16 @@
 ;;
 ;;; Code:
 
+;; `load-theme` calls `load` against `custom-theme-load-path`, which does not
+;; touch `load-path`. Users who only add this directory to
+;; `custom-theme-load-path` (the documented install path) would otherwise hit
+;; "Cannot open load file: jylhis-theme-core" on the requires below. Add the
+;; file's own directory to load-path so the sibling core + palette resolve.
+(eval-and-compile
+  (let ((dir (file-name-directory (or load-file-name buffer-file-name ""))))
+    (when (and dir (not (member dir load-path)))
+      (add-to-list 'load-path dir))))
+
 (require 'jylhis-theme-core)
 (require 'jylhis-paper-palette)
 
