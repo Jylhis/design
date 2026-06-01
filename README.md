@@ -133,6 +133,50 @@ All five static validators support `--help` and `--version` and run in CI on eve
 
 Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md). Design conventions for command-line tools: [`docs/CLI-TUI-GUIDELINES.md`](./docs/CLI-TUI-GUIDELINES.md). Accessibility commitments: [`docs/ACCESSIBILITY.md`](./docs/ACCESSIBILITY.md).
 Version history: [`CHANGELOG.md`](./CHANGELOG.md).
+Project canon: [`ENGINEERING_PRINCIPLES.md`](./ENGINEERING_PRINCIPLES.md), [`WAY_OF_WORKING.md`](./WAY_OF_WORKING.md), [`AGENTS.md`](./AGENTS.md).
+
+---
+
+## Dogfooding
+
+The design system is not an abstract spec — it ships colors, fonts,
+keyboard, and CLI conventions into the surfaces I use every day. Every
+release is exercised against the consumers below before tagging.
+
+| Consumer | What it pins | Cadence |
+|---|---|---|
+| **jylhis.com** (Astro) | `tokens.css`, `colors_and_type.css`, Literata + JetBrains Mono stack, `source_styles/` reference | Production site; updated on every release. |
+| **Jotain** (personal Emacs config) | `platforms/emacs/jylhis-paper-theme.el`, `jylhis-roast-theme.el`, Modus syntax mappings | Daily driver editor; theme is reloaded on every release. |
+| **Marchyo** (personal NixOS / Hyprland workstation) | `platforms/ghostty/`, `platforms/hyprland/`, `platforms/rofi/`, `platforms/waybar/`, `platforms/mako/`, `platforms/gtk/`, `platforms/kvantum/`, `platforms/shell/` | Full desktop chrome; pinned via `nix/themes.nix`. |
+| **nacutils** (personal CLI/TUI toolbox) | `platforms/charm/jylhis` Go package (palette, lipgloss styles, Bubble Tea light/dark detection) | Every TUI links the package; CLI conventions enforced via `validate-cli-conventions.mjs`. |
+| **Creative tooling** (GIMP, Inkscape, Krita, Affinity, Photoshop) | `platforms/gimp/*.gpl`, `platforms/adobe/*.ase` | Swatch palettes loaded on demand. |
+| **HyperOS / MIUI phone** | `platforms/hyperos/jylhis-{paper,roast}.mtz` | Manual install per device. |
+
+If a consumer breaks after a release, the bug is in this repo — not in
+the consumer. File it here and revert if necessary before the consumer
+patches.
+
+---
+
+## Releasing
+
+Semantic versioning. Releases are cut by tagging `main`. The full
+process lives in
+[`WAY_OF_WORKING.md#release-process`](./WAY_OF_WORKING.md#release-process);
+the short form:
+
+1. Move `CHANGELOG.md` `[Unreleased]` items into a new dated section,
+   add the compare link.
+2. Bump the version field inside `tokens.json` metadata (the showcase
+   reads it from there).
+3. Run the validator gauntlet locally — every check must pass.
+4. Open a PR titled `release: vX.Y.Z`; wait for CI green; squash-merge.
+5. Tag the merge commit (`git tag vX.Y.Z && git push origin vX.Y.Z`).
+6. `pages.yml` deploys the showcase from `main` automatically; verify
+   the version badge on Pages.
+7. Cut a GitHub Release from the tag with the CHANGELOG section as the
+   body.
+8. Consumers update their pins in their own follow-up PRs.
 
 ---
 
