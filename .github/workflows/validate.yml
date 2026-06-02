@@ -13,7 +13,7 @@ jobs:
     name: tokens, a11y, CLI conventions
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
       - name: Check generated files match tokens.json
         run: bun scripts/generate.mjs --check
