@@ -16,8 +16,9 @@
   .paper-btn.is-copper:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); color: #faf7f2; }
   .paper-btn.is-ghost { background: transparent; border-color: var(--color-border); color: var(--color-text-muted); }
   .paper-tag { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em; padding: 0.18rem 0.55rem; background: var(--color-bg-subtle); color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-pill); }
-  .paper-input { font-family: var(--font-mono); font-size: 0.95rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); padding: 0.55rem 0.7rem; outline: none; width: 100%; }
+  .paper-input { font-family: var(--font-mono); font-size: 0.95rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); padding: 0.55rem 0.7rem; width: 100%; }
   .paper-input:focus { border-color: var(--color-accent); }
+  .paper-input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
   html, body { margin: 0; }
   body { background: var(--color-bg); color: var(--color-text); }
   /* canvas chrome */
@@ -49,10 +50,10 @@
 
 <div id="root"></div>
 
-<script type="text/babel" src="design-canvas.jsx"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="keyboard.jsx"></script>
-<script type="text/babel" src="artboards.jsx"></script>
+<script type="text/babel" src="./_shared/design-canvas.jsx"></script>
+<script type="text/babel" src="./_shared/tweaks-panel.jsx"></script>
+<script type="text/babel" src="./_shared/keyboard.jsx"></script>
+<script type="text/babel" src="./artboards.jsx"></script>
 
 <script type="text/babel" data-presets="env,react">
 const { useEffect } = React;
