@@ -5,6 +5,12 @@ on:
     branches: ["**"]
   pull_request:
 
+# No paths-ignore: commit-lint and secret-scan must run regardless of which
+# files changed. No draft guard: both jobs are lightweight and should gate drafts.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pull-requests: read
