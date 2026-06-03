@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - "**/*.md"
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       - "**/*.md"
 
