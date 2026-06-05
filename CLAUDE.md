@@ -78,7 +78,7 @@ Standalone `.nix` files using `callPackage` pattern (no flakes):
 
 ### Showcase website
 
-Static HTML at `index.html`, deployed via GitHub Pages. Color swatches render dynamically from `tokens-data.js`. Preview cards in `preview/` are standalone HTML specimens. Prototypes in `prototypes/` are interactive desktop/tablet mockups.
+Static HTML at `index.html`, deployed via GitHub Pages. Color swatches render dynamically from `tokens-data.js`. Preview cards in `preview/` are standalone HTML specimens. Prototypes in `prototypes/` are interactive desktop (Norton-Commander TUI), macOS reskin, tablet, and web mockups.
 
 ## Workflow for changing a token
 
