@@ -15,7 +15,7 @@ canonical colors, typography, and visual rules so anything you produce reads as
 on-brand.
 
 The single source of truth for every value here is the repo's
-[`tokens.json`](../../../tokens.json). When a value is missing, add it there
+[`tokens.json`](../../tokens.json). When a value is missing, add it there
 first and regenerate — never hard-code a new hex. For the full system (platform
 themes, UI kit, accessibility specs) invoke the `jylhis-design` skill instead;
 this skill is the quick brand-application layer.
@@ -78,9 +78,9 @@ accent is brand chrome only — **never a syntax color.**
 - **Body text**: Literata (fallback: Charter, Bitstream Charter, Georgia, Noto
   Serif, serif). Base size 1.125rem, line-height 1.65.
 - **Code**: JetBrains Mono.
-- Web font files (woff2, variable weight) ship in [`fonts/`](../../../fonts/);
+- Web font files (woff2, variable weight) ship in [`fonts/`](../../fonts/);
   the `@font-face` + family stacks are in
-  [`colors_and_type.css`](../../../colors_and_type.css).
+  [`colors_and_type.css`](../../colors_and_type.css).
 
 ## How to apply
 
@@ -91,7 +91,7 @@ accent is brand chrome only — **never a syntax color.**
    Default to the Paper theme; add `data-theme="dark"` on `<html>` for Roast.
 2. **For throwaway mocks / slides / specimens** — emit static HTML the user can
    open, using the helpers above. Brand assets (favicon, og image) are in
-   [`assets/`](../../../assets/).
+   [`assets/`](../../assets/).
 3. **For non-web / programmatic artifacts** (pptx, image export, diagram tools)
    — read the RGB values above. Apply JetBrains Mono to headings, Literata to
    body, copper (`#9a5a2a` light / `#e89b5e` dark) to accents and the brand
