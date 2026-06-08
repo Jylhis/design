@@ -85,7 +85,7 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `docs/STYLE-GUIDE.md` | Visual language: when to pick which token. |
 | `platforms/KEYBOARD.md` | Focus, kbd, command-palette, selected-row, canonical shortcuts. |
 | `preview/` | HTML specimen cards for the showcase. |
-| `prototypes/` | Desktop and tablet interactive prototypes. |
+| `prototypes/` | Interactive prototypes — desktop (Norton-Commander TUI), macOS reskin, tablet, web. |
 | `ui_kits/website/` | React recreation of the Astro site. |
 | `source_styles/` | Verbatim copies of the real site's CSS for reference. |
 | `index.html` | Showcase landing page deployed to GitHub Pages. |
