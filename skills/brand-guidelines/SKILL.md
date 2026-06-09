@@ -51,9 +51,12 @@ Two values per role: `light` (Paper) / `dark` (Roast).
 
 **Copper — the single accent**
 
-- Accent: `#9a5a2a` / `#e89b5e` — links, focus rings, the maker's mark
-- Accent hover: `#7a4622` / `#f5b07a`
-- Brand: `#b5703c` / `#d4884a` — literal logo copper, large marks only
+- Accent: `#9a5a2a` / `#e89b5e` — the only interactive color: links, focus
+  rings, the "currently" left border, ghost-button text
+- Accent hover: `#7a4622` / `#f5b07a` — hover/active twin, never a base color
+- Brand: `#b5703c` / `#d4884a` — literal logo copper. Use for *large* marks
+  where contrast isn't measured: the maker's mark, hero strokes, sticker art.
+  Never a link color (doesn't clear AA on paper)
 
 **Linen — borders & rules**
 
@@ -74,7 +77,8 @@ accent is brand chrome only — **never a syntax color.**
 ### Typography
 
 - **Headings & chrome**: JetBrains Mono (fallback: IBM Plex Mono, Cascadia Code,
-  Fira Code, Courier New, monospace). Line-height 1.25, letter-spacing 0.01em.
+  Fira Code, Source Code Pro, Courier New, monospace). Line-height 1.25,
+  letter-spacing 0.01em.
 - **Body text**: Literata (fallback: Charter, Bitstream Charter, Georgia, Noto
   Serif, serif). Base size 1.125rem, line-height 1.65.
 - **Code**: JetBrains Mono.
@@ -86,19 +90,22 @@ accent is brand chrome only — **never a syntax color.**
 
 1. **For HTML / web artifacts** — link `colors_and_type.css` (it `@import`s
    `tokens.css` and adds the font stacks + semantic helpers `.ds-body`,
-   `.ds-h1`, `.ds-meta`, `.ds-code-inline`, …). Copy `fonts/` and
-   `colors_and_type.css` next to the artifact so it renders self-contained.
-   Default to the Paper theme; add `data-theme="dark"` on `<html>` for Roast.
+   `.ds-h1`, `.ds-meta`, `.ds-code-inline`, …). Copy `fonts/`, `tokens.css`,
+   and `colors_and_type.css` next to the artifact so it renders self-contained
+   — `colors_and_type.css` `@import`s `tokens.css`, so without it every
+   `var(--color-*)` lookup 404s and the helpers lose their values. Default to
+   the Paper theme; add `data-theme="dark"` on `<html>` for Roast.
 2. **For throwaway mocks / slides / specimens** — emit static HTML the user can
    open, using the helpers above. Brand assets (favicon, og image) are in
    [`assets/`](../../assets/).
 3. **For non-web / programmatic artifacts** (pptx, image export, diagram tools)
    — read the RGB values above. Apply JetBrains Mono to headings, Literata to
-   body, copper (`#9a5a2a` light / `#e89b5e` dark) to accents and the brand
-   mark, status colors only alongside their glyph.
+   body, the accent copper (`#9a5a2a` light / `#e89b5e` dark) to interactive
+   chrome, the brand copper (`#b5703c` / `#d4884a`) to large maker's marks,
+   status colors only alongside their glyph.
 4. **For production code** — never hard-code hex. Use the CSS custom properties
-   from `tokens.css` (`var(--accent)`, `var(--bg)`, …) or the platform palette
-   for the target.
+   from `tokens.css`, which are namespaced `--color-*` (`var(--color-accent)`,
+   `var(--color-bg)`, …) or the platform palette for the target.
 
 ## Key rules
 
@@ -117,8 +124,9 @@ accent is brand chrome only — **never a syntax color.**
 ## Technical details
 
 - **Color application**: use the hex/RGB values above for direct application, or
-  `var(--<role>)` from `tokens.css` for the web. `accent-subtle` (copper at
-  ~12–15% on bg) is `#f0e6da` / `#2e2520` where rgba isn't available.
+  `var(--color-<role>)` from `tokens.css` for the web. `accent-subtle` (copper
+  at ~12–15% on bg) is the rgba `var(--color-accent-subtle)`, or `#f0e6da` /
+  `#2e2520` as an opaque approximation where rgba isn't available.
 - **Font management**: the variable woff2 files in `fonts/` cover both families;
   fallbacks above keep artifacts readable when the brand fonts aren't installed.
   No installation is required for the fallbacks to work.
