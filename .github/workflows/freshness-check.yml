@@ -2,9 +2,14 @@ name: consumer-freshness
 
 on:
   schedule:
-    # Every Monday at 08:00 UTC
+    # Weekly — Monday 08:00 UTC. Once-a-week cadence matches the slow drift rate
+    # of the live site; daily would add cost with no meaningful signal benefit.
     - cron: "0 8 * * 1"
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

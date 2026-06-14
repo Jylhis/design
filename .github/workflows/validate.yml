@@ -3,7 +3,16 @@ name: validate
 on:
   push:
     branches: ["**"]
+    paths-ignore:
+      - "**/*.md"
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - "**/*.md"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -12,9 +21,12 @@ jobs:
   validate:
     name: tokens, a11y, CLI conventions
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
+      # No bun install step: all scripts have zero external dependencies (see CLAUDE.md).
+      # setup-bun's built-in binary cache covers the only cacheable artifact here.
       - name: Check generated files match tokens.json
         run: bun scripts/generate.mjs --check
       - name: Validate token schema and contrast ratios
