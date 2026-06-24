@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       # No bun install step: all scripts have zero external dependencies (see CLAUDE.md).
       # setup-bun's built-in binary cache covers the only cacheable artifact here.
