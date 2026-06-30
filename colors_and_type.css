@@ -169,6 +169,21 @@ h4, .ds-h4 { font-size: 1rem;    font-weight: 600; }
   text-transform: lowercase;
 }
 
+/* ── Interaction baseline ───────────────────────────────── */
+/* Brand selection highlight + input caret (tokens generated from tokens.json). */
+::selection { background-color: var(--color-selection-bg); }
+:root { caret-color: var(--color-cursor); }
+
+/* Focus ring — 2px accent stroke at 2px offset (platforms/KEYBOARD.md).
+   A single visible baseline for every keyboard-focused element; components
+   may override placement but should keep the --focus-ring token so the ring
+   stays consistent across the system. Uses :focus-visible so the ring shows
+   for keyboard users without flashing on mouse click. */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
 /* Reduced motion — universal guard.
    Per docs/ACCESSIBILITY.md: every transition and animation in the system
    respects the user's OS-level reduce-motion preference. Importing this
