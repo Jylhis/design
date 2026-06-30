@@ -22,22 +22,16 @@
   header.hero .tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); padding: 3px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg-subtle); }
   .toolbar { position: fixed; top: 24px; right: 24px; z-index: 10; display: flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 0.8rem; }
   .toolbar button { font: inherit; cursor: pointer; background: var(--color-bg-subtle); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 6px 12px; transition: border-color var(--transition-fast), transform var(--transition-fast); }
-  .toolbar button:hover { border-color: var(--color-accent); color: var(--color-accent); }
-  .toolbar button:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
-  h2.section { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: var(--space-2xl) 0 var(--space-md); }
+  .toolbar button:hover { border-color: var(--color-accent); color: var(--color-accent); }  h2.section { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: var(--space-2xl) 0 var(--space-md); }
   h2.section::before { content: "// "; color: var(--color-accent); }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-md); }
   .card { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); background: var(--color-bg-subtle); text-decoration: none; color: inherit; transition: border-color var(--transition-fast), transform var(--transition-fast); display: flex; flex-direction: column; gap: 8px; }
-  .card:hover { border-color: var(--color-accent); }
-  .card:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
-  .card .title { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: var(--color-text-heading); }
+  .card:hover { border-color: var(--color-accent); }  .card .title { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: var(--color-text-heading); }
   .card .desc { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.55; }
   .card .path { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-faint); margin-top: auto; }
   .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: var(--space-sm); }
   .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 0.72rem; background: var(--color-bg); color: inherit; padding: 0; text-align: left; cursor: copy; transition: border-color var(--transition-fast), transform var(--transition-fast); position: relative; }
-  .sw:hover { border-color: var(--color-accent); }
-  .sw:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
-  .sw .chip { height: 48px; }
+  .sw:hover { border-color: var(--color-accent); }  .sw .chip { height: 48px; }
   .sw .meta { padding: 6px 8px; color: var(--color-text-muted); display: flex; flex-direction: column; gap: 2px; }
   .sw .meta .row { display: flex; justify-content: space-between; gap: 6px; align-items: baseline; }
   .sw .meta .name { color: var(--color-text); }
@@ -63,17 +57,14 @@
   .filter-bar input:focus { outline: none; }
   .filter-bar .glyph { color: var(--color-text-faint); font-size: 0.9rem; }
   .filter-bar .count { color: var(--color-text-muted); font-size: 0.72rem; white-space: nowrap; }
-  .filter-bar .clear { font: inherit; font-size: 0.72rem; padding: 2px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; }
-  .filter-bar .clear { transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast); }
+  .filter-bar .clear { font: inherit; font-size: 0.72rem; padding: 2px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast); }
   .filter-bar .clear:hover { color: var(--color-accent); border-color: var(--color-accent); }
   .filter-bar .clear:disabled { opacity: 0.4; cursor: default; }
   .is-hidden-by-filter { display: none !important; }
   .empty-state { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text-faint); padding: var(--space-md); text-align: center; }
   .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-sm); }
   .chip { font-family: var(--font-mono); font-size: 0.78rem; padding: 6px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); color: var(--color-text); text-decoration: none; transition: border-color var(--transition-fast), transform var(--transition-fast); }
-  .chip:hover { color: var(--color-accent); border-color: var(--color-accent); }
-  .chip:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
-  .chip .keys { color: var(--color-text-faint); font-size: 0.66rem; margin-left: 6px; }
+  .chip:hover { color: var(--color-accent); border-color: var(--color-accent); }  .chip .keys { color: var(--color-text-faint); font-size: 0.66rem; margin-left: 6px; }
   /* Tactile press — subtle scale-down eased back on release. Transform-only (GPU-friendly),
      restrained not bouncy; suppressed under prefers-reduced-motion via colors_and_type.css. */
   .toolbar button:active,

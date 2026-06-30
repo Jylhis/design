@@ -218,9 +218,13 @@ function generateTokensCSS() {
     .map(([k, v]) => `  --transition-${k}: ${v.duration} ${v.css};`)
     .join("\n");
 
-  // Accent-subtle + scrim rgba values (derived, not in tokens.json as they use opacity)
-  const accentSubtleLight = "rgba(154, 90, 42, 0.12)";
-  const accentSubtleDark = "rgba(232, 155, 94, 0.15)";
+  // Accent-subtle + scrim rgba values (derived, not in tokens.json as they use opacity).
+  // Accent-subtle is the accent token at fixed opacity — compute it so it stays in
+  // sync with tokens.json instead of duplicating the accent's RGB here.
+  const [aslR, aslG, aslB] = hexToRgb(color("accent", "light"));
+  const [asdR, asdG, asdB] = hexToRgb(color("accent", "dark"));
+  const accentSubtleLight = `rgba(${aslR}, ${aslG}, ${aslB}, 0.12)`;
+  const accentSubtleDark = `rgba(${asdR}, ${asdG}, ${asdB}, 0.15)`;
   // Modal/overlay scrim — translucent ink, deeper on roast where the page is already dark
   const scrimLight = "rgba(28, 24, 20, 0.4)";
   const scrimDark = "rgba(10, 8, 6, 0.55)";
