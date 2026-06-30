@@ -183,6 +183,8 @@ function generateTokensCSS() {
     for (const r of ["accent", "accent-hover"]) lines.push(`  ${cssName(r)}: ${tokens.palette[r][mode]};`);
     // accent-subtle is derived (rgba), keep as hand-authored in colors_and_type.css
     lines.push(`  ${cssName("brand")}: ${tokens.palette.brand[mode]};`);
+    // selection highlight + input caret (matches the editor/terminal targets)
+    for (const r of ["selection-bg", "cursor"]) lines.push(`  ${cssName(r)}: ${tokens.palette[r][mode]};`);
     lines.push("  /* Borders */");
     for (const r of ["border", "border-strong", "decorator"]) lines.push(`  ${cssName(r)}: ${tokens.palette[r][mode]};`);
     lines.push("  /* Code */");
@@ -216,9 +218,20 @@ function generateTokensCSS() {
     .map(([k, v]) => `  --transition-${k}: ${v.duration} ${v.css};`)
     .join("\n");
 
-  // Accent-subtle rgba values (derived, not in tokens.json as they use opacity)
+  // Accent-subtle + scrim rgba values (derived, not in tokens.json as they use opacity)
   const accentSubtleLight = "rgba(154, 90, 42, 0.12)";
   const accentSubtleDark = "rgba(232, 155, 94, 0.15)";
+  // Modal/overlay scrim — translucent ink, deeper on roast where the page is already dark
+  const scrimLight = "rgba(28, 24, 20, 0.4)";
+  const scrimDark = "rgba(10, 8, 6, 0.55)";
+
+  // Focus ring — width/offset from tokens.json#focus, colour is always accent.
+  // Theme-independent: the accent var resolves per-theme, so this lives in :root only.
+  const focusVars = [
+    `  --focus-ring-width: ${tokens.focus.width};`,
+    `  --focus-ring-offset: ${tokens.focus.offset};`,
+    `  --focus-ring: var(--focus-ring-width) solid var(--color-accent);`,
+  ].join("\n");
 
   return `/*
  * tokens.css — GENERATED from tokens.json. Do not edit by hand.
@@ -229,12 +242,15 @@ function generateTokensCSS() {
 :root {
 ${varBlock("light")}
   --color-accent-subtle: ${accentSubtleLight};
+  --color-scrim: ${scrimLight};
   /* Spacing */
 ${spacingVars}
   /* Layout */
 ${layoutVars}
   /* Radii */
 ${radiiVars}
+  /* Focus ring */
+${focusVars}
   /* Transitions */
 ${transitionVars}
 }
@@ -243,6 +259,7 @@ ${transitionVars}
 [data-theme="dark"] {
 ${varBlock("dark")}
   --color-accent-subtle: ${accentSubtleDark};
+  --color-scrim: ${scrimDark};
 }
 `;
 }

@@ -403,6 +403,11 @@ export const tokens = {
     "md": "4px",
     "pill": "999px"
   },
+  "focus": {
+    "width": "2px",
+    "offset": "2px",
+    "notes": "ring stroke + offset; colour is always `accent`. See platforms/KEYBOARD.md."
+  },
   "density": {
     "comfortable": {
       "lineHeight": 1.65,
