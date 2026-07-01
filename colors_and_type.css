@@ -171,7 +171,7 @@ h4, .ds-h4 { font-size: 1rem;    font-weight: 600; }
 
 /* ── Interaction baseline ───────────────────────────────── */
 /* Brand selection highlight + input caret (tokens generated from tokens.json). */
-::selection { background-color: var(--color-selection-bg); }
+::selection { color: var(--color-text); background-color: var(--color-selection-bg); }
 :root { caret-color: var(--color-cursor); }
 
 /* Focus ring — 2px accent stroke at 2px offset (platforms/KEYBOARD.md).
