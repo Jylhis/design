@@ -67,11 +67,11 @@
   .chip:hover { color: var(--color-accent); border-color: var(--color-accent); }  .chip .keys { color: var(--color-text-faint); font-size: 0.66rem; margin-left: 6px; }
   /* Press / active — deepen to the darker copper (--color-accent-hover). Canon allows colour
      and border only; no scale (AGENTS.md, README.md#press, docs/STYLE-GUIDE.md). */
-  .toolbar button:active { border-color: var(--color-accent-hover); color: var(--color-accent-hover); }
-  .card:active { border-color: var(--color-accent-hover); }
-  .sw:active { border-color: var(--color-accent-hover); }
-  .chip:active { border-color: var(--color-accent-hover); color: var(--color-accent-hover); }
+  .toolbar button:active,
+  .chip:active,
   .filter-bar .clear:not(:disabled):active { border-color: var(--color-accent-hover); color: var(--color-accent-hover); }
+  .card:active,
+  .sw:active { border-color: var(--color-accent-hover); }
 </style>
 <script>
   try {

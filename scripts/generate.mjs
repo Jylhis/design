@@ -218,19 +218,18 @@ function generateTokensCSS() {
     .map(([k, v]) => `  --transition-${k}: ${v.duration} ${v.css};`)
     .join("\n");
 
-  // Accent-subtle + scrim rgba values (derived, not in tokens.json as they use opacity).
-  // Accent-subtle is the accent token at fixed opacity — compute it so it stays in
-  // sync with tokens.json instead of duplicating the accent's RGB here.
-  const [aslR, aslG, aslB] = hexToRgb(color("accent", "light"));
-  const [asdR, asdG, asdB] = hexToRgb(color("accent", "dark"));
-  const accentSubtleLight = `rgba(${aslR}, ${aslG}, ${aslB}, 0.12)`;
-  const accentSubtleDark = `rgba(${asdR}, ${asdG}, ${asdB}, 0.15)`;
-  // Modal/overlay scrim — the scrim ink token at fixed opacity (deeper on roast where the
-  // page is already dark). Sourced from tokens.json#palette.scrim (no hardcoded RGB here).
-  const [slR, slG, slB] = hexToRgb(color("scrim", "light"));
-  const [sdR, sdG, sdB] = hexToRgb(color("scrim", "dark"));
-  const scrimLight = `rgba(${slR}, ${slG}, ${slB}, 0.4)`;
-  const scrimDark = `rgba(${sdR}, ${sdG}, ${sdB}, 0.55)`;
+  // Derived rgba values — opacity-based, so kept out of tokens.json's hex-only palette.
+  // Compose each from its source token so the RGB never drifts from tokens.json:
+  // accent-subtle is the accent at low opacity; the modal/overlay scrim is the scrim
+  // ink at a higher opacity (deeper on roast, where the page is already dark).
+  const rgbaOf = (role, mode, alpha) => {
+    const [r, g, b] = hexToRgb(color(role, mode));
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+  const accentSubtleLight = rgbaOf("accent", "light", 0.12);
+  const accentSubtleDark = rgbaOf("accent", "dark", 0.15);
+  const scrimLight = rgbaOf("scrim", "light", 0.4);
+  const scrimDark = rgbaOf("scrim", "dark", 0.55);
 
   // Focus ring — width/offset from tokens.json#focus, colour is always accent.
   // Theme-independent: the accent var resolves per-theme, so this lives in :root only.
