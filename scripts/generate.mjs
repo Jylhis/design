@@ -225,9 +225,12 @@ function generateTokensCSS() {
   const [asdR, asdG, asdB] = hexToRgb(color("accent", "dark"));
   const accentSubtleLight = `rgba(${aslR}, ${aslG}, ${aslB}, 0.12)`;
   const accentSubtleDark = `rgba(${asdR}, ${asdG}, ${asdB}, 0.15)`;
-  // Modal/overlay scrim — translucent ink, deeper on roast where the page is already dark
-  const scrimLight = "rgba(28, 24, 20, 0.4)";
-  const scrimDark = "rgba(10, 8, 6, 0.55)";
+  // Modal/overlay scrim — the scrim ink token at fixed opacity (deeper on roast where the
+  // page is already dark). Sourced from tokens.json#palette.scrim (no hardcoded RGB here).
+  const [slR, slG, slB] = hexToRgb(color("scrim", "light"));
+  const [sdR, sdG, sdB] = hexToRgb(color("scrim", "dark"));
+  const scrimLight = `rgba(${slR}, ${slG}, ${slB}, 0.4)`;
+  const scrimDark = `rgba(${sdR}, ${sdG}, ${sdB}, 0.55)`;
 
   // Focus ring — width/offset from tokens.json#focus, colour is always accent.
   // Theme-independent: the accent var resolves per-theme, so this lives in :root only.
