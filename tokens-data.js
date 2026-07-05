@@ -181,6 +181,11 @@ export const tokens = {
       "light": "#9a5a2a",
       "dark": "#e89b5e",
       "notes": "input cursor (matches accent)"
+    },
+    "scrim": {
+      "light": "#1c1814",
+      "dark": "#0a0806",
+      "notes": "modal/overlay scrim ink; emitted as translucent rgba --color-scrim in CSS (light 0.4, dark 0.55)"
     }
   },
   "syntax": {
@@ -402,6 +407,11 @@ export const tokens = {
     "sm": "3px",
     "md": "4px",
     "pill": "999px"
+  },
+  "focus": {
+    "width": "2px",
+    "offset": "2px",
+    "notes": "ring stroke + offset; colour is always `accent`. See platforms/KEYBOARD.md."
   },
   "density": {
     "comfortable": {
