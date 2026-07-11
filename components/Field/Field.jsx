@@ -1,5 +1,8 @@
-export function Field({ label, help, error, id, type = "text", textarea = false, ...rest }) {
-  const inputId = id || "ds-field-" + String(label || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+export function Field({ label, help, error, id, type = "text", textarea = false, children, ...rest }) {
+  // useId keeps label/input pairing unique when several unlabelled fields
+  // share a page; `children` is dropped so it never reaches the void <input>.
+  const reactId = React.useId();
+  const inputId = id || reactId;
   const helpText = error || help;
   const InputTag = textarea ? "textarea" : "input";
   return (

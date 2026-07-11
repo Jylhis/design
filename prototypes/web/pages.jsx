@@ -169,7 +169,7 @@ const NotFoundPage = ({ onNav }) => (
     <pre style={{textAlign:'left', maxWidth:'42ch', margin:'var(--space-xl) auto'}}><code>{`$ curl -I /this-page
 HTTP/2 404
 content-type: text/plain`}</code></pre>
-    <p><a onClick={(e)=>{e.preventDefault(); onNav('/');}}>← back home</a></p>
+    <p><a href="/" onClick={(e)=>{e.preventDefault(); onNav('/');}}>← back home</a></p>
   </div>
 );
 

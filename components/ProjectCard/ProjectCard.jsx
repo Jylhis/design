@@ -7,7 +7,7 @@ export function ProjectCard({ title, description, tags = [], status, subtle = fa
     <div className={"ds-card" + (subtle ? " ds-card--subtle" : "")}>
       <div className="ds-card__head">
         <h3 className="ds-card__title">
-          <TitleTag href={href} style={href ? { color: "inherit", textDecoration: "none" } : undefined}>
+          <TitleTag href={href}>
             {title}
           </TitleTag>
         </h3>

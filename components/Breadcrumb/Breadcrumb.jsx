@@ -1,8 +1,9 @@
-export function Breadcrumb({ items = [] }) {
+export function Breadcrumb({ items }) {
+  const safeItems = items || [];
   return (
     <nav className="ds-breadcrumb" aria-label="Breadcrumb">
-      {items.map((item, i) => {
-        const last = i === items.length - 1;
+      {safeItems.map((item, i) => {
+        const last = i === safeItems.length - 1;
         return (
           <span key={i} style={{ display: "contents" }}>
             {last || !item.href ? (
