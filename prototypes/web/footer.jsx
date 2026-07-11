@@ -14,7 +14,7 @@ const Footer = ({ onNav }) => (
           <ul>
             {links.map(([label, href]) => (
               <li key={label}>
-                <a href={href} onClick={(e)=>{ if (!href.startsWith('http')) { e.preventDefault(); onNav && onNav(href); } }}>{label}</a>
+                <a href={href} onClick={(e)=>{ if (!href.startsWith('http')) { e.preventDefault(); onNav?.(href); } }}>{label}</a>
               </li>
             ))}
           </ul>

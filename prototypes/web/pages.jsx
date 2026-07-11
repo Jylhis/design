@@ -8,15 +8,15 @@ const HomePage = ({ onNav }) => (
       <p>One paragraph that opens the door — what you're working on, who you're working with, and the angle you take when you sit down at the keyboard. Specific, not breathless.</p>
       <p>A second paragraph that sets up the rest of the site — links to deeper reads, current focus, anything you want a stranger to know in the first thirty seconds.</p>
     </div>
-    <div className="currently-box" id="currently">
-      <h3 className="currently-label">// currently</h3>
-      <ul className="currently-list">
-        <li>shipping a small thing at <a>your company</a></li>
+    <div className="ds-callout" id="currently">
+      <h3 className="ds-callout__label">currently</h3>
+      <ul>
+        <li>shipping a small thing at <a href="https://example.com">your company</a></li>
         <li>learning a new tool worth writing about</li>
       </ul>
     </div>
     <div className="contact-links">
-      <a>you@example.com</a><a>github</a><a>linkedin</a>
+      <a href="mailto:you@example.com">you@example.com</a><a href="https://github.com/your-org">github</a><a href="https://linkedin.com/in/your-handle">linkedin</a>
     </div>
   </div>
 );
@@ -31,7 +31,7 @@ const NotesPage = ({ onOpenNote }) => (
   <div>
     <h1 style={{fontSize:'1.6rem', marginBottom:'var(--space-xs)'}}>notes</h1>
     <p className="subtitle">Technical writing, documentation, and the occasional observation.</p>
-    <p className="rss-line"><a className="rss-link">rss feed</a> · {NOTES.length} notes</p>
+    <p className="rss-line"><a className="rss-link" href="/rss.xml">rss feed</a> · {NOTES.length} notes</p>
     <ul className="notes-list">
       {NOTES.map(n => (
         <li key={n.slug}>
@@ -106,7 +106,7 @@ const ProjectsPage = ({ onOpenProject }) => (
 const ProjectDetail = ({ project }) => (
   <article className="prose">
     <ManHeader title="projects" section={7} />
-    <div style={{display:'flex', gap:'var(--space-md)', alignItems:'baseline', flexWrap:'wrap'}}>
+    <div style={{display:'flex', gap:'var(--space-md)', alignItems:'baseline', flexWrap:'wrap', marginBottom:'var(--space-lg)'}}>
       <h1 style={{margin:0}}>{project.title}</h1>
       <StatusBadge status={project.status}/>
     </div>
@@ -121,59 +121,43 @@ const ProjectDetail = ({ project }) => (
     <h2>Tech</h2>
     <TagList tags={project.tags}/>
     <hr/>
-    {project.github && <p>Source: <a>github.com/{project.github}</a></p>}
+    {project.github && <p>Source: <a href={`https://github.com/${project.github}`}>github.com/{project.github}</a></p>}
   </article>
 );
 
 const ResumePage = () => (
-  <div className="cv-page">
+  <div>
     <h1>resume</h1>
     <p className="subtitle">Your role · your specialty — your city</p>
     <DividerLabeled label="experience" />
-    <CvEntry>
-      <CvRow role>Senior Engineer</CvRow>
-      <CvRow><span className="cv-company"><a>Acme Corp</a></span> · <span className="cv-date">May 2025 — present</span> · your city</CvRow>
-      <CvRow desc>One-line description of what the role is and the team you sit on.</CvRow>
-      <CvRow highlight>One specific outcome with a number where useful</CvRow>
-      <CvRow highlight>A second outcome that shows breadth, not a duplicate of the first</CvRow>
-      <CvRow highlight>A third outcome — keep the verbs strong</CvRow>
-      <CvRow blank/>
-      <CvRow role>Engineer</CvRow>
-      <CvRow><span className="cv-company"><a>MegaOrg</a></span> · <span className="cv-date">Aug 2020 — Apr 2022</span> · previous city</CvRow>
-      <CvRow desc>One-line description of the team or programme you contributed to.</CvRow>
-      <CvRow highlight>The outcome you'd lead with in an interview</CvRow>
-      <CvRow blank/>
-    </CvEntry>
+    <CvEntry
+      role="Senior Engineer"
+      company="Acme Corp"
+      date="May 2025 — present"
+      location="your city"
+      description="One-line description of what the role is and the team you sit on."
+      highlights={[
+        'One specific outcome with a number where useful',
+        'A second outcome that shows breadth, not a duplicate of the first',
+        'A third outcome — keep the verbs strong',
+      ]}
+    />
+    <CvEntry
+      role="Engineer"
+      company="MegaOrg"
+      date="Aug 2020 — Apr 2022"
+      location="previous city"
+      description="One-line description of the team or programme you contributed to."
+      highlights={["The outcome you'd lead with in an interview"]}
+    />
     <DividerLabeled label="skills" />
-    <CvEntry>
-      <CvSkills label="languages" items={['go','rust','haskell','python','c++']}/>
-      <CvSkills label="infra" items={['nixos','kubernetes','cloudflare','podman']}/>
-      <CvSkills label="tools" items={['emacs','git','magit','just']}/>
-    </CvEntry>
-  </div>
-);
-
-const CvEntry = ({children}) => <>{children}</>;
-const CvRow = ({children, role, desc, highlight, blank}) => (
-  <div className="cv-entry">
-    <span className="cv-line-num"></span>
-    <div className={`cv-line-content ${role?'cv-role':''} ${desc?'cv-desc':''} ${highlight?'cv-highlight':''} ${blank?'blank':''}`}>
-      {highlight ? `· ${children}` : children}
-    </div>
-  </div>
-);
-const CvSkills = ({label, items}) => (
-  <div className="cv-entry">
-    <span className="cv-line-num"></span>
-    <div className="cv-line-content cv-skills-line">
-      <span className="label">{label}</span><span className="bracket">: [</span>
-      {items.map((it, i) => (
-        <React.Fragment key={it}>
-          <span className="value">{it}</span>{i < items.length - 1 && <span className="comma">, </span>}
-        </React.Fragment>
-      ))}
-      <span className="bracket">]</span>
-    </div>
+    <CvEntry
+      skills={{
+        languages: ['go','rust','haskell','python','c++'],
+        infra: ['nixos','kubernetes','cloudflare','podman'],
+        tools: ['emacs','git','magit','just'],
+      }}
+    />
   </div>
 );
 
@@ -185,7 +169,7 @@ const NotFoundPage = ({ onNav }) => (
     <pre style={{textAlign:'left', maxWidth:'42ch', margin:'var(--space-xl) auto'}}><code>{`$ curl -I /this-page
 HTTP/2 404
 content-type: text/plain`}</code></pre>
-    <p><a onClick={(e)=>{e.preventDefault(); onNav('/');}}>← back home</a></p>
+    <p><a href="/" onClick={(e)=>{e.preventDefault(); onNav('/');}}>← back home</a></p>
   </div>
 );
 

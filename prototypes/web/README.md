@@ -1,13 +1,13 @@
 # Website UI kit
 
-Click-thru recreation of a personal site as a React prototype, using the Jylhis design system tokens. Generic placeholder copy throughout — fork and replace with your own.
+Click-thru recreation of a personal site as a React prototype, consuming the Jylhis design system directly: `../../styles.css` (tokens + motion + `components/components.css`) plus thin JSX bridges that mirror the `components/*` markup. Generic placeholder copy throughout — fork and replace with your own.
 
 ## Files
 - `index.html` — interactive prototype: home → notes list → note detail → projects list → project detail → resume → 404. Includes Tweaks panel (palette + light/dark).
-- `Header.jsx` — wordmark lockup + maker's-mark rune + breadcrumb + search trigger + theme toggle.
-- `Footer.jsx` — dashed rules, 4-column nav, rune identity strip, colophon.
-- `Primitives.jsx` — `TagList`, `StatusBadge`, `DividerLabeled`, `ManHeader`, `FormattedDate`, `CodeBlock`.
-- `Pages.jsx` — `HomePage`, `NotesPage`, `NoteDetail`, `ProjectsPage`, `ProjectDetail`, `ResumePage`, `NotFoundPage`.
+- `header.jsx` — wordmark lockup + maker's-mark rune + breadcrumb + search trigger + theme toggle.
+- `footer.jsx` — dashed rules, 4-column nav, rune identity strip, colophon.
+- `primitives.jsx` — thin bridges to design-system components (`Tag`, `StatusBadge`, `CodeBlock`, `CvEntry` mirror `components/*/*.jsx` markup, styled by `components/components.css`), plus `TagList`, `DividerLabeled`, `ManHeader`, `FormattedDate`.
+- `pages.jsx` — `HomePage`, `NotesPage`, `NoteDetail`, `ProjectsPage`, `ProjectDetail`, `ResumePage`, `NotFoundPage`.
 
 ## Tweaks
 The Tweaks panel switches **light / dark**. There is only one palette:

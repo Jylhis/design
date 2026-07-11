@@ -13,24 +13,24 @@ const Rune = ({ size = 24 }) => (
 
 const Header = ({ crumbs = [{label: 'home', href: '/', current: true}], onNav, onSearch, theme, onToggleTheme }) => (
   <header className="site-header">
-    <a className="site-wordmark-group" onClick={(e)=>{e.preventDefault(); onNav && onNav('/');}} href="/">
+    <a className="site-wordmark-group" onClick={(e)=>{e.preventDefault(); onNav?.('/');}} href="/">
       <span className="makers-mark"><Rune size={28}/></span>
       <span className="wordmark">your name</span>
     </a>
     <div className="header-right">
-      <nav className="breadcrumb" aria-label="Breadcrumb">
+      <nav className="ds-breadcrumb" aria-label="Breadcrumb">
         {crumbs.map((c, i) => (
-          <React.Fragment key={i}>
-            {i > 0 && <span className="sep" aria-hidden="true">▸</span>}
+          <React.Fragment key={`${c.href ?? ""}|${c.label}`}>
+            {i > 0 && <span className="ds-breadcrumb__sep" aria-hidden="true">›</span>}
             {c.current
-              ? <span className="current">{c.label}</span>
-              : <a href={c.href} onClick={(e)=>{e.preventDefault(); onNav && onNav(c.href);}}>{c.label}</a>}
+              ? <span className="ds-breadcrumb__current" aria-current="page">{c.label}</span>
+              : <a href={c.href} onClick={(e)=>{e.preventDefault(); onNav?.(c.href);}}>{c.label}</a>}
           </React.Fragment>
         ))}
       </nav>
-      <button className="search-trigger" onClick={onSearch}>
-        <span className="search-label">search</span>
-        <kbd>/</kbd>
+      <button type="button" className="ds-btn ds-btn--search" onClick={onSearch}>
+        <span>search</span>
+        <kbd className="ds-kbd">/</kbd>
       </button>
       <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
         {theme === 'dark' ? '☀' : '☾'}

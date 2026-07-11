@@ -1,0 +1,348 @@
+/*
+ * components/components.css — hand-authored styles for the React components
+ * library. Class-per-component; tokens only, no raw hex. Hover/focus states
+ * live here so the JSX stays declarative. The universal reduced-motion guard
+ * in colors_and_type.css covers every transition below.
+ */
+
+/* ── Button ─────────────────────────────────────────────── */
+.ds-btn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+.ds-btn:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-btn:disabled {
+  color: var(--color-text-faint);
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+/* Loading — set aria-busy on the button; a trailing mono ellipsis does the work, no spinner */
+.ds-btn[aria-busy="true"] { cursor: progress; }
+.ds-btn[aria-busy="true"]::after { content: " …"; }
+.ds-btn--primary {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: 1px solid var(--color-accent);
+}
+.ds-btn--primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+/* Press / active — deepen to the darker copper. Colour and border only; no shrink transform. */
+.ds-btn--primary:active { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+.ds-btn--ghost {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.ds-btn--ghost:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-btn--ghost:active { color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+.ds-btn--link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-accent);
+  font-size: 0.8rem;
+}
+.ds-btn--link:hover { color: var(--color-accent-hover); }
+.ds-btn--link:active { color: var(--color-accent-hover); }
+.ds-btn--search {
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  padding: 0.35rem 0.6rem;
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.ds-btn--search:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-btn--search:active { color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+
+/* ── Kbd ────────────────────────────────────────────────── */
+.ds-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--color-border);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.ds-kbd--accent { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-kbd-chord { display: inline-flex; gap: 0.25em; align-items: baseline; }
+
+/* ── Tag ────────────────────────────────────────────────── */
+.ds-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.15em 0.55em;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+a.ds-tag { text-decoration: none; cursor: pointer; }
+a.ds-tag:hover { color: var(--color-accent); border-color: var(--color-accent); }
+a.ds-tag:active { color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+
+/* ── StatusBadge ────────────────────────────────────────── */
+.ds-status {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.1em 0.5em;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.ds-status--active {
+  color: var(--color-status-ok);
+  background: color-mix(in srgb, var(--color-status-ok) 12%, transparent);
+  border: 1px solid var(--color-status-ok);
+}
+.ds-status--archived {
+  color: var(--color-text-muted);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+}
+.ds-status--experimental {
+  color: var(--color-syntax-keyword);
+  background: color-mix(in srgb, var(--color-syntax-keyword) 12%, transparent);
+  border: 1px solid var(--color-syntax-keyword);
+}
+.ds-status--contributed {
+  color: var(--color-status-info);
+  background: color-mix(in srgb, var(--color-status-info) 12%, transparent);
+  border: 1px solid var(--color-status-info);
+}
+
+/* ── Alert ──────────────────────────────────────────────── */
+.ds-alert {
+  border-left: 3px solid var(--color-border-strong);
+  padding: 10px 14px 10px 12px;
+  background: var(--color-bg-subtle);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.ds-alert__head {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.ds-alert__glyph { font-weight: 700; }
+.ds-alert p { margin: 0; color: var(--color-text); }
+.ds-alert--info { border-left-color: var(--color-status-info); }
+.ds-alert--info .ds-alert__head { color: var(--color-status-info); }
+.ds-alert--ok { border-left-color: var(--color-status-ok); }
+.ds-alert--ok .ds-alert__head { color: var(--color-status-ok); }
+.ds-alert--warn { border-left-color: var(--color-status-warn); }
+.ds-alert--warn .ds-alert__head { color: var(--color-status-warn); }
+.ds-alert--err { border-left-color: var(--color-status-err); }
+.ds-alert--err .ds-alert__head { color: var(--color-status-err); }
+
+/* ── Callout (the "// currently" pattern) ───────────────── */
+.ds-callout {
+  background: var(--color-bg-subtle);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 18px 22px;
+  font-family: var(--font-body);
+}
+.ds-callout__label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin: 0 0 10px;
+  font-weight: 400;
+}
+.ds-callout__label::before { content: "// "; }
+.ds-callout ul { list-style: none; padding: 0; margin: 0; }
+.ds-callout li { position: relative; padding: 0.3rem 0 0.3rem 1.5em; font-size: 0.95rem; }
+.ds-callout li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+}
+.ds-callout a { color: var(--color-accent); text-decoration: none; }
+.ds-callout a:hover { color: var(--color-accent-hover); }
+
+/* ── ProjectCard ────────────────────────────────────────── */
+.ds-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  background: var(--color-surface-raised);
+  font-family: var(--font-body);
+}
+.ds-card--subtle { background: var(--color-bg-subtle); border-color: var(--color-border-strong); }
+.ds-card__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ds-card__title {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-heading);
+  margin: 0 0 4px;
+}
+.ds-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+.ds-card__title a:hover,
+.ds-card__title a:active {
+  color: var(--color-accent-hover);
+}
+.ds-card__title a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+.ds-card__desc { font-size: 0.85rem; color: var(--color-text-muted); margin: 0 0 8px; line-height: 1.45; }
+.ds-card__tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ── Field ──────────────────────────────────────────────── */
+.ds-field { display: flex; flex-direction: column; gap: 4px; font-family: var(--font-mono); }
+.ds-field__label { font-size: 0.74rem; color: var(--color-text); }
+.ds-field__help { font-size: 0.66rem; color: var(--color-text-muted); }
+.ds-field__help--error { color: var(--color-status-err); }
+.ds-field__input {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color var(--transition-fast);
+}
+.ds-field__input::placeholder { color: var(--color-text-faint); }
+.ds-field__input:hover { border-color: var(--color-border-strong); }
+.ds-field__input:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); border-color: var(--color-accent); }
+.ds-field__input:disabled { color: var(--color-text-faint); background: var(--color-bg-subtle); cursor: not-allowed; }
+.ds-field__input[aria-invalid="true"] { border-color: var(--color-status-err); }
+
+/* ── CodeBlock ──────────────────────────────────────────── */
+.ds-codeblock { font-family: var(--font-mono); }
+.ds-codeblock__filename {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-code-border);
+  border-bottom: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: 0.4rem 1rem;
+  display: inline-block;
+  margin-bottom: -1px;
+  letter-spacing: 0.02em;
+}
+.ds-codeblock pre {
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-code-border);
+  border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+  padding: 14px 16px;
+  margin: 0;
+  overflow-x: auto;
+  line-height: 1.6;
+  font-size: 0.8rem;
+}
+.ds-codeblock--plain pre { border-radius: var(--radius-md); }
+
+/* ── CvEntry (line-numbered) ────────────────────────────── */
+.ds-cv { font-family: var(--font-mono); counter-reset: cv-line; color: var(--color-text); }
+.ds-cv__row { display: grid; grid-template-columns: 3rem 1fr; border-left: 1px solid var(--color-border); counter-increment: cv-line; }
+.ds-cv__num {
+  font-size: 0.72rem;
+  color: var(--color-text-faint);
+  text-align: right;
+  padding-right: 0.9rem;
+  padding-top: 0.18rem;
+  user-select: none;
+  line-height: 1.65;
+}
+.ds-cv__num::after { content: counter(cv-line); }
+.ds-cv__body { padding: 0.15rem 0 0.15rem 0.9rem; border-left: 1px solid var(--color-border); line-height: 1.65; font-size: 0.92rem; }
+.ds-cv__role { font-weight: 600; color: var(--color-text-heading); }
+.ds-cv__company { color: var(--color-accent); }
+.ds-cv__date { font-size: 0.76rem; color: var(--color-text-muted); }
+.ds-cv__desc { font-family: var(--font-body); color: var(--color-text); font-size: 0.93rem; }
+.ds-cv__hl { font-family: var(--font-body); color: var(--color-text-muted); font-size: 0.86rem; padding-left: 1.8rem; }
+.ds-cv__blank { height: 1.65em; }
+.ds-cv__skills .k { color: var(--color-syntax-keyword); }
+.ds-cv__skills .b { color: var(--color-text-muted); }
+.ds-cv__skills .v { color: var(--color-syntax-string); }
+.ds-cv__skills .c { color: var(--color-text-faint); }
+
+/* ── Changelog (commit-log history) ─────────────────────── */
+.ds-log { font-family: var(--font-body); font-size: 1rem; color: var(--color-text); }
+.ds-log__entry { display: grid; grid-template-columns: 11ch 2ch 1fr; gap: 0 10px; }
+.ds-log__date {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  padding-top: 0.28em;
+  text-align: right;
+}
+.ds-log__gutter {
+  font-family: var(--font-mono);
+  color: var(--color-text-faint);
+  text-align: center;
+  position: relative;
+  user-select: none;
+}
+.ds-log__node { color: var(--color-accent); font-weight: 700; }
+.ds-log__gutter::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 1.5em;
+  bottom: -0.4em;
+  width: 1px;
+  background: var(--color-border);
+}
+.ds-log__entry:last-child .ds-log__gutter::after { display: none; }
+.ds-log__body { padding-bottom: 1.1em; }
+.ds-log__what { margin: 0; color: var(--color-text); line-height: 1.5; }
+.ds-log__what a { color: var(--color-accent); text-decoration: none; }
+.ds-log__what a:hover { color: var(--color-accent-hover); }
+.ds-log__what a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-log__ref { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-faint); }
+@media (max-width: 640px) {
+  .ds-log__entry { grid-template-columns: 2ch 1fr; }
+  .ds-log__date { display: none; }
+}
+
+/* ── Breadcrumb ─────────────────────────────────────────── */
+.ds-breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--color-text-muted);
+}
+.ds-breadcrumb a { color: var(--color-accent); text-decoration: none; }
+.ds-breadcrumb a:hover { color: var(--color-accent-hover); }
+.ds-breadcrumb a:active { color: var(--color-accent-hover); }
+.ds-breadcrumb a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-breadcrumb__sep { color: var(--color-text-faint); user-select: none; }
+.ds-breadcrumb__current { color: var(--color-text); }

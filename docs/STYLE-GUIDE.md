@@ -96,16 +96,27 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 
 ## 5. Motion
 
+The signature is **“ink draws on”**: nothing fades or floats — things are *drawn*, *typed*, or *blinked* onto the paper, the way ink and terminals behave. Helpers live in `motion.css` (`.ds-rule-draw`, `.ds-typed`, `.ds-caret`).
+
 | Token | Duration | Easing | Use for |
 |---|---|---|---|
 | `fast` | 150ms | ease-out | hover/focus color shifts |
 | `base` | 250ms | ease-out | link underline, theme toggle, drawer open |
-| `slow` | 300ms | ease-out | page enter, scroll-revealed rules |
+| `slow` | 300ms | ease-out | page enter, rule-draw entrances |
 | `spring` | 420ms | overshoot | the rare playful affordance |
 
-- Animate **color** and **translate** only. No scale, no rotate, no opacity tricks.
-- All easings are `ease-out`. No springs, no bounces by default.
-- Always honor `prefers-reduced-motion`.
+Three signature idioms, mapped to the tokens above:
+
+- **rule-draw** — a horizontal rule draws in left→right (`slow`, scaleX from 0).
+- **type-on** — a mono label types on with `steps()` (420ms).
+- **caret** — a copper block caret blinks (1.1s, stepped) for prompts and loading.
+
+Rules:
+
+- Animate **color** and **translate** only — plus the three idioms above, which are the *named* exceptions (draw = scaleX, type-on = stepped width, caret = stepped opacity). No scale pops, no rotates, no crossfades.
+- Max **one** drawn entrance per viewport. The caret never appears twice on one surface.
+- All continuous easings are `ease-out`; the idioms use `steps()` — stepped, like a terminal, never tweened.
+- Always honor `prefers-reduced-motion` (the universal guard in `colors_and_type.css` covers every helper; drawn/typed elements land in their final state).
 
 ---
 
@@ -116,9 +127,33 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 - **No emoji.** Not in headings, not in nav, not in body, not in commit messages.
 - **No icon fonts.** No SVG sprites. No Heroicons / Lucide / Feather.
 
+### The personal mark
+
+The mark is the prompt: **`jy ❯`** — pure type, set in JetBrains Mono, chevron always copper. On live surfaces it may carry the blinking caret (`.ds-caret`); in print and tty it is static.
+
+- Appears **once per surface**: footer sign-off, contact line, man-page footer, 404.
+- Never scaled above 56px; never used as a syntax element or inside code blocks.
+- Because it is text, it renders identically in web, terminal, Emacs, and git — the terminal fallback IS the mark.
+
 ---
 
-## 7. Do / don't
+## 7. Type craft defaults
+
+Set system-wide in `colors_and_type.css`; consumers get them for free.
+
+- **Oldstyle figures in serif prose** (`font-variant-numeric: oldstyle-nums`) — numbers sit in the text. Mono chrome (headings, meta, code) resets to lining figures so numbers in chrome stay aligned.
+- **Hanging punctuation on blockquotes** — opening quotes hang into the margin (progressive enhancement).
+- **`text-wrap: pretty`** on body, **`text-wrap: balance`** on headings.
+
+---
+
+## 8. Voice
+
+Copy is a design token. Five rules — first person singular; buttons are lowercase commands; errors use errno style; empty states are `//` comments; no exclamation marks or marketing adjectives. See [`docs/VOICE.md`](VOICE.md).
+
+---
+
+## 9. Do / don't
 
 ### Do
 
@@ -136,10 +171,12 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 - Don't introduce a sans-serif. Body is Literata serif; everything else is JetBrains Mono.
 - Don't introduce a second accent. The system has one accent on purpose.
 - Don't ship a feature in only one theme.
+- Don't ship a bare left-border card. The copper left border only appears with its `//` label (callout) or a status glyph + word (alert) — an unlabeled accent border is decoration, not meaning.
+- Don't ship an interactive element with only a hover state. Every primitive defines hover, `:focus-visible`, active, and — where it can be inert — disabled and loading (`aria-busy` + mono ellipsis, no spinners).
 
 ---
 
-## 8. When you need a new token
+## 10. When you need a new token
 
 1. Check whether an existing token covers it. Most of the time one does.
 2. If not, file an issue or a PR adding it to `tokens.json` first. Don't fork the value into a hex literal in your consumer code.
