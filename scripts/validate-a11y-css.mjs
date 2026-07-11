@@ -45,7 +45,13 @@ function record(file, line, severity, msg) {
   findings.push({ file, line, severity, msg });
 }
 
-const HAND_AUTHORED = ["colors_and_type.css"];
+const HAND_AUTHORED = [
+  "colors_and_type.css",
+  "fonts.css",
+  "motion.css",
+  "styles.css",
+  "components/components.css",
+];
 function listCss(dir) {
   const out = [];
   for (const name of readdirSync(resolve(ROOT, dir))) {
@@ -62,6 +68,17 @@ const FILES = [...HAND_AUTHORED, ...PROTOTYPE_CSS];
 const tokensCss = readFileSync(resolve(ROOT, "colors_and_type.css"), "utf8");
 const universalGuard =
   /@media[^{]*prefers-reduced-motion[^{]*reduce[^{]*\{[\s\S]*?\*[\s\S]*?(?:transition|animation)/i.test(tokensCss);
+
+// styles.css is the single-import entry point: it imports colors_and_type.css
+// (which carries the universal guard) before motion.css and components.css,
+// so files it pulls in are guarded whenever they are loaded the supported way.
+const stylesCss = readFileSync(resolve(ROOT, "styles.css"), "utf8");
+const stylesImportsTokens = /@import[^;]*colors_and_type\.css/i.test(stylesCss);
+const GUARDED_VIA_ENTRY = new Set(
+  stylesImportsTokens
+    ? [...stylesCss.matchAll(/@import\s+url\(["']?([^"')]+)["']?\)/gi)].map((m) => m[1].replace(/^\.\//, ""))
+    : [],
+);
 
 function lineOf(src, idx) {
   let n = 1;
@@ -84,7 +101,9 @@ function checkFile(rel) {
   const hasOwnGuard = /@media[^{]*prefers-reduced-motion[^{]*reduce/i.test(src);
   const isTokensCss = rel === "colors_and_type.css";
 
-  if ((usesTransition || usesAnimation) && !hasOwnGuard && !importsTokens && !(isTokensCss && universalGuard)) {
+  const guardedViaEntry = GUARDED_VIA_ENTRY.has(rel) && universalGuard;
+
+  if ((usesTransition || usesAnimation) && !hasOwnGuard && !importsTokens && !guardedViaEntry && !(isTokensCss && universalGuard)) {
     record(
       rel,
       1,
