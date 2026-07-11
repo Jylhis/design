@@ -67,7 +67,11 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `tokens.css` | Generated CSS custom properties (light + dark). Imported by `colors_and_type.css`. |
 | `tokens.md` | Generated human‑readable spec with markdown tables. |
 | `tokens-data.js` | Generated JS module for the showcase website. |
-| `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css`. |
+| `styles.css` | **One-import entry point** — pulls in `colors_and_type.css`, `motion.css`, and `components/components.css`. |
+| `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css` + `fonts.css`. |
+| `fonts.css` | Self-hosted variable-font `@font-face` blocks (Literata + JetBrains Mono, latin/latin-ext subsets). |
+| `motion.css` | The "ink draws on" motion signature — `.ds-rule-draw`, `.ds-typed`, `.ds-caret`, mapped to the motion tokens. |
+| `components/` | React components library — 12 components (`Button`, `Tag`, `Alert`, `Callout`, `CvEntry`, `Changelog` …), each with JSX, `.d.ts`, and a `card.html` specimen; styled by `components/components.css`. |
 | `scripts/generate.mjs` | Reads `tokens.json`, writes generated platform target files. |
 | `scripts/validate-tokens.mjs` | Schema validation, contrast checks (explicit + extended sweep), CSS `var()` resolution. |
 | `scripts/validate-a11y-html.mjs` | HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph). |
@@ -83,10 +87,11 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `docs/CLI-TUI-GUIDELINES.md` | Design conventions for any CLI/TUI shipped with the system. |
 | `docs/ACCESSIBILITY.md` | Measurable WCAG commitments, CVD policy, and what the validators enforce. |
 | `docs/STYLE-GUIDE.md` | Visual language: when to pick which token. |
+| `docs/VOICE.md` | Voice & microcopy — copy is a design token; errno-style errors, lowercase command buttons. |
+| `docs/REVIEW.md` | Structural design review (AI-tells audit) with applied recommendations. |
 | `platforms/KEYBOARD.md` | Focus, kbd, command-palette, selected-row, canonical shortcuts. |
 | `preview/` | HTML specimen cards for the showcase. |
-| `prototypes/` | Interactive prototypes — desktop (Norton-Commander TUI), macOS reskin, tablet, web. |
-| `ui_kits/website/` | React recreation of the Astro site. |
+| `prototypes/` | Interactive prototypes — desktop (Norton-Commander TUI), macOS reskin, tablet, web. The web kit consumes `styles.css` + the components library directly. |
 | `source_styles/` | Verbatim copies of the real site's CSS for reference. |
 | `index.html` | Showcase landing page deployed to GitHub Pages. |
 

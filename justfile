@@ -21,7 +21,10 @@ validate-a11y-css:
 validate-cli-conventions:
     bun scripts/validate-cli-conventions.mjs
 
-validate: validate-tokens validate-a11y-html validate-a11y-css validate-cli-conventions
+validate-emacs-faces:
+    bun scripts/validate-emacs-faces.mjs
+
+validate: validate-tokens validate-a11y-html validate-a11y-css validate-cli-conventions validate-emacs-faces
 
 check: check-generated validate
 
