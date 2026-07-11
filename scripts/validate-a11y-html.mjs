@@ -73,7 +73,11 @@ function listHtml(dir) {
 
 const previewCards = listHtml("preview");
 const prototypes = listHtml("prototypes");
-const allFiles = [...FULL_PAGES, ...previewCards, ...prototypes];
+// components/<Name>/card.html specimens are validated like preview cards.
+const componentCards = readdirSync(resolve(ROOT, "components"))
+  .filter((name) => statSync(resolve(ROOT, "components", name)).isDirectory())
+  .map((name) => `components/${name}/card.html`);
+const allFiles = [...FULL_PAGES, ...previewCards, ...componentCards, ...prototypes];
 
 const isFullPage = (f) => FULL_PAGES.includes(f);
 const isPrototype = (f) => f.startsWith("prototypes/");
