@@ -5,7 +5,7 @@ export function Breadcrumb({ items }) {
       {safeItems.map((item, i) => {
         const last = i === safeItems.length - 1;
         return (
-          <span key={i} style={{ display: "contents" }}>
+          <span key={`${item.href ?? ""}|${item.label}`} style={{ display: "contents" }}>
             {last || !item.href ? (
               <span className={last ? "ds-breadcrumb__current" : undefined} aria-current={last ? "page" : undefined}>
                 {item.label}

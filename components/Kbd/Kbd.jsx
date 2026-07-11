@@ -3,9 +3,7 @@ export function Kbd({ keys, accent = false, children }) {
   if (Array.isArray(keys) && keys.length) {
     return (
       <span className="ds-kbd-chord">
-        {keys.map((k, i) => (
-          <kbd key={i} className={cls}>{k}</kbd>
-        ))}
+        {React.Children.toArray(keys.map((k) => <kbd className={cls}>{k}</kbd>))}
       </span>
     );
   }

@@ -1,8 +1,8 @@
 export function Changelog({ entries = [] }) {
   return (
     <div className="ds-log">
-      {entries.map((entry, i) => (
-        <div key={i} className="ds-log__entry">
+      {entries.map((entry) => (
+        <div key={`${entry.date}|${entry.ref ?? ""}`} className="ds-log__entry">
           <span className="ds-log__date">{entry.date}</span>
           <span className="ds-log__gutter" aria-hidden="true">
             <span className="ds-log__node">*</span>

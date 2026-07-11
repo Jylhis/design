@@ -11,12 +11,12 @@ const HomePage = ({ onNav }) => (
     <div className="ds-callout" id="currently">
       <h3 className="ds-callout__label">currently</h3>
       <ul>
-        <li>shipping a small thing at <a>your company</a></li>
+        <li>shipping a small thing at <a href="https://example.com">your company</a></li>
         <li>learning a new tool worth writing about</li>
       </ul>
     </div>
     <div className="contact-links">
-      <a>you@example.com</a><a>github</a><a>linkedin</a>
+      <a href="mailto:you@example.com">you@example.com</a><a href="https://github.com/your-org">github</a><a href="https://linkedin.com/in/your-handle">linkedin</a>
     </div>
   </div>
 );
@@ -31,7 +31,7 @@ const NotesPage = ({ onOpenNote }) => (
   <div>
     <h1 style={{fontSize:'1.6rem', marginBottom:'var(--space-xs)'}}>notes</h1>
     <p className="subtitle">Technical writing, documentation, and the occasional observation.</p>
-    <p className="rss-line"><a className="rss-link">rss feed</a> · {NOTES.length} notes</p>
+    <p className="rss-line"><a className="rss-link" href="/rss.xml">rss feed</a> · {NOTES.length} notes</p>
     <ul className="notes-list">
       {NOTES.map(n => (
         <li key={n.slug}>
@@ -121,7 +121,7 @@ const ProjectDetail = ({ project }) => (
     <h2>Tech</h2>
     <TagList tags={project.tags}/>
     <hr/>
-    {project.github && <p>Source: <a>github.com/{project.github}</a></p>}
+    {project.github && <p>Source: <a href={`https://github.com/${project.github}`}>github.com/{project.github}</a></p>}
   </article>
 );
 
