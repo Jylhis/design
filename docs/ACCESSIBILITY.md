@@ -79,6 +79,15 @@ If something fails, open an issue or a PR. Adjusting the offending hex on Paper 
 
 ---
 
+## Dynamic content & states
+
+- **Live regions.** Anything that updates without a page load — filter counts, form validation, streamed output — sits in an `aria-live="polite"` region (`role="alert"` only for errors that block the user). The showcase filter count is the reference implementation.
+- **Loading.** Buttons take `aria-busy="true"` + disabled; the visual is a trailing mono ellipsis, never a spinner. Screen readers get the state change from `aria-busy`.
+- **Empty states.** One dry first-person line in `text-muted` mono (e.g. `no results — try fewer letters`), never an illustration. Empty is a normal state, not an error.
+- **Touch targets.** The system is desktop-dense by design. On any surface that ships to touch devices, interactive elements get a minimum 44×44px hit area — pad the target, not the glyph.
+
+---
+
 ## Out of scope
 
 The system does not currently provide:

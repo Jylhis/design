@@ -14,7 +14,7 @@ If the user invokes this skill without any other guidance, ask them what they wa
 
 - Link `colors_and_type.css` for tokens + font families (Literata body, JetBrains Mono headings/chrome/code).
 - Look and feel: warm cream paper, copper accent, monospace headings, no emoji, no gradients, no shadows. Unicode glyphs (`›`, `▸`, `»`, `☾`, `★`, `└──`) do the job icons normally would.
-- `ui_kits/website/` has React components recreating the site; `preview/` has card-sized specimens.
+- `components/` has the React components library (buttons, cards, tags, kbd, alerts, code blocks …); `preview/` has card-sized specimens. Import `styles.css` to get everything (tokens, fonts, type helpers, motion, component styles) in one link.
 - **Syntax highlights come from Emacs Modus** (Operandi in light mode, Vivendi in dark). The Modus palette is canonical for code everywhere — Emacs, web `<pre>`, `bat`/`delta`, Charm TUI output. The copper accent is brand chrome only, never a syntax colour.
 
 ## Cross-platform
