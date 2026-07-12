@@ -9,6 +9,16 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 
 ## [Unreleased]
 
+### Added
+- Hyprlock lock-screen target (`platforms/hyprlock/jylhis-{paper,roast}.conf`),
+  generated from `tokens.json`. Colors, JetBrains Mono, and field layout;
+  auth/behavior stays the consumer's. Brings the last piece of Marchyo's
+  desktop chrome upstream.
+- `lib.mkPalette` flake helper (`nix/palette.nix`): reads `tokens.json` and
+  returns `{ base16, ansi16, tty16, hex, ansi, variantKey }` for a variant, so
+  downstream Nix configs stop hand-writing a tokens reader. Accepts
+  `paper`/`roast` or `light`/`dark`.
+
 ## [0.4.0] — 2026-06-01
 
 ### Fixed

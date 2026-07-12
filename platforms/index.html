@@ -389,6 +389,7 @@
     <a href="#palette">command palette / rofi</a>
     <a href="#waybar">waybar</a>
     <a href="#notif">notifications</a>
+    <a href="#hyprlock">hyprlock</a>
     <a href="#emacs">emacs</a>
     <a href="#charm">charm tui</a>
     <a href="#keyboard">keyboard primitives</a>
@@ -542,6 +543,33 @@
             <p class="msg">Activation complete. 3 services restarted. Kernel unchanged.</p>
             <p class="footer">esc to dismiss · meta+n to focus</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── HYPRLOCK ─────────── -->
+  <section class="target" id="hyprlock">
+    <div class="head">
+      <p class="name">Hyprlock lock screen</p>
+      <p class="files"><code>platforms/hyprlock/jylhis-{paper,roast}.conf</code></p>
+    </div>
+    <p class="lede">Boot → login → desktop stays one look. The password field carries the same selected-item language as everywhere else — a 2px accent-family border on a <code>surface</code> fill, <code>accent</code> while verifying, <code>status-err</code> on a failed attempt. Colors and fonts only; auth and grace stay the consumer's.</p>
+    <div class="grid">
+
+      <div class="mock paper">
+        <div class="bar"><span>hyprlock · jylhis-paper</span><span class="mode">light</span></div>
+        <div class="body" style="background:#faf7f2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:32px 0">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:34px; color:#2c2825">09:41</div>
+          <div style="width:70%; height:40px; border:2px solid #b0a898; background:#e8e1d6; border-radius:0; display:flex; align-items:center; padding:0 14px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#6b5f54">Enter Password</div>
+        </div>
+      </div>
+
+      <div class="mock roast">
+        <div class="bar"><span>hyprlock · jylhis-roast</span><span class="mode">dark</span></div>
+        <div class="body" style="background:#1a1714; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:32px 0">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:34px; color:#e8e0d4">09:41</div>
+          <div style="width:70%; height:40px; border:2px solid #5a5248; background:#2a2520; border-radius:0; display:flex; align-items:center; padding:0 14px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#b0a496">Enter Password</div>
         </div>
       </div>
     </div>

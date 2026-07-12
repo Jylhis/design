@@ -51,6 +51,30 @@ nix build github:Jylhis/design#ghostty-jylhis # ghostty wrapper
 Available per-target attributes correspond to the keys in
 [`nix/install-map.nix`](../nix/install-map.nix).
 
+### Reading the palette in Nix
+
+When you theme an application yourself and just need the colors, call
+`lib.mkPalette` instead of parsing `tokens.json` by hand. It reads the
+pinned `tokens.json` and returns the palette in the shapes Nix configs
+actually use — no `pkgs`, no build:
+
+```nix
+let p = inputs.jylhis-design.lib.mkPalette "roast";   # or "paper"
+in {
+  # role → hex (keeps the leading "#")
+  wayland.windowManager.hyprland.settings.general."col.active_border" =
+    "rgb(${lib.removePrefix "#" p.hex.accent})";
+
+  # ready-made base16 attrset, the 16-slot ANSI list, or the
+  # TTY-readable variant (slots 0/7/15 remapped):
+  # p.base16   p.ansi16   p.tty16   p.ansi."bright-yellow"
+}
+```
+
+`mkPalette` accepts `"paper"`/`"roast"` or `"light"`/`"dark"`. The `base16`
+attr equals the shipped `platforms/base16/*.yaml`; `tty16` matches the
+console target's slot 0/7/15 override.
+
 ---
 
 ## Web (CSS)
@@ -196,6 +220,10 @@ source = ~/.config/hypr/jylhis-keys.conf       # optional
 ### Other Wayland targets
 
 - **Waybar:** `include-path` the CSS in `platforms/waybar/`
+- **Hyprlock:** source `platforms/hyprlock/jylhis-paper.conf` (or
+  `jylhis-roast.conf`) from `~/.config/hypr/hyprlock.conf`. It ships colors,
+  fonts, and field layout only — add your `auth`, `grace`, and monitor
+  settings below the source line.
 - **Mako:** symlink `platforms/mako/config` to `~/.config/mako/config`
 - **Rofi:** set `@theme "platforms/rofi/jylhis-paper"` (or `jylhis-roast`)
 - **GTK 3/4:** import `platforms/gtk/gtk.css` from your user GTK stylesheet

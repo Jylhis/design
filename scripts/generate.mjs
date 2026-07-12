@@ -477,6 +477,74 @@ misc {
   }
 }
 
+// ─── 4b. Hyprlock lock-screen theme ─────────────────────────────────
+
+function generateHyprlock(mode) {
+  const label = mode === "light" ? "Paper" : "Roast";
+  const variant = mode === "light" ? "light" : "dark";
+  const rgba = (role) => `rgba(${color(role, mode).slice(1)}ff)`;
+
+  return `# Jylhis ${label} (${variant}) hyprlock lock-screen theme
+# GENERATED from tokens.json. Do not edit by hand.
+# ~/.config/hypr/hyprlock.conf  —  source or paste into your hyprlock config.
+#
+# Colors, fonts, and field layout only. Behavior — fingerprint auth, grace
+# period, monitors — stays yours to set below the theme, the same way the
+# Hyprland target ships colors but not keybinds.
+#
+# Tokens referenced: bg, surface, border-strong, text, accent, status-err.
+
+general {
+    hide_cursor = true
+    disable_loading_bar = true
+}
+
+background {
+    monitor =
+    color = ${rgba("bg")}            # bg
+}
+
+# Password entry — same selected-item language as platforms/KEYBOARD.md:
+# 2px accent-family border, surface fill, accent while verifying,
+# status-err on a failed attempt.
+input-field {
+    monitor =
+    size = 600, 100
+    position = 0, 0
+    halign = center
+    valign = center
+
+    outline_thickness = 2
+    rounding = 0
+    outer_color = ${rgba("border-strong")}   # border-strong
+    inner_color = ${rgba("surface")}         # surface
+    font_color  = ${rgba("text")}            # text
+    check_color = ${rgba("accent")}          # accent (verifying)
+    fail_color  = ${rgba("status-err")}      # status-err
+
+    font_family = JetBrains Mono
+    placeholder_text = Enter Password
+    fail_text = <i>$PAMFAIL ($ATTEMPTS)</i>
+    fade_on_empty = false
+    shadow_passes = 0
+}
+
+# Clock above the field — presentational default; swap $TIME for a greeting
+# or a cmd[] as you like.
+label {
+    monitor =
+    text = $TIME
+    text_align = center
+    color = ${rgba("text")}          # text
+    font_size = 24
+    font_family = JetBrains Mono
+    position = 0, -100
+    halign = center
+    valign = center
+}
+`;
+}
+
 // ─── 5. Kvantum color palettes ──────────────────────────────────────
 
 function generateKvantum(mode) {
@@ -2430,6 +2498,8 @@ out("platforms/ghostty/jylhis-roast", generateGhostty("dark"));
 out("platforms/charm/jylhis/palette.go", generateGoPalette());
 out("platforms/hyprland/jylhis-paper.conf", generateHyprland("light"));
 out("platforms/hyprland/jylhis-roast.conf", generateHyprland("dark"));
+out("platforms/hyprlock/jylhis-paper.conf", generateHyprlock("light"));
+out("platforms/hyprlock/jylhis-roast.conf", generateHyprlock("dark"));
 out("platforms/kvantum/JylhisPaper.colors", generateKvantum("light"));
 out("platforms/kvantum/JylhisRoast.colors", generateKvantum("dark"));
 out("platforms/emacs/jylhis-theme-core.el",     generateEmacsCore());

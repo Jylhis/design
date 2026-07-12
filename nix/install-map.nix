@@ -41,6 +41,11 @@
     { src = "platforms/hyprland/jylhis.conf";       dest = "share/jylhis/hyprland/jylhis.conf"; }
   ];
 
+  hyprlock = [
+    { src = "platforms/hyprlock/jylhis-paper.conf"; dest = "share/jylhis/hyprlock/jylhis-paper.conf"; }
+    { src = "platforms/hyprlock/jylhis-roast.conf"; dest = "share/jylhis/hyprlock/jylhis-roast.conf"; }
+  ];
+
   rofi = [
     { src = "platforms/rofi/jylhis-paper.rasi"; dest = "share/jylhis/rofi/jylhis-paper.rasi"; }
     { src = "platforms/rofi/jylhis-roast.rasi"; dest = "share/jylhis/rofi/jylhis-roast.rasi"; }
