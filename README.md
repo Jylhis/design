@@ -48,6 +48,7 @@ tokens.json                        ← single source of truth
     ├── platforms/emacs/           ← Emacs themes
     ├── platforms/charm/           ← Go palette
     ├── platforms/hyprland/        ← Hyprland color configs
+    ├── platforms/hyprlock/        ← Hyprlock lock-screen theme
     ├── platforms/rofi/            ← Rofi themes
     ├── platforms/gtk/             ← GTK overrides
     ├── platforms/waybar/          ← Waybar CSS
@@ -152,7 +153,7 @@ release is exercised against the consumers below before tagging.
 |---|---|---|
 | **jylhis.com** (Astro) | `tokens.css`, `colors_and_type.css`, Literata + JetBrains Mono stack, `source_styles/` reference | Production site; updated on every release. |
 | **Jotain** (personal Emacs config) | `platforms/emacs/jylhis-paper-theme.el`, `jylhis-roast-theme.el`, Modus syntax mappings | Daily driver editor; theme is reloaded on every release. |
-| **Marchyo** (personal NixOS / Hyprland workstation) | `platforms/ghostty/`, `platforms/hyprland/`, `platforms/rofi/`, `platforms/waybar/`, `platforms/mako/`, `platforms/gtk/`, `platforms/kvantum/`, `platforms/shell/` | Full desktop chrome; pinned via `nix/themes.nix`. |
+| **Marchyo** (personal NixOS / Hyprland workstation) | `platforms/ghostty/`, `platforms/hyprland/`, `platforms/rofi/`, `platforms/waybar/`, `platforms/mako/`, `platforms/hyprlock/`, `platforms/gtk/`, `platforms/kvantum/`, `platforms/shell/` | Full desktop chrome; pinned via `nix/themes.nix`. |
 | **nacutils** (personal CLI/TUI toolbox) | `platforms/charm/jylhis` Go package (palette, lipgloss styles, Bubble Tea light/dark detection) | Every TUI links the package; CLI conventions enforced via `validate-cli-conventions.mjs`. |
 | **Creative tooling** (GIMP, Inkscape, Krita, Affinity, Photoshop) | `platforms/gimp/*.gpl`, `platforms/adobe/*.ase` | Swatch palettes loaded on demand. |
 | **HyperOS / MIUI phone** | `platforms/hyperos/jylhis-{paper,roast}.mtz` | Manual install per device. |

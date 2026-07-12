@@ -64,6 +64,12 @@
         # that already has `jylhis-themes`).
         variantToBase16Scheme = pkgs: variant:
           "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-${variant}.yaml";
+
+        # Reads tokens.json and returns the palette in the shapes downstream
+        # Nix configs need: { base16, ansi16, tty16, hex, ansi, variantKey }.
+        # `variant` accepts "paper"/"roast" or "light"/"dark". No pkgs needed.
+        mkPalette = variant:
+          import ./nix/palette.nix { inherit (nixpkgs) lib; inherit variant; };
       };
 
       # Overlay: adds `jylhis-themes` (combined) and `jylhis-themes-targets`
