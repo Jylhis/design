@@ -22,9 +22,9 @@
   <color role="BrightText">#1e1b18</color>
   <color role="Button">#e8e1d6</color>
   <color role="ButtonText">#2c2825</color>
-  <color role="Highlight">#9a5a2a</color>
+  <color role="Highlight">#8a4f24</color>
   <color role="HighlightedText">#faf7f2</color>
-  <color role="Link">#9a5a2a</color>
+  <color role="Link">#8a4f24</color>
   <color role="LinkVisited">#1f4d8a</color><!-- Modus blue-warmer -->
 
   <color role="ToolTipBase">#fefdfb</color>
@@ -36,9 +36,9 @@
   <color role="Shadow">#2c2825</color>
 
   <!-- Disabled group -->
-  <color role="WindowText" group="Disabled">#8a7f72</color>
-  <color role="Text"        group="Disabled">#8a7f72</color>
-  <color role="ButtonText"  group="Disabled">#8a7f72</color>
+  <color role="WindowText" group="Disabled">#6d6155</color>
+  <color role="Text"        group="Disabled">#6d6155</color>
+  <color role="ButtonText"  group="Disabled">#6d6155</color>
 
   <!-- Inactive (unfocused) — same color, matches flat paper metaphor -->
   <color role="Highlight"        group="Inactive">#b0a898</color>

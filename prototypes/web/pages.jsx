@@ -9,7 +9,7 @@ const HomePage = ({ onNav }) => (
       <p>A second paragraph that sets up the rest of the site — links to deeper reads, current focus, anything you want a stranger to know in the first thirty seconds.</p>
     </div>
     <div className="ds-callout" id="currently">
-      <h3 className="ds-callout__label">currently</h3>
+      <h2 className="ds-callout__label">currently</h2>
       <ul>
         <li>shipping a small thing at <a href="https://example.com">your company</a></li>
         <li>learning a new tool worth writing about</li>
@@ -129,7 +129,7 @@ const ResumePage = () => (
   <div>
     <h1>resume</h1>
     <p className="subtitle">Your role · your specialty — your city</p>
-    <DividerLabeled label="experience" />
+    <DividerLabeled label="experience" level={2} />
     <CvEntry
       role="Senior Engineer"
       company="Acme Corp"
@@ -150,7 +150,7 @@ const ResumePage = () => (
       description="One-line description of the team or programme you contributed to."
       highlights={["The outcome you'd lead with in an interview"]}
     />
-    <DividerLabeled label="skills" />
+    <DividerLabeled label="skills" level={2} />
     <CvEntry
       skills={{
         languages: ['go','rust','haskell','python','c++'],

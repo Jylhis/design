@@ -19,8 +19,8 @@
    Core palette — overrides @define-color
    ──────────────────────────────────── */
 
-@define-color accent_color          #9a5a2a;
-@define-color accent_bg_color       #9a5a2a;
+@define-color accent_color          #8a4f24;
+@define-color accent_bg_color       #8a4f24;
 @define-color accent_fg_color       #faf7f2;
 
 /* Status colours — Modus accents (red / green / yellow / blue). */

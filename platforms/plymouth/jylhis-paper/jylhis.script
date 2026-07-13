@@ -22,7 +22,7 @@ cx       = Window.GetWidth()  / 2;
 cy       = Window.GetHeight() / 2 + 24;
 
 for (i = 0; i < NUM_DOTS; i++) {
-  dot_image[i] = Image.Text("●", 0.604, 0.353, 0.165, 1.0);
+  dot_image[i] = Image.Text("●", 0.541, 0.310, 0.141, 1.0);
   dot[i] = Sprite(dot_image[i]);
   angle = i * 2 * PI / NUM_DOTS;
   dot[i].SetX(cx + Math.Cos(angle) * RADIUS - dot_image[i].GetWidth()  / 2);

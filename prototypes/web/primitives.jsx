@@ -16,15 +16,21 @@ const StatusBadge = ({ status = 'active', children }) => (
   <span className={`ds-status ds-status--${status}`}>{children || status}</span>
 );
 
-const DividerLabeled = ({ label }) => (
-  <div className="ds-divider-label">{label}</div>
-);
+// `level` (2–6) opts the label into the heading outline (renders h2–h6);
+// omit it to keep the non-semantic default so it stays out of the outline.
+const DividerLabeled = ({ label, level }) => {
+  const Tag = level ? `h${level}` : "div";
+  return <Tag className="ds-divider-label">{label}</Tag>;
+};
 
-const ManHeader = ({ title, section = 7 }) => (
-  <div className="man-header">
-    <span className="ds-man-label">{`${title.toUpperCase()}(${section})`}</span>
-  </div>
-);
+const ManHeader = ({ title, section = 7, level }) => {
+  const Tag = level ? `h${level}` : "div";
+  return (
+    <Tag className="man-header">
+      <span className="ds-man-label">{`${title.toUpperCase()}(${section})`}</span>
+    </Tag>
+  );
+};
 
 const FormattedDate = ({ date }) => {
   const d = new Date(date);

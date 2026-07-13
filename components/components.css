@@ -289,7 +289,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 .ds-cv__skills .k { color: var(--color-syntax-keyword); }
 .ds-cv__skills .b { color: var(--color-text-muted); }
 .ds-cv__skills .v { color: var(--color-syntax-string); }
-.ds-cv__skills .c { color: var(--color-text-faint); }
+.ds-cv__skills .c { color: var(--color-text-faint); user-select: none; }
 
 /* ── Changelog (commit-log history) ─────────────────────── */
 .ds-log { font-family: var(--font-body); font-size: 1rem; color: var(--color-text); }
@@ -324,7 +324,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 .ds-log__what a { color: var(--color-accent); text-decoration: none; }
 .ds-log__what a:hover { color: var(--color-accent-hover); }
 .ds-log__what a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
-.ds-log__ref { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-faint); }
+.ds-log__ref { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); }
 @media (max-width: 640px) {
   .ds-log__entry { grid-template-columns: 2ch 1fr; }
   .ds-log__date { display: none; }

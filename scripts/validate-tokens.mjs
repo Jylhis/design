@@ -159,7 +159,11 @@ for (const { fg, bg, mode, min, label } of checks) {
 // Thresholds reflect docs/ACCESSIBILITY.md#what-we-measure:
 //   - text, text-heading: AA (4.5:1) against any paperstock surface
 //   - text-muted:        3:1 against any paperstock surface (AA Large)
-//   - accent:            3:1 against any paperstock surface (non-text)
+//   - accent:            AA (4.5:1) against any paperstock surface — accent is
+//                        used as link *text* on cards, so it must clear normal-
+//                        size AA on every surface, not just `bg`.
+//   - syn-comment:       AA (4.5:1) against any paperstock surface — comments are
+//                        text and may sit on raised card surfaces, not only code-bg.
 //   - status-*:          3:1 against bg (non-text indicator)
 const SURFACES = ["bg", "bg-subtle", "surface", "surface-raised"];
 const sweep = [
@@ -172,7 +176,10 @@ const sweep = [
     ["light", "dark"].map((mode) => ({ fg: "text-muted", bg, mode, min: 3, label: `text-muted on ${bg} (${mode})` })),
   ),
   ...SURFACES.flatMap((bg) =>
-    ["light", "dark"].map((mode) => ({ fg: "accent", bg, mode, min: 3, label: `accent on ${bg} (${mode})` })),
+    ["light", "dark"].map((mode) => ({ fg: "accent", bg, mode, min: 4.5, label: `accent on ${bg} (${mode})` })),
+  ),
+  ...SURFACES.flatMap((bg) =>
+    ["light", "dark"].map((mode) => ({ fg: "syn-comment", bg, mode, min: 4.5, label: `syn-comment on ${bg} (${mode})` })),
   ),
   ...["status-err", "status-warn", "status-ok", "status-info"].flatMap((fg) =>
     ["light", "dark"].map((mode) => ({ fg, bg: "bg", mode, min: 3, label: `${fg} on bg (${mode})` })),
