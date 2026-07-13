@@ -31,7 +31,7 @@ Columns: 4
 227 160 216	syn-builtin
 128 200 179	syn-type
 149 179 204	syn-variable
-156 140 110	syn-comment
+171 155 121	syn-comment
 155 191 155	syn-docstring
 # Signal
 255  95  89	status-err

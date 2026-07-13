@@ -36,7 +36,7 @@
     (syn-type        ("#80c8b3" "color-115" "cyan"))
     (syn-variable    ("#95b3cc" "color-110" "brightblue"))
     (syn-tag         ("#80c8b3" "color-115" "cyan"))
-    (syn-comment     ("#9c8c6e" "color-137" "brightblack"))
+    (syn-comment     ("#ab9b79" "color-138" "brightyellow"))
     (syn-docstring   ("#9bbf9b" "color-248" "cyan"))
     (err             ("#ff5f59" "color-203" "red"))
     (warn            ("#d0bc00" "color-178" "yellow"))

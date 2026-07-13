@@ -112,6 +112,35 @@ function checkFile(rel) {
     );
   }
 
+  // 1b. text-faint must not colour real text (it is sub-AA on light surfaces
+  //     and is reserved for decoration/disabled per docs/ACCESSIBILITY.md).
+  //     Flag `color: var(--color-text-faint)` unless the rule is decorative:
+  //     ::placeholder / :disabled / ::before / ::after selectors, or any block
+  //     that opts out of selection with `user-select: none`. Only the `color`
+  //     property is checked — `text-decoration-color` (line-through) is fine.
+  //     Enforced on the canonical hand-authored stylesheets; the OS/TUI reskin
+  //     prototypes use faint as dim chrome throughout and are exempt.
+  if (HAND_AUTHORED.includes(rel)) {
+    for (const block of src.matchAll(/([^{}]*)\{([^{}]*)\}/g)) {
+      const [, selector, body] = block;
+      const decl = body.match(/(?:^|;)\s*color\s*:\s*var\(--color-text-faint\)/);
+      if (!decl) continue;
+      const decorative =
+        /::(placeholder|before|after)\b/.test(selector) ||
+        /:disabled\b/.test(selector) ||
+        /user-select\s*:\s*none/.test(body);
+      if (!decorative) {
+        const idx = block.index + block[0].indexOf("{") + 1 + decl.index;
+        record(
+          rel,
+          lineOf(src, idx),
+          "error",
+          `text-faint used as text color on "${selector.trim()}" — use text-muted for readable text, or mark the rule decorative (user-select:none / :disabled / ::placeholder)`,
+        );
+      }
+    }
+  }
+
   // 2. outline:none / outline:0 must be replaced by a :focus-visible rule.
   for (const m of src.matchAll(/outline\s*:\s*(none|0)\s*;?/gi)) {
     // Look ahead in the file for a :focus-visible block setting outline.

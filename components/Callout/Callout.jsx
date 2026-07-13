@@ -1,7 +1,8 @@
-export function Callout({ label = "currently", items, children }) {
+export function Callout({ label = "currently", items, children, headingLevel = 3 }) {
+  const Heading = `h${headingLevel}`;
   return (
     <div className="ds-callout">
-      <h3 className="ds-callout__label">{label}</h3>
+      <Heading className="ds-callout__label">{label}</Heading>
       {items?.length ? (
         <ul>
           {React.Children.toArray(items.map((item) => <li>{item}</li>))}

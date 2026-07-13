@@ -123,13 +123,17 @@ video {
 }
 
 /* ── Links ──────────────────────────────────────────────── */
+/* Persistent rest-state underline (WCAG 1.4.1 — never colour alone). The
+   "ink draws on" gradient stays as a hover enhancement layered over it. */
 a {
   color: var(--color-accent);
-  text-decoration: none;
-  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  background-image: linear-gradient(var(--color-accent-hover), var(--color-accent-hover));
   background-repeat: no-repeat;
   background-position: 0% 100%;
-  background-size: 0% 1px;
+  background-size: 0% 2px;
   transition:
     background-size var(--transition-base),
     color var(--transition-fast);
@@ -137,7 +141,7 @@ a {
 
 a:hover {
   color: var(--color-accent-hover);
-  background-size: 100% 1px;
+  background-size: 100% 2px;
 }
 
 a:visited {
@@ -154,10 +158,11 @@ a:focus-visible {
   border-radius: 2px;
 }
 
-/* Nav and footer links — no underline animation */
+/* Nav and footer links — chrome, not prose: no underline */
 nav a,
 footer a {
   background-image: none;
+  text-decoration: none;
   color: var(--color-text-muted);
 }
 

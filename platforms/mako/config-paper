@@ -17,7 +17,7 @@ icon-path=/usr/share/icons/Adwaita
 background-color=#e8e1d6
 text-color=#2c2825
 border-color=#b0a898
-progress-color=over #9a5a2a
+progress-color=over #8a4f24
 
 # Layout / animation
 layer=overlay
@@ -25,17 +25,17 @@ anchor=top-right
 default-timeout=6000
 ignore-timeout=0
 
-format=<b>%s</b>\n%b\n<span foreground='#8a7f72' font='JetBrains Mono 9'>esc to dismiss · meta+n to focus</span>
+format=<b>%s</b>\n%b\n<span foreground='#6d6155' font='JetBrains Mono 9'>esc to dismiss · meta+n to focus</span>
 
 # Selected marker — matches KEYBOARD.md §"Selected item (universal)"
 [focused]
 background-color=#fefdfb
-border-color=#9a5a2a
+border-color=#8a4f24
 # Mako can't draw a left-border only, but border + color does the job.
 
 # Urgency levels — map to semantic family
 [urgency=low]
-border-color=#8a7f72
+border-color=#6d6155
 
 [urgency=normal]
 border-color=#b0a898

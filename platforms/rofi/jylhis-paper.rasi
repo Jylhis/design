@@ -21,7 +21,7 @@ configuration {
     text:         #2c2825;
     text-muted:   #6b5f54;
     text-faint:   #8a7f72;
-    accent:       #9a5a2a;
+    accent:       #8a4f24;
     accent-subtle: #f0dcc4;
     border:       #d5cec4;
     border-strong: #b0a898;

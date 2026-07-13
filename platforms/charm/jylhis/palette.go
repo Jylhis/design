@@ -60,10 +60,10 @@ type Palette struct {
 // When they change, update tokens.json first, then run: bun scripts/generate.mjs
 var paper = Palette{
 	Bg: "#faf7f2", BgSubtle: "#f0ebe3", Surface: "#e8e1d6", SurfaceRaised: "#fefdfb",
-	Text: "#2c2825", TextMuted: "#6b5f54", TextHeading: "#1e1b18", TextFaint: "#8a7f72",
-	Accent: "#9a5a2a", AccentHover: "#7a4622", Brand: "#b5703c",
+	Text: "#2c2825", TextMuted: "#6b5f54", TextHeading: "#1e1b18", TextFaint: "#6d6155",
+	Accent: "#8a4f24", AccentHover: "#7a4622", Brand: "#b5703c",
 	Border: "#d5cec4", BorderStrong: "#b0a898", Decorator: "#c4baa8",
-	SynKeyword: "#4a2d80", SynString: "#3d5a1f", SynNumber: "#1f4d8a", SynFunction: "#8a2348", SynBuiltin: "#6f1f6a", SynType: "#134a4a", SynVariable: "#2a4a6a", SynComment: "#7e6c4d", SynDocstring: "#2a5a3a",
+	SynKeyword: "#4a2d80", SynString: "#3d5a1f", SynNumber: "#1f4d8a", SynFunction: "#8a2348", SynBuiltin: "#6f1f6a", SynType: "#134a4a", SynVariable: "#2a4a6a", SynComment: "#6f5e41", SynDocstring: "#2a5a3a",
 	SynTag: "#134a4a",
 	StatusErr: "#a60000", StatusWarn: "#6f5500", StatusOk: "#006800", StatusInfo: "#0031a9",
 	ANSI: [16]string{
@@ -77,7 +77,7 @@ var roast = Palette{
 	Text: "#e8e0d4", TextMuted: "#b0a496", TextHeading: "#f0eae0", TextFaint: "#8a7f72",
 	Accent: "#e89b5e", AccentHover: "#f5b07a", Brand: "#d4884a",
 	Border: "#3d3830", BorderStrong: "#5a5248", Decorator: "#4a4338",
-	SynKeyword: "#c8a5ff", SynString: "#b3c785", SynNumber: "#a8b4dc", SynFunction: "#f0a8c3", SynBuiltin: "#e3a0d8", SynType: "#80c8b3", SynVariable: "#95b3cc", SynComment: "#9c8c6e", SynDocstring: "#9bbf9b",
+	SynKeyword: "#c8a5ff", SynString: "#b3c785", SynNumber: "#a8b4dc", SynFunction: "#f0a8c3", SynBuiltin: "#e3a0d8", SynType: "#80c8b3", SynVariable: "#95b3cc", SynComment: "#ab9b79", SynDocstring: "#9bbf9b",
 	SynTag: "#80c8b3",
 	StatusErr: "#ff5f59", StatusWarn: "#d0bc00", StatusOk: "#44bc44", StatusInfo: "#2fafff",
 	ANSI: [16]string{

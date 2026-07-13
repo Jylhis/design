@@ -11,14 +11,14 @@ Columns: 4
  30  27  24	text-heading
  44  40  37	text
 107  95  84	text-muted
-138 127 114	text-faint
+109  97  85	text-faint
 # Copper
-154  90  42	accent
+138  79  36	accent
 122  70  34	accent-hover
 181 112  60	brand
 240 230 218	accent-subtle
 232 212 184	selection-bg
-154  90  42	cursor
+138  79  36	cursor
 # Linen
 213 206 196	border
 176 168 152	border-strong
@@ -31,7 +31,7 @@ Columns: 4
 111  31 106	syn-builtin
  19  74  74	syn-type
  42  74 106	syn-variable
-126 108  77	syn-comment
+111  94  65	syn-comment
  42  90  58	syn-docstring
 # Signal
 166   0   0	status-err

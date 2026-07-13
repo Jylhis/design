@@ -95,7 +95,7 @@ h4, .ds-h4 { font-size: 1rem;    font-weight: 600; }
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--color-text-faint);
+  color: var(--color-text-muted);
   text-transform: uppercase;
 }
 
@@ -143,6 +143,50 @@ h4, .ds-h4 { font-size: 1rem;    font-weight: 600; }
 :focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
+}
+
+/* Prose links — persistent underline (WCAG 1.4.1: never colour alone).
+   Inline text links must be distinguishable from body copy without relying on
+   colour, so the underline is always present at rest; colour shift on hover is
+   an enhancement. Component chrome (.ds-tag, .ds-card__title a, .ds-callout a,
+   .ds-log__what a, .ds-breadcrumb a, nav a) sets text-decoration:none at class
+   specificity, so it is unaffected. */
+a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+/* Visually-hidden — remove from view, keep in the accessibility tree.
+   Use for screen-reader-only labels (e.g. a heading name behind an icon, or a
+   semantic label on a visually-titled section). Add .sr-only-focusable when the
+   content should reveal itself when focused (skip links). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.sr-only-focusable:focus,
+.sr-only-focusable:focus-within {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  white-space: normal;
 }
 
 /* Reduced motion — universal guard.

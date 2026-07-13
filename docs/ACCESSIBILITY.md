@@ -4,8 +4,8 @@ What the system commits to, what it measures, and what it does *not* solve.
 
 ## TL;DR
 
-- **Body text is WCAG AAA on both Paper and Roast.** Headings AAA. `text-muted` AA. `text-faint` is decorative only.
-- **The accent is AA on Paper, AAA on Roast.** Any link, focus ring, or interactive copper surface clears the AA bar against the page background; on dark it clears AAA.
+- **Body text is WCAG AAA on both Paper and Roast.** Headings AAA. `text-muted` AA. `text-faint` is for decoration/disabled only — its use as a text color is lint-enforced off (its light value is nonetheless AA-safe for incidental text).
+- **The accent is AA on Paper, AAA on Roast.** Any link, focus ring, or interactive copper surface clears the AA bar against **every** paperstock surface (page background *and* raised card surfaces); on dark it clears AAA. Inline prose links also carry a persistent underline, so they never rely on color alone.
 - **Color vision deficiency:** the palette is warm-earth-toned and avoids red/green parity in chrome. The status family (err/warn/ok/info) is the only red/green pairing in the system, and consumers **must** combine status color with a glyph or label — never rely on color alone.
 - **Focus is visible at 2px AAA on every surface.** See [`platforms/KEYBOARD.md`](../platforms/KEYBOARD.md).
 - **Animation respects `prefers-reduced-motion`.** Every transition has the appropriate guard.
@@ -47,9 +47,15 @@ For deeper review beyond static checks (manual screen-reader testing, CVD inspec
 | `accent` on `bg` | light | 4.5:1 (AA) | links, focus rings on Paper |
 | `accent` on `bg` | dark | 7:1 (AAA) | links, focus rings on Roast |
 
-`text-faint` is **not measured** because it is reserved for non-text-critical roles. If you find yourself using `text-faint` for copy, switch to `text-muted`.
+Beyond the hand-listed pairs, an **extended sweep** in `validate-tokens.mjs` requires `text` / `text-heading` (AAA-adjacent AA), `accent`, and `syn-comment` to clear AA (4.5:1) against **every** paperstock surface (`bg`, `bg-subtle`, `surface`, `surface-raised`) — not just `bg`. This is why `accent` (used as link text on cards) and `syn-comment` are guaranteed legible on raised surfaces, not only the page background.
+
+`text-faint` is reserved for decoration and disabled states. Using it as a text `color` is a build error (`validate-a11y-css.mjs`) unless the rule is decorative — a `::placeholder` / `:disabled` / `::before` / `::after` selector, or a block that opts out of selection with `user-select: none`. If you find yourself reaching for `text-faint` on readable copy, switch to `text-muted`.
 
 A fuller matrix — every text/accent/status role measured against every background surface — is generated into `tokens-data.js` as `contrastPairs` and rendered by `palette.html`.
+
+## Utilities
+
+- **`.sr-only`** — visually-hidden content that stays in the accessibility tree (standard clip-rect). Use it for screen-reader-only labels: a heading name behind an icon, a semantic label on a visually-titled section (e.g. a man-page-style header rendered as chrome). Pair with `.sr-only-focusable` when the content should reveal itself on focus (skip links). Defined in `colors_and_type.css`.
 
 ---
 

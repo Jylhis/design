@@ -135,15 +135,15 @@ export const tokens = {
       "notes": "titles (AAA)"
     },
     "text-faint": {
-      "light": "#8a7f72",
+      "light": "#6d6155",
       "dark": "#8a7f72",
-      "notes": "decorators, disabled only"
+      "notes": "decorators, disabled only; light is AA-safe for incidental text, dark stays a faint decorative tone (lint keeps faint off body/meta text)"
     },
     "accent": {
-      "light": "#9a5a2a",
+      "light": "#8a4f24",
       "dark": "#e89b5e",
       "ansi": "bright-yellow",
-      "notes": "copper UI accent (AA / AAA); ANSI slot 11 is always brand copper"
+      "notes": "copper UI accent, used as link text (AA on every surface / AAA on dark); ANSI slot 11 is always brand copper"
     },
     "accent-hover": {
       "light": "#7a4622",
@@ -178,7 +178,7 @@ export const tokens = {
       "notes": "text selection highlight"
     },
     "cursor": {
-      "light": "#9a5a2a",
+      "light": "#8a4f24",
       "dark": "#e89b5e",
       "notes": "input cursor (matches accent)"
     },
@@ -225,9 +225,9 @@ export const tokens = {
       "modus": "from cyan — slate-blue"
     },
     "syn-comment": {
-      "light": "#7e6c4d",
-      "dark": "#9c8c6e",
-      "modus": "from red-faint — warm tan (italic)"
+      "light": "#6f5e41",
+      "dark": "#ab9b79",
+      "modus": "from red-faint — warm tan (italic); tuned for AA on every surface"
     },
     "syn-docstring": {
       "light": "#2a5a3a",
@@ -761,72 +761,72 @@ export const tokens = {
       "mode": "light",
       "fg": "text-faint",
       "bg": "bg",
-      "fgHex": "#8a7f72",
+      "fgHex": "#6d6155",
       "bgHex": "#faf7f2",
-      "ratio": 3.67,
-      "tag": "AA Large"
+      "ratio": 5.63,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "text-faint",
       "bg": "bg-subtle",
-      "fgHex": "#8a7f72",
+      "fgHex": "#6d6155",
       "bgHex": "#f0ebe3",
-      "ratio": 3.3,
-      "tag": "AA Large"
+      "ratio": 5.07,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "text-faint",
       "bg": "surface",
-      "fgHex": "#8a7f72",
+      "fgHex": "#6d6155",
       "bgHex": "#e8e1d6",
-      "ratio": 3.02,
-      "tag": "AA Large"
+      "ratio": 4.63,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "text-faint",
       "bg": "surface-raised",
-      "fgHex": "#8a7f72",
+      "fgHex": "#6d6155",
       "bgHex": "#fefdfb",
-      "ratio": 3.85,
-      "tag": "AA Large"
+      "ratio": 5.92,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "bg",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#faf7f2",
-      "ratio": 5.08,
+      "ratio": 6.09,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "bg-subtle",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#f0ebe3",
-      "ratio": 4.57,
+      "ratio": 5.49,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "surface",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#e8e1d6",
-      "ratio": 4.18,
-      "tag": "AA Large"
+      "ratio": 5.02,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "surface-raised",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#fefdfb",
-      "ratio": 5.34,
+      "ratio": 6.41,
       "tag": "AA"
     },
     {
@@ -977,36 +977,36 @@ export const tokens = {
       "mode": "light",
       "fg": "cursor",
       "bg": "bg",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#faf7f2",
-      "ratio": 5.08,
+      "ratio": 6.09,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "cursor",
       "bg": "bg-subtle",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#f0ebe3",
-      "ratio": 4.57,
+      "ratio": 5.49,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "cursor",
       "bg": "surface",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#e8e1d6",
-      "ratio": 4.18,
-      "tag": "AA Large"
+      "ratio": 5.02,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "cursor",
       "bg": "surface-raised",
-      "fgHex": "#9a5a2a",
+      "fgHex": "#8a4f24",
       "bgHex": "#fefdfb",
-      "ratio": 5.34,
+      "ratio": 6.41,
       "tag": "AA"
     },
     {
@@ -1673,11 +1673,11 @@ export const tokens = {
         "tag": "AA"
       },
       "text-faint": {
-        "ratio": 3.67,
-        "tag": "AA Large"
+        "ratio": 5.63,
+        "tag": "AA"
       },
       "accent": {
-        "ratio": 5.08,
+        "ratio": 6.09,
         "tag": "AA"
       },
       "accent-hover": {
@@ -1697,7 +1697,7 @@ export const tokens = {
         "tag": "fail"
       },
       "cursor": {
-        "ratio": 5.08,
+        "ratio": 6.09,
         "tag": "AA"
       },
       "status-err": {
