@@ -141,6 +141,9 @@ a {
 
 a:hover {
   color: var(--color-accent-hover);
+  /* Drop the native rest-state underline on hover so only the "ink draws on"
+     gradient shows — avoids a doubled/misaligned underline. */
+  text-decoration: none;
   background-size: 100% 2px;
 }
 
