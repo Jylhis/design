@@ -19,7 +19,7 @@
 // Run: bun scripts/validate-preview-hex.mjs
 // CI:  .github/workflows/validate.yml
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -86,13 +86,25 @@ function stripComments(src) {
   return src.replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, " "));
 }
 
+// Fragment references are not colors: hex-like English words in anchors
+// (href="#face") or SVG references (url(#decade)) must not trip the scan.
+// Blank them (preserving newlines) before matching.
+function stripFragmentRefs(src) {
+  return src
+    .replace(/\bhref\s*=\s*("#[^"]*"|'#[^']*')/gi, (m) => m.replace(/[^\n]/g, " "))
+    .replace(/\burl\(\s*#[^)]*\)/gi, (m) => m.replace(/[^\n]/g, " "));
+}
+
 const files = [
   ...readdirSync(resolve(ROOT, "preview"))
     .filter((name) => name.endsWith(".html"))
     .map((name) => `preview/${name}`),
   ...readdirSync(resolve(ROOT, "components"))
     .filter((name) => statSync(resolve(ROOT, "components", name)).isDirectory())
-    .map((name) => `components/${name}/card.html`),
+    .map((name) => `components/${name}/card.html`)
+    // A component may legitimately predate its specimen; a11y validation
+    // owns "card.html must exist", this script only scans what's there.
+    .filter((file) => existsSync(resolve(ROOT, file))),
 ];
 
 const errors = [];
@@ -100,7 +112,7 @@ const usedAllowlist = new Set();
 const HEX_RE = /#[0-9a-fA-F]{3,8}\b/g;
 
 for (const file of files) {
-  const src = stripComments(read(file));
+  const src = stripFragmentRefs(stripComments(read(file)));
   for (const m of src.matchAll(HEX_RE)) {
     const raw = m[0];
     // Only 3/4/6/8-digit runs are colors; other lengths are ids/fragments.
