@@ -43,8 +43,9 @@
       var el = document.getElementById(isRule ? "ruleDemo" : "typeDemo");
       var cls = isRule ? "is-drawn" : "is-typed";
       el.classList.remove(cls);
-      void el.offsetWidth;
-      el.classList.add(cls);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { el.classList.add(cls); });
+      });
     });
   });
 </script>
