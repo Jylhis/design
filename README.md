@@ -27,7 +27,7 @@ The site is personal, technical, and deliberately paper‑like: warm cream backg
 
 - **Source of truth:** [`tokens.json`](./tokens.json) — every color, spacing, motion, and typography value
 - **Live site:** https://jylhis.com (Astro 5.x, hand‑written CSS, Cloudflare Pages)
-- **Showcase:** deployed to GitHub Pages (`gh-pages` branch) from `main`; every PR gets a live preview under `/pr-preview/pr-<N>/`
+- **Showcase:** deployed to GitHub Pages (`gh-pages` branch) from `main`; every PR gets a live preview under `pr-preview/pr-<N>/`
 - **Key style files mirrored into `source_styles/`:**
   - `global.css` — design tokens + reset + link/skip/utility styles
   - `typography.css` — `@font-face`, font stacks, base scale
