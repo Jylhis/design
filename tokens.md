@@ -24,7 +24,7 @@ This is the human-readable companion to the canonical token source, [`tokens.jso
 | `text-muted` | `#6b5f54` | `#b0a496` | meta (AA 5.8 / AAA 7.3) |
 | `text-heading` | `#1e1b18` | `#f0eae0` | titles (AAA 16.0) |
 | `text-faint` | `#8a7f72` | `#8a7f72` | decorators, disabled only |
-| `accent` | `#9a5a2a` | `#e89b5e` | copper UI accent (AA / AAA) |
+| `accent` | `#8a4f24` | `#e89b5e` | copper UI accent (AA / AAA) |
 | `accent-hover` | `#7a4622` | `#f5b07a` | |
 | `brand` | `#b5703c` | `#d4884a` | literal logo copper (large marks) |
 | `border` | `#d5cec4` | `#3d3830` | |
@@ -98,7 +98,7 @@ permissions and prompts carry the Jylhis identity.
 | Mono / headings | JetBrains Mono (variable, OFL) | IBM Plex Mono, Fira Code, Cascadia Code, Courier New, monospace |
 | **TUI / Emacs / terminal fallback** | JetBrains Mono | **Iosevka → IBM Plex Mono → Fira Mono → DejaVu Sans Mono → monospace** |
 
-Size scale: `2 / 1.4 / 1.15 / 1 / 0.85 / 0.75 / 0.72 / 0.65` rem.
+Size scale: `2 / 1.4 / 1.15 / 1 / 0.85 / 0.75 / 0.72 / 0.65` rem — emitted as `--type-scale-0…7` in `tokens.css`; headings consume the vars so sizes cannot drift.
 Line height: `1.25` for headings, `1.65` for body, `1.3` for TUI / dense lists.
 
 ## 5. Density
@@ -153,3 +153,13 @@ See `platforms/KEYBOARD.md`. Summary:
 - **Command palette:** centered modal, `bg-subtle` backdrop at 85% opacity, 560px max, `>` prefix, selected row uses `accent-subtle` bg + `accent` left-border. Identical on web (Orama), Emacs (`M-x`/Vertico), rofi.
 - **Selected item:** `accent-subtle` background + `accent` 3px left-border. No other marker.
 - **Dismiss:** ESC always labeled in top-right of modals. Never hidden.
+
+## 10. Layout scales
+
+| Category | Tokens | Notes |
+|---|---|---|
+| Spacing | `2xs 0.125rem · xs 0.25rem · sm 0.5rem · md 1rem · lg 1.5rem · xl 2rem · 2xl 3rem · 3xl 4rem` | 4px grid with a 2px micro-step; emitted as `--space-*` |
+| Breakpoints | `sm 640px · md 860px` | media queries repeat these literally with a `/* breakpoints.<name> */` comment; `--breakpoint-*` vars exist for JS |
+| Z-index | `base 0 · sticky 10 · scrim 100 · modal 110 · toast 120 · skip 130` | semantic layers only, emitted as `--z-*` |
+| Border widths | `hairline 1px · focus 2px · marker 3px` | `--border-*`; marker is the selected-item stripe (platforms/KEYBOARD.md), never decoration |
+| Radii | `xs 2px · sm 3px · md 4px · pill 999px` | emitted as `--radius-*` |
