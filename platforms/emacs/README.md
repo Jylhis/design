@@ -22,7 +22,7 @@ The face spec list is a small DSL: each entry is `(face-name :attr value …)` w
 
 | Display class spec                          | Tier         | Value form                  |
 |---|---|---|
-| `((class color) (min-colors 16777216))`     | GUI / 24-bit | exact hex (`#9a5a2a`)       |
+| `((class color) (min-colors 16777216))`     | GUI / 24-bit | exact hex (`#8a4f24`)       |
 | `((class color) (min-colors 256))`          | xterm-256    | indexed slot (`color-94`)   |
 | `t`                                          | 16-color     | named ANSI (`brightyellow`) |
 

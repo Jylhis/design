@@ -234,7 +234,7 @@ the short form:
 - Text is never pure black (`#1e1b18` for headings, `#2c2825` for body).
 - A single accent — **copper / burnt orange**. Two roles:
   - `--color-brand` `#b5703c` — the literal favicon/rune/logo color. Use on large strokes and hero marks where contrast is not measured against text.
-  - `--color-accent` `#9a5a2a` (light) / `#e89b5e` (dark) — an accessibility‑tuned darker twin used for links, interactive UI, focus rings, and any accent that carries text meaning. WCAG AA on the paper bg; AAA on dark.
+  - `--color-accent` `#8a4f24` (light) / `#e89b5e` (dark) — an accessibility‑tuned darker twin used for links, interactive UI, focus rings, and any accent that carries text meaning. WCAG AA on the paper bg; AAA on dark.
 - Used for links, the maker's‑mark, code‑string quotes, the "currently" border, and nothing else.
 - A muted family of browns/taupes carries everything else: borders (`#d5cec4`), decorator lines (`#c4baa8`), faint text (`#8a7f72`).
 - **Accessibility.** All body text hits WCAG AAA on both paper and dark backgrounds. `--color-text-muted` is AA. `--color-text-faint` is reserved for decorative / non‑text‑critical roles only (dashed rules, disabled meta).

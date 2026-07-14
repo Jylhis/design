@@ -35,6 +35,8 @@ jobs:
         run: bun scripts/validate-a11y-html.mjs
       - name: Validate CSS accessibility
         run: bun scripts/validate-a11y-css.mjs
+      - name: Validate preview hex against tokens
+        run: bun scripts/validate-preview-hex.mjs
       - name: Validate CLI conventions
         run: bun scripts/validate-cli-conventions.mjs
       - name: Validate Emacs face coverage

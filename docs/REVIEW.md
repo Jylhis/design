@@ -48,6 +48,9 @@ gradient text, no glassmorphism. Zero-P0 target met.
   glyph+label status rule are what make them *chosen* rather than defaulted.
   Verdict: keep, but codify the guardrail (see recommendations); a left-border
   card without its `//` label is indistinguishable from the tell.
+  **Superseded (July 2026 Impeccable review):** the owner opted to convert
+  alerts, callouts, and blockquotes to a full hairline border + tint; the 3px
+  stripe survives only as the selected-item marker (`--border-marker`).
 - **K7 · State completeness — code-certain.**
   Hover + `:focus-visible` are consistently defined (good), but `Button` has
   no `:disabled` or loading treatment, `Tag`/`Breadcrumb` no `:active`, and
@@ -133,9 +136,10 @@ completeness, not identity.
 3. **De-drift the three preview files.** — **applied**: rgba/hex literals
    replaced with `color-mix()` token derivations in `tags-badges`, `cards`,
    and `modal` (scrim now derives from `text-heading`).
-4. **Codify the K4 guardrail.** — **applied**: two negative constraints added
-   to the Don't list in `docs/STYLE-GUIDE.md` (no bare left-border cards; no
-   hover-only interactive elements).
+4. **Codify the K4 guardrail.** — **applied**, then **superseded** by the
+   July 2026 Impeccable review below: the left-border pattern itself was
+   retired in favor of hairline + tint; the Don't-list constraint now guards
+   unlabeled tinted cards instead.
 5. **State the mobile position.** — **applied** as part of the
    ACCESSIBILITY.md addition: desktop-dense by design, 44px minimum targets
    on touch surfaces.
@@ -143,3 +147,70 @@ completeness, not identity.
 Items kept deliberately, no action: copper callout pattern, `→` in ghost
 buttons, all-caps mono labels, the restrained single-accent palette —
 restraint here is executed, not timid.
+
+---
+
+# Impeccable Review — July 2026
+
+Audited against the [Impeccable](https://github.com/pbakaus/impeccable)
+frontend-design skill (SKILL + audit / critique / polish / layout / typeset /
+colorize / animate / harden / brand references), cross-checked with the
+system's own specs. All decisions below were made by the owner.
+
+## Findings
+
+- **Accent drift (fixed).** The pre-a11y-tuning accent `#9a5a2a` survived in
+  `preview/colors-core.html`, `preview/tables.html` (with a doubly stale
+  4.62:1 ratio), `preview/code-languages.html`, and — worse — prescriptive
+  docs: `tokens.md`, `README.md`, `skills/brand-guidelines/SKILL.md`,
+  `platforms/emacs/README.md`, plus ~13 spots and a stale selection-bg
+  (`#f0dcc4`) in `platforms/index.html`. All updated to `#8a4f24`
+  (6.09:1 on paper bg, AA). `scripts/validate-preview-hex.mjs` now fails CI
+  when `preview/` or `components/*/card.html` contain a non-token hex.
+- **Field a11y gap (fixed).** `Field.jsx` set `aria-invalid` but never linked
+  help/error text to the input; screen readers announced "invalid" with no
+  reason. Now wired via `aria-describedby` (also in `preview/forms.html`).
+- **K4 reversal — side-stripes retired (fixed).** Impeccable's strongest ban
+  (side-stripe borders >1px) collided with the kept-K4 alert/callout stripe.
+  Owner chose conversion: alerts get hairline status border + 10% tint,
+  callouts hairline copper + 8% tint, blockquotes hairline `border` +
+  `bg-subtle` — everywhere on system surfaces (components.css, previews,
+  md.html, source_styles/content.css). `validate-tokens.mjs` §2e proves
+  head/body legibility on every tint level in both modes. The 3px stripe now
+  exists only as the KEYBOARD.md selected-item marker (`--border-marker`).
+- **Off-scale spacing (fixed).** components.css used raw px (8/16, 10/14,
+  18/22, 4, 6) beside an unused `--space-*` scale. Snapped to tokens after
+  adding `2xs` (2px); worst shift ±2px.
+- **Missing token categories (fixed).** Added `breakpoints` (sm 640 / md 860,
+  matching the only hand-authored media queries), semantic `zIndex`
+  (base/sticky/scrim/modal/toast/skip → `--z-*`; skip-links and toolbars now
+  consume them), `borderWidth` (hairline/focus/marker → `--border-*`), and
+  `--type-scale-0…7` emission from `typography.scale` (h1–h4 now consume the
+  vars instead of duplicating values).
+- **Version drift (fixed).** `meta.version` said 0.3.0 while CHANGELOG had
+  released 0.4.0; bumped to 0.5.0 with this work.
+
+## Kept deviations from Impeccable (intentional)
+
+- **Warm cream paper.** Impeccable flags "the cream default"; here cream IS
+  the brand (Paperstock group), chosen and executed, not defaulted.
+- **Monospace headings.** Impeccable's brand register warns against mono as
+  lazy "technical" shorthand — this system's mono/serif pairing is its
+  documented signature, with craft defaults (lining vs oldstyle figures).
+- **Spring motion curve** (`cubic-bezier(0.34, 1.25, 0.64, 1)`) has a mild
+  overshoot; Impeccable bans bounce. Kept: it is subtle, token-governed, and
+  guarded by the universal reduced-motion rule.
+- **`.ds-kbd` 2px bottom border** — key-cap depth, not a stripe.
+
+## Recorded, no action
+
+- `.ds-meta` (0.8rem) and `.ds-title` (1.6rem) sit off the 8-step type
+  scale; `--font-size-base` is hand-authored in colors_and_type.css while
+  `typography.body.sizeBase` holds the same value. Candidates for a later
+  generator pass.
+- `zIndex.scrim/modal/toast` have no consumer yet in system CSS —
+  forward-looking names for overlay surfaces.
+- Follow-up: prototypes still carry the old accent
+  (`prototypes/_shared/colors_and_type.css`, `brutal-neu.html`) and stay
+  outside `validate-preview-hex.mjs` scope by design (intentional
+  off-palette mockups).

@@ -120,6 +120,27 @@ if (tokens.palette?.accent?.ansi && tokens.palette.accent.ansi !== "bright-yello
   fail(`palette.accent.ansi: must be "bright-yellow" (CLAUDE.md: ANSI 11 is always brand copper)`);
 }
 
+// Scalar token maps — breakpoints/borderWidth are px strings, zIndex is
+// non-negative integers. `notes` keys are documentation and skipped.
+const PX_RE = /^\d+px$/;
+const scalarEntries = (obj) => Object.entries(obj ?? {}).filter(([k]) => k !== "notes");
+for (const [section, re] of [["breakpoints", PX_RE], ["borderWidth", PX_RE]]) {
+  if (!tokens[section]) fail(`${section}: missing`);
+  for (const [k, v] of scalarEntries(tokens[section])) {
+    if (typeof v !== "string" || !re.test(v)) fail(`${section}.${k}: "${v}" is not a px string`);
+  }
+}
+if (!tokens.zIndex) fail("zIndex: missing");
+for (const [k, v] of scalarEntries(tokens.zIndex)) {
+  if (!Number.isInteger(v) || v < 0) fail(`zIndex.${k}: "${v}" is not a non-negative integer`);
+}
+
+// borderWidth.focus duplicates focus.width for --border-* naming symmetry;
+// they must never drift apart.
+if (tokens.borderWidth?.focus !== tokens.focus?.width) {
+  fail(`borderWidth.focus (${tokens.borderWidth?.focus}) must equal focus.width (${tokens.focus?.width})`);
+}
+
 // ─── 2. Contrast (WCAG 2 relative luminance) ─────────────────────────
 
 function luminance(hex) {
@@ -243,6 +264,45 @@ for (const mode of ["light", "dark"]) {
   }
 }
 
+// ─── 2e. Status/accent tints ─────────────────────────────────────────
+// Alert and Callout surfaces tint their background with the status/accent
+// color via `color-mix(in srgb, <color> N%, transparent)` over bg
+// (components/components.css). The declarative contrast block can't express
+// blends (fg/bg are role names), so verify here: the head/label color must
+// stay AA (4.5:1) and body text AAA (7:1) on the blended surface, both modes.
+// TINT_MAX is the strongest tint used in CSS (status chips use 12%; alerts
+// 10%, callouts 8%) — checking the strongest covers the lighter ones only if
+// the tint darkens, so check every tint level actually used.
+const TINT_LEVELS = [0.08, 0.10, 0.12];
+const blendHex = (fgHex, bgHex, alpha) => {
+  const c = (h) => [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
+  const [fr, fgc, fb] = c(fgHex);
+  const [br, bgc, bb] = c(bgHex);
+  const mix = (f, b) => Math.round(alpha * f + (1 - alpha) * b);
+  return "#" + [mix(fr, br), mix(fgc, bgc), mix(fb, bb)].map((v) => v.toString(16).padStart(2, "0")).join("");
+};
+let tintChecksDone = 0;
+for (const role of ["status-err", "status-warn", "status-ok", "status-info", "accent"]) {
+  for (const mode of ["light", "dark"]) {
+    const roleC = colorFor(role, mode);
+    const bgC = colorFor("bg", mode);
+    const textC = colorFor("text", mode);
+    if (!roleC || !bgC || !textC) continue;
+    for (const alpha of TINT_LEVELS) {
+      const tint = blendHex(roleC, bgC, alpha);
+      tintChecksDone += 2;
+      const headRatio = contrast(roleC, tint);
+      if (headRatio < 4.5) {
+        fail(`tint: ${role} (${mode}) ${roleC} on its ${alpha * 100}% tint ${tint} = ${headRatio.toFixed(2)}:1 (< 4.5:1)`);
+      }
+      const bodyRatio = contrast(textC, tint);
+      if (bodyRatio < 7) {
+        fail(`tint: text (${mode}) ${textC} on ${role} ${alpha * 100}% tint ${tint} = ${bodyRatio.toFixed(2)}:1 (< 7:1)`);
+      }
+    }
+  }
+}
+
 // ─── 3. CSS var(--…) resolution in colors_and_type.css ───────────────
 
 const css = read("colors_and_type.css");
@@ -268,4 +328,4 @@ if (errors.length) {
 }
 
 const roleCount = requiredPalette.length + requiredSyntax.length + 4 + 16;
-console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg + ${ttyChecksDone} TTY contrast checks)`);
+console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg + ${ttyChecksDone} TTY + ${tintChecksDone} tint contrast checks)`);

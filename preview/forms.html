@@ -52,13 +52,13 @@
   <span class="label">text input · default / focus / error / disabled</span>
   <div class="field">
     <label class="name" for="demo-name">name</label>
-    <input id="demo-name" type="text" placeholder="markus jylhänkangas">
-    <span class="help">your full name, the way you'd sign a letter.</span>
+    <input id="demo-name" type="text" placeholder="markus jylhänkangas" aria-describedby="demo-name-help">
+    <span class="help" id="demo-name-help">your full name, the way you'd sign a letter.</span>
   </div>
   <div class="field">
     <label class="name" for="demo-email">email</label>
-    <input id="demo-email" type="email" value="markus" aria-invalid="true">
-    <span class="help">that's not a valid email address.</span>
+    <input id="demo-email" type="email" value="markus" aria-invalid="true" aria-describedby="demo-email-help">
+    <span class="help" id="demo-email-help">that's not a valid email address.</span>
   </div>
   <div class="field">
     <label class="name" for="demo-token">api token (read-only)</label>

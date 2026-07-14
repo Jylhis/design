@@ -37,7 +37,7 @@ body,
   font-variant-numeric: oldstyle-nums;
   text-wrap: pretty;
 }
-@media (max-width: 860px) {
+@media (max-width: 860px) { /* breakpoints.md */
   body,
   .ds-body { font-size: 1rem; }
 }
@@ -66,10 +66,12 @@ code, pre, kbd, samp {
 blockquote {
   hanging-punctuation: first;
 }
-h1, .ds-h1 { font-size: 2rem;    font-weight: 700; }
-h2, .ds-h2 { font-size: 1.4rem;  font-weight: 600; }
-h3, .ds-h3 { font-size: 1.15rem; font-weight: 600; }
-h4, .ds-h4 { font-size: 1rem;    font-weight: 600; }
+/* Sizes come from the generated type scale (tokens.json typography.scale)
+   so headings cannot drift from the source of truth. */
+h1, .ds-h1 { font-size: var(--type-scale-0); font-weight: 700; }
+h2, .ds-h2 { font-size: var(--type-scale-1); font-weight: 600; }
+h3, .ds-h3 { font-size: var(--type-scale-2); font-weight: 600; }
+h4, .ds-h4 { font-size: var(--type-scale-3); font-weight: 600; }
 
 /* Compact page-title variant actually used on most pages */
 .ds-title { font-size: 1.6rem; font-family: var(--font-heading); font-weight: 700; }
@@ -106,7 +108,7 @@ h4, .ds-h4 { font-size: 1rem;    font-weight: 600; }
   font-size: 0.85em;
   background-color: var(--color-code-bg);
   color: var(--color-code-text);
-  border: 1px solid var(--color-code-border);
+  border: var(--border-hairline) solid var(--color-code-border);
   border-radius: var(--radius-sm);
   padding: 0.1em 0.3em;
 }

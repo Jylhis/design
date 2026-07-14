@@ -11,7 +11,7 @@
   :root { --maxw: 72ch; --rail: 16rem; --gap: 2.5rem; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--color-bg); min-height: 100vh; }
-  .skip-link { position: absolute; left: 24px; top: 16px; z-index: 100; transform: translateY(-160%); padding: 8px 12px; background: var(--color-bg); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8rem; text-decoration: none; }
+  .skip-link { position: absolute; left: 24px; top: 16px; z-index: var(--z-skip); transform: translateY(-160%); padding: 8px 12px; background: var(--color-bg); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8rem; text-decoration: none; }
   .skip-link:focus-visible { transform: translateY(0); outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
   main { max-width: calc(var(--maxw) + var(--rail) + var(--gap)); margin: 0 auto; padding: 56px 24px 120px; }
   header.hero { border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-xl); margin-bottom: var(--space-2xl); }
@@ -20,7 +20,7 @@
   header.hero p { color: var(--color-text-muted); max-width: var(--maxw); margin: 0 0 var(--space-md); }
   header.hero .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
   header.hero .tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); padding: 3px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg-subtle); }
-  .toolbar { position: fixed; top: 24px; right: 24px; z-index: 10; display: flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 0.8rem; }
+  .toolbar { position: fixed; top: 24px; right: 24px; z-index: var(--z-sticky); display: flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 0.8rem; }
   .toolbar button { font: inherit; cursor: pointer; background: var(--color-bg-subtle); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 6px 12px; transition: border-color var(--transition-fast); }
   .toolbar button:hover { border-color: var(--color-accent); color: var(--color-accent); }  h2.section { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: var(--space-2xl) 0 var(--space-md); }
   h2.section::before { content: "// "; color: var(--color-accent); }

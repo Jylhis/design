@@ -49,6 +49,7 @@
   --color-accent-subtle: rgba(138, 79, 36, 0.12);
   --color-scrim: rgba(28, 24, 20, 0.4);
   /* Spacing */
+  --space-2xs: 0.125rem;
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -66,6 +67,29 @@
   --radius-sm: 3px;
   --radius-md: 4px;
   --radius-pill: 999px;
+  /* Border widths */
+  --border-hairline: 1px;
+  --border-focus: 2px;
+  --border-marker: 3px;
+  /* Z-index layers */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-scrim: 100;
+  --z-modal: 110;
+  --z-toast: 120;
+  --z-skip: 130;
+  /* Breakpoints — reference only; @media rules repeat these literally: sm 640px · md 860px */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 860px;
+  /* Type scale */
+  --type-scale-0: 2rem;
+  --type-scale-1: 1.4rem;
+  --type-scale-2: 1.15rem;
+  --type-scale-3: 1rem;
+  --type-scale-4: 0.85rem;
+  --type-scale-5: 0.75rem;
+  --type-scale-6: 0.72rem;
+  --type-scale-7: 0.65rem;
   /* Focus ring */
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;

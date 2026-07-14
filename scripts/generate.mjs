@@ -214,6 +214,35 @@ function generateTokensCSS() {
     .map(([k, v]) => `  --radius-${k}: ${v};`)
     .join("\n");
 
+  // Scalar token maps may carry a human-facing `notes` key — never emit it.
+  const scalarEntries = (obj) => Object.entries(obj).filter(([k]) => k !== "notes");
+
+  const borderWidthVars = scalarEntries(tokens.borderWidth)
+    .map(([k, v]) => `  --border-${k}: ${v};`)
+    .join("\n");
+
+  const zIndexVars = scalarEntries(tokens.zIndex)
+    .map(([k, v]) => `  --z-${k}: ${v};`)
+    .join("\n");
+
+  // Breakpoints: @media rules cannot read custom properties, so hand-authored
+  // media queries repeat these literally (tagged `/* breakpoints.<name> */`).
+  // The vars are still emitted for JS and container-query consumers.
+  const breakpointList = scalarEntries(tokens.breakpoints);
+  const breakpointComment = `  /* Breakpoints — reference only; @media rules repeat these literally: ${breakpointList
+    .map(([k, v]) => `${k} ${v}`)
+    .join(" · ")} */`;
+  const breakpointVars = breakpointList
+    .map(([k, v]) => `  --breakpoint-${k}: ${v};`)
+    .join("\n");
+
+  // Type scale — rem multipliers from typography.scale, largest first.
+  // --type-scale-0 is the h1 step; hand CSS consumes these so heading
+  // sizes cannot drift from tokens.json.
+  const typeScaleVars = tokens.typography.scale
+    .map((v, i) => `  --type-scale-${i}: ${v}rem;`)
+    .join("\n");
+
   const transitionVars = Object.entries(tokens.motion)
     .map(([k, v]) => `  --transition-${k}: ${v.duration} ${v.css};`)
     .join("\n");
@@ -255,6 +284,14 @@ ${spacingVars}
 ${layoutVars}
   /* Radii */
 ${radiiVars}
+  /* Border widths */
+${borderWidthVars}
+  /* Z-index layers */
+${zIndexVars}
+${breakpointComment}
+${breakpointVars}
+  /* Type scale */
+${typeScaleVars}
   /* Focus ring */
 ${focusVars}
   /* Transitions */
