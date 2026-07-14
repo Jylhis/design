@@ -378,13 +378,15 @@ export const tokens = {
     "tuiFallback": "JetBrains Mono, Iosevka, IBM Plex Mono, Fira Mono, DejaVu Sans Mono, monospace",
     "scale": [
       2,
+      1.6,
       1.4,
       1.15,
       1,
+      0.95,
       0.85,
+      0.8,
       0.75,
-      0.72,
-      0.65
+      0.72
     ]
   },
   "spacing": {

@@ -63,9 +63,12 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 - **Headings** are JetBrains Mono. They should be the only font for navigation, labels, and `//` chrome.
 - **Code** is JetBrains Mono inline and in blocks. It is the same family as headings on purpose — code reads as a label.
 
-### Type scale (8 steps)
+### Type scale (10 steps)
 
-`2 · 1.4 · 1.15 · 1 · 0.85 · 0.75 · 0.72 · 0.65`. Pick from the scale. Don't introduce custom sizes.
+`2 · 1.6 · 1.4 · 1.15 · 1 · 0.95 · 0.85 · 0.8 · 0.75 · 0.72` (rem) — emitted as `--type-scale-0…9` from `tokens.json`. Pick from the scale. Don't introduce custom sizes.
+
+- `1.6` is the compact page title (`.ds-title`); `0.95` is component body copy (cards, alerts, CV); `0.8` is mono chrome (meta, tags, breadcrumbs); `0.72` is the floor — nothing renders smaller.
+- Placeholder and help text use `text-muted`, never `text-faint` — anything a user must read has to clear AA.
 
 ### Casing
 

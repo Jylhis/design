@@ -83,13 +83,15 @@
   --breakpoint-md: 860px;
   /* Type scale */
   --type-scale-0: 2rem;
-  --type-scale-1: 1.4rem;
-  --type-scale-2: 1.15rem;
-  --type-scale-3: 1rem;
-  --type-scale-4: 0.85rem;
-  --type-scale-5: 0.75rem;
-  --type-scale-6: 0.72rem;
-  --type-scale-7: 0.65rem;
+  --type-scale-1: 1.6rem;
+  --type-scale-2: 1.4rem;
+  --type-scale-3: 1.15rem;
+  --type-scale-4: 1rem;
+  --type-scale-5: 0.95rem;
+  --type-scale-6: 0.85rem;
+  --type-scale-7: 0.8rem;
+  --type-scale-8: 0.75rem;
+  --type-scale-9: 0.72rem;
   /* Focus ring */
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;

@@ -72,7 +72,7 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css` + `fonts.css`. |
 | `fonts.css` | Self-hosted variable-font `@font-face` blocks (Literata + JetBrains Mono, latin/latin-ext subsets). |
 | `motion.css` | The "ink draws on" motion signature — `.ds-rule-draw`, `.ds-typed`, `.ds-caret`, mapped to the motion tokens. |
-| `components/` | React components library — 12 components (`Button`, `Tag`, `Alert`, `Callout`, `CvEntry`, `Changelog` …), each with JSX, `.d.ts`, and a `card.html` specimen; styled by `components/components.css`. |
+| `components/` | React components library — 16 components (`Button`, `Tag`, `Alert`, `Callout`, `Terminal`, `Mark` …), each with JSX, `.d.ts`, and a `card.html` specimen; styled by `components/components.css`. |
 | `scripts/generate.mjs` | Reads `tokens.json`, writes generated platform target files. |
 | `scripts/validate-tokens.mjs` | Schema validation, contrast checks (explicit + extended sweep), CSS `var()` resolution. |
 | `scripts/validate-a11y-html.mjs` | HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph). |

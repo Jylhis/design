@@ -10,6 +10,8 @@ export interface CalloutProps {
   /** Heading level for the label — set to place it correctly in the document
    *  outline (avoid skipping levels). Defaults to 3. */
   headingLevel?: 2 | 3 | 4 | 5 | 6;
+  /** Extra attributes (id, className …) are passed to the root element */
+  [attr: string]: unknown;
 }
 
 /** Copper left-border callout — the "// currently" pattern from the homepage. */

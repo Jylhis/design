@@ -1,4 +1,4 @@
-export function Breadcrumb({ items }) {
+export function Breadcrumb({ items, onNavigate }) {
   const safeItems = items || [];
   return (
     <nav className="ds-breadcrumb" aria-label="Breadcrumb">
@@ -11,7 +11,10 @@ export function Breadcrumb({ items }) {
                 {item.label}
               </span>
             ) : (
-              <a href={item.href}>{item.label}</a>
+              <a
+                href={item.href}
+                onClick={onNavigate ? (e) => { e.preventDefault(); onNavigate(item.href, item, e); } : undefined}
+              >{item.label}</a>
             )}
             {!last ? <span className="ds-breadcrumb__sep" aria-hidden="true">›</span> : null}
           </span>

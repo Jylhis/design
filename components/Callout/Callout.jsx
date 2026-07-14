@@ -1,7 +1,7 @@
-export function Callout({ label = "currently", items, children, headingLevel = 3 }) {
+export function Callout({ label = "currently", items, children, headingLevel = 3, ...rest }) {
   const Heading = `h${headingLevel}`;
   return (
-    <div className="ds-callout">
+    <div className="ds-callout" {...rest}>
       <Heading className="ds-callout__label">{label}</Heading>
       {items?.length ? (
         <ul>
