@@ -26,7 +26,7 @@ The system is small and stays small on purpose. The rules below explain why.
 
 ### Copper — the single accent
 
-- **`accent`** is the only interactive color: links, focus rings, the "currently" left border, button text on ghost buttons.
+- **`accent`** is the only interactive color: links, focus rings, the "currently" box border, button text on ghost buttons.
 - **`accent-hover`** is the darker twin used on hover/active states. Never use it as a base color.
 - **`brand`** is the literal logo copper. Use it for *large* marks where contrast against text isn't measured: the maker's mark, hero strokes, sticker art. Do not use `brand` as a link color — it doesn't clear AA on the paper background.
 
@@ -78,7 +78,7 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 
 ## 3. Spacing & layout
 
-- 4px grid. Tokens: `xs · sm · md · lg · xl · 2xl · 3xl`.
+- 4px grid with a 2px micro-step. Tokens: `2xs · xs · sm · md · lg · xl · 2xl · 3xl`.
 - `72ch` max content width. Wider than that is hostile to long-form reading.
 - 16rem right rail for sidenotes; collapses below 1100px.
 - Don't introduce ad-hoc spacing values. If a layout needs something between `lg` and `xl`, the layout is wrong.
@@ -87,8 +87,8 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 
 ## 4. Borders & radii
 
-- 1px solid `border` everywhere by default.
-- 3px accent left border on exactly two patterns: the home-page "currently" box, and mobile sidenotes.
+- 1px solid `border` everywhere by default (`--border-hairline`).
+- No decorative side-stripes. The 3px stripe (`--border-marker`) exists only as the selected-item marker in keyboard-driven surfaces (platforms/KEYBOARD.md). Alerts, callouts, and blockquotes use a full hairline border + a subtle tint of their status/accent color instead.
 - Radii: `2px` on focus rings + smallest tags, `3px` on inline code + chips, `4px` on cards + code blocks, `50%` on the theme-toggle circle (the one circle).
 - No pill-shaped buttons. No 12–16px rounded card aesthetic.
 
@@ -171,7 +171,7 @@ Copy is a design token. Five rules — first person singular; buttons are lowerc
 - Don't introduce a sans-serif. Body is Literata serif; everything else is JetBrains Mono.
 - Don't introduce a second accent. The system has one accent on purpose.
 - Don't ship a feature in only one theme.
-- Don't ship a bare left-border card. The copper left border only appears with its `//` label (callout) or a status glyph + word (alert) — an unlabeled accent border is decoration, not meaning.
+- Don't ship a tinted status card without its label. The tint + hairline border only appears with a `//` label (callout) or a status glyph + word (alert) — color alone is decoration, not meaning. And never a side-stripe: 3px left borders are reserved for the selected-item marker.
 - Don't ship an interactive element with only a hover state. Every primitive defines hover, `:focus-visible`, active, and — where it can be inert — disabled and loading (`aria-busy` + mono ellipsis, no spinners).
 
 ---
