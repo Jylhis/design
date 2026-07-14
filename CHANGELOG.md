@@ -9,6 +9,8 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-07-14
+
 ### Added
 - Hyprlock lock-screen target (`platforms/hyprlock/jylhis-{paper,roast}.conf`),
   generated from `tokens.json`. Colors, JetBrains Mono, and field layout;
@@ -18,6 +20,40 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
   returns `{ base16, ansi16, tty16, hex, ansi, variantKey }` for a variant, so
   downstream Nix configs stop hand-writing a tokens reader. Accepts
   `paper`/`roast` or `light`/`dark`.
+- New token categories in `tokens.json`, emitted into `tokens.css`:
+  `breakpoints` (`--breakpoint-*` + literal-value convention for media
+  queries), semantic `zIndex` layers (`--z-*`), `borderWidth`
+  (`--border-hairline/focus/marker`), and a `2xs` (2px) spacing micro-step.
+- Generated type scale: `typography.scale` now emits `--type-scale-0…7`;
+  headings consume the vars so sizes cannot drift from `tokens.json`.
+- `scripts/validate-preview-hex.mjs` — CI fails when `preview/` or
+  `components/*/card.html` contain a hex literal not present in
+  `tokens.json` (wired into `validate.yml` and the `just validate`
+  aggregate).
+- `validate-tokens.mjs`: schema checks for the new categories, a
+  `borderWidth.focus == focus.width` drift guard, and a tint sweep proving
+  status/accent text stays legible on the 8/10/12% `color-mix` tints in
+  both themes.
+
+### Changed
+- Alerts, callouts, and blockquotes retire the 3px left-border side-stripe
+  in favor of a full hairline border + status/accent tint (owner decision
+  per the Impeccable review; see `docs/REVIEW.md`). The 3px stripe remains
+  only as the selected-item marker (`--border-marker`,
+  `platforms/KEYBOARD.md`).
+- `components/components.css` spacing snapped to the `--space-*` scale
+  (was raw px; worst visual shift ±2px) and 1px borders now use
+  `--border-hairline`.
+- `Field` links help/error text to the input via `aria-describedby`
+  (screen readers previously heard only "invalid").
+
+### Fixed
+- Stale pre-a11y accent `#9a5a2a` replaced with `#8a4f24` across previews,
+  `tokens.md`, `README.md`, the brand-guidelines skill, the Emacs README,
+  and `platforms/index.html` (which also carried the old selection-bg
+  `#f0dcc4`); `preview/tables.html` now shows the real 6.09:1 ratio.
+- `meta.version` drift: tokens.json said 0.3.0 while CHANGELOG had released
+  0.4.0; the showcase badge now renders v0.5.0.
 
 ## [0.4.0] — 2026-06-01
 
@@ -71,7 +107,8 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 ### Removed
 - Fish support (kept bash and zsh only).
 
-[Unreleased]: https://github.com/jylhis/design/compare/v0.4.0...main
+[Unreleased]: https://github.com/jylhis/design/compare/v0.5.0...main
+[0.5.0]: https://github.com/jylhis/design/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/jylhis/design/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/jylhis/design/releases/tag/v0.3.0
 <!-- Restore [0.1.0] link once the v0.1.0 tag is cut. -->

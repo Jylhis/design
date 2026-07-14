@@ -28,7 +28,7 @@ That is the only runtime dependency.
    all fine.
 2. Make the change. If you touch a Bun script, ensure `--help` and
    `--version` still pass `scripts/validate-cli-conventions.mjs`.
-3. Run the five validators locally (see below) before pushing.
+3. Run the six validators locally (see below) before pushing.
 4. Open a PR. Write a Conventional Commits-style title. Describe *why*
    the change exists, not just *what* it does.
 5. Wait for CI green. Squash-merge.
@@ -41,9 +41,11 @@ bun scripts/validate-tokens.mjs
 bun scripts/validate-a11y-html.mjs
 bun scripts/validate-a11y-css.mjs
 bun scripts/validate-cli-conventions.mjs
+bun scripts/validate-emacs-faces.mjs
+bun scripts/validate-preview-hex.mjs
 ```
 
-CI runs the same five. If any pass locally but fail in CI, the discrepancy
+CI runs the same six. If any pass locally but fail in CI, the discrepancy
 is a real defect — fix it before merging.
 
 ## Branch protection on `main`
@@ -51,7 +53,7 @@ is a real defect — fix it before merging.
 `main` is protected. Required state:
 
 - Pull request required, with at least one approving review.
-- `validate` CI workflow must pass (all five validators above).
+- `validate` CI workflow must pass (all six validators above).
 - `commitlint` and `gitleaks` jobs must pass.
 - No force-push, no direct push.
 

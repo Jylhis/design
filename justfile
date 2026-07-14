@@ -24,7 +24,10 @@ validate-cli-conventions:
 validate-emacs-faces:
     bun scripts/validate-emacs-faces.mjs
 
-validate: validate-tokens validate-a11y-html validate-a11y-css validate-cli-conventions validate-emacs-faces
+validate-preview-hex:
+    bun scripts/validate-preview-hex.mjs
+
+validate: validate-tokens validate-a11y-html validate-a11y-css validate-cli-conventions validate-emacs-faces validate-preview-hex
 
 check: check-generated validate
 

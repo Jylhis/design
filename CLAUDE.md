@@ -16,14 +16,15 @@ bun scripts/validate-a11y-html.mjs        # HTML accessibility (lang, alt, label
 bun scripts/validate-a11y-css.mjs         # CSS accessibility (transitions guarded; outline:none has :focus-visible replacement)
 bun scripts/validate-cli-conventions.mjs  # bun scripts follow docs/CLI-TUI-GUIDELINES.md (--help, --version, stderr, exit codes)
 bun scripts/validate-emacs-faces.mjs      # Emacs face list in jylhis-theme-core.el matches face-manifest.json
+bun scripts/validate-preview-hex.mjs      # preview/ + components/*/card.html hex literals exist in tokens.json
 serve-pages                               # build the GitHub Pages artifact, serve _site locally, rebuild on changes
 ```
 
-All six validators support `--help` and `--version`.
+All six validators support `--help` and `--version`. (A seventh script, `validate-consumer-freshness.mjs`, runs in its own `freshness-check.yml` workflow against the live site.)
 
 Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and three convenience scripts: `generate`, `validate-tokens`, and `serve-pages`.
 
-CI (`.github/workflows/validate.yml`) runs all five validators on every push/PR. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
+CI (`.github/workflows/validate.yml`) runs all six validators on every push/PR. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
 
 Specs the validators enforce live in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md), [`docs/CLI-TUI-GUIDELINES.md`](docs/CLI-TUI-GUIDELINES.md), and [`platforms/KEYBOARD.md`](platforms/KEYBOARD.md). For deeper review beyond static checks, invoke the `/design-review` skill in `.claude/skills/design-review/`.
 
