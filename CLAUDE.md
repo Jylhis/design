@@ -24,7 +24,7 @@ All six validators support `--help` and `--version`. (A seventh script, `validat
 
 Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and three convenience scripts: `generate`, `validate-tokens`, and `serve-pages`.
 
-CI (`.github/workflows/validate.yml`) runs all six validators on every push/PR. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
+CI (`.github/workflows/validate.yml`) runs all six validators on every push/PR. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to the root of the `gh-pages` branch on `main`; the preview workflow (`preview.yml`) publishes a per-PR preview under `pr-preview/pr-<N>/` on the same branch and comments the link on the PR. GitHub Pages must be configured to deploy from the `gh-pages` branch (root) for both to serve.
 
 Specs the validators enforce live in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md), [`docs/CLI-TUI-GUIDELINES.md`](docs/CLI-TUI-GUIDELINES.md), and [`platforms/KEYBOARD.md`](platforms/KEYBOARD.md). For deeper review beyond static checks, invoke the `/design-review` skill in `.claude/skills/design-review/`.
 

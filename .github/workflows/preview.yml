@@ -1,0 +1,40 @@
+name: pr-preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+# contents:write to push the built preview to gh-pages; pull-requests:write
+# so the action can post/update the preview-link comment on the PR.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    name: build and deploy PR preview
+    runs-on: ubuntu-latest
+    # Fork PRs get a read-only token and cannot push to gh-pages, so skip them
+    # rather than fail. Previews are published for same-repo branches only.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: oven-sh/setup-bun@v2
+        if: github.event.action != 'closed'
+
+      # No build needed on close: the action only removes the stale preview dir.
+      - name: Assemble site
+        if: github.event.action != 'closed'
+        run: bash scripts/assemble-pages.sh
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: _site
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          # auto: deploy on open/reopen/synchronize, remove on close.
+          action: auto
