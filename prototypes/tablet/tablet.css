@@ -3,7 +3,8 @@
  * centered inside it at 1640x1024 (16:10 landscape).
  */
 
-@import url("../_shared/colors_and_type.css");
+@import url("../../colors_and_type.css");
+@import url("../../components/components.css");
 
 * { box-sizing: border-box; }
 
@@ -613,7 +614,7 @@ html, body {
   color: rgba(255,255,255,0.85);
   z-index: 90;
 }
-.recents-hint kbd { background: rgba(20,18,16,0.6); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); }
+.recents-hint .ds-kbd { background: rgba(20,18,16,0.6); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); }
 
 /* ── App drawer (Super pressed alone) ── */
 .drawer-overlay {
@@ -1172,18 +1173,7 @@ html, body {
 }
 .yazi-foot .accent { color: var(--color-accent); }
 
-/* ── kbd chip ── */
-kbd, .kbd {
-  font-family: var(--font-mono);
-  font-size: 0.72em;
-  padding: 0.15em 0.42em;
-  background: var(--color-bg-subtle);
-  border: 1px solid var(--color-border-strong);
-  border-radius: 3px;
-  color: var(--color-text-muted);
-  box-shadow: 0 1px 0 var(--color-border-strong);
-  letter-spacing: 0.02em;
-}
+/* kbd chips come from the design system (.ds-kbd in components/components.css) */
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 2px; }

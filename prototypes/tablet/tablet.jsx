@@ -166,7 +166,7 @@ function Pane({ app, scene, focused, onClose, onMaximize, onSplit }) {
           <span className="path">· {meta.path}</span>
         </div>
         <div className="right">
-          {focused && <span style={{ fontSize: 10.5, color: 'var(--color-text-faint)' }}><kbd>Super</kbd>+<kbd>q</kbd> close</span>}
+          {focused && <span style={{ fontSize: 10.5, color: 'var(--color-text-faint)' }}><kbd className="ds-kbd">Super</kbd>+<kbd className="ds-kbd">q</kbd> close</span>}
           <span className="pane-btn" title="split" onClick={onSplit}>◫</span>
           <span className="pane-btn" title="maximize" onClick={onMaximize}>□</span>
           <span className="pane-btn" title="close" onClick={onClose}>×</span>
@@ -397,7 +397,7 @@ tomas l.  13:55` },
         })}
       </div>
       <div className="recents-hint">
-        <kbd>↹</kbd> next · <kbd>⇧↹</kbd> prev · <kbd>↵</kbd> focus · <kbd>X</kbd> dismiss · <kbd>esc</kbd> back
+        <kbd className="ds-kbd">↹</kbd> next · <kbd className="ds-kbd">⇧↹</kbd> prev · <kbd className="ds-kbd">↵</kbd> focus · <kbd className="ds-kbd">X</kbd> dismiss · <kbd className="ds-kbd">esc</kbd> back
       </div>
     </div>
   );

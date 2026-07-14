@@ -193,25 +193,25 @@ function WhichKey({ onClose }) {
 // ── Full keyboard help ──
 const HELP_SECS = [
   { h: 'getting around', rows: [
-    { keys: <><kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></>, desc: 'move focus between tiled windows' },
-    { keys: <><kbd>Tab</kbd></>, desc: 'cycle to the next window' },
-    { keys: <><kbd>1</kbd>…<kbd>4</kbd></>, desc: 'jump straight to a window' },
-    { keys: <><kbd>F9</kbd></>, desc: 'focus the terminal centrepiece' },
+    { keys: <><kbd className="ds-kbd">h</kbd><kbd className="ds-kbd">j</kbd><kbd className="ds-kbd">k</kbd><kbd className="ds-kbd">l</kbd></>, desc: 'move focus between tiled windows' },
+    { keys: <><kbd className="ds-kbd">Tab</kbd></>, desc: 'cycle to the next window' },
+    { keys: <><kbd className="ds-kbd">1</kbd>…<kbd className="ds-kbd">4</kbd></>, desc: 'jump straight to a window' },
+    { keys: <><kbd className="ds-kbd">F9</kbd></>, desc: 'focus the terminal centrepiece' },
   ]},
   { h: 'the terminal', rows: [
     { keys: <>type</>, desc: 'when the terminal is focused, just type' },
-    { keys: <><kbd>⏎</kbd></>, desc: 'run the line — try help, ls, theme, about, clear' },
-    { keys: <><kbd>:</kbd></>, desc: 'focus terminal and start a command from anywhere' },
+    { keys: <><kbd className="ds-kbd">⏎</kbd></>, desc: 'run the line — try help, ls, theme, about, clear' },
+    { keys: <><kbd className="ds-kbd">:</kbd></>, desc: 'focus terminal and start a command from anywhere' },
   ]},
   { h: 'discover, don\u2019t memorise', rows: [
-    { keys: <><kbd>F1</kbd></>, desc: 'this reference' },
-    { keys: <><kbd>Space</kbd></>, desc: 'which-key — shows the next available keys' },
-    { keys: <><kbd>F1</kbd>…<kbd>F10</kbd></>, desc: 'the bottom bar is always live — click or press' },
+    { keys: <><kbd className="ds-kbd">F1</kbd></>, desc: 'this reference' },
+    { keys: <><kbd className="ds-kbd">Space</kbd></>, desc: 'which-key — shows the next available keys' },
+    { keys: <><kbd className="ds-kbd">F1</kbd>…<kbd className="ds-kbd">F10</kbd></>, desc: 'the bottom bar is always live — click or press' },
   ]},
   { h: 'look & feel', rows: [
-    { keys: <><kbd>T</kbd></>, desc: 'toggle paper / roast' },
-    { keys: <><kbd>w</kbd></>, desc: 'cycle wallpaper texture' },
-    { keys: <><kbd>Esc</kbd></>, desc: 'dismiss any overlay' },
+    { keys: <><kbd className="ds-kbd">T</kbd></>, desc: 'toggle paper / roast' },
+    { keys: <><kbd className="ds-kbd">w</kbd></>, desc: 'cycle wallpaper texture' },
+    { keys: <><kbd className="ds-kbd">Esc</kbd></>, desc: 'dismiss any overlay' },
   ]},
 ];
 

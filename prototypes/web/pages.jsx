@@ -8,13 +8,12 @@ const HomePage = ({ onNav }) => (
       <p>One paragraph that opens the door — what you're working on, who you're working with, and the angle you take when you sit down at the keyboard. Specific, not breathless.</p>
       <p>A second paragraph that sets up the rest of the site — links to deeper reads, current focus, anything you want a stranger to know in the first thirty seconds.</p>
     </div>
-    <div className="ds-callout" id="currently">
-      <h2 className="ds-callout__label">currently</h2>
+    <Callout label="currently" id="currently" headingLevel={2}>
       <ul>
         <li>shipping a small thing at <a href="https://example.com">your company</a></li>
         <li>learning a new tool worth writing about</li>
       </ul>
-    </div>
+    </Callout>
     <div className="contact-links">
       <a href="mailto:you@example.com">you@example.com</a><a href="https://github.com/your-org">github</a><a href="https://linkedin.com/in/your-handle">linkedin</a>
     </div>
@@ -51,7 +50,7 @@ const NotesPage = ({ onOpenNote }) => (
 
 const NoteDetail = ({ note }) => (
   <article className="prose">
-    <ManHeader title="notes" section={7} />
+    <div className="man-header"><ManLabel title="notes" section={7}/></div>
     <h1>{note.title}</h1>
     <p className="subtitle">{new Date(note.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})} · 6 min read</p>
     <p>Modern replacements that are faster, friendlier, and generally less surprising than the tools they replace. This isn't a complete list — just the ones I reach for daily.</p>
@@ -105,7 +104,7 @@ const ProjectsPage = ({ onOpenProject }) => (
 
 const ProjectDetail = ({ project }) => (
   <article className="prose">
-    <ManHeader title="projects" section={7} />
+    <div className="man-header"><ManLabel title="projects" section={7}/></div>
     <div style={{display:'flex', gap:'var(--space-md)', alignItems:'baseline', flexWrap:'wrap', marginBottom:'var(--space-lg)'}}>
       <h1 style={{margin:0}}>{project.title}</h1>
       <StatusBadge status={project.status}/>
@@ -129,7 +128,7 @@ const ResumePage = () => (
   <div>
     <h1>resume</h1>
     <p className="subtitle">Your role · your specialty — your city</p>
-    <DividerLabeled label="experience" level={2} />
+    <Divider label="experience" headingLevel={2} />
     <CvEntry
       role="Senior Engineer"
       company="Acme Corp"
@@ -150,7 +149,7 @@ const ResumePage = () => (
       description="One-line description of the team or programme you contributed to."
       highlights={["The outcome you'd lead with in an interview"]}
     />
-    <DividerLabeled label="skills" level={2} />
+    <Divider label="skills" headingLevel={2} />
     <CvEntry
       skills={{
         languages: ['go','rust','haskell','python','c++'],
@@ -163,7 +162,7 @@ const ResumePage = () => (
 
 const NotFoundPage = ({ onNav }) => (
   <div className="prose" style={{textAlign:'center', paddingTop:'var(--space-3xl)'}}>
-    <ManHeader title="404" section={1} />
+    <div className="man-header"><ManLabel title="404" section={1}/></div>
     <h1>404 — not found</h1>
     <p className="subtitle">The page you asked for returned a nonzero exit code.</p>
     <pre style={{textAlign:'left', maxWidth:'42ch', margin:'var(--space-xl) auto'}}><code>{`$ curl -I /this-page

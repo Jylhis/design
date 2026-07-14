@@ -4,9 +4,9 @@ Click-thru recreation of a personal site as a React prototype, consuming the Jyl
 
 ## Files
 - `index.html` — interactive prototype: home → notes list → note detail → projects list → project detail → resume → 404. Includes Tweaks panel (palette + light/dark).
-- `header.jsx` — wordmark lockup + maker's-mark rune + breadcrumb + search trigger + theme toggle.
-- `footer.jsx` — dashed rules, 4-column nav, rune identity strip, colophon.
-- `primitives.jsx` — thin bridges to design-system components (`Tag`, `StatusBadge`, `CodeBlock`, `CvEntry` mirror `components/*/*.jsx` markup, styled by `components/components.css`), plus `TagList`, `DividerLabeled`, `ManHeader`, `FormattedDate`.
+- `header.jsx` — wordmark lockup + DS `Mark` + DS `Breadcrumb` + DS `Button` (search) + theme toggle.
+- `footer.jsx` — dashed rules, 4-column nav, DS `Mark` identity strip, colophon.
+- `primitives.jsx` — no reimplementation: pulls `Tag`, `TagList`, `StatusBadge`, `CodeBlock`, `CvEntry`, `Callout`, `Breadcrumb`, `Button`, `Kbd`, `Divider`, `ManLabel`, `Mark` from the component JSX files loaded in `index.html` (`window.exports`), plus a page-local `FormattedDate` helper.
 - `pages.jsx` — `HomePage`, `NotesPage`, `NoteDetail`, `ProjectsPage`, `ProjectDetail`, `ResumePage`, `NotFoundPage`.
 
 ## Tweaks

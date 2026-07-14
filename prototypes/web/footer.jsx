@@ -23,7 +23,7 @@ const Footer = ({ onNav }) => (
     </nav>
     <div className="footer-identity">
       <span className="dash">───</span>
-      <span className="rune"><Rune size={14}/></span>
+      <span className="rune"><Mark/></span>
       <span className="identity-text">your name · your role</span>
       <span className="dash">───</span>
     </div>

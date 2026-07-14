@@ -1,7 +1,12 @@
-export function Divider({ label, children }) {
+export function Divider({ label, children, headingLevel }) {
+  const Tag = headingLevel ? `h${headingLevel}` : "div";
   return (
-    <div className="ds-divider-label" role="separator" aria-label={typeof label === "string" ? label : undefined}>
+    <Tag
+      className="ds-divider-label"
+      role={headingLevel ? undefined : "separator"}
+      aria-label={!headingLevel && typeof label === "string" ? label : undefined}
+    >
       {label || children}
-    </div>
+    </Tag>
   );
 }

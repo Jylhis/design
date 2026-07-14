@@ -14,7 +14,7 @@
  * lights reuse the system's own status palette (err / warn / ok).
  */
 
-@import url("../_shared/colors_and_type.css");
+@import url("../../colors_and_type.css");
 
 * { box-sizing: border-box; }
 
