@@ -72,13 +72,13 @@ for (const slot of tokens.ansi ?? []) {
 
 // Expand #RGB shorthand to #rrggbb for comparison.
 const expand = (hex) =>
-  hex.length === 4 ? `#${[...hex.slice(1)].map((c) => c + c).join("")}` : hex.toLowerCase();
+  (hex.length === 4 ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}` : hex).toLowerCase();
 
 // ─── Scan ────────────────────────────────────────────────────────────
 
 function lineOf(src, idx) {
   let n = 1;
-  for (let i = 0; i < idx; i++) if (src.charCodeAt(i) === 10) n++;
+  for (let i = 0; i < idx; i++) if (src.codePointAt(i) === 10) n++;
   return n;
 }
 

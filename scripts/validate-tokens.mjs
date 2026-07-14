@@ -275,7 +275,7 @@ for (const mode of ["light", "dark"]) {
 // the tint darkens, so check every tint level actually used.
 const TINT_LEVELS = [0.08, 0.10, 0.12];
 const blendHex = (fgHex, bgHex, alpha) => {
-  const c = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const c = (h) => [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
   const [fr, fgc, fb] = c(fgHex);
   const [br, bgc, bb] = c(bgHex);
   const mix = (f, b) => Math.round(alpha * f + (1 - alpha) * b);
