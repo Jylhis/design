@@ -208,7 +208,7 @@
   .mock.paper .term .prompt-path { color: #b5703c; }
   .mock.paper .term .prompt-git  { color: #006800; }
   .mock.paper .term .prompt-dirty{ color: #6f5500; }
-  .mock.paper .term .prompt-glyph{ color: #9a5a2a; }
+  .mock.paper .term .prompt-glyph{ color: #8a4f24; }
   .mock.paper .term .comment     { color: #7e6c4d; font-style: italic; }
   .mock.paper .term .kw          { color: #4a2d80; font-weight: 600; }
   .mock.paper .term .str         { color: #3d5a1f; }
@@ -259,9 +259,9 @@
   .palette .row .kbd { font-size: 0.7rem; }
 
   .mock.paper.palette .input   { background: #f0ebe3; border-bottom-color: #d5cec4; color: #2c2825; }
-  .mock.paper.palette .input .caret { color: #9a5a2a; }
+  .mock.paper.palette .input .caret { color: #8a4f24; }
   .mock.paper.palette .hint    { background: #f0ebe3; border-bottom-color: #d5cec4; color: #6b5f54; }
-  .mock.paper.palette .row.selected { background: #f0dcc4; border-left-color: #9a5a2a; }
+  .mock.paper.palette .row.selected { background: #e8d4b8; border-left-color: #8a4f24; }
   .mock.paper.palette .row .kbd     { color: #6b5f54; }
 
   .mock.roast.palette .input   { background: #242019; border-bottom-color: #3d3830; color: #e8e0d4; }
@@ -296,7 +296,7 @@
   .waybar-wrap .spacer { flex: 1; border-right: none; }
   .waybar.paper { background: #faf7f2; color: #2c2825; }
   .waybar.paper > div { border-right-color: #d5cec4; }
-  .waybar.paper .ws.active { color: #9a5a2a; background: #f0dcc4; border-left-color: #9a5a2a; }
+  .waybar.paper .ws.active { color: #8a4f24; background: #e8d4b8; border-left-color: #8a4f24; }
   .waybar.paper .ws { color: #6b5f54; }
 
   .waybar.roast { background: #1a1714; color: #e8e0d4; border-color: #3d3830; }
@@ -318,7 +318,7 @@
   .notif .msg { font-family: var(--font-body); font-size: 0.88rem; margin: 0 0 8px; line-height: 1.4; }
   .notif .footer { font-size: 0.68rem; }
 
-  .mock.paper .notif .inner { border-left-color: #9a5a2a; }
+  .mock.paper .notif .inner { border-left-color: #8a4f24; }
   .mock.paper .notif .footer { color: #8a7f72; }
   .mock.roast .notif .inner { border-left-color: #e89b5e; }
   .mock.roast .notif .footer { color: #8a7f72; }
@@ -349,7 +349,7 @@
   .mock.paper .emacs .modeline { background: #e8e1d6; color: #2c2825; border-top: 1px solid #d5cec4; }
   .mock.roast .emacs .modeline { background: #2a2520; color: #e8e0d4; border-top: 1px solid #3d3830; }
   .emacs .modeline .mark { color: var(--color-accent); font-weight: bold; }
-  .mock.paper .emacs .modeline .mark { color: #9a5a2a; }
+  .mock.paper .emacs .modeline .mark { color: #8a4f24; }
   .mock.roast .emacs .modeline .mark { color: #e89b5e; }
 
   /* kbd chips */
@@ -587,10 +587,10 @@
       <div class="mock paper emacs">
         <div class="bar"><span>emacs · jylhis-paper</span><span class="mode">light</span></div>
         <pre class="scratch term"><span class="row"><span class="num-col">42</span><span class="comment">;; Jylhis tokens — exposed as defvars</span></span>
-<span class="row"><span class="num-col">43</span><span class="kw">(defvar</span> <span class="fn">jylhis-accent</span> <span class="str">"#9a5a2a"</span></span>
+<span class="row"><span class="num-col">43</span><span class="kw">(defvar</span> <span class="fn">jylhis-accent</span> <span class="str">"#8a4f24"</span></span>
 <span class="row"><span class="num-col">44</span>  <span class="str">"Brand copper. See tokens.md §1."</span><span class="kw">)</span></span>
 <span class="row"><span class="num-col">45</span></span>
-<span class="row" style="background:#f0dcc4"><span class="num-col" style="color:#9a5a2a; font-weight:bold;">46</span><span class="kw">(defun</span> <span class="fn">jylhis-load</span> (<span class="tag">&amp;optional</span> mode)</span>
+<span class="row" style="background:#e8d4b8"><span class="num-col" style="color:#8a4f24; font-weight:bold;">46</span><span class="kw">(defun</span> <span class="fn">jylhis-load</span> (<span class="tag">&amp;optional</span> mode)</span>
 <span class="row"><span class="num-col">47</span>  <span class="str">"Load paper or roast."</span></span>
 <span class="row"><span class="num-col">48</span>  <span class="kw">(let</span> ((target (<span class="kw">if</span> (<span class="kw">eq</span> mode 'light)</span>
 <span class="row"><span class="num-col">49</span>                    'jylhis-paper 'jylhis-roast)))</span>
@@ -633,8 +633,8 @@
 <span class="row">│   paper + roast, 16-color ANSI                  │</span>
 <span class="row">│ <span class="kw">Hyprland tokens</span>                                 │</span>
 <span class="row">│   borders, waybar, rofi, mako                   │</span>
-<span class="row" style="background:#f0dcc4"><span style="color:#9a5a2a">│▎</span><span class="fn">Charm TUI kit</span>                                   │</span>
-<span class="row" style="background:#f0dcc4"><span style="color:#9a5a2a">│▎</span>  lipgloss + bubbles + bubbletea                │</span>
+<span class="row" style="background:#e8d4b8"><span style="color:#8a4f24">│▎</span><span class="fn">Charm TUI kit</span>                                   │</span>
+<span class="row" style="background:#e8d4b8"><span style="color:#8a4f24">│▎</span>  lipgloss + bubbles + bubbletea                │</span>
 <span class="row">│ Emacs deftheme                                  │</span>
 <span class="row">└─────────────────────────────────────────────────┘</span>
 <span class="row"> </span>
@@ -673,7 +673,7 @@
     <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px;">
       <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
         <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">focus</p>
-        <button style="font-family:var(--font-mono); font-size:0.88rem; padding:6px 14px; background:#fefdfb; color:#2c2825; border:1px solid #b0a898; border-radius:4px; outline:2px solid #9a5a2a; outline-offset:2px;">focused button</button>
+        <button style="font-family:var(--font-mono); font-size:0.88rem; padding:6px 14px; background:#fefdfb; color:#2c2825; border:1px solid #b0a898; border-radius:4px; outline:2px solid #8a4f24; outline-offset:2px;">focused button</button>
         <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">2px solid accent · 2px offset</p>
       </div>
 
@@ -685,7 +685,7 @@
 
       <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
         <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">selected</p>
-        <div style="background:#f0dcc4; border-left:3px solid #9a5a2a; padding:8px 12px; font-family:var(--font-mono); font-size:0.85rem; color:#2c2825;">row.selected</div>
+        <div style="background:#e8d4b8; border-left:3px solid #8a4f24; padding:8px 12px; font-family:var(--font-mono); font-size:0.85rem; color:#2c2825;">row.selected</div>
         <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">accent-subtle bg · accent left-border</p>
       </div>
     </div>

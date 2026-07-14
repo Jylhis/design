@@ -51,7 +51,7 @@ Two values per role: `light` (Paper) / `dark` (Roast).
 
 **Copper — the single accent**
 
-- Accent: `#9a5a2a` / `#e89b5e` — the only interactive color: links, focus
+- Accent: `#8a4f24` / `#e89b5e` — the only interactive color: links, focus
   rings, the "currently" left border, ghost-button text
 - Accent hover: `#7a4622` / `#f5b07a` — hover/active twin, never a base color
 - Brand: `#b5703c` / `#d4884a` — literal logo copper. Use for *large* marks
@@ -100,7 +100,7 @@ accent is brand chrome only — **never a syntax color.**
    [`assets/`](../../assets/).
 3. **For non-web / programmatic artifacts** (pptx, image export, diagram tools)
    — read the RGB values above. Apply JetBrains Mono to headings, Literata to
-   body, the accent copper (`#9a5a2a` light / `#e89b5e` dark) to interactive
+   body, the accent copper (`#8a4f24` light / `#e89b5e` dark) to interactive
    chrome, the brand copper (`#b5703c` / `#d4884a`) to large maker's marks,
    status colors only alongside their glyph.
 4. **For production code** — never hard-code hex. Use the CSS custom properties
