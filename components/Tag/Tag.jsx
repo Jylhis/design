@@ -13,11 +13,12 @@ export function Tag({ href, children, ...rest }) {
   );
 }
 
-export function TagList({ tags = [], hrefFor }) {
-  if (!tags.length) return null;
+export function TagList({ tags, hrefFor }) {
+  const safeTags = Array.isArray(tags) ? tags : [];
+  if (!safeTags.length) return null;
   return (
     <ul className="ds-tag-list">
-      {tags.map((t) => (
+      {safeTags.map((t) => (
         <li key={t}>
           <Tag href={hrefFor ? hrefFor(t) : undefined}>{t}</Tag>
         </li>

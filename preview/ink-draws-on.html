@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Ink draws on</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: 12px; max-width: 60ch; }
+  .label { font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 14px; }
+  .row { display: grid; grid-template-columns: 12ch 1fr 12ch; gap: 12px; align-items: center; margin-bottom: 16px; }
+  .row .name { color: var(--color-text); }
+  .row .name .duration { color: var(--color-text-faint); display: block; font-size: 0.66rem; margin-top: 1px; }
+  .play { font: inherit; font-size: 0.74rem; padding: 4px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); cursor: pointer; transition: border-color var(--transition-fast), color var(--transition-fast); justify-self: end; }
+  .play:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .play:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .typed-label { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-faint); }
+  .caret-line { font-size: 0.95rem; color: var(--color-text); }
+  .principle { border-top: 1px dashed var(--color-decorator); padding-top: 10px; font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.03em; }
+  @media (max-width: 480px) { .row { grid-template-columns: 1fr; gap: 6px; } }
+</style></head>
+<body>
+  <span class="label">motion signature · nothing fades or floats — drawn, typed, or blinked</span>
+  <div class="row">
+    <span class="name">rule-draw<span class="duration">300ms · slow</span></span>
+    <div class="ds-rule-draw is-drawn" id="ruleDemo"></div>
+    <button class="play" data-demo="rule" type="button">replay ▸</button>
+  </div>
+  <div class="row">
+    <span class="name">type-on<span class="duration">420ms · steps(12)</span></span>
+    <div><span class="ds-typed typed-label is-typed" id="typeDemo" style="--ds-type-ch: 10.5ch;">EXPERIENCE</span></div>
+    <button class="play" data-demo="type" type="button">replay ▸</button>
+  </div>
+  <div class="row">
+    <span class="name">caret<span class="duration">1.1s · steps(1) · loop</span></span>
+    <div class="caret-line">fetching<span class="ds-caret" aria-hidden="true"></span></div>
+    <span class="ds-meta" style="font-size: 0.66rem;">loading &amp; prompts</span>
+  </div>
+  <p class="principle">max one drawn entrance per viewport · caret never twice per surface · reduced-motion lands final state</p>
+<script>
+  document.querySelectorAll(".play").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var isRule = btn.dataset.demo === "rule";
+      var el = document.getElementById(isRule ? "ruleDemo" : "typeDemo");
+      var cls = isRule ? "is-drawn" : "is-typed";
+      el.classList.remove(cls);
+      void el.offsetWidth;
+      el.classList.add(cls);
+    });
+  });
+</script>
+</body></html>

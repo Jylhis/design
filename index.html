@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Warm paper, earth copper, monospace headings. Design system for jylhis.com.">
 <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
-<link rel="stylesheet" href="./colors_and_type.css">
+<link rel="stylesheet" href="./styles.css">
 <style>
   :root { --maxw: 72ch; --rail: 16rem; --gap: 2.5rem; }
   html { scroll-behavior: smooth; }
@@ -14,9 +14,10 @@
   .skip-link { position: absolute; left: 24px; top: 16px; z-index: var(--z-skip); transform: translateY(-160%); padding: 8px 12px; background: var(--color-bg); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8rem; text-decoration: none; }
   .skip-link:focus-visible { transform: translateY(0); outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
   main { max-width: calc(var(--maxw) + var(--rail) + var(--gap)); margin: 0 auto; padding: 56px 24px 120px; }
-  header.hero { border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-xl); margin-bottom: var(--space-2xl); }
-  header.hero .eyebrow { font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-text-faint); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 12px; }
-  header.hero h1 { font-family: var(--font-mono); font-size: 2.2rem; font-weight: 700; color: var(--color-text-heading); letter-spacing: -0.01em; margin: 0 0 12px; }
+  header.hero { margin-bottom: var(--space-2xl); }
+  header.hero .man { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: 0 0 18px; display: flex; justify-content: space-between; gap: 12px; }
+  header.hero h1 { font-family: var(--font-mono); font-size: clamp(1.9rem, 5.5vw, 2.75rem); font-weight: 700; color: var(--color-text-heading); letter-spacing: -0.01em; margin: 0 0 14px; }
+  .hero-rule { height: 1px; background: var(--color-border); margin-top: var(--space-xl); }
   header.hero p { color: var(--color-text-muted); max-width: var(--maxw); margin: 0 0 var(--space-md); }
   header.hero .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
   header.hero .tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); padding: 3px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg-subtle); }
@@ -64,7 +65,22 @@
   .empty-state { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text-faint); padding: var(--space-md); text-align: center; }
   .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-sm); }
   .chip { font-family: var(--font-mono); font-size: 0.78rem; padding: 6px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); color: var(--color-text); text-decoration: none; transition: border-color var(--transition-fast); }
-  .chip:hover { color: var(--color-accent); border-color: var(--color-accent); }  .chip .keys { color: var(--color-text-faint); font-size: 0.66rem; margin-left: 6px; }
+  .chip:hover { color: var(--color-accent); border-color: var(--color-accent); }  .chip .keys { color: var(--color-text-faint); font-size: 0.72rem; margin-left: 6px; }
+  .apropos-cmd { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted); margin: 0 0 var(--space-sm); }
+  .apropos-cmd::before { content: "$ "; color: var(--color-text-faint); }
+  .apropos { list-style: none; margin: 0 0 var(--space-md); padding: 0; font-family: var(--font-mono); font-size: 0.85rem; }
+  .apropos-item { display: grid; grid-template-columns: 18ch 1fr; gap: 14px; padding: 8px 0; border-bottom: 1px dashed var(--color-decorator); align-items: baseline; }
+  .apropos-item:last-child { border-bottom: none; }
+  .apropos-item a { color: var(--color-accent); text-decoration: none; }
+  .apropos-item a:hover { color: var(--color-accent-hover); }
+  .apropos-item a:active { color: var(--color-accent-hover); }
+  .apropos-item .sec { color: var(--color-text-faint); }
+  .apropos-item .what { color: var(--color-text-muted); font-family: var(--font-body); font-size: 0.95rem; line-height: 1.5; }
+  @media (max-width: 640px) { .apropos-item { grid-template-columns: 1fr; gap: 2px; } }
+  .card--flagship { background: var(--color-surface); padding: var(--space-xl); }
+  .card--flagship .title { font-size: 1.15rem; }
+  .footer-mark { font-family: var(--font-mono); font-weight: 700; font-size: 1.4rem; color: var(--color-text-heading); margin: 0 0 var(--space-md); }
+  .footer-mark .chev { color: var(--color-accent); }
   /* Press / active — deepen to the darker copper (--color-accent-hover). Canon allows colour
      and border only; no scale (AGENTS.md, README.md#press, docs/STYLE-GUIDE.md). */
   .toolbar button:active,
@@ -91,7 +107,7 @@
 
 <main id="content">
   <header class="hero">
-    <p class="eyebrow">jylhis design system</p>
+    <p class="man"><span id="man-label" style="--ds-type-ch: 10.5ch">JYLHIS(7)</span><span aria-hidden="true">JYLHIS(7)</span></p>
     <h1>Warm paper, earth copper. <span class="pill" id="version-pill">version</span></h1>
     <p>A design system for <a href="https://jylhis.com" style="color: var(--color-accent); text-decoration: none;">jylhis.com</a> — one accent, muted taupe everything else, monospace headings, serif body. Ten platform targets from Ghostty to Charm TUI, all driven by a single <a href="./md.html?src=tokens.md" style="color: var(--color-accent); text-decoration: none;">token spec</a>.</p>
     <div class="tags">
@@ -101,6 +117,7 @@
       <span class="tag">keyboard-first</span>
       <span class="tag">no shadows</span>
     </div>
+    <div class="hero-rule" id="hero-rule" aria-hidden="true"></div>
   </header>
 
   <div class="filter-bar" id="filter-bar">
@@ -127,66 +144,47 @@
   <div class="swatches" id="ansi-swatches"></div>
 
   <h2 class="section" data-no-filter>specs &amp; guides</h2>
-  <div class="grid">
-    <a class="card" href="./md.html?src=tokens.md">
-      <span class="title">tokens.md</span>
-      <span class="desc">Canonical palette spec — core colors, syntax, ANSI 16, typography, density, motion, sound, keyboard primitives. Contrast ratios inlined.</span>
-      <span class="path">./tokens.md</span>
-    </a>
-    <a class="card" href="./md.html?src=docs/INTEGRATION.md">
-      <span class="title">integration guide</span>
-      <span class="desc">Quick-starts for web (CSS import), Go / Charm TUI, terminal, Emacs, Wayland, and adding a new platform.</span>
-      <span class="path">./docs/INTEGRATION.md</span>
-    </a>
-    <a class="card" href="./md.html?src=platforms/KEYBOARD.md">
-      <span class="title">keyboard primitives</span>
-      <span class="desc">Focus ring, kbd chip, leader key, command palette, selected item, dismiss hints, tab order, canonical shortcuts.</span>
-      <span class="path">./platforms/KEYBOARD.md</span>
-    </a>
-    <a class="card" href="./md.html?src=docs/STYLE-GUIDE.md" data-search="style guide usage do dont rules accent paper ink copper linen modus signal spectrum">
-      <span class="title">style guide</span>
-      <span class="desc">Opinionated usage rules — when to pick which color, type, spacing, motion. The do/don't list mirrored from Catppuccin's style-guide pattern.</span>
-      <span class="path">./docs/STYLE-GUIDE.md</span>
-    </a>
-    <a class="card" href="./md.html?src=docs/ACCESSIBILITY.md" data-search="accessibility wcag aaa aa contrast cvd colour vision deuteranopia tritanopia">
-      <span class="title">accessibility</span>
-      <span class="desc">WCAG numbers per pair, CVD notes, simulator recommendations, what's in scope vs. what isn't. Status colors require glyph + label.</span>
-      <span class="path">./docs/ACCESSIBILITY.md</span>
-    </a>
-    <a class="card" href="./md.html?src=CHANGELOG.md">
-      <span class="title">changelog</span>
-      <span class="desc">Semver history — what changed, when, and why. Pin a tag or SHA in consumer projects.</span>
-      <span class="path">./CHANGELOG.md</span>
-    </a>
-  </div>
+  <p class="apropos-cmd" data-no-filter>man -k jylhis</p>
+  <ul class="apropos">
+    <li class="apropos-item" data-search="tokens palette spec core colors syntax ansi typography density motion contrast"><a href="./md.html?src=tokens.md">tokens<span class="sec">(7)</span></a><span class="what">canonical palette spec — core colors, syntax, ANSI 16, typography, density, motion, keyboard primitives; contrast ratios inlined</span></li>
+    <li class="apropos-item" data-search="integration quick-start web css go charm tui terminal emacs wayland new platform"><a href="./md.html?src=docs/INTEGRATION.md">integration<span class="sec">(7)</span></a><span class="what">quick-starts for web, Go / Charm TUI, terminal, Emacs, Wayland — and adding a new platform</span></li>
+    <li class="apropos-item" data-search="keyboard focus ring kbd chip leader command palette selected item shortcuts tab order"><a href="./md.html?src=platforms/KEYBOARD.md">keyboard<span class="sec">(7)</span></a><span class="what">focus ring, kbd chip, leader key, command palette, selected item, dismiss hints, canonical shortcuts</span></li>
+    <li class="apropos-item" data-search="style guide usage do dont rules accent paper ink copper linen modus signal spectrum"><a href="./md.html?src=docs/STYLE-GUIDE.md">style-guide<span class="sec">(7)</span></a><span class="what">opinionated usage rules — when to pick which color, type, spacing, motion; the do/don't list</span></li>
+    <li class="apropos-item" data-search="accessibility wcag aaa aa contrast cvd colour vision deuteranopia tritanopia"><a href="./md.html?src=docs/ACCESSIBILITY.md">accessibility<span class="sec">(7)</span></a><span class="what">WCAG numbers per pair, CVD notes, what's in scope vs. what isn't — status colors require glyph + label</span></li>
+    <li class="apropos-item" data-search="changelog semver history release version pin tag"><a href="./md.html?src=CHANGELOG.md">changelog<span class="sec">(7)</span></a><span class="what">semver history — what changed, when, and why; pin a tag or SHA in consumer projects</span></li>
+  </ul>
 
-  <h2 class="section" data-no-filter>live previews</h2>
+  <h2 class="section" data-no-filter>prototypes</h2>
   <div class="grid">
-    <a class="card" href="./prototypes/desktop/desktop.html">
+    <a class="card card--flagship" href="./prototypes/desktop/desktop.html">
       <span class="title">desktop environment</span>
       <span class="desc">A TUI desktop in the Norton Commander spirit — every window is a terminal. Live centerpiece shell, dual-pane commander, system monitor, agenda. Discoverable keyboard: F1–F10 function-key bar, menu bar, Space which-key.</span>
       <span class="path">./prototypes/desktop/desktop.html</span>
     </a>
-    <a class="card" href="./prototypes/macos/macos.html">
+    <a class="card card--flagship" href="./prototypes/macos/macos.html">
       <span class="title">macOS, themed</span>
       <span class="desc">A faithful macOS desktop reskinned in the Jylhis language — Apple menu bar, Dock, Finder, traffic-light windows, Spotlight, Control Center, Notification Center. Mono chrome, serif prose, copper hairline focus.</span>
       <span class="path">./prototypes/macos/macos.html</span>
     </a>
-    <a class="card" href="./prototypes/tablet/tablet.html">
+    <a class="card card--flagship" href="./prototypes/tablet/tablet.html">
       <span class="title">android tablet</span>
       <span class="desc">Android tablet with folio keyboard — split view, notification shade, app drawer, recents. Same keybindings as the desktop, adapted for 16:10 touch.</span>
       <span class="path">./prototypes/tablet/tablet.html</span>
     </a>
-    <a class="card" href="./platforms/index.html">
+    <a class="card card--flagship" href="./platforms/index.html">
       <span class="title">platforms gallery</span>
       <span class="desc">All ten targets in one page, rendered side-by-side in Paper and Roast. Ghostty, shell, Hyprland, Waybar, Mako, Rofi, GTK, Kvantum, Emacs, Charm.</span>
       <span class="path">./platforms/index.html</span>
     </a>
-    <a class="card" href="./prototypes/web/index.html">
+    <a class="card card--flagship" href="./prototypes/web/index.html">
       <span class="title">website prototype</span>
       <span class="desc">React recreation of the Astro site — home, notes, projects, resume, 404. Interactive theme toggle.</span>
       <span class="path">./prototypes/web/index.html</span>
     </a>
+  </div>
+
+  <h2 class="section" data-no-filter>specimens</h2>
+  <div class="grid">
     <a class="card" href="./preview/colors-core.html">
       <span class="title">color swatches</span>
       <span class="desc">Core palette, text / borders, syntax highlighting — hex values inline with role labels.</span>
@@ -283,7 +281,8 @@
 └── assets/</pre>
 
   <footer>
-    ──────── set in literata &amp; jetbrains mono · tokens in <a href="./md.html?src=tokens.md">tokens.md</a> · source on <a href="https://github.com/jylhis/design">github</a> ────────
+    <p class="footer-mark" aria-hidden="true">jy <span class="chev">❯</span><span class="ds-caret"></span></p>
+    ──────── set in literata &amp; jetbrains mono · tokens in <a href="./md.html?src=tokens.md">tokens.md</a> · source on <a href="https://github.com/jylhis/design">github</a> · tehty käsin ────────
   </footer>
 </main>
 
@@ -421,7 +420,7 @@
     const q = (filter?.value || "").trim().toLowerCase();
     const swatches = document.querySelectorAll(".sw");
     const chips = document.querySelectorAll(".chip");
-    const cards = document.querySelectorAll("a.card");
+    const cards = document.querySelectorAll("a.card, .apropos-item");
     const groupHeads = document.querySelectorAll(".group-head");
 
     let shown = 0;
@@ -450,6 +449,21 @@
     filterCount.textContent = q ? `${shown} match${shown === 1 ? "" : "es"}` : "";
     filterClear.disabled = !q;
   };
+
+  // "Ink draws on" entrance — one drawn rule, one typed label. JS-gated:
+  // without JS the hero renders fully static and visible (reveal safety).
+  const manLabel = document.getElementById("man-label");
+  const heroRule = document.getElementById("hero-rule");
+  if (manLabel && heroRule) {
+    manLabel.classList.add("ds-typed");
+    heroRule.classList.add("ds-rule-draw");
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      manLabel.classList.add("is-typed");
+      heroRule.classList.add("is-drawn");
+    }));
+  }
+
+  console.log("%cjy ❯%c tokens in ./tokens.md · source in tokens.json · tehty käsin", "color:#8a4f24;font-weight:bold;font-family:monospace", "color:inherit;font-family:monospace");
 
   filter?.addEventListener("input", applyFilter);
   filterClear?.addEventListener("click", () => { filter.value = ""; applyFilter(); filter.focus(); });
