@@ -3,9 +3,9 @@ import * as React from "react";
 export interface FieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /** Lowercase mono label above the input */
   label: string;
-  /** Muted helper line under the input */
+  /** Muted helper line under the input — linked to the input via aria-describedby */
   help?: string;
-  /** Error message — replaces help, colors it status-err, and sets aria-invalid */
+  /** Error message — replaces help, colors it status-err, sets aria-invalid, and is linked via aria-describedby */
   error?: string;
   /** Render a textarea instead of an input */
   textarea?: boolean;
