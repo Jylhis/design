@@ -98,7 +98,7 @@ permissions and prompts carry the Jylhis identity.
 | Mono / headings | JetBrains Mono (variable, OFL) | IBM Plex Mono, Fira Code, Cascadia Code, Courier New, monospace |
 | **TUI / Emacs / terminal fallback** | JetBrains Mono | **Iosevka → IBM Plex Mono → Fira Mono → DejaVu Sans Mono → monospace** |
 
-Size scale: `2 / 1.4 / 1.15 / 1 / 0.85 / 0.75 / 0.72 / 0.65` rem — emitted as `--type-scale-0…7` in `tokens.css`; headings consume the vars so sizes cannot drift.
+Size scale: `2 / 1.6 / 1.4 / 1.15 / 1 / 0.95 / 0.85 / 0.8 / 0.75 / 0.72` rem — emitted as `--type-scale-0…9` in `tokens.css`; headings consume the vars so sizes cannot drift. `0.72` is the floor — nothing renders smaller.
 Line height: `1.25` for headings, `1.65` for body, `1.3` for TUI / dense lists.
 
 ## 5. Density

@@ -65,7 +65,7 @@ The ASE generator emits binary content; the `--check` mode handles both text and
 - `colors_and_type.css` — imports `tokens.css` + `fonts.css`, then adds font stacks, semantic type helpers (`.ds-body`, `.ds-h1`, `.ds-meta`, `.ds-code-inline`, etc.), type craft defaults (oldstyle figures, `text-wrap`, hanging punctuation), and the interaction baseline (selection, caret, `:focus-visible` ring)
 - `fonts.css` — self-hosted variable-font `@font-face` blocks (Literata + JetBrains Mono, latin/latin-ext subsets with `unicode-range`)
 - `motion.css` — the "ink draws on" motion signature (`.ds-rule-draw`, `.ds-typed`, `.ds-caret`); guardrails in `docs/STYLE-GUIDE.md` §5
-- `components/` — React components library: 12 components, each `<Name>/<Name>.jsx` + `<Name>.d.ts` + `card.html` specimen, styled by `components/components.css` (tokens only, class-per-component)
+- `components/` — React components library: 16 components, each `<Name>/<Name>.jsx` + `<Name>.d.ts` + `card.html` specimen, styled by `components/components.css` (tokens only, class-per-component)
 - `platforms/shell/` — starship.toml, bashrc, zshrc, dircolors (use ANSI names, not hex)
 - `platforms/ghostty/config` — user preferences, not palette
 - `platforms/KEYBOARD.md` — focus ring, kbd chip, command palette, selected-item spec

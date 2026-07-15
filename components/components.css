@@ -80,7 +80,7 @@
 /* ── Tag ────────────────────────────────────────────────── */
 .ds-tag {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   padding: 0.15em 0.55em;
   border-radius: var(--radius-sm);
   background: var(--color-bg-subtle);
@@ -93,10 +93,30 @@ a.ds-tag:hover { color: var(--color-accent); border-color: var(--color-accent); 
 a.ds-tag:active { color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
 a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
 
+/* Tag layout — wrapping row of chips */
+.ds-tag-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* ── Mark — personal brand mark: jy ❯ ───────────────────── */
+.ds-mark {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-text-heading);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.ds-mark__chevron { color: var(--color-accent); }
+
 /* ── StatusBadge ────────────────────────────────────────── */
 .ds-status {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   padding: 0.1em 0.5em;
   border-radius: var(--radius-sm);
   text-transform: uppercase;
@@ -190,6 +210,43 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 }
 .ds-callout a { color: var(--color-accent); text-decoration: none; }
 .ds-callout a:hover { color: var(--color-accent-hover); }
+.ds-callout a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+
+/* ── Terminal ───────────────────────────────────────────── */
+/* Terminal session frame. Same hairline/radius language as ds-codeblock;
+   prompt chevron is ALWAYS copper (the ANSI 11 rule). Output coloring is
+   the consumer's job, via Modus syntax / status tokens — never the accent. */
+.ds-term {
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  overflow: hidden;
+}
+.ds-term__title {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--border-hairline) dashed var(--color-border);
+}
+.ds-term__body {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.ds-term__entry + .ds-term__entry { margin-top: var(--space-xs); }
+.ds-term__line { display: flex; align-items: baseline; white-space: pre-wrap; }
+.ds-term__cwd { color: var(--color-text-muted); }
+.ds-term__chev { color: var(--color-accent); font-weight: 700; }
+.ds-term__cmd { color: var(--color-text); font-weight: 500; }
+.ds-term__out {
+  margin: var(--space-2xs) 0 0;
+  padding: 0;
+  font: inherit;
+  color: var(--color-text-muted);
+  white-space: pre-wrap;
+}
 
 /* ── ProjectCard ────────────────────────────────────────── */
 .ds-card {
@@ -225,8 +282,8 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 
 /* ── Field ──────────────────────────────────────────────── */
 .ds-field { display: flex; flex-direction: column; gap: var(--space-xs); font-family: var(--font-mono); }
-.ds-field__label { font-size: 0.74rem; color: var(--color-text); }
-.ds-field__help { font-size: 0.66rem; color: var(--color-text-muted); }
+.ds-field__label { font-size: 0.75rem; color: var(--color-text); }
+.ds-field__help { font-size: 0.72rem; color: var(--color-text-muted); }
 .ds-field__help--error { color: var(--color-status-err); }
 .ds-field__input {
   font-family: var(--font-mono);
@@ -240,7 +297,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
   box-sizing: border-box;
   transition: border-color var(--transition-fast);
 }
-.ds-field__input::placeholder { color: var(--color-text-faint); }
+.ds-field__input::placeholder { color: var(--color-text-muted); }
 .ds-field__input:hover { border-color: var(--color-border-strong); }
 .ds-field__input:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); border-color: var(--color-accent); }
 .ds-field__input:disabled { color: var(--color-text-faint); background: var(--color-bg-subtle); cursor: not-allowed; }
@@ -249,7 +306,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 /* ── CodeBlock ──────────────────────────────────────────── */
 .ds-codeblock { font-family: var(--font-mono); }
 .ds-codeblock__filename {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
   background: var(--color-surface);
   border: var(--border-hairline) solid var(--color-code-border);
@@ -285,12 +342,12 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
   line-height: 1.65;
 }
 .ds-cv__num::after { content: counter(cv-line); }
-.ds-cv__body { padding: 0.15rem 0 0.15rem 0.9rem; border-left: 1px solid var(--color-border); line-height: 1.65; font-size: 0.92rem; }
+.ds-cv__body { padding: 0.15rem 0 0.15rem 0.9rem; border-left: 1px solid var(--color-border); line-height: 1.65; font-size: 0.95rem; }
 .ds-cv__role { font-weight: 600; color: var(--color-text-heading); }
 .ds-cv__company { color: var(--color-accent); }
-.ds-cv__date { font-size: 0.76rem; color: var(--color-text-muted); }
-.ds-cv__desc { font-family: var(--font-body); color: var(--color-text); font-size: 0.93rem; }
-.ds-cv__hl { font-family: var(--font-body); color: var(--color-text-muted); font-size: 0.86rem; padding-left: 1.8rem; }
+.ds-cv__date { font-size: 0.75rem; color: var(--color-text-muted); }
+.ds-cv__desc { font-family: var(--font-body); color: var(--color-text); font-size: 0.95rem; }
+.ds-cv__hl { font-family: var(--font-body); color: var(--color-text-muted); font-size: 0.85rem; padding-left: 1.8rem; }
 .ds-cv__blank { height: 1.65em; }
 .ds-cv__skills .k { color: var(--color-syntax-keyword); }
 .ds-cv__skills .b { color: var(--color-text-muted); }
@@ -302,7 +359,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 .ds-log__entry { display: grid; grid-template-columns: 11ch 2ch 1fr; gap: 0 var(--space-sm); }
 .ds-log__date {
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   padding-top: 0.28em;
   text-align: right;

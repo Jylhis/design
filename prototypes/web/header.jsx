@@ -1,37 +1,16 @@
-// Header.jsx — site header lockup with maker's mark + breadcrumb
-const Rune = ({ size = 24 }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square">
-    <line x1="16" y1="2" x2="16" y2="30"/>
-    <line x1="16" y1="6" x2="26" y2="14"/>
-    <line x1="16" y1="6" x2="6" y2="14"/>
-    <line x1="6" y1="14" x2="16" y2="22" strokeWidth="2"/>
-    <line x1="26" y1="14" x2="16" y2="22" strokeWidth="2"/>
-    <line x1="8" y1="22" x2="16" y2="14" strokeWidth="1.5"/>
-    <line x1="24" y1="22" x2="16" y2="14" strokeWidth="1.5"/>
-  </svg>
-);
-
+// Header.jsx — site header lockup: DS Mark + DS Breadcrumb + DS Button(search)
 const Header = ({ crumbs = [{label: 'home', href: '/', current: true}], onNav, onSearch, theme, onToggleTheme }) => (
   <header className="site-header">
     <a className="site-wordmark-group" onClick={(e)=>{e.preventDefault(); onNav?.('/');}} href="/">
-      <span className="makers-mark"><Rune size={28}/></span>
+      <span className="makers-mark" style={{fontSize:'1.2rem'}}><Mark/></span>
       <span className="wordmark">your name</span>
     </a>
     <div className="header-right">
-      <nav className="ds-breadcrumb" aria-label="Breadcrumb">
-        {crumbs.map((c, i) => (
-          <React.Fragment key={`${c.href ?? ""}|${c.label}`}>
-            {i > 0 && <span className="ds-breadcrumb__sep" aria-hidden="true">›</span>}
-            {c.current
-              ? <span className="ds-breadcrumb__current" aria-current="page">{c.label}</span>
-              : <a href={c.href} onClick={(e)=>{e.preventDefault(); onNav?.(c.href);}}>{c.label}</a>}
-          </React.Fragment>
-        ))}
-      </nav>
-      <button type="button" className="ds-btn ds-btn--search" onClick={onSearch}>
-        <span>search</span>
-        <kbd className="ds-kbd">/</kbd>
-      </button>
+      <Breadcrumb
+        items={crumbs.map(c => ({ label: c.label, href: c.current ? undefined : c.href }))}
+        onNavigate={(href) => onNav?.(href)}
+      />
+      <Button variant="search" kbdHint="/" onClick={onSearch}>search</Button>
       <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
         {theme === 'dark' ? '☀' : '☾'}
       </button>
@@ -39,5 +18,4 @@ const Header = ({ crumbs = [{label: 'home', href: '/', current: true}], onNav, o
   </header>
 );
 
-window.Rune = Rune;
 window.Header = Header;

@@ -267,10 +267,11 @@ function checkFile(rel) {
 
   // 8. Inline <style>: outline: none must pair with :focus-visible replacement;
   //    transition/animation must pair with prefers-reduced-motion guard
-  //    (or the page must import colors_and_type.css, which provides a
-  //    universal guard for the whole system).
-  const importsTokensCss = /<link\b[^>]*href\s*=\s*["'][^"']*colors_and_type\.css["']/i.test(src) ||
-                            /@import\s+url\(\s*["'][^"']*colors_and_type\.css["']\s*\)/i.test(src);
+  //    (or the page must import colors_and_type.css — directly or via the
+  //    styles.css entry point — which provides a universal guard for the
+  //    whole system).
+  const importsTokensCss = /<link\b[^>]*href\s*=\s*["'][^"']*(?:colors_and_type|styles)\.css["']/i.test(src) ||
+                            /@import\s+url\(\s*["'][^"']*(?:colors_and_type|styles)\.css["']\s*\)/i.test(src);
   for (const m of src.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) {
     const css = m[1];
     const styleStart = lineOf(src, m.index);
