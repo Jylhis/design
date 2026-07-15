@@ -5,14 +5,14 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-# Deploy the production site to the root of the gh-pages branch.
-# PR previews (see preview.yml) live under pr-preview/ on the same branch,
-# so both share a single GitHub Pages site served from that branch.
+# contents:write so the deploy step can push the built site to gh-pages.
 permissions:
   contents: write
 
+# Serialize every write to gh-pages across BOTH this workflow and preview.yml
+# so a production deploy and a PR-preview deploy never race on the branch.
 concurrency:
-  group: pages-deploy
+  group: gh-pages-write
   cancel-in-progress: false
 
 jobs:
@@ -26,12 +26,33 @@ jobs:
       - name: Assemble site
         run: bash scripts/assemble-pages.sh
 
-      - name: Deploy to gh-pages
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4
-        with:
-          folder: _site
-          branch: gh-pages
-          # Wipe stale production files, but never touch live PR previews.
-          clean: true
-          clean-exclude: |
-            pr-preview/
+      # Publish _site to the ROOT of gh-pages using only git + GitHub's own
+      # token — no third-party deploy action. PR previews under pr-preview/
+      # (see preview.yml) are preserved across production redeploys.
+      - name: Deploy to gh-pages root
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          tmp="$(mktemp -d)"
+          git clone --depth 1 --branch gh-pages "$remote" "$tmp" || {
+            git clone --depth 1 "$remote" "$tmp"
+            git -C "$tmp" checkout --orphan gh-pages
+            git -C "$tmp" rm -rf . >/dev/null 2>&1 || true
+          }
+          # Replace everything except .git and the live PR previews.
+          find "$tmp" -mindepth 1 -maxdepth 1 ! -name .git ! -name pr-preview -exec rm -rf {} +
+          cp -a _site/. "$tmp"/
+          cd "$tmp"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "deploy: ${GITHUB_SHA} to Pages root" || { echo "no changes"; exit 0; }
+          for i in 1 2 3 4 5; do
+            git push origin gh-pages && exit 0
+            echo "push rejected, syncing with remote (attempt $i)"
+            git fetch origin gh-pages && git rebase origin/gh-pages
+            sleep $((i * 2))
+          done
+          echo "failed to push after retries" >&2; exit 1

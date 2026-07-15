@@ -4,37 +4,86 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, closed]
 
-# contents:write to push the built preview to gh-pages; pull-requests:write
-# so the action can post/update the preview-link comment on the PR.
+# contents:write to push the preview to gh-pages; pull-requests:write so the
+# github-script step can post/update the preview-link comment.
 permissions:
   contents: write
   pull-requests: write
 
-concurrency: preview-${{ github.ref }}
+# Share gh-pages-write with pages.yml so production and preview deploys never
+# race on the branch. cancel-in-progress:false so a push is never interrupted.
+concurrency:
+  group: gh-pages-write
+  cancel-in-progress: false
 
 jobs:
-  deploy-preview:
+  preview:
     name: build and deploy PR preview
     runs-on: ubuntu-latest
-    # Fork PRs get a read-only token and cannot push to gh-pages, so skip them
-    # rather than fail. Previews are published for same-repo branches only.
+    # Fork PRs get a read-only token and cannot push to gh-pages, so skip them.
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v7
+        if: github.event.action != 'closed'
 
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         if: github.event.action != 'closed'
 
-      # No build needed on close: the action only removes the stale preview dir.
+      # No build needed on close: the deploy step only removes the preview dir.
       - name: Assemble site
         if: github.event.action != 'closed'
         run: bash scripts/assemble-pages.sh
 
-      - name: Deploy preview
-        uses: rossjrw/pr-preview-action@ffa7509e91a3ec8dfc2e5536c4d5c1acdf7a6de9 # v1.8.1
+      # Publish (or, on close, remove) pr-preview/pr-<N>/ on gh-pages using only
+      # git + GitHub's own token — no third-party deploy action.
+      - name: Deploy preview to gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.number }}
+          ACTION: ${{ github.event.action }}
+        run: |
+          set -euo pipefail
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          tmp="$(mktemp -d)"
+          git clone --depth 1 --branch gh-pages "$remote" "$tmp" || {
+            git clone --depth 1 "$remote" "$tmp"
+            git -C "$tmp" checkout --orphan gh-pages
+            git -C "$tmp" rm -rf . >/dev/null 2>&1 || true
+          }
+          dir="$tmp/pr-preview/pr-${PR}"
+          rm -rf "$dir"
+          if [ "$ACTION" != "closed" ]; then
+            mkdir -p "$dir"
+            cp -a _site/. "$dir"/
+          fi
+          cd "$tmp"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "preview: pr-${PR} (${ACTION})" || { echo "no changes"; exit 0; }
+          for i in 1 2 3 4 5; do
+            git push origin gh-pages && exit 0
+            echo "push rejected, syncing with remote (attempt $i)"
+            git fetch origin gh-pages && git rebase origin/gh-pages
+            sleep $((i * 2))
+          done
+          echo "failed to push after retries" >&2; exit 1
+
+      - name: Comment preview link
+        if: github.event.action != 'closed'
+        uses: actions/github-script@v7
         with:
-          source-dir: _site
-          preview-branch: gh-pages
-          umbrella-dir: pr-preview
-          # auto: deploy on open/reopen/synchronize, remove on close.
-          action: auto
+          script: |
+            const pr = context.issue.number;
+            const url = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-preview/pr-${pr}/`;
+            const marker = '<!-- pr-preview-link -->';
+            const body = `${marker}\n**Live preview:** ${url}\n\n_Built from ${context.sha.slice(0, 7)}. Updates on push; removed when this PR closes._`;
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo, issue_number: pr,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: pr, body });
+            }
