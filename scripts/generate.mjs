@@ -733,6 +733,17 @@ function _emacsRoleAnsi(alias, mode) {
   if (entry.ansi) return _ansiNameForSlot(entry.ansi);
   return _nearestAnsi(entry[mode], mode);
 }
+// Honor an optional per-mode `x256` override on a role entry, e.g.
+//   "surface": { …, "x256": { "light": "color-251", "dark": "color-239" } }
+// Nearest-color quantization collapses near-identical surfaces onto the same
+// 256-palette slot (e.g. the modeline background onto `bg`), so a handful of
+// roles pin an explicit index for the xterm-256 tier while keeping their
+// 24-bit hex untouched. Mirrors the `ansi` override for the 16-color tier.
+function _emacsRoleX256(alias, mode) {
+  const entry = _emacsRoleEntry(alias);
+  const override = entry.x256 && entry.x256[mode];
+  return override ?? hexToXterm256(entry[mode]);
+}
 
 function generateEmacsPalette(mode) {
   const variant = mode === "light" ? "paper" : "roast";
@@ -742,7 +753,7 @@ function generateEmacsPalette(mode) {
   const paletteLines = aliases.map((alias) => {
     const entry = _emacsRoleEntry(alias);
     const hex = entry[mode];
-    const x256 = hexToXterm256(hex);
+    const x256 = _emacsRoleX256(alias, mode);
     const a16 = _emacsRoleAnsi(alias, mode);
     return `    (${alias.padEnd(15)} ("${hex}" "${x256}" "${a16}"))`;
   });

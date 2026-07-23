@@ -14,8 +14,8 @@
 (defconst jylhis-paper-palette
   '(
     (bg              ("#faf7f2" "color-255" "unspecified-bg"))
-    (bg-subtle       ("#f0ebe3" "color-255" "brightblack"))
-    (surface         ("#e8e1d6" "color-254" "brightblack"))
+    (bg-subtle       ("#f0ebe3" "color-253" "brightblack"))
+    (surface         ("#e8e1d6" "color-251" "brightblack"))
     (surface-raised  ("#fefdfb" "color-231" "brightblack"))
     (fg              ("#2c2825" "color-235" "unspecified-fg"))
     (fg-muted        ("#6b5f54" "color-59" "white"))

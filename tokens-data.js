@@ -106,17 +106,29 @@ export const tokens = {
     },
     "bg-subtle": {
       "light": "#f0ebe3",
-      "dark": "#242019"
+      "dark": "#242019",
+      "x256": {
+        "light": "color-253",
+        "dark": "color-235"
+      },
+      "notes": "x256: the 24-bit surfaces sit within one grayscale-ramp step of bg once quantized, so the modeline (surface) and inactive modeline (bg-subtle) vanish on a 256-color TTY; explicit indices restore the elevation steps for terminals while keeping the subtle GUI hexes"
     },
     "surface": {
       "light": "#e8e1d6",
       "dark": "#2a2520",
-      "notes": "card fill"
+      "x256": {
+        "light": "color-251",
+        "dark": "color-237"
+      },
+      "notes": "card fill (active modeline bg); x256 pinned distinct from bg — see bg-subtle"
     },
     "surface-raised": {
       "light": "#fefdfb",
       "dark": "#363230",
-      "notes": "modals, elevated"
+      "x256": {
+        "dark": "color-239"
+      },
+      "notes": "modals, elevated; x256 dark bumped so it stays the most-elevated grayscale step above the retimed surface. light quantizes to pure white already"
     },
     "text": {
       "light": "#2c2825",

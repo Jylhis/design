@@ -120,6 +120,28 @@ if (tokens.palette?.accent?.ansi && tokens.palette.accent.ansi !== "bright-yello
   fail(`palette.accent.ansi: must be "bright-yellow" (CLAUDE.md: ANSI 11 is always brand copper)`);
 }
 
+// Optional per-role `x256` override — an explicit xterm-256 index for the
+// Emacs terminal tier, used where nearest-color quantization would collapse
+// two roles onto the same slot. Must be an object of mode → "color-NNN"
+// (0–255). Mirrors the `ansi` override validated above.
+const X256_RE = /^color-(\d{1,3})$/;
+for (const [section, entries] of [["palette", tokens.palette], ["syntax", tokens.syntax], ["status", tokens.status]]) {
+  for (const [role, entry] of Object.entries(entries)) {
+    if (!entry || !Object.prototype.hasOwnProperty.call(entry, "x256")) continue;
+    const v = entry.x256;
+    if (typeof v !== "object" || v === null || Array.isArray(v)) {
+      fail(`${section}.${role}.x256: must be an object of mode → "color-NNN"`);
+      continue;
+    }
+    for (const [mode, idx] of Object.entries(v)) {
+      const m = typeof idx === "string" ? X256_RE.exec(idx) : null;
+      if (!m || Number(m[1]) > 255) {
+        fail(`${section}.${role}.x256.${mode}: "${idx}" is not a valid "color-NNN" (0–255) index`);
+      }
+    }
+  }
+}
+
 // Scalar token maps — breakpoints/borderWidth are px strings, zIndex is
 // non-negative integers. `notes` keys are documentation and skipped.
 const PX_RE = /^\d+px$/;
@@ -303,6 +325,67 @@ for (const role of ["status-err", "status-warn", "status-ok", "status-info", "ac
   }
 }
 
+// ─── 2f. Modeline surfaces must be distinct from bg on a 256-color TTY ─
+// The active modeline uses `surface` and the inactive modeline uses
+// `bg-subtle` (platforms/emacs jylhis--face-specs). The 24-bit surfaces sit
+// within ~1 grayscale-ramp step of `bg` once nearest-quantized to xterm-256,
+// so without the `x256` overrides the modeline is the same color as the
+// buffer on a 256-color terminal. Require a real separation in the resolved
+// xterm-256 index. The hex→index map mirrors hexToXterm256 in
+// scripts/generate.mjs; keep them in sync.
+const _x256CubeSteps = [0, 95, 135, 175, 215, 255];
+function _hexToX256Index(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const rgb = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  const nearestCube = (v) => {
+    let bi = 0, bd = Infinity;
+    for (let i = 0; i < 6; i++) { const d = Math.abs(v - _x256CubeSteps[i]); if (d < bd) { bd = d; bi = i; } }
+    return bi;
+  };
+  const [ri, gi, bi] = rgb.map(nearestCube);
+  const cubeIdx = 16 + 36 * ri + 6 * gi + bi;
+  const cubeDist = (_x256CubeSteps[ri] - rgb[0]) ** 2 + (_x256CubeSteps[gi] - rgb[1]) ** 2 + (_x256CubeSteps[bi] - rgb[2]) ** 2;
+  let grayIdx = -1, grayDist = Infinity;
+  for (let i = 0; i < 24; i++) {
+    const gv = 8 + 10 * i;
+    const d = (gv - rgb[0]) ** 2 + (gv - rgb[1]) ** 2 + (gv - rgb[2]) ** 2;
+    if (d < grayDist) { grayDist = d; grayIdx = 232 + i; }
+  }
+  return cubeDist <= grayDist ? cubeIdx : grayIdx;
+}
+function _x256IndexToRgb(idx) {
+  if (idx >= 232 && idx <= 255) { const v = 8 + 10 * (idx - 232); return [v, v, v]; }
+  if (idx >= 16 && idx <= 231) {
+    let c = idx - 16; const b = c % 6; c = (c - b) / 6; const g = c % 6; const r = (c - g) / 6;
+    return [_x256CubeSteps[r], _x256CubeSteps[g], _x256CubeSteps[b]];
+  }
+  return null; // ANSI 0–15 aren't used by the surface roles
+}
+function _resolveX256Rgb(role, mode) {
+  const entry = tokens.palette[role];
+  if (!entry) return null;
+  const override = entry.x256 && entry.x256[mode];
+  const idx = override ? Number(X256_RE.exec(override)?.[1]) : _hexToX256Index(entry[mode]);
+  return Number.isFinite(idx) ? _x256IndexToRgb(idx) : null;
+}
+const X256_MIN_DIST = 30; // ≈ 2 grayscale-ramp steps of separation
+let modelineSepChecks = 0;
+for (const role of ["surface", "bg-subtle"]) {
+  for (const mode of ["light", "dark"]) {
+    const a = _resolveX256Rgb(role, mode);
+    const b = _resolveX256Rgb("bg", mode);
+    if (!a || !b) continue;
+    modelineSepChecks++;
+    const dist = Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2);
+    if (dist < X256_MIN_DIST) {
+      fail(
+        `x256 modeline: ${role} (${mode}) resolves too close to bg on a 256-color TTY ` +
+        `(distance ${dist.toFixed(1)} < ${X256_MIN_DIST}) — set palette.${role}.x256.${mode}`,
+      );
+    }
+  }
+}
+
 // ─── 3. CSS var(--…) resolution in colors_and_type.css ───────────────
 
 const css = read("colors_and_type.css");
@@ -328,4 +411,4 @@ if (errors.length) {
 }
 
 const roleCount = requiredPalette.length + requiredSyntax.length + 4 + 16;
-console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg + ${ttyChecksDone} TTY + ${tintChecksDone} tint contrast checks)`);
+console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg + ${ttyChecksDone} TTY + ${tintChecksDone} tint contrast checks + ${modelineSepChecks} modeline-sep)`);
