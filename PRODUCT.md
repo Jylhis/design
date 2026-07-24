@@ -29,20 +29,26 @@ read tokens, specimens, and integration docs to consume the system correctly.
 A single-source-of-truth design system for a personal engineering identity.
 `tokens.json` holds every color, spacing step, type, motion value, ANSI slot,
 and contrast claim; `scripts/generate.mjs` generates every platform target from
-it. Success is one coherent warm-paper identity rendering identically across
-every surface Markus uses, with the accessibility claims mechanically enforced.
+it. Success is one coherent surveyed identity rendering identically across every
+surface Markus uses — each surface a sheet triangulated from the same datum —
+with the accessibility claims mechanically enforced.
 
 ## Positioning
 
-- **One warm light, one warm dark, both first-class and both AAA-body.** Not a
-  large themed family; Paper and Roast are tuned independently for warmth, never
-  mirrored, never a tinted afterthought of each other.
-- **Terminal-and-press aesthetic as identity, not decoration.** Man-page
-  headers, shell prompts, code-editor gutters, Unicode glyphs as the icon set.
-- **Single copper accent, reserved.** Copper is UI chrome and the maker's mark
-  only; it is deliberately never a syntax color.
-- **Modus syntax everywhere.** Code renders with Emacs Modus (Operandi light /
-  Vivendi dark) pixel-identical across Emacs, web, `bat`/`delta`, Charm TUIs.
+- **One cool light, one cool dark, both first-class and both AAA-body.** Not a
+  large themed family; **Sheet** (light, the printed survey) and **Field** (dark,
+  the night field-book) are tuned independently, never mirrored. They are the
+  *source and output* of one survey, not tinted twins.
+- **Cartographic-survey aesthetic as identity, not decoration.** `tokens.json` is
+  the **datum**; each surface is a **sheet** of one atlas, a **trig station**
+  triangulated to that datum. Contours, graticule, legend, scale bar, title
+  block; Unicode glyphs as the icon set.
+- **Single bronze accent, reserved.** Bronze/amber is interaction and the maker's
+  mark only; a Modus blue carries structural linework; a benchmark vermilion
+  marks the datum. The accent is deliberately never a syntax color.
+- **Modus palette everywhere.** The whole system is grounded in Emacs Modus
+  (Operandi / Vivendi), AAA by construction and tritanopia-aware; code renders
+  pixel-identical across Emacs, web, `bat`/`delta`, Charm TUIs.
 - **Generated, never hand-duplicated.** No hex lives outside `tokens.json`.
 
 ## Operating Context
@@ -75,33 +81,46 @@ validator gauntlet; CI enforces every validator on push/PR.
   + `card.html` specimen, styled by `components/components.css` using tokens
   only, one class per component.
 - **Emacs three-tier degradation:** every face spec degrades 24-bit GUI hex →
-  nearest xterm-256 → named 16-color ANSI slot; ANSI slot 11 is always copper.
+  nearest xterm-256 → named 16-color ANSI slot; ANSI slot 11 is always the
+  bronze accent.
 - **Hard constraints (from ENGINEERING_PRINCIPLES.md, treat as invariant):**
   no gradients, no drop shadows, no glass/backdrop-filter; elevation via
-  bg-color steps + 1px borders; motion is color + translate only, `ease-out`,
-  `prefers-reduced-motion` honored; no icon font/SVG sprite/emoji; no
-  sans-serif; no hex duplication; dual-theme parity is mandatory.
+  bg-color steps + 1px hairlines (survey linework); motion is the "survey
+  renders in" grammar — draw-in / extend / count-up, `ease-out`, no bounce,
+  `prefers-reduced-motion` honored; no icon font/SVG sprite/emoji, Unicode glyphs
+  + thin `currentColor` survey marks instead; no hex duplication; dual-theme
+  (Sheet/Field) parity is mandatory. (v2 note: the former no-sans-serif rule is
+  retired — the type system is a three-role stack; see Brand Commitments.)
 - **Deliberately small, slow-changing.** Two themes, one accent, one type pair,
   a fixed list of targets. Adding a target or token group is an argued decision.
 
 ## Brand Commitments
 
-- **Name:** Jylhis Design System, for jylhis.com (Markus Jylhänkangas, Senior
-  Software Engineer & DevOps specialist, Zürich).
-- **Palette:** warm cream paper `#faf7f2` / dark roast `#1a1714`, never pure
-  white or black; single copper accent (`--color-brand` for the mark,
-  `--color-accent` for text-bearing accent).
-- **Type:** JetBrains Mono headings/chrome/code over Literata serif body. No
-  sans-serif. Monospace-heading-over-serif-body is the signature.
-- **Maker's mark:** the inline SVG rune (`assets/favicon.svg`), thin square-cap
-  stroke, always in accent color. The one bespoke SVG in the system.
-- **Voice:** first-person singular, direct, a little dry, engineer-not-marketer.
+- **Name:** Jylhis Design System — **v2, "The Survey"**, for jylhis.com (Markus
+  Jylhänkangas, Senior Software Engineer & DevOps specialist, Zürich). The
+  design system as a topographic survey: one datum, every sheet.
+- **Palette (Modus-lean, cool, tritanopia-checked):** two editions —
+  **Sheet** (light, ground `#f6f8fb`) and **Field** (dark, ground `#0d0f14`);
+  cool near-white / near-black, never pure. Single **bronze** interactive accent
+  (Sheet `#8a4d00` / Field `#e0a33a`); **Modus blue** structural contour
+  (`#2f4fb0` / `#6f9be0`); **benchmark vermilion** for the datum mark
+  (`#b5450e` / `#ef8a4a`). Status is Modus red/amber/green/cyan, toned so nothing
+  glows and always paired with a glyph + word.
+- **Type (three roles, retiring the old two-font rule):** **Zilla Slab** technical
+  slab serif for plate/display titles; **Hanken Grotesk** humanist grotesk for UI
+  and body; **IBM Plex Mono** for coordinates, data, ledger digits, and code.
+- **Maker's mark:** the **benchmark** — a thin `currentColor` triangle inside a
+  survey circle (a trig-station/benchmark glyph), the datum symbol, always in the
+  accent/vermilion. The one bespoke SVG in the system.
+- **Voice:** first-person singular, direct, a little dry, engineer-not-marketer,
+  now in the surveyor's register (datum, sheet, contour, benchmark, edition).
   Buttons are lowercase commands; errors are errno-style; empty states are `//`
   comments; no exclamation marks, no marketing adjectives. (docs/VOICE.md)
-- **Casing:** lowercase chrome, sentence/title-case prose, `UPPERCASE(7)`
-  man-page labels, canonical casing for code and proper nouns.
-- **Lineage acknowledged, not copied:** Modus, Solarized, Nord, Catppuccin,
-  Leuven inform specific decisions; none is imitated wholesale.
+- **Casing:** lowercase chrome, sentence/title-case prose, `UPPERCASE` mono
+  survey labels, canonical casing for code and proper nouns.
+- **Lineage acknowledged, not copied:** **Modus** is now the primary palette
+  ground (AAA + tritanopia); Solarized (measured lightness), Leuven, Catppuccin
+  (cool grounds) inform specific decisions; none is imitated wholesale.
 
 ## Evidence on Hand
 
@@ -119,11 +138,15 @@ validator gauntlet; CI enforces every validator on push/PR.
 
 1. **One source of truth or it does not exist.** Every value derives from
    `tokens.json`; generated targets are never hand-edited.
-2. **Both themes, always.** Nothing ships in Paper without Roast, or vice versa.
+2. **Both editions, always.** Nothing ships in Sheet without Field, or vice
+   versa. Optional CVD editions (tritanopia/deuteranopia, per Modus) may be added
+   as a bonus, but never at the expense of Sheet/Field parity.
 3. **Accessibility is a mechanical contract.** AAA body, AA meta, decorative
-   faint, enforced by validators against the generated output, not by claim.
-4. **The chrome is borrowed from the tools, honestly.** Terminal/man-page/press
-   tropes are the identity; no emoji, no gloss, no marketing sheen.
+   faint, enforced by validators against the generated output, not by claim. The
+   contour *is* the contrast threshold; a role below its floor does not print.
+4. **The chrome is borrowed from the survey, honestly.** Cartographic and
+   drafting tropes (datum, contour, graticule, legend, title block) are the
+   identity; no emoji, no gloss, no marketing sheen.
 5. **Small surface, slow change.** Additions are deliberate and argued, never
    drive-by. The system stays legible because it stays small.
 
@@ -140,9 +163,10 @@ validator gauntlet; CI enforces every validator on push/PR.
 
 ## Accessibility & Inclusion
 
-- Body text WCAG 2.1 **AAA** on both Paper and Roast; `text-muted` clears **AA**;
+- Body text WCAG 2.1 **AAA** on both Sheet and Field; `text-muted` clears **AA**;
   `text-faint` is decorative/non-text-critical only, and lint keeps it off body
-  and meta text.
+  and meta text. Palette is Modus-grounded (AAA by construction) and
+  tritanopia-checked; status separations avoid blue-vs-yellow reliance.
 - Status is never conveyed by color alone: every status line pairs a glyph with
   a word (enforced by `validate-a11y-html.mjs`).
 - Motion respects `prefers-reduced-motion`; focus is always a visible
