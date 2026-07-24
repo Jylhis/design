@@ -186,10 +186,10 @@ function generateTokensCSS() {
     // selection highlight + input caret (matches the editor/terminal targets)
     for (const r of ["selection-bg", "cursor"]) lines.push(`  ${cssName(r)}: ${tokens.palette[r][mode]};`);
     lines.push("  /* Borders */");
-    for (const r of ["border", "border-strong", "decorator"]) lines.push(`  ${cssName(r)}: ${tokens.palette[r][mode]};`);
+    for (const r of ["border", "border-strong", "decorator", "contour"]) lines.push(`  ${cssName(r)}: ${tokens.palette[r][mode]};`);
     lines.push("  /* Code */");
     lines.push(`  --color-code-bg: ${tokens.palette["bg-subtle"][mode]};`);
-    lines.push(`  --color-code-text: ${mode === "light" ? tokens.palette.text.light : "#c8bca8"};`);
+    lines.push(`  --color-code-text: ${tokens.palette.text[mode]};`);
     lines.push(`  --color-code-border: ${tokens.palette.border[mode]};`);
     lines.push("  /* Syntax */");
     for (const r of Object.keys(tokens.syntax)) lines.push(`  ${cssName(r)}: ${tokens.syntax[r][mode]};`);
@@ -320,7 +320,7 @@ function generateGhostty(mode) {
     `# \`theme = ${themeName}\` in config.`,
     "#",
     `# ANSI 0\u20136 are Modus ${modus} accents so \`ls\`, \`bat\`, \`delta\`, \`git log\``,
-    "# share the editor's palette. ANSI 11 is the brand copper \u2014 intentional",
+    "# share the editor's palette. ANSI 11 is the bronze accent \u2014 intentional",
     "# override so prompts and dir-permissions carry the Jylhis identity.",
     "# See tokens.md \u00a73.",
     "",
@@ -559,7 +559,7 @@ input-field {
     check_color = ${rgba("accent")}          # accent (verifying)
     fail_color  = ${rgba("status-err")}      # status-err
 
-    font_family = JetBrains Mono
+    font_family = IBM Plex Mono
     placeholder_text = Enter Password
     fail_text = <i>$PAMFAIL ($ATTEMPTS)</i>
     fade_on_empty = false
@@ -574,7 +574,7 @@ label {
     text_align = center
     color = ${rgba("text")}          # text
     font_size = 24
-    font_family = JetBrains Mono
+    font_family = IBM Plex Mono
     position = 0, -100
     halign = center
     valign = center
@@ -1357,7 +1357,7 @@ function generateRofi(mode) {
 
 configuration {
     modi:         "drun,combi,run,window";
-    font:         "JetBrains Mono 11";
+    font:         "IBM Plex Mono 11";
     show-icons:   true;
     icon-theme:   "${iconTheme}";
     terminal:     "ghostty";
@@ -1420,7 +1420,7 @@ message {
     border:           0 0 1px 0;
     border-color:     @border;
 }
-textbox { text-color: @text-muted; font: "JetBrains Mono 9"; }
+textbox { text-color: @text-muted; font: "IBM Plex Mono 9"; }
 
 listview {
     lines:            9;
@@ -1455,7 +1455,7 @@ element-icon { size: 18px; background-color: transparent; }
 element-text { background-color: transparent; vertical-align: 0.5; }
 element-text-hint {
     text-color:       @text-muted;
-    font:             "JetBrains Mono 9";
+    font:             "IBM Plex Mono 9";
     horizontal-align: 1.0;
     background-color: transparent;
 }
@@ -1483,8 +1483,8 @@ function generateGTK() {
  *   gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'        # light
  *   gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'   # dark
  *   gsettings set org.gnome.desktop.interface accent-color 'orange'
- *   gsettings set org.gnome.desktop.interface font-name 'Literata 11'
- *   gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 10'
+ *   gsettings set org.gnome.desktop.interface font-name 'Hanken Grotesk 11'
+ *   gsettings set org.gnome.desktop.interface monospace-font-name 'IBM Plex Mono 10'
  */
 
 /* \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1689,13 +1689,13 @@ function generateWaybar(mode = "dark") {
 
   return `/* Jylhis Waybar ${label} — GENERATED from tokens.json. Do not edit by hand.
  * ~/.config/waybar/style.css
- * ${label} background, copper accent, monospace. Top bar.
+ * ${label} background, bronze accent, monospace. Top bar.
  *
  * Tokens referenced: tokens.json palette, typography, density
  */
 
 * {
-    font-family: "JetBrains Mono", "JetBrains Mono", monospace;
+    font-family: "IBM Plex Mono", "IBM Plex Mono", monospace;
     font-size: 12.5px;
     min-height: 0;
     border: none;
@@ -1820,7 +1820,7 @@ function generateMako(mode = "dark") {
 # Notifications with the command-palette language: accent left-border,
 # monospace meta, paper/roast bg. Dismiss hint always visible.
 
-font=JetBrains Mono 11
+font=IBM Plex Mono 11
 width=380
 height=120
 margin=12
@@ -1842,7 +1842,7 @@ anchor=top-right
 default-timeout=6000
 ignore-timeout=0
 
-format=<b>%s</b>\\n%b\\n<span foreground='${c("text-faint")}' font='JetBrains Mono 9'>esc to dismiss \u00b7 meta+n to focus</span>
+format=<b>%s</b>\\n%b\\n<span foreground='${c("text-faint")}' font='IBM Plex Mono 9'>esc to dismiss \u00b7 meta+n to focus</span>
 
 # Selected marker \u2014 matches KEYBOARD.md \u00a7"Selected item (universal)"
 [focused]
@@ -1881,10 +1881,10 @@ function generateTokensData() {
   // tokens.groups so adding a new role updates the matrix automatically.
   const fgRoles = [
     ...tokens.groups.ink.members,
-    ...tokens.groups.copper.members,
+    ...tokens.groups.bronze.members,
     ...tokens.groups.signal.members,
   ];
-  const bgRoles = tokens.groups.paperstock.members;
+  const bgRoles = tokens.groups.grounds.members;
 
   const contrastPairs = [];
   for (const mode of ["light", "dark"]) {
@@ -2337,7 +2337,7 @@ function generatePlymouthScript(mode) {
 Window.SetBackgroundTopColor(${bg.r}, ${bg.g}, ${bg.b});
 Window.SetBackgroundBottomColor(${bg.r}, ${bg.g}, ${bg.b});
 
-# Wordmark — Plymouth's default font is fine; we don't ship JetBrains Mono.
+# Wordmark — Plymouth's default font is fine; we don't ship IBM Plex Mono.
 title_image = Image.Text("JYLHIS", ${text.r}, ${text.g}, ${text.b}, 1.0);
 title = Sprite(title_image);
 title.SetX(Window.GetWidth() / 2 - title_image.GetWidth() / 2);

@@ -12,7 +12,7 @@
 
 {
   console.colors = [
-    "1a1714" "ff5f59" "44bc44" "d0bc00" "2fafff" "feacd0" "6ae4b9" "e8e0d4"
-    "6b6157" "ff7f7f" "70b900" "e89b5e" "79a8ff" "b6a0ff" "00d3d0" "f0eae0"
+    "0d0f14" "f0685f" "6bbf6b" "d9b34a" "79a8ff" "feacd0" "6ae4b9" "d6dae2"
+    "656b76" "ff7f7f" "70b900" "e0a33a" "79a8ff" "b6a0ff" "00d3d0" "f2f4f8"
   ];
 }

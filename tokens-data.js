@@ -8,9 +8,9 @@ export const tokens = {
     "version": "0.5.0"
   },
   "groups": {
-    "paperstock": {
-      "label": "Paperstock",
-      "blurb": "the page itself — backgrounds and card surfaces",
+    "grounds": {
+      "label": "Grounds",
+      "blurb": "the survey sheet itself — page backgrounds and card surfaces, four tonal steps",
       "members": [
         "bg",
         "bg-subtle",
@@ -20,7 +20,7 @@ export const tokens = {
     },
     "ink": {
       "label": "Ink",
-      "blurb": "what is printed on the page — text in every weight",
+      "blurb": "what is drawn on the sheet — text in every weight",
       "members": [
         "text-heading",
         "text",
@@ -28,9 +28,9 @@ export const tokens = {
         "text-faint"
       ]
     },
-    "copper": {
-      "label": "Copper",
-      "blurb": "the single accent — links, focus rings, the maker's mark",
+    "bronze": {
+      "label": "Bronze",
+      "blurb": "the single interactive accent (bronze) plus the benchmark mark and its tints — links, focus rings, the datum mark",
       "members": [
         "accent",
         "accent-hover",
@@ -40,18 +40,19 @@ export const tokens = {
         "cursor"
       ]
     },
-    "linen": {
-      "label": "Linen",
-      "blurb": "rules and edges — borders and decorator dashes",
+    "line": {
+      "label": "Line",
+      "blurb": "survey linework — hairline borders, graticule dashes, and the structural contour blue",
       "members": [
         "border",
         "border-strong",
-        "decorator"
+        "decorator",
+        "contour"
       ]
     },
     "modus": {
       "label": "Modus",
-      "blurb": "Modus role taxonomy — keyword, string, type, comment — with hex values hue-tuned for warm paper and dark roast (not the upstream Modus values)",
+      "blurb": "Modus role taxonomy — keyword, string, type, comment — set to Emacs Modus Operandi (light) / Vivendi (dark) so code is identical everywhere; never repurposed for UI",
       "members": [
         "syn-keyword",
         "syn-string",
@@ -66,7 +67,7 @@ export const tokens = {
     },
     "signal": {
       "label": "Signal",
-      "blurb": "status colors — error, warning, ok, info; reuses the Modus accents",
+      "blurb": "status colors — error, warning, ok, info; Modus hues, toned so nothing glows and always paired with a glyph + word",
       "members": [
         "status-err",
         "status-warn",
@@ -76,7 +77,7 @@ export const tokens = {
     },
     "spectrum": {
       "label": "Spectrum",
-      "blurb": "the 16-slot ANSI terminal palette; slot 11 is intentionally overridden to brand copper",
+      "blurb": "the 16-slot ANSI terminal palette; slot 11 is intentionally overridden to the bronze accent",
       "members": [
         "black",
         "red",
@@ -99,209 +100,217 @@ export const tokens = {
   },
   "palette": {
     "bg": {
-      "light": "#faf7f2",
-      "dark": "#1a1714",
+      "light": "#f6f8fb",
+      "dark": "#0d0f14",
       "ansi": "unspecified-bg",
-      "notes": "warm paper / dark roast; on 16-color TTY, inherit terminal's own bg"
+      "notes": "Sheet / Field ground; cool near-white / near-black, never pure. On 16-color TTY, inherit terminal's own bg"
     },
     "bg-subtle": {
-      "light": "#f0ebe3",
-      "dark": "#242019",
+      "light": "#eef2f6",
+      "dark": "#14171e",
       "x256": {
         "light": "color-253",
         "dark": "color-235"
       },
-      "notes": "x256: the 24-bit surfaces sit within one grayscale-ramp step of bg once quantized, so the modeline (surface) and inactive modeline (bg-subtle) vanish on a 256-color TTY; explicit indices restore the elevation steps for terminals while keeping the subtle GUI hexes"
+      "notes": "code fills, zebra, inactive modeline; x256 indices restore the elevation step the cool near-grounds otherwise collapse into bg on a 256-color TTY"
     },
     "surface": {
-      "light": "#e8e1d6",
-      "dark": "#2a2520",
+      "light": "#e6ecf1",
+      "dark": "#1b1f28",
       "x256": {
         "light": "color-251",
         "dark": "color-237"
       },
-      "notes": "card fill (active modeline bg); x256 pinned distinct from bg — see bg-subtle"
+      "notes": "card / panel fill (active modeline bg); x256 pinned distinct from bg — see bg-subtle"
     },
     "surface-raised": {
-      "light": "#fefdfb",
-      "dark": "#363230",
+      "light": "#fcfdff",
+      "dark": "#232833",
       "x256": {
         "dark": "color-239"
       },
-      "notes": "modals, elevated; x256 dark bumped so it stays the most-elevated grayscale step above the retimed surface. light quantizes to pure white already"
+      "notes": "plates, modals, dropdowns — above the sheet; x256 dark bumped to stay the most-elevated grayscale step. light quantizes to near-white already"
     },
     "text": {
-      "light": "#2c2825",
-      "dark": "#e8e0d4",
+      "light": "#23262e",
+      "dark": "#d6dae2",
       "ansi": "unspecified-fg",
       "notes": "body (AAA); on 16-color TTY, inherit terminal's own fg"
     },
     "text-muted": {
-      "light": "#6b5f54",
-      "dark": "#b0a496",
-      "notes": "meta (AA / AAA)"
+      "light": "#565a63",
+      "dark": "#9aa0ab",
+      "notes": "meta / captions / help (AA)"
     },
     "text-heading": {
-      "light": "#1e1b18",
-      "dark": "#f0eae0",
+      "light": "#12141a",
+      "dark": "#f2f4f8",
       "notes": "titles (AAA)"
     },
     "text-faint": {
-      "light": "#6d6155",
-      "dark": "#8a7f72",
-      "notes": "decorators, disabled only; light is AA-safe for incidental text, dark stays a faint decorative tone (lint keeps faint off body/meta text)"
+      "light": "#878c95",
+      "dark": "#656b76",
+      "notes": "graticule labels, disabled meta, decoration only (lint keeps faint off body/meta text)"
     },
     "accent": {
-      "light": "#8a4f24",
-      "dark": "#e89b5e",
+      "light": "#8a4d00",
+      "dark": "#e0a33a",
       "ansi": "bright-yellow",
-      "notes": "copper UI accent, used as link text (AA on every surface / AAA on dark); ANSI slot 11 is always brand copper"
+      "notes": "bronze interactive accent, used as link text (AA on every surface / AAA on dark bg); ANSI slot 11 is always the bronze accent"
     },
     "accent-hover": {
-      "light": "#7a4622",
-      "dark": "#f5b07a"
+      "light": "#a75f0a",
+      "dark": "#f0b95c",
+      "notes": ":hover / :active only"
     },
     "brand": {
-      "light": "#b5703c",
-      "dark": "#d4884a",
-      "notes": "literal logo copper (large marks)"
+      "light": "#b5450e",
+      "dark": "#ef8a4a",
+      "notes": "benchmark vermilion — the maker's mark and datum triangle (large marks); distinct from status red"
+    },
+    "contour": {
+      "light": "#2f4fb0",
+      "dark": "#6f9be0",
+      "notes": "structural Modus-blue linework — contour rings, dividers, diagram strokes; structure only, never interaction"
     },
     "border": {
-      "light": "#d5cec4",
-      "dark": "#3d3830"
+      "light": "#cfd6de",
+      "dark": "#2b303b",
+      "notes": "default 1px survey hairline"
     },
     "border-strong": {
-      "light": "#b0a898",
-      "dark": "#5a5248"
+      "light": "#aab4c0",
+      "dark": "#3a4150",
+      "notes": "table heads, field hover"
     },
     "decorator": {
-      "light": "#c4baa8",
-      "dark": "#4a4338",
-      "notes": "dashed rules"
+      "light": "#7f8fb5",
+      "dark": "#39415a",
+      "notes": "graticule / dashed rules (contour-faint)"
     },
     "accent-subtle": {
-      "light": "#f0e6da",
-      "dark": "#2e2520",
-      "notes": "opaque approximation of accent @ 12-15% on bg"
+      "light": "#e9e3dd",
+      "dark": "#262119",
+      "notes": "opaque approximation of accent @ ~12% on bg"
     },
     "selection-bg": {
-      "light": "#e8d4b8",
-      "dark": "#4a3a28",
-      "notes": "text selection highlight"
+      "light": "#ece0cf",
+      "dark": "#3a2f1c",
+      "notes": "text selection highlight (bronze-tinted)"
     },
     "cursor": {
-      "light": "#8a4f24",
-      "dark": "#e89b5e",
+      "light": "#8a4d00",
+      "dark": "#e0a33a",
       "notes": "input cursor (matches accent)"
     },
     "scrim": {
-      "light": "#1c1814",
-      "dark": "#0a0806",
+      "light": "#14171e",
+      "dark": "#05060a",
       "notes": "modal/overlay scrim ink; emitted as translucent rgba --color-scrim in CSS (light 0.4, dark 0.55)"
     }
   },
   "syntax": {
     "syn-keyword": {
-      "light": "#4a2d80",
-      "dark": "#c8a5ff",
-      "modus": "from magenta-cooler — warmed indigo"
+      "light": "#5317ac",
+      "dark": "#b6a0ff",
+      "modus": "magenta-cooler — purple keyword"
     },
     "syn-string": {
-      "light": "#3d5a1f",
-      "dark": "#b3c785",
-      "modus": "from blue-cooler — olive/sage"
+      "light": "#2544bb",
+      "dark": "#79a8ff",
+      "modus": "blue-warmer — string"
     },
     "syn-number": {
-      "light": "#1f4d8a",
-      "dark": "#a8b4dc",
-      "modus": "from blue-warmer — muted indigo"
+      "light": "#0031a9",
+      "dark": "#79bbff",
+      "modus": "blue — number"
     },
     "syn-function": {
-      "light": "#8a2348",
-      "dark": "#f0a8c3",
-      "modus": "from magenta — rose-wine"
+      "light": "#721045",
+      "dark": "#feacd0",
+      "modus": "magenta — function name"
     },
     "syn-builtin": {
-      "light": "#6f1f6a",
-      "dark": "#e3a0d8",
-      "modus": "from magenta-warmer — deep magenta"
+      "light": "#8f0075",
+      "dark": "#f78fe7",
+      "modus": "magenta-warmer — builtin"
     },
     "syn-type": {
-      "light": "#134a4a",
-      "dark": "#80c8b3",
-      "modus": "from cyan-cooler — desaturated teal"
+      "light": "#005a5f",
+      "dark": "#6ae4b9",
+      "modus": "cyan-cooler — type"
     },
     "syn-variable": {
-      "light": "#2a4a6a",
-      "dark": "#95b3cc",
-      "modus": "from cyan — slate-blue"
+      "light": "#0044aa",
+      "dark": "#00d3d0",
+      "modus": "blue/cyan — variable"
     },
     "syn-comment": {
-      "light": "#6f5e41",
-      "dark": "#ab9b79",
-      "modus": "from red-faint — warm tan (italic); tuned for AA on every surface"
+      "light": "#595959",
+      "dark": "#9a9a9a",
+      "modus": "fg-dim — comment (italic); AA on every surface"
     },
     "syn-docstring": {
       "light": "#2a5a3a",
-      "dark": "#9bbf9b",
-      "modus": "from green-faint — moss/sage"
+      "dark": "#88ca9f",
+      "modus": "green-faint — docstring"
     }
   },
   "status": {
     "status-err": {
       "light": "#a60000",
-      "dark": "#ff5f59",
+      "dark": "#f0685f",
       "ansi": "red",
       "modus": "red"
     },
     "status-warn": {
-      "light": "#6f5500",
-      "dark": "#d0bc00",
+      "light": "#8a5000",
+      "dark": "#d9b34a",
       "ansi": "yellow",
-      "modus": "yellow"
+      "modus": "yellow (orange-leaning; avoids blue-vs-yellow tritanopia trap)"
     },
     "status-ok": {
       "light": "#006800",
-      "dark": "#44bc44",
+      "dark": "#6bbf6b",
       "ansi": "green",
       "modus": "green"
     },
     "status-info": {
-      "light": "#0031a9",
-      "dark": "#2fafff",
+      "light": "#005e8b",
+      "dark": "#5fb8cf",
       "ansi": "blue",
-      "modus": "blue"
+      "modus": "cyan-blue (teal-leaning for tritanopia)"
     }
   },
   "ansi": [
     {
       "name": "black",
-      "light": "#2c2825",
-      "dark": "#1a1714",
+      "light": "#23262e",
+      "dark": "#0d0f14",
       "role": "text/bg inversion"
     },
     {
       "name": "red",
       "light": "#a60000",
-      "dark": "#ff5f59",
+      "dark": "#f0685f",
       "role": "Modus red — errors"
     },
     {
       "name": "green",
       "light": "#006800",
-      "dark": "#44bc44",
+      "dark": "#6bbf6b",
       "role": "Modus green — ok"
     },
     {
       "name": "yellow",
-      "light": "#6f5500",
-      "dark": "#d0bc00",
+      "light": "#8a5000",
+      "dark": "#d9b34a",
       "role": "Modus yellow — warnings"
     },
     {
       "name": "blue",
       "light": "#0031a9",
-      "dark": "#2fafff",
+      "dark": "#79a8ff",
       "role": "Modus blue — info"
     },
     {
@@ -312,25 +321,25 @@ export const tokens = {
     },
     {
       "name": "cyan",
-      "light": "#005f5f",
+      "light": "#005a5f",
       "dark": "#6ae4b9",
       "role": "Modus cyan-cooler"
     },
     {
       "name": "white",
-      "light": "#6b5f54",
-      "dark": "#e8e0d4",
-      "role": "ANSI 7 — text-muted on paper, surface-faint on roast"
+      "light": "#565a63",
+      "dark": "#c9dedf",
+      "role": "ANSI 7 — text-muted on Sheet, body-dim on Field"
     },
     {
       "name": "bright-black",
-      "light": "#8a7f72",
-      "dark": "#6b6157",
+      "light": "#878c95",
+      "dark": "#656b76",
       "role": "faint"
     },
     {
       "name": "bright-red",
-      "light": "#972500",
+      "light": "#b60000",
       "dark": "#ff7f7f",
       "role": "red-warmer"
     },
@@ -342,15 +351,15 @@ export const tokens = {
     },
     {
       "name": "bright-yellow",
-      "light": "#b5703c",
-      "dark": "#e89b5e",
-      "role": "brand copper (intentional override)"
+      "light": "#8a4d00",
+      "dark": "#e0a33a",
+      "role": "bronze accent (intentional override — ANSI 11)"
     },
     {
       "name": "bright-blue",
       "light": "#3548cf",
       "dark": "#79a8ff",
-      "role": "Modus blue-warmer"
+      "role": "Modus blue-warmer / contour"
     },
     {
       "name": "bright-magenta",
@@ -366,34 +375,47 @@ export const tokens = {
     },
     {
       "name": "bright-white",
-      "light": "#2c2825",
-      "dark": "#f0eae0",
-      "role": "ANSI 15 — text on paper, fg-bright on roast"
+      "light": "#23262e",
+      "dark": "#f2f4f8",
+      "role": "ANSI 15 — text on Sheet, heading on Field"
     }
   ],
   "typography": {
+    "display": {
+      "family": "Zilla Slab",
+      "fallback": "\"Roboto Slab\", Rockwell, Georgia, serif",
+      "weight": 700,
+      "lineHeight": 1.02,
+      "letterSpacing": "-0.01em"
+    },
     "body": {
-      "family": "Literata",
-      "fallback": "Charter, \"Bitstream Charter\", Georgia, \"Noto Serif\", serif",
-      "sizeBase": "1.125rem",
-      "lineHeight": 1.65
+      "family": "Hanken Grotesk",
+      "fallback": "Inter, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "sizeBase": "1.0625rem",
+      "lineHeight": 1.6
     },
     "mono": {
-      "family": "JetBrains Mono",
-      "fallback": "\"IBM Plex Mono\", \"Cascadia Code\", \"Fira Code\", \"Source Code Pro\", \"Courier New\", monospace"
+      "family": "IBM Plex Mono",
+      "fallback": "\"JetBrains Mono\", \"Cascadia Code\", \"Fira Code\", ui-monospace, monospace"
     },
     "heading": {
-      "inherits": "mono",
-      "lineHeight": 1.25,
-      "letterSpacing": "0.01em"
+      "inherits": "display",
+      "lineHeight": 1.05,
+      "letterSpacing": "-0.01em"
     },
-    "tuiFallback": "JetBrains Mono, Iosevka, IBM Plex Mono, Fira Mono, DejaVu Sans Mono, monospace",
+    "label": {
+      "inherits": "mono",
+      "weight": 500,
+      "letterSpacing": "0.1em",
+      "transform": "uppercase"
+    },
+    "tuiFallback": "\"IBM Plex Mono\", \"JetBrains Mono\", Iosevka, \"Fira Mono\", \"DejaVu Sans Mono\", monospace",
     "scale": [
+      3.25,
       2,
-      1.6,
       1.4,
       1.15,
-      1,
+      1.0625,
       0.95,
       0.85,
       0.8,
@@ -446,11 +468,11 @@ export const tokens = {
   "focus": {
     "width": "2px",
     "offset": "2px",
-    "notes": "ring stroke + offset; colour is always `accent`. See platforms/KEYBOARD.md."
+    "notes": "ring stroke + offset; colour is always `accent` (bronze). See platforms/KEYBOARD.md."
   },
   "density": {
     "comfortable": {
-      "lineHeight": 1.65,
+      "lineHeight": 1.6,
       "rowPadY": "12px",
       "hitTargetMin": "44px",
       "gapInline": "12px",
@@ -487,9 +509,10 @@ export const tokens = {
       "hypr": "0.16,1,0.3,1"
     },
     "spring": {
-      "duration": "420ms",
-      "css": "cubic-bezier(0.34, 1.25, 0.64, 1)",
-      "hypr": "0.34,1.25,0.64,1"
+      "duration": "480ms",
+      "css": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      "hypr": "0.2,0.8,0.2,1",
+      "notes": "the long 'survey renders in' ease — expo-out, no overshoot (the system bans bounce); drives contour-draw / line-extend / count-up. Key kept as `spring` until generate.mjs is updated in Phase 2."
     }
   },
   "sound": {
@@ -512,175 +535,196 @@ export const tokens = {
       "bg": "bg",
       "mode": "light",
       "min": 7,
-      "label": "AAA body text (light)"
+      "label": "AAA body text (Sheet)"
     },
     {
       "fg": "text",
       "bg": "bg",
       "mode": "dark",
       "min": 7,
-      "label": "AAA body text (dark)"
+      "label": "AAA body text (Field)"
     },
     {
       "fg": "text-heading",
       "bg": "bg",
       "mode": "light",
       "min": 7,
-      "label": "AAA headings (light)"
+      "label": "AAA headings (Sheet)"
+    },
+    {
+      "fg": "text-heading",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7,
+      "label": "AAA headings (Field)"
     },
     {
       "fg": "text-muted",
       "bg": "bg",
       "mode": "light",
       "min": 4.5,
-      "label": "AA meta (light)"
+      "label": "AA meta (Sheet)"
     },
     {
       "fg": "text-muted",
       "bg": "bg",
       "mode": "dark",
       "min": 4.5,
-      "label": "AA meta (dark)"
+      "label": "AA meta (Field)"
     },
     {
       "fg": "accent",
       "bg": "bg",
       "mode": "light",
       "min": 4.5,
-      "label": "AA accent on paper"
+      "label": "AA bronze accent (Sheet)"
     },
     {
       "fg": "accent",
       "bg": "bg",
       "mode": "dark",
       "min": 7,
-      "label": "AAA accent on dark"
+      "label": "AAA bronze accent (Field)"
+    },
+    {
+      "fg": "contour",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5,
+      "label": "AA contour blue (Sheet)"
+    },
+    {
+      "fg": "contour",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5,
+      "label": "AA contour blue (Field)"
     },
     {
       "fg": "syn-keyword",
       "bg": "bg",
       "mode": "light",
       "min": 7,
-      "label": "AAA syn-keyword (light)"
+      "label": "AAA syn-keyword (Sheet)"
     },
     {
       "fg": "syn-keyword",
       "bg": "bg",
       "mode": "dark",
       "min": 7,
-      "label": "AAA syn-keyword (dark)"
+      "label": "AAA syn-keyword (Field)"
     },
     {
       "fg": "syn-string",
       "bg": "bg",
       "mode": "light",
       "min": 7,
-      "label": "AAA syn-string (light)"
+      "label": "AAA syn-string (Sheet)"
     },
     {
       "fg": "syn-string",
       "bg": "bg",
       "mode": "dark",
       "min": 7,
-      "label": "AAA syn-string (dark)"
+      "label": "AAA syn-string (Field)"
     },
     {
       "fg": "syn-function",
       "bg": "bg",
       "mode": "light",
       "min": 7,
-      "label": "AAA syn-function (light)"
+      "label": "AAA syn-function (Sheet)"
     },
     {
       "fg": "syn-function",
       "bg": "bg",
       "mode": "dark",
       "min": 7,
-      "label": "AAA syn-function (dark)"
+      "label": "AAA syn-function (Field)"
     },
     {
       "fg": "syn-type",
       "bg": "bg",
       "mode": "light",
       "min": 7,
-      "label": "AAA syn-type (light)"
+      "label": "AAA syn-type (Sheet)"
     },
     {
       "fg": "syn-type",
       "bg": "bg",
       "mode": "dark",
       "min": 7,
-      "label": "AAA syn-type (dark)"
+      "label": "AAA syn-type (Field)"
     },
     {
       "fg": "syn-number",
       "bg": "bg",
       "mode": "light",
       "min": 4.5,
-      "label": "AA syn-number (light)"
+      "label": "AA syn-number (Sheet)"
     },
     {
       "fg": "syn-number",
       "bg": "bg",
       "mode": "dark",
       "min": 4.5,
-      "label": "AA syn-number (dark)"
+      "label": "AA syn-number (Field)"
     },
     {
       "fg": "syn-builtin",
       "bg": "bg",
       "mode": "light",
       "min": 4.5,
-      "label": "AA syn-builtin (light)"
+      "label": "AA syn-builtin (Sheet)"
     },
     {
       "fg": "syn-builtin",
       "bg": "bg",
       "mode": "dark",
       "min": 4.5,
-      "label": "AA syn-builtin (dark)"
+      "label": "AA syn-builtin (Field)"
     },
     {
       "fg": "syn-variable",
       "bg": "bg",
       "mode": "light",
       "min": 4.5,
-      "label": "AA syn-variable (light)"
+      "label": "AA syn-variable (Sheet)"
     },
     {
       "fg": "syn-variable",
       "bg": "bg",
       "mode": "dark",
       "min": 4.5,
-      "label": "AA syn-variable (dark)"
+      "label": "AA syn-variable (Field)"
     },
     {
       "fg": "syn-comment",
       "bg": "bg",
       "mode": "light",
       "min": 4.5,
-      "label": "AA syn-comment (light)"
+      "label": "AA syn-comment (Sheet)"
     },
     {
       "fg": "syn-comment",
       "bg": "bg",
       "mode": "dark",
       "min": 4.5,
-      "label": "AA syn-comment (dark)"
+      "label": "AA syn-comment (Field)"
     },
     {
       "fg": "syn-docstring",
       "bg": "bg",
       "mode": "light",
       "min": 4.5,
-      "label": "AA syn-docstring (light)"
+      "label": "AA syn-docstring (Sheet)"
     },
     {
       "fg": "syn-docstring",
       "bg": "bg",
       "mode": "dark",
       "min": 4.5,
-      "label": "AA syn-docstring (dark)"
+      "label": "AA syn-docstring (Field)"
     }
   ],
   "contrastPairs": [
@@ -688,1125 +732,1125 @@ export const tokens = {
       "mode": "light",
       "fg": "text-heading",
       "bg": "bg",
-      "fgHex": "#1e1b18",
-      "bgHex": "#faf7f2",
-      "ratio": 16.04,
+      "fgHex": "#12141a",
+      "bgHex": "#f6f8fb",
+      "ratio": 17.3,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text-heading",
       "bg": "bg-subtle",
-      "fgHex": "#1e1b18",
-      "bgHex": "#f0ebe3",
-      "ratio": 14.45,
+      "fgHex": "#12141a",
+      "bgHex": "#eef2f6",
+      "ratio": 16.36,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text-heading",
       "bg": "surface",
-      "fgHex": "#1e1b18",
-      "bgHex": "#e8e1d6",
-      "ratio": 13.2,
+      "fgHex": "#12141a",
+      "bgHex": "#e6ecf1",
+      "ratio": 15.46,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text-heading",
       "bg": "surface-raised",
-      "fgHex": "#1e1b18",
-      "bgHex": "#fefdfb",
-      "ratio": 16.86,
+      "fgHex": "#12141a",
+      "bgHex": "#fcfdff",
+      "ratio": 18.09,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text",
       "bg": "bg",
-      "fgHex": "#2c2825",
-      "bgHex": "#faf7f2",
-      "ratio": 13.67,
+      "fgHex": "#23262e",
+      "bgHex": "#f6f8fb",
+      "ratio": 14.22,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text",
       "bg": "bg-subtle",
-      "fgHex": "#2c2825",
-      "bgHex": "#f0ebe3",
-      "ratio": 12.31,
+      "fgHex": "#23262e",
+      "bgHex": "#eef2f6",
+      "ratio": 13.45,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text",
       "bg": "surface",
-      "fgHex": "#2c2825",
-      "bgHex": "#e8e1d6",
-      "ratio": 11.25,
+      "fgHex": "#23262e",
+      "bgHex": "#e6ecf1",
+      "ratio": 12.7,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text",
       "bg": "surface-raised",
-      "fgHex": "#2c2825",
-      "bgHex": "#fefdfb",
-      "ratio": 14.37,
+      "fgHex": "#23262e",
+      "bgHex": "#fcfdff",
+      "ratio": 14.86,
       "tag": "AAA"
     },
     {
       "mode": "light",
       "fg": "text-muted",
       "bg": "bg",
-      "fgHex": "#6b5f54",
-      "bgHex": "#faf7f2",
+      "fgHex": "#565a63",
+      "bgHex": "#f6f8fb",
+      "ratio": 6.5,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "text-muted",
+      "bg": "bg-subtle",
+      "fgHex": "#565a63",
+      "bgHex": "#eef2f6",
+      "ratio": 6.14,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "text-muted",
+      "bg": "surface",
+      "fgHex": "#565a63",
+      "bgHex": "#e6ecf1",
       "ratio": 5.8,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "text-muted",
-      "bg": "bg-subtle",
-      "fgHex": "#6b5f54",
-      "bgHex": "#f0ebe3",
-      "ratio": 5.22,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "text-muted",
-      "bg": "surface",
-      "fgHex": "#6b5f54",
-      "bgHex": "#e8e1d6",
-      "ratio": 4.77,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "text-muted",
       "bg": "surface-raised",
-      "fgHex": "#6b5f54",
-      "bgHex": "#fefdfb",
-      "ratio": 6.09,
+      "fgHex": "#565a63",
+      "bgHex": "#fcfdff",
+      "ratio": 6.79,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "text-faint",
       "bg": "bg",
-      "fgHex": "#6d6155",
-      "bgHex": "#faf7f2",
-      "ratio": 5.63,
-      "tag": "AA"
+      "fgHex": "#878c95",
+      "bgHex": "#f6f8fb",
+      "ratio": 3.18,
+      "tag": "AA Large"
     },
     {
       "mode": "light",
       "fg": "text-faint",
       "bg": "bg-subtle",
-      "fgHex": "#6d6155",
-      "bgHex": "#f0ebe3",
-      "ratio": 5.07,
-      "tag": "AA"
+      "fgHex": "#878c95",
+      "bgHex": "#eef2f6",
+      "ratio": 3,
+      "tag": "AA Large"
     },
     {
       "mode": "light",
       "fg": "text-faint",
       "bg": "surface",
-      "fgHex": "#6d6155",
-      "bgHex": "#e8e1d6",
-      "ratio": 4.63,
-      "tag": "AA"
+      "fgHex": "#878c95",
+      "bgHex": "#e6ecf1",
+      "ratio": 2.84,
+      "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "text-faint",
       "bg": "surface-raised",
-      "fgHex": "#6d6155",
-      "bgHex": "#fefdfb",
-      "ratio": 5.92,
-      "tag": "AA"
+      "fgHex": "#878c95",
+      "bgHex": "#fcfdff",
+      "ratio": 3.32,
+      "tag": "AA Large"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "bg",
-      "fgHex": "#8a4f24",
-      "bgHex": "#faf7f2",
-      "ratio": 6.09,
+      "fgHex": "#8a4d00",
+      "bgHex": "#f6f8fb",
+      "ratio": 6.28,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "bg-subtle",
-      "fgHex": "#8a4f24",
-      "bgHex": "#f0ebe3",
-      "ratio": 5.49,
+      "fgHex": "#8a4d00",
+      "bgHex": "#eef2f6",
+      "ratio": 5.94,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "surface",
-      "fgHex": "#8a4f24",
-      "bgHex": "#e8e1d6",
-      "ratio": 5.02,
+      "fgHex": "#8a4d00",
+      "bgHex": "#e6ecf1",
+      "ratio": 5.61,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent",
       "bg": "surface-raised",
-      "fgHex": "#8a4f24",
-      "bgHex": "#fefdfb",
-      "ratio": 6.41,
+      "fgHex": "#8a4d00",
+      "bgHex": "#fcfdff",
+      "ratio": 6.57,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent-hover",
       "bg": "bg",
-      "fgHex": "#7a4622",
-      "bgHex": "#faf7f2",
-      "ratio": 7.21,
-      "tag": "AAA"
+      "fgHex": "#a75f0a",
+      "bgHex": "#f6f8fb",
+      "ratio": 4.61,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent-hover",
       "bg": "bg-subtle",
-      "fgHex": "#7a4622",
-      "bgHex": "#f0ebe3",
-      "ratio": 6.49,
-      "tag": "AA"
+      "fgHex": "#a75f0a",
+      "bgHex": "#eef2f6",
+      "ratio": 4.36,
+      "tag": "AA Large"
     },
     {
       "mode": "light",
       "fg": "accent-hover",
       "bg": "surface",
-      "fgHex": "#7a4622",
-      "bgHex": "#e8e1d6",
-      "ratio": 5.93,
-      "tag": "AA"
+      "fgHex": "#a75f0a",
+      "bgHex": "#e6ecf1",
+      "ratio": 4.12,
+      "tag": "AA Large"
     },
     {
       "mode": "light",
       "fg": "accent-hover",
       "bg": "surface-raised",
-      "fgHex": "#7a4622",
-      "bgHex": "#fefdfb",
-      "ratio": 7.58,
-      "tag": "AAA"
+      "fgHex": "#a75f0a",
+      "bgHex": "#fcfdff",
+      "ratio": 4.82,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "brand",
       "bg": "bg",
-      "fgHex": "#b5703c",
-      "bgHex": "#faf7f2",
-      "ratio": 3.67,
-      "tag": "AA Large"
+      "fgHex": "#b5450e",
+      "bgHex": "#f6f8fb",
+      "ratio": 5.16,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "brand",
       "bg": "bg-subtle",
-      "fgHex": "#b5703c",
-      "bgHex": "#f0ebe3",
-      "ratio": 3.31,
-      "tag": "AA Large"
+      "fgHex": "#b5450e",
+      "bgHex": "#eef2f6",
+      "ratio": 4.88,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "brand",
       "bg": "surface",
-      "fgHex": "#b5703c",
-      "bgHex": "#e8e1d6",
-      "ratio": 3.02,
-      "tag": "AA Large"
+      "fgHex": "#b5450e",
+      "bgHex": "#e6ecf1",
+      "ratio": 4.61,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "brand",
       "bg": "surface-raised",
-      "fgHex": "#b5703c",
-      "bgHex": "#fefdfb",
-      "ratio": 3.86,
-      "tag": "AA Large"
+      "fgHex": "#b5450e",
+      "bgHex": "#fcfdff",
+      "ratio": 5.4,
+      "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "accent-subtle",
       "bg": "bg",
-      "fgHex": "#f0e6da",
-      "bgHex": "#faf7f2",
-      "ratio": 1.15,
+      "fgHex": "#e9e3dd",
+      "bgHex": "#f6f8fb",
+      "ratio": 1.2,
       "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "accent-subtle",
       "bg": "bg-subtle",
-      "fgHex": "#f0e6da",
-      "bgHex": "#f0ebe3",
-      "ratio": 1.04,
+      "fgHex": "#e9e3dd",
+      "bgHex": "#eef2f6",
+      "ratio": 1.13,
       "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "accent-subtle",
       "bg": "surface",
-      "fgHex": "#f0e6da",
-      "bgHex": "#e8e1d6",
-      "ratio": 1.05,
+      "fgHex": "#e9e3dd",
+      "bgHex": "#e6ecf1",
+      "ratio": 1.07,
       "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "accent-subtle",
       "bg": "surface-raised",
-      "fgHex": "#f0e6da",
-      "bgHex": "#fefdfb",
-      "ratio": 1.21,
+      "fgHex": "#e9e3dd",
+      "bgHex": "#fcfdff",
+      "ratio": 1.25,
       "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "selection-bg",
       "bg": "bg",
-      "fgHex": "#e8d4b8",
-      "bgHex": "#faf7f2",
-      "ratio": 1.35,
-      "tag": "fail"
-    },
-    {
-      "mode": "light",
-      "fg": "selection-bg",
-      "bg": "bg-subtle",
-      "fgHex": "#e8d4b8",
-      "bgHex": "#f0ebe3",
+      "fgHex": "#ece0cf",
+      "bgHex": "#f6f8fb",
       "ratio": 1.22,
       "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "selection-bg",
+      "bg": "bg-subtle",
+      "fgHex": "#ece0cf",
+      "bgHex": "#eef2f6",
+      "ratio": 1.16,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "selection-bg",
       "bg": "surface",
-      "fgHex": "#e8d4b8",
-      "bgHex": "#e8e1d6",
-      "ratio": 1.11,
+      "fgHex": "#ece0cf",
+      "bgHex": "#e6ecf1",
+      "ratio": 1.09,
       "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "selection-bg",
       "bg": "surface-raised",
-      "fgHex": "#e8d4b8",
-      "bgHex": "#fefdfb",
-      "ratio": 1.42,
+      "fgHex": "#ece0cf",
+      "bgHex": "#fcfdff",
+      "ratio": 1.28,
       "tag": "fail"
     },
     {
       "mode": "light",
       "fg": "cursor",
       "bg": "bg",
-      "fgHex": "#8a4f24",
-      "bgHex": "#faf7f2",
-      "ratio": 6.09,
+      "fgHex": "#8a4d00",
+      "bgHex": "#f6f8fb",
+      "ratio": 6.28,
       "tag": "AA"
     },
     {
       "mode": "light",
       "fg": "cursor",
       "bg": "bg-subtle",
-      "fgHex": "#8a4f24",
-      "bgHex": "#f0ebe3",
-      "ratio": 5.49,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "cursor",
-      "bg": "surface",
-      "fgHex": "#8a4f24",
-      "bgHex": "#e8e1d6",
-      "ratio": 5.02,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "cursor",
-      "bg": "surface-raised",
-      "fgHex": "#8a4f24",
-      "bgHex": "#fefdfb",
-      "ratio": 6.41,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-err",
-      "bg": "bg",
-      "fgHex": "#a60000",
-      "bgHex": "#faf7f2",
-      "ratio": 7.5,
-      "tag": "AAA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-err",
-      "bg": "bg-subtle",
-      "fgHex": "#a60000",
-      "bgHex": "#f0ebe3",
-      "ratio": 6.75,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-err",
-      "bg": "surface",
-      "fgHex": "#a60000",
-      "bgHex": "#e8e1d6",
-      "ratio": 6.17,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-err",
-      "bg": "surface-raised",
-      "fgHex": "#a60000",
-      "bgHex": "#fefdfb",
-      "ratio": 7.88,
-      "tag": "AAA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-warn",
-      "bg": "bg",
-      "fgHex": "#6f5500",
-      "bgHex": "#faf7f2",
-      "ratio": 6.6,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-warn",
-      "bg": "bg-subtle",
-      "fgHex": "#6f5500",
-      "bgHex": "#f0ebe3",
-      "ratio": 5.95,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-warn",
-      "bg": "surface",
-      "fgHex": "#6f5500",
-      "bgHex": "#e8e1d6",
-      "ratio": 5.44,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-warn",
-      "bg": "surface-raised",
-      "fgHex": "#6f5500",
-      "bgHex": "#fefdfb",
-      "ratio": 6.94,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-ok",
-      "bg": "bg",
-      "fgHex": "#006800",
-      "bgHex": "#faf7f2",
-      "ratio": 6.59,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-ok",
-      "bg": "bg-subtle",
-      "fgHex": "#006800",
-      "bgHex": "#f0ebe3",
+      "fgHex": "#8a4d00",
+      "bgHex": "#eef2f6",
       "ratio": 5.94,
       "tag": "AA"
     },
     {
       "mode": "light",
-      "fg": "status-ok",
+      "fg": "cursor",
       "bg": "surface",
-      "fgHex": "#006800",
-      "bgHex": "#e8e1d6",
-      "ratio": 5.43,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-ok",
-      "bg": "surface-raised",
-      "fgHex": "#006800",
-      "bgHex": "#fefdfb",
-      "ratio": 6.93,
-      "tag": "AA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-info",
-      "bg": "bg",
-      "fgHex": "#0031a9",
-      "bgHex": "#faf7f2",
-      "ratio": 9.77,
-      "tag": "AAA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-info",
-      "bg": "bg-subtle",
-      "fgHex": "#0031a9",
-      "bgHex": "#f0ebe3",
-      "ratio": 8.79,
-      "tag": "AAA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-info",
-      "bg": "surface",
-      "fgHex": "#0031a9",
-      "bgHex": "#e8e1d6",
-      "ratio": 8.04,
-      "tag": "AAA"
-    },
-    {
-      "mode": "light",
-      "fg": "status-info",
-      "bg": "surface-raised",
-      "fgHex": "#0031a9",
-      "bgHex": "#fefdfb",
-      "ratio": 10.27,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-heading",
-      "bg": "bg",
-      "fgHex": "#f0eae0",
-      "bgHex": "#1a1714",
-      "ratio": 14.92,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-heading",
-      "bg": "bg-subtle",
-      "fgHex": "#f0eae0",
-      "bgHex": "#242019",
-      "ratio": 13.55,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-heading",
-      "bg": "surface",
-      "fgHex": "#f0eae0",
-      "bgHex": "#2a2520",
-      "ratio": 12.68,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-heading",
-      "bg": "surface-raised",
-      "fgHex": "#f0eae0",
-      "bgHex": "#363230",
-      "ratio": 10.6,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text",
-      "bg": "bg",
-      "fgHex": "#e8e0d4",
-      "bgHex": "#1a1714",
-      "ratio": 13.64,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text",
-      "bg": "bg-subtle",
-      "fgHex": "#e8e0d4",
-      "bgHex": "#242019",
-      "ratio": 12.38,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text",
-      "bg": "surface",
-      "fgHex": "#e8e0d4",
-      "bgHex": "#2a2520",
-      "ratio": 11.59,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text",
-      "bg": "surface-raised",
-      "fgHex": "#e8e0d4",
-      "bgHex": "#363230",
-      "ratio": 9.69,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-muted",
-      "bg": "bg",
-      "fgHex": "#b0a496",
-      "bgHex": "#1a1714",
-      "ratio": 7.31,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-muted",
-      "bg": "bg-subtle",
-      "fgHex": "#b0a496",
-      "bgHex": "#242019",
-      "ratio": 6.63,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-muted",
-      "bg": "surface",
-      "fgHex": "#b0a496",
-      "bgHex": "#2a2520",
-      "ratio": 6.21,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-muted",
-      "bg": "surface-raised",
-      "fgHex": "#b0a496",
-      "bgHex": "#363230",
-      "ratio": 5.19,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-faint",
-      "bg": "bg",
-      "fgHex": "#8a7f72",
-      "bgHex": "#1a1714",
-      "ratio": 4.56,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-faint",
-      "bg": "bg-subtle",
-      "fgHex": "#8a7f72",
-      "bgHex": "#242019",
-      "ratio": 4.14,
-      "tag": "AA Large"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-faint",
-      "bg": "surface",
-      "fgHex": "#8a7f72",
-      "bgHex": "#2a2520",
-      "ratio": 3.87,
-      "tag": "AA Large"
-    },
-    {
-      "mode": "dark",
-      "fg": "text-faint",
-      "bg": "surface-raised",
-      "fgHex": "#8a7f72",
-      "bgHex": "#363230",
-      "ratio": 3.24,
-      "tag": "AA Large"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent",
-      "bg": "bg",
-      "fgHex": "#e89b5e",
-      "bgHex": "#1a1714",
-      "ratio": 7.89,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent",
-      "bg": "bg-subtle",
-      "fgHex": "#e89b5e",
-      "bgHex": "#242019",
-      "ratio": 7.16,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent",
-      "bg": "surface",
-      "fgHex": "#e89b5e",
-      "bgHex": "#2a2520",
-      "ratio": 6.71,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent",
-      "bg": "surface-raised",
-      "fgHex": "#e89b5e",
-      "bgHex": "#363230",
+      "fgHex": "#8a4d00",
+      "bgHex": "#e6ecf1",
       "ratio": 5.61,
       "tag": "AA"
     },
     {
-      "mode": "dark",
-      "fg": "accent-hover",
-      "bg": "bg",
-      "fgHex": "#f5b07a",
-      "bgHex": "#1a1714",
-      "ratio": 9.67,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent-hover",
-      "bg": "bg-subtle",
-      "fgHex": "#f5b07a",
-      "bgHex": "#242019",
-      "ratio": 8.78,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent-hover",
-      "bg": "surface",
-      "fgHex": "#f5b07a",
-      "bgHex": "#2a2520",
-      "ratio": 8.22,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent-hover",
-      "bg": "surface-raised",
-      "fgHex": "#f5b07a",
-      "bgHex": "#363230",
-      "ratio": 6.87,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "brand",
-      "bg": "bg",
-      "fgHex": "#d4884a",
-      "bgHex": "#1a1714",
-      "ratio": 6.31,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "brand",
-      "bg": "bg-subtle",
-      "fgHex": "#d4884a",
-      "bgHex": "#242019",
-      "ratio": 5.73,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "brand",
-      "bg": "surface",
-      "fgHex": "#d4884a",
-      "bgHex": "#2a2520",
-      "ratio": 5.36,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "brand",
-      "bg": "surface-raised",
-      "fgHex": "#d4884a",
-      "bgHex": "#363230",
-      "ratio": 4.48,
-      "tag": "AA Large"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent-subtle",
-      "bg": "bg",
-      "fgHex": "#2e2520",
-      "bgHex": "#1a1714",
-      "ratio": 1.19,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent-subtle",
-      "bg": "bg-subtle",
-      "fgHex": "#2e2520",
-      "bgHex": "#242019",
-      "ratio": 1.08,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent-subtle",
-      "bg": "surface",
-      "fgHex": "#2e2520",
-      "bgHex": "#2a2520",
-      "ratio": 1.01,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "accent-subtle",
-      "bg": "surface-raised",
-      "fgHex": "#2e2520",
-      "bgHex": "#363230",
-      "ratio": 1.18,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "selection-bg",
-      "bg": "bg",
-      "fgHex": "#4a3a28",
-      "bgHex": "#1a1714",
-      "ratio": 1.64,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "selection-bg",
-      "bg": "bg-subtle",
-      "fgHex": "#4a3a28",
-      "bgHex": "#242019",
-      "ratio": 1.49,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "selection-bg",
-      "bg": "surface",
-      "fgHex": "#4a3a28",
-      "bgHex": "#2a2520",
-      "ratio": 1.39,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "selection-bg",
-      "bg": "surface-raised",
-      "fgHex": "#4a3a28",
-      "bgHex": "#363230",
-      "ratio": 1.16,
-      "tag": "fail"
-    },
-    {
-      "mode": "dark",
-      "fg": "cursor",
-      "bg": "bg",
-      "fgHex": "#e89b5e",
-      "bgHex": "#1a1714",
-      "ratio": 7.89,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "cursor",
-      "bg": "bg-subtle",
-      "fgHex": "#e89b5e",
-      "bgHex": "#242019",
-      "ratio": 7.16,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "cursor",
-      "bg": "surface",
-      "fgHex": "#e89b5e",
-      "bgHex": "#2a2520",
-      "ratio": 6.71,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
+      "mode": "light",
       "fg": "cursor",
       "bg": "surface-raised",
-      "fgHex": "#e89b5e",
-      "bgHex": "#363230",
-      "ratio": 5.61,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-err",
-      "bg": "bg",
-      "fgHex": "#ff5f59",
-      "bgHex": "#1a1714",
-      "ratio": 5.98,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-err",
-      "bg": "bg-subtle",
-      "fgHex": "#ff5f59",
-      "bgHex": "#242019",
-      "ratio": 5.43,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-err",
-      "bg": "surface",
-      "fgHex": "#ff5f59",
-      "bgHex": "#2a2520",
-      "ratio": 5.08,
-      "tag": "AA"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-err",
-      "bg": "surface-raised",
-      "fgHex": "#ff5f59",
-      "bgHex": "#363230",
-      "ratio": 4.25,
-      "tag": "AA Large"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-warn",
-      "bg": "bg",
-      "fgHex": "#d0bc00",
-      "bgHex": "#1a1714",
-      "ratio": 9.24,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-warn",
-      "bg": "bg-subtle",
-      "fgHex": "#d0bc00",
-      "bgHex": "#242019",
-      "ratio": 8.39,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-warn",
-      "bg": "surface",
-      "fgHex": "#d0bc00",
-      "bgHex": "#2a2520",
-      "ratio": 7.86,
-      "tag": "AAA"
-    },
-    {
-      "mode": "dark",
-      "fg": "status-warn",
-      "bg": "surface-raised",
-      "fgHex": "#d0bc00",
-      "bgHex": "#363230",
+      "fgHex": "#8a4d00",
+      "bgHex": "#fcfdff",
       "ratio": 6.57,
       "tag": "AA"
     },
     {
-      "mode": "dark",
-      "fg": "status-ok",
+      "mode": "light",
+      "fg": "status-err",
       "bg": "bg",
-      "fgHex": "#44bc44",
-      "bgHex": "#1a1714",
-      "ratio": 7.24,
+      "fgHex": "#a60000",
+      "bgHex": "#f6f8fb",
+      "ratio": 7.53,
       "tag": "AAA"
     },
     {
-      "mode": "dark",
+      "mode": "light",
+      "fg": "status-err",
+      "bg": "bg-subtle",
+      "fgHex": "#a60000",
+      "bgHex": "#eef2f6",
+      "ratio": 7.12,
+      "tag": "AAA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-err",
+      "bg": "surface",
+      "fgHex": "#a60000",
+      "bgHex": "#e6ecf1",
+      "ratio": 6.73,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-err",
+      "bg": "surface-raised",
+      "fgHex": "#a60000",
+      "bgHex": "#fcfdff",
+      "ratio": 7.87,
+      "tag": "AAA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-warn",
+      "bg": "bg",
+      "fgHex": "#8a5000",
+      "bgHex": "#f6f8fb",
+      "ratio": 6.11,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-warn",
+      "bg": "bg-subtle",
+      "fgHex": "#8a5000",
+      "bgHex": "#eef2f6",
+      "ratio": 5.78,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-warn",
+      "bg": "surface",
+      "fgHex": "#8a5000",
+      "bgHex": "#e6ecf1",
+      "ratio": 5.46,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-warn",
+      "bg": "surface-raised",
+      "fgHex": "#8a5000",
+      "bgHex": "#fcfdff",
+      "ratio": 6.39,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-ok",
+      "bg": "bg",
+      "fgHex": "#006800",
+      "bgHex": "#f6f8fb",
+      "ratio": 6.62,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
       "fg": "status-ok",
       "bg": "bg-subtle",
-      "fgHex": "#44bc44",
-      "bgHex": "#242019",
-      "ratio": 6.58,
+      "fgHex": "#006800",
+      "bgHex": "#eef2f6",
+      "ratio": 6.26,
       "tag": "AA"
     },
     {
-      "mode": "dark",
+      "mode": "light",
       "fg": "status-ok",
       "bg": "surface",
-      "fgHex": "#44bc44",
-      "bgHex": "#2a2520",
-      "ratio": 6.16,
+      "fgHex": "#006800",
+      "bgHex": "#e6ecf1",
+      "ratio": 5.92,
       "tag": "AA"
     },
     {
-      "mode": "dark",
+      "mode": "light",
       "fg": "status-ok",
       "bg": "surface-raised",
-      "fgHex": "#44bc44",
-      "bgHex": "#363230",
-      "ratio": 5.15,
+      "fgHex": "#006800",
+      "bgHex": "#fcfdff",
+      "ratio": 6.92,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-info",
+      "bg": "bg",
+      "fgHex": "#005e8b",
+      "bgHex": "#f6f8fb",
+      "ratio": 6.64,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-info",
+      "bg": "bg-subtle",
+      "fgHex": "#005e8b",
+      "bgHex": "#eef2f6",
+      "ratio": 6.28,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-info",
+      "bg": "surface",
+      "fgHex": "#005e8b",
+      "bgHex": "#e6ecf1",
+      "ratio": 5.93,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-info",
+      "bg": "surface-raised",
+      "fgHex": "#005e8b",
+      "bgHex": "#fcfdff",
+      "ratio": 6.94,
       "tag": "AA"
     },
     {
       "mode": "dark",
-      "fg": "status-info",
+      "fg": "text-heading",
       "bg": "bg",
-      "fgHex": "#2fafff",
-      "bgHex": "#1a1714",
-      "ratio": 7.39,
+      "fgHex": "#f2f4f8",
+      "bgHex": "#0d0f14",
+      "ratio": 17.41,
       "tag": "AAA"
     },
     {
       "mode": "dark",
-      "fg": "status-info",
+      "fg": "text-heading",
       "bg": "bg-subtle",
-      "fgHex": "#2fafff",
-      "bgHex": "#242019",
-      "ratio": 6.71,
+      "fgHex": "#f2f4f8",
+      "bgHex": "#14171e",
+      "ratio": 16.29,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-heading",
+      "bg": "surface",
+      "fgHex": "#f2f4f8",
+      "bgHex": "#1b1f28",
+      "ratio": 14.98,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-heading",
+      "bg": "surface-raised",
+      "fgHex": "#f2f4f8",
+      "bgHex": "#232833",
+      "ratio": 13.4,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text",
+      "bg": "bg",
+      "fgHex": "#d6dae2",
+      "bgHex": "#0d0f14",
+      "ratio": 13.68,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text",
+      "bg": "bg-subtle",
+      "fgHex": "#d6dae2",
+      "bgHex": "#14171e",
+      "ratio": 12.8,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text",
+      "bg": "surface",
+      "fgHex": "#d6dae2",
+      "bgHex": "#1b1f28",
+      "ratio": 11.77,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text",
+      "bg": "surface-raised",
+      "fgHex": "#d6dae2",
+      "bgHex": "#232833",
+      "ratio": 10.53,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-muted",
+      "bg": "bg",
+      "fgHex": "#9aa0ab",
+      "bgHex": "#0d0f14",
+      "ratio": 7.29,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-muted",
+      "bg": "bg-subtle",
+      "fgHex": "#9aa0ab",
+      "bgHex": "#14171e",
+      "ratio": 6.82,
       "tag": "AA"
     },
     {
       "mode": "dark",
-      "fg": "status-info",
+      "fg": "text-muted",
       "bg": "surface",
-      "fgHex": "#2fafff",
-      "bgHex": "#2a2520",
+      "fgHex": "#9aa0ab",
+      "bgHex": "#1b1f28",
       "ratio": 6.28,
       "tag": "AA"
     },
     {
       "mode": "dark",
+      "fg": "text-muted",
+      "bg": "surface-raised",
+      "fgHex": "#9aa0ab",
+      "bgHex": "#232833",
+      "ratio": 5.62,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-faint",
+      "bg": "bg",
+      "fgHex": "#656b76",
+      "bgHex": "#0d0f14",
+      "ratio": 3.58,
+      "tag": "AA Large"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-faint",
+      "bg": "bg-subtle",
+      "fgHex": "#656b76",
+      "bgHex": "#14171e",
+      "ratio": 3.35,
+      "tag": "AA Large"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-faint",
+      "bg": "surface",
+      "fgHex": "#656b76",
+      "bgHex": "#1b1f28",
+      "ratio": 3.08,
+      "tag": "AA Large"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-faint",
+      "bg": "surface-raised",
+      "fgHex": "#656b76",
+      "bgHex": "#232833",
+      "ratio": 2.75,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent",
+      "bg": "bg",
+      "fgHex": "#e0a33a",
+      "bgHex": "#0d0f14",
+      "ratio": 8.64,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent",
+      "bg": "bg-subtle",
+      "fgHex": "#e0a33a",
+      "bgHex": "#14171e",
+      "ratio": 8.09,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent",
+      "bg": "surface",
+      "fgHex": "#e0a33a",
+      "bgHex": "#1b1f28",
+      "ratio": 7.44,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent",
+      "bg": "surface-raised",
+      "fgHex": "#e0a33a",
+      "bgHex": "#232833",
+      "ratio": 6.66,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-hover",
+      "bg": "bg",
+      "fgHex": "#f0b95c",
+      "bgHex": "#0d0f14",
+      "ratio": 10.77,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-hover",
+      "bg": "bg-subtle",
+      "fgHex": "#f0b95c",
+      "bgHex": "#14171e",
+      "ratio": 10.08,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-hover",
+      "bg": "surface",
+      "fgHex": "#f0b95c",
+      "bgHex": "#1b1f28",
+      "ratio": 9.27,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-hover",
+      "bg": "surface-raised",
+      "fgHex": "#f0b95c",
+      "bgHex": "#232833",
+      "ratio": 8.29,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "brand",
+      "bg": "bg",
+      "fgHex": "#ef8a4a",
+      "bgHex": "#0d0f14",
+      "ratio": 7.67,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "brand",
+      "bg": "bg-subtle",
+      "fgHex": "#ef8a4a",
+      "bgHex": "#14171e",
+      "ratio": 7.18,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "brand",
+      "bg": "surface",
+      "fgHex": "#ef8a4a",
+      "bgHex": "#1b1f28",
+      "ratio": 6.6,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "brand",
+      "bg": "surface-raised",
+      "fgHex": "#ef8a4a",
+      "bgHex": "#232833",
+      "ratio": 5.91,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "bg",
+      "fgHex": "#262119",
+      "bgHex": "#0d0f14",
+      "ratio": 1.2,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "bg-subtle",
+      "fgHex": "#262119",
+      "bgHex": "#14171e",
+      "ratio": 1.12,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "surface",
+      "fgHex": "#262119",
+      "bgHex": "#1b1f28",
+      "ratio": 1.03,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "surface-raised",
+      "fgHex": "#262119",
+      "bgHex": "#232833",
+      "ratio": 1.08,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "bg",
+      "fgHex": "#3a2f1c",
+      "bgHex": "#0d0f14",
+      "ratio": 1.46,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "bg-subtle",
+      "fgHex": "#3a2f1c",
+      "bgHex": "#14171e",
+      "ratio": 1.37,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "surface",
+      "fgHex": "#3a2f1c",
+      "bgHex": "#1b1f28",
+      "ratio": 1.26,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "surface-raised",
+      "fgHex": "#3a2f1c",
+      "bgHex": "#232833",
+      "ratio": 1.13,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "bg",
+      "fgHex": "#e0a33a",
+      "bgHex": "#0d0f14",
+      "ratio": 8.64,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "bg-subtle",
+      "fgHex": "#e0a33a",
+      "bgHex": "#14171e",
+      "ratio": 8.09,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "surface",
+      "fgHex": "#e0a33a",
+      "bgHex": "#1b1f28",
+      "ratio": 7.44,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "cursor",
+      "bg": "surface-raised",
+      "fgHex": "#e0a33a",
+      "bgHex": "#232833",
+      "ratio": 6.66,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-err",
+      "bg": "bg",
+      "fgHex": "#f0685f",
+      "bgHex": "#0d0f14",
+      "ratio": 6.25,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-err",
+      "bg": "bg-subtle",
+      "fgHex": "#f0685f",
+      "bgHex": "#14171e",
+      "ratio": 5.85,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-err",
+      "bg": "surface",
+      "fgHex": "#f0685f",
+      "bgHex": "#1b1f28",
+      "ratio": 5.38,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-err",
+      "bg": "surface-raised",
+      "fgHex": "#f0685f",
+      "bgHex": "#232833",
+      "ratio": 4.81,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-warn",
+      "bg": "bg",
+      "fgHex": "#d9b34a",
+      "bgHex": "#0d0f14",
+      "ratio": 9.58,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-warn",
+      "bg": "bg-subtle",
+      "fgHex": "#d9b34a",
+      "bgHex": "#14171e",
+      "ratio": 8.96,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-warn",
+      "bg": "surface",
+      "fgHex": "#d9b34a",
+      "bgHex": "#1b1f28",
+      "ratio": 8.24,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-warn",
+      "bg": "surface-raised",
+      "fgHex": "#d9b34a",
+      "bgHex": "#232833",
+      "ratio": 7.38,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-ok",
+      "bg": "bg",
+      "fgHex": "#6bbf6b",
+      "bgHex": "#0d0f14",
+      "ratio": 8.48,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-ok",
+      "bg": "bg-subtle",
+      "fgHex": "#6bbf6b",
+      "bgHex": "#14171e",
+      "ratio": 7.93,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-ok",
+      "bg": "surface",
+      "fgHex": "#6bbf6b",
+      "bgHex": "#1b1f28",
+      "ratio": 7.3,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-ok",
+      "bg": "surface-raised",
+      "fgHex": "#6bbf6b",
+      "bgHex": "#232833",
+      "ratio": 6.53,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-info",
+      "bg": "bg",
+      "fgHex": "#5fb8cf",
+      "bgHex": "#0d0f14",
+      "ratio": 8.44,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-info",
+      "bg": "bg-subtle",
+      "fgHex": "#5fb8cf",
+      "bgHex": "#14171e",
+      "ratio": 7.89,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-info",
+      "bg": "surface",
+      "fgHex": "#5fb8cf",
+      "bgHex": "#1b1f28",
+      "ratio": 7.26,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
       "fg": "status-info",
       "bg": "surface-raised",
-      "fgHex": "#2fafff",
-      "bgHex": "#363230",
-      "ratio": 5.25,
+      "fgHex": "#5fb8cf",
+      "bgHex": "#232833",
+      "ratio": 6.5,
       "tag": "AA"
     }
   ],
   "swatchContrast": {
     "light": {
       "text-heading": {
-        "ratio": 16.04,
+        "ratio": 17.3,
         "tag": "AAA"
       },
       "text": {
-        "ratio": 13.67,
+        "ratio": 14.22,
         "tag": "AAA"
       },
       "text-muted": {
-        "ratio": 5.8,
+        "ratio": 6.5,
         "tag": "AA"
       },
       "text-faint": {
-        "ratio": 5.63,
-        "tag": "AA"
+        "ratio": 3.18,
+        "tag": "AA Large"
       },
       "accent": {
-        "ratio": 6.09,
+        "ratio": 6.28,
         "tag": "AA"
       },
       "accent-hover": {
-        "ratio": 7.21,
-        "tag": "AAA"
+        "ratio": 4.61,
+        "tag": "AA"
       },
       "brand": {
-        "ratio": 3.67,
-        "tag": "AA Large"
+        "ratio": 5.16,
+        "tag": "AA"
       },
       "accent-subtle": {
-        "ratio": 1.15,
+        "ratio": 1.2,
         "tag": "fail"
       },
       "selection-bg": {
-        "ratio": 1.35,
+        "ratio": 1.22,
         "tag": "fail"
       },
       "cursor": {
-        "ratio": 6.09,
+        "ratio": 6.28,
         "tag": "AA"
       },
       "status-err": {
-        "ratio": 7.5,
+        "ratio": 7.53,
         "tag": "AAA"
       },
       "status-warn": {
-        "ratio": 6.6,
+        "ratio": 6.11,
         "tag": "AA"
       },
       "status-ok": {
-        "ratio": 6.59,
+        "ratio": 6.62,
         "tag": "AA"
       },
       "status-info": {
-        "ratio": 9.77,
-        "tag": "AAA"
+        "ratio": 6.64,
+        "tag": "AA"
       }
     },
     "dark": {
       "text-heading": {
-        "ratio": 14.92,
+        "ratio": 17.41,
         "tag": "AAA"
       },
       "text": {
-        "ratio": 13.64,
+        "ratio": 13.68,
         "tag": "AAA"
       },
       "text-muted": {
-        "ratio": 7.31,
+        "ratio": 7.29,
         "tag": "AAA"
       },
       "text-faint": {
-        "ratio": 4.56,
-        "tag": "AA"
+        "ratio": 3.58,
+        "tag": "AA Large"
       },
       "accent": {
-        "ratio": 7.89,
+        "ratio": 8.64,
         "tag": "AAA"
       },
       "accent-hover": {
-        "ratio": 9.67,
+        "ratio": 10.77,
         "tag": "AAA"
       },
       "brand": {
-        "ratio": 6.31,
-        "tag": "AA"
+        "ratio": 7.67,
+        "tag": "AAA"
       },
       "accent-subtle": {
-        "ratio": 1.19,
+        "ratio": 1.2,
         "tag": "fail"
       },
       "selection-bg": {
-        "ratio": 1.64,
+        "ratio": 1.46,
         "tag": "fail"
       },
       "cursor": {
-        "ratio": 7.89,
+        "ratio": 8.64,
         "tag": "AAA"
       },
       "status-err": {
-        "ratio": 5.98,
+        "ratio": 6.25,
         "tag": "AA"
       },
       "status-warn": {
-        "ratio": 9.24,
+        "ratio": 9.58,
         "tag": "AAA"
       },
       "status-ok": {
-        "ratio": 7.24,
+        "ratio": 8.48,
         "tag": "AAA"
       },
       "status-info": {
-        "ratio": 7.39,
+        "ratio": 8.44,
         "tag": "AAA"
       }
     }

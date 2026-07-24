@@ -50,8 +50,8 @@
 (custom-theme-set-variables
  'jylhis-roast
  '(ansi-color-names-vector
-   ["#1a1714" "#ff5f59" "#44bc44" "#d0bc00"
-    "#2fafff" "#feacd0" "#6ae4b9" "#e8e0d4"])
+   ["#0d0f14" "#f0685f" "#6bbf6b" "#d9b34a"
+    "#79a8ff" "#feacd0" "#6ae4b9" "#c9dedf"])
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  `(hl-todo-keyword-faces ',jylhis-roast-hl-todo-faces))

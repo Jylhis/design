@@ -50,8 +50,8 @@
 (custom-theme-set-variables
  'jylhis-paper
  '(ansi-color-names-vector
-   ["#2c2825" "#a60000" "#006800" "#6f5500"
-    "#0031a9" "#721045" "#005f5f" "#6b5f54"])
+   ["#23262e" "#a60000" "#006800" "#8a5000"
+    "#0031a9" "#721045" "#005a5f" "#565a63"])
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  `(hl-todo-keyword-faces ',jylhis-paper-hl-todo-faces))

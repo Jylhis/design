@@ -11,50 +11,50 @@
  *   gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'        # light
  *   gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'   # dark
  *   gsettings set org.gnome.desktop.interface accent-color 'orange'
- *   gsettings set org.gnome.desktop.interface font-name 'Literata 11'
- *   gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 10'
+ *   gsettings set org.gnome.desktop.interface font-name 'Hanken Grotesk 11'
+ *   gsettings set org.gnome.desktop.interface monospace-font-name 'IBM Plex Mono 10'
  */
 
 /* ────────────────────────────────────
    Core palette — overrides @define-color
    ──────────────────────────────────── */
 
-@define-color accent_color          #8a4f24;
-@define-color accent_bg_color       #8a4f24;
-@define-color accent_fg_color       #faf7f2;
+@define-color accent_color          #8a4d00;
+@define-color accent_bg_color       #8a4d00;
+@define-color accent_fg_color       #f6f8fb;
 
 /* Status colours — Modus accents (red / green / yellow / blue). */
 @define-color destructive_color     #a60000;
 @define-color destructive_bg_color  #a60000;
-@define-color destructive_fg_color  #faf7f2;
+@define-color destructive_fg_color  #f6f8fb;
 
 @define-color success_color         #006800;
 @define-color success_bg_color      #006800;
-@define-color success_fg_color      #faf7f2;
+@define-color success_fg_color      #f6f8fb;
 
-@define-color warning_color         #6f5500;
-@define-color warning_bg_color      #6f5500;
-@define-color warning_fg_color      #faf7f2;
+@define-color warning_color         #8a5000;
+@define-color warning_bg_color      #8a5000;
+@define-color warning_fg_color      #f6f8fb;
 
 @define-color error_color           #a60000;
 @define-color error_bg_color        #a60000;
-@define-color error_fg_color        #faf7f2;
+@define-color error_fg_color        #f6f8fb;
 
 /* Window */
-@define-color window_bg_color        #faf7f2;
-@define-color window_fg_color        #2c2825;
-@define-color view_bg_color          #fefdfb;
-@define-color view_fg_color          #2c2825;
-@define-color headerbar_bg_color     #e8e1d6;
-@define-color headerbar_fg_color     #1e1b18;
-@define-color headerbar_border_color #d5cec4;
-@define-color sidebar_bg_color       #f0ebe3;
-@define-color sidebar_fg_color       #2c2825;
-@define-color card_bg_color          #fefdfb;
-@define-color popover_bg_color       #fefdfb;
+@define-color window_bg_color        #f6f8fb;
+@define-color window_fg_color        #23262e;
+@define-color view_bg_color          #fcfdff;
+@define-color view_fg_color          #23262e;
+@define-color headerbar_bg_color     #e6ecf1;
+@define-color headerbar_fg_color     #12141a;
+@define-color headerbar_border_color #cfd6de;
+@define-color sidebar_bg_color       #eef2f6;
+@define-color sidebar_fg_color       #23262e;
+@define-color card_bg_color          #fcfdff;
+@define-color popover_bg_color       #fcfdff;
 
 /* Borders / shade */
-@define-color borders          #d5cec4;
+@define-color borders          #cfd6de;
 @define-color shade_color      rgba(44, 40, 37, 0.08);
 
 /* ────────────────────────────────────
@@ -63,18 +63,18 @@
 
 .dark,
 window.dark {
-    --accent-color:          #e89b5e;
-    --accent-bg-color:       #e89b5e;
-    --accent-fg-color:       #1a1714;
-    --window-bg-color:       #1a1714;
-    --window-fg-color:       #e8e0d4;
-    --view-bg-color:         #242019;
-    --headerbar-bg-color:    #2a2520;
-    --headerbar-fg-color:    #f0eae0;
-    --sidebar-bg-color:      #242019;
-    --card-bg-color:         #2a2520;
-    --popover-bg-color:      #363230;
-    --borders:               #3d3830;
+    --accent-color:          #e0a33a;
+    --accent-bg-color:       #e0a33a;
+    --accent-fg-color:       #0d0f14;
+    --window-bg-color:       #0d0f14;
+    --window-fg-color:       #d6dae2;
+    --view-bg-color:         #14171e;
+    --headerbar-bg-color:    #1b1f28;
+    --headerbar-fg-color:    #f2f4f8;
+    --sidebar-bg-color:      #14171e;
+    --card-bg-color:         #1b1f28;
+    --popover-bg-color:      #232833;
+    --borders:               #2b303b;
 }
 
 /* ────────────────────────────────────
@@ -140,7 +140,7 @@ button.suggested-action:hover {
 
 button.destructive-action {
     background: @destructive_color;
-    color: #faf7f2;
+    color: #f6f8fb;
 }
 
 /* ────────────────────────────────────

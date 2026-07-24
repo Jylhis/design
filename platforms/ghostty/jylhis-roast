@@ -3,30 +3,30 @@
 # `theme = jylhis-roast` in config.
 #
 # ANSI 0–6 are Modus Vivendi accents so `ls`, `bat`, `delta`, `git log`
-# share the editor's palette. ANSI 11 is the brand copper — intentional
+# share the editor's palette. ANSI 11 is the bronze accent — intentional
 # override so prompts and dir-permissions carry the Jylhis identity.
 # See tokens.md §3.
 
-palette = 0=#1a1714
-palette = 1=#ff5f59
-palette = 2=#44bc44
-palette = 3=#d0bc00
-palette = 4=#2fafff
+palette = 0=#0d0f14
+palette = 1=#f0685f
+palette = 2=#6bbf6b
+palette = 3=#d9b34a
+palette = 4=#79a8ff
 palette = 5=#feacd0
 palette = 6=#6ae4b9
-palette = 7=#e8e0d4
-palette = 8=#6b6157
+palette = 7=#c9dedf
+palette = 8=#656b76
 palette = 9=#ff7f7f
 palette = 10=#70b900
-palette = 11=#e89b5e
+palette = 11=#e0a33a
 palette = 12=#79a8ff
 palette = 13=#b6a0ff
 palette = 14=#00d3d0
-palette = 15=#f0eae0
+palette = 15=#f2f4f8
 
-background         = #1a1714
-foreground         = #e8e0d4
-cursor-color       = #e89b5e
-cursor-text        = #1a1714
-selection-background = #4a3a28
-selection-foreground = #e8e0d4
+background         = #0d0f14
+foreground         = #d6dae2
+cursor-color       = #e0a33a
+cursor-text        = #0d0f14
+selection-background = #3a2f1c
+selection-foreground = #d6dae2

@@ -3,7 +3,7 @@
 # Notifications with the command-palette language: accent left-border,
 # monospace meta, paper/roast bg. Dismiss hint always visible.
 
-font=JetBrains Mono 11
+font=IBM Plex Mono 11
 width=380
 height=120
 margin=12
@@ -14,10 +14,10 @@ max-icon-size=32
 icon-path=/usr/share/icons/Adwaita
 
 # Default — roast
-background-color=#2a2520
-text-color=#e8e0d4
-border-color=#5a5248
-progress-color=over #e89b5e
+background-color=#1b1f28
+text-color=#d6dae2
+border-color=#3a4150
+progress-color=over #e0a33a
 
 # Layout / animation
 layer=overlay
@@ -25,30 +25,30 @@ anchor=top-right
 default-timeout=6000
 ignore-timeout=0
 
-format=<b>%s</b>\n%b\n<span foreground='#8a7f72' font='JetBrains Mono 9'>esc to dismiss · meta+n to focus</span>
+format=<b>%s</b>\n%b\n<span foreground='#656b76' font='IBM Plex Mono 9'>esc to dismiss · meta+n to focus</span>
 
 # Selected marker — matches KEYBOARD.md §"Selected item (universal)"
 [focused]
-background-color=#363230
-border-color=#e89b5e
+background-color=#232833
+border-color=#e0a33a
 # Mako can't draw a left-border only, but border + color does the job.
 
 # Urgency levels — map to semantic family
 [urgency=low]
-border-color=#8a7f72
+border-color=#656b76
 
 [urgency=normal]
-border-color=#5a5248
+border-color=#3a4150
 
 [urgency=critical]
 background-color=#3a1f1c
-text-color=#ff5f59
-border-color=#ff5f59          # Modus red (status-err)
+text-color=#f0685f
+border-color=#f0685f          # Modus red (status-err)
 default-timeout=0
 
 # Specific app rules
 [app-name=Emacs]
-border-color=#c8a5ff          # Modus magenta-cooler (syn-keyword)
+border-color=#b6a0ff          # Modus magenta-cooler (syn-keyword)
 
 [category=mpd]
-border-color=#44bc44          # Modus green (status-ok)
+border-color=#6bbf6b          # Modus green (status-ok)

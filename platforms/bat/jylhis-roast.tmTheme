@@ -15,42 +15,42 @@
       <key>settings</key>
       <dict>
         <key>background</key>
-        <string>#1a1714</string>
+        <string>#0d0f14</string>
         <key>foreground</key>
-        <string>#e8e0d4</string>
+        <string>#d6dae2</string>
         <key>caret</key>
-        <string>#e89b5e</string>
+        <string>#e0a33a</string>
         <key>selection</key>
-        <string>#4a3a28</string>
+        <string>#3a2f1c</string>
         <key>lineHighlight</key>
-        <string>#242019</string>
+        <string>#14171e</string>
         <key>gutterForeground</key>
-        <string>#8a7f72</string>
+        <string>#656b76</string>
       </dict>
     </dict>
     <dict>
       <key>name</key><string>Comment</string>
       <key>scope</key><string>comment, punctuation.definition.comment</string>
       <key>settings</key><dict>
-        <key>foreground</key><string>#ab9b79</string>
+        <key>foreground</key><string>#9a9a9a</string>
         <key>fontStyle</key><string>italic</string>
       </dict>
     </dict>
     <dict>
       <key>name</key><string>String</string>
       <key>scope</key><string>string, constant.other.symbol</string>
-      <key>settings</key><dict><key>foreground</key><string>#b3c785</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#79a8ff</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Number</string>
       <key>scope</key><string>constant.numeric</string>
-      <key>settings</key><dict><key>foreground</key><string>#a8b4dc</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#79bbff</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Keyword</string>
       <key>scope</key><string>keyword, storage.type, storage.modifier</string>
       <key>settings</key><dict>
-        <key>foreground</key><string>#c8a5ff</string>
+        <key>foreground</key><string>#b6a0ff</string>
         <key>fontStyle</key><string>bold</string>
       </dict>
     </dict>
@@ -58,40 +58,40 @@
       <key>name</key><string>Function</string>
       <key>scope</key><string>entity.name.function, support.function</string>
       <key>settings</key><dict>
-        <key>foreground</key><string>#f0a8c3</string>
+        <key>foreground</key><string>#feacd0</string>
         <key>fontStyle</key><string>bold</string>
       </dict>
     </dict>
     <dict>
       <key>name</key><string>Type</string>
       <key>scope</key><string>entity.name.type, entity.name.class, support.type, support.class</string>
-      <key>settings</key><dict><key>foreground</key><string>#80c8b3</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#6ae4b9</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Variable</string>
       <key>scope</key><string>variable, variable.other</string>
-      <key>settings</key><dict><key>foreground</key><string>#95b3cc</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#00d3d0</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Builtin</string>
       <key>scope</key><string>support.constant, constant.language</string>
-      <key>settings</key><dict><key>foreground</key><string>#e3a0d8</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#f78fe7</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Tag</string>
       <key>scope</key><string>entity.name.tag</string>
-      <key>settings</key><dict><key>foreground</key><string>#80c8b3</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#6ae4b9</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Attribute</string>
       <key>scope</key><string>entity.other.attribute-name</string>
-      <key>settings</key><dict><key>foreground</key><string>#95b3cc</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#00d3d0</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Doc comment</string>
       <key>scope</key><string>comment.block.documentation</string>
       <key>settings</key><dict>
-        <key>foreground</key><string>#9bbf9b</string>
+        <key>foreground</key><string>#88ca9f</string>
         <key>fontStyle</key><string>italic</string>
       </dict>
     </dict>
@@ -99,24 +99,24 @@
       <key>name</key><string>Error</string>
       <key>scope</key><string>invalid, invalid.illegal</string>
       <key>settings</key><dict>
-        <key>foreground</key><string>#ff5f59</string>
+        <key>foreground</key><string>#f0685f</string>
         <key>fontStyle</key><string>underline</string>
       </dict>
     </dict>
     <dict>
       <key>name</key><string>Diff added</string>
       <key>scope</key><string>markup.inserted</string>
-      <key>settings</key><dict><key>foreground</key><string>#44bc44</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#6bbf6b</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Diff deleted</string>
       <key>scope</key><string>markup.deleted</string>
-      <key>settings</key><dict><key>foreground</key><string>#ff5f59</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#f0685f</string></dict>
     </dict>
     <dict>
       <key>name</key><string>Diff changed</string>
       <key>scope</key><string>markup.changed</string>
-      <key>settings</key><dict><key>foreground</key><string>#d0bc00</string></dict>
+      <key>settings</key><dict><key>foreground</key><string>#d9b34a</string></dict>
     </dict>
   </array>
 </dict>

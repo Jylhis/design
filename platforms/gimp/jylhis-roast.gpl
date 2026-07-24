@@ -2,56 +2,57 @@ GIMP Palette
 Name: Jylhis Roast
 Columns: 4
 #
-# Paperstock
- 26  23  20	bg
- 36  32  25	bg-subtle
- 42  37  32	surface
- 54  50  48	surface-raised
+# Grounds
+ 13  15  20	bg
+ 20  23  30	bg-subtle
+ 27  31  40	surface
+ 35  40  51	surface-raised
 # Ink
-240 234 224	text-heading
-232 224 212	text
-176 164 150	text-muted
-138 127 114	text-faint
-# Copper
-232 155  94	accent
-245 176 122	accent-hover
-212 136  74	brand
- 46  37  32	accent-subtle
- 74  58  40	selection-bg
-232 155  94	cursor
-# Linen
- 61  56  48	border
- 90  82  72	border-strong
- 74  67  56	decorator
+242 244 248	text-heading
+214 218 226	text
+154 160 171	text-muted
+101 107 118	text-faint
+# Bronze
+224 163  58	accent
+240 185  92	accent-hover
+239 138  74	brand
+ 38  33  25	accent-subtle
+ 58  47  28	selection-bg
+224 163  58	cursor
+# Line
+ 43  48  59	border
+ 58  65  80	border-strong
+ 57  65  90	decorator
+111 155 224	contour
 # Modus
-200 165 255	syn-keyword
-179 199 133	syn-string
-168 180 220	syn-number
-240 168 195	syn-function
-227 160 216	syn-builtin
-128 200 179	syn-type
-149 179 204	syn-variable
-171 155 121	syn-comment
-155 191 155	syn-docstring
+182 160 255	syn-keyword
+121 168 255	syn-string
+121 187 255	syn-number
+254 172 208	syn-function
+247 143 231	syn-builtin
+106 228 185	syn-type
+  0 211 208	syn-variable
+154 154 154	syn-comment
+136 202 159	syn-docstring
 # Signal
-255  95  89	status-err
-208 188   0	status-warn
- 68 188  68	status-ok
- 47 175 255	status-info
+240 104  95	status-err
+217 179  74	status-warn
+107 191 107	status-ok
+ 95 184 207	status-info
 # Spectrum
- 26  23  20	ansi-0-black
-255  95  89	ansi-1-red
- 68 188  68	ansi-2-green
-208 188   0	ansi-3-yellow
- 47 175 255	ansi-4-blue
+ 13  15  20	ansi-0-black
+240 104  95	ansi-1-red
+107 191 107	ansi-2-green
+217 179  74	ansi-3-yellow
+121 168 255	ansi-4-blue
 254 172 208	ansi-5-magenta
 106 228 185	ansi-6-cyan
-232 224 212	ansi-7-white
-107  97  87	ansi-8-bright-black
+201 222 223	ansi-7-white
+101 107 118	ansi-8-bright-black
 255 127 127	ansi-9-bright-red
 112 185   0	ansi-10-bright-green
-232 155  94	ansi-11-bright-yellow
+224 163  58	ansi-11-bright-yellow
 121 168 255	ansi-12-bright-blue
 182 160 255	ansi-13-bright-magenta
   0 211 208	ansi-14-bright-cyan
-240 234 224	ansi-15-bright-white
+242 244 248	ansi-15-bright-white

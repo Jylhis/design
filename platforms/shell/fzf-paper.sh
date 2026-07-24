@@ -2,4 +2,4 @@
 # Source this file or add to your shell profile:
 #   source ~/.config/fzf/jylhis-paper.sh
 
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#2c2825,bg:#faf7f2,hl:#8a4f24,fg+:#1e1b18,bg+:#f0e6da,hl+:#7a4622,info:#6b5f54,marker:#006800,prompt:#8a4f24,spinner:#8a4f24,pointer:#8a4f24,header:#6b5f54,border:#d5cec4,separator:#d5cec4,gutter:#faf7f2"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#23262e,bg:#f6f8fb,hl:#8a4d00,fg+:#12141a,bg+:#e9e3dd,hl+:#a75f0a,info:#565a63,marker:#006800,prompt:#8a4d00,spinner:#8a4d00,pointer:#8a4d00,header:#565a63,border:#cfd6de,separator:#cfd6de,gutter:#f6f8fb"

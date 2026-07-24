@@ -2,4 +2,4 @@
 # Source this file or add to your shell profile:
 #   source ~/.config/fzf/jylhis-roast.sh
 
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#e8e0d4,bg:#1a1714,hl:#e89b5e,fg+:#f0eae0,bg+:#2e2520,hl+:#f5b07a,info:#b0a496,marker:#44bc44,prompt:#e89b5e,spinner:#e89b5e,pointer:#e89b5e,header:#b0a496,border:#3d3830,separator:#3d3830,gutter:#1a1714"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#d6dae2,bg:#0d0f14,hl:#e0a33a,fg+:#f2f4f8,bg+:#262119,hl+:#f0b95c,info:#9aa0ab,marker:#6bbf6b,prompt:#e0a33a,spinner:#e0a33a,pointer:#e0a33a,header:#9aa0ab,border:#2b303b,separator:#2b303b,gutter:#0d0f14"

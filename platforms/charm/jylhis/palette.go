@@ -59,30 +59,30 @@ type Palette struct {
 // paper is the canonical light palette. Hex values are the single source of truth.
 // When they change, update tokens.json first, then run: bun scripts/generate.mjs
 var paper = Palette{
-	Bg: "#faf7f2", BgSubtle: "#f0ebe3", Surface: "#e8e1d6", SurfaceRaised: "#fefdfb",
-	Text: "#2c2825", TextMuted: "#6b5f54", TextHeading: "#1e1b18", TextFaint: "#6d6155",
-	Accent: "#8a4f24", AccentHover: "#7a4622", Brand: "#b5703c",
-	Border: "#d5cec4", BorderStrong: "#b0a898", Decorator: "#c4baa8",
-	SynKeyword: "#4a2d80", SynString: "#3d5a1f", SynNumber: "#1f4d8a", SynFunction: "#8a2348", SynBuiltin: "#6f1f6a", SynType: "#134a4a", SynVariable: "#2a4a6a", SynComment: "#6f5e41", SynDocstring: "#2a5a3a",
-	SynTag: "#134a4a",
-	StatusErr: "#a60000", StatusWarn: "#6f5500", StatusOk: "#006800", StatusInfo: "#0031a9",
+	Bg: "#f6f8fb", BgSubtle: "#eef2f6", Surface: "#e6ecf1", SurfaceRaised: "#fcfdff",
+	Text: "#23262e", TextMuted: "#565a63", TextHeading: "#12141a", TextFaint: "#878c95",
+	Accent: "#8a4d00", AccentHover: "#a75f0a", Brand: "#b5450e",
+	Border: "#cfd6de", BorderStrong: "#aab4c0", Decorator: "#7f8fb5",
+	SynKeyword: "#5317ac", SynString: "#2544bb", SynNumber: "#0031a9", SynFunction: "#721045", SynBuiltin: "#8f0075", SynType: "#005a5f", SynVariable: "#0044aa", SynComment: "#595959", SynDocstring: "#2a5a3a",
+	SynTag: "#005a5f",
+	StatusErr: "#a60000", StatusWarn: "#8a5000", StatusOk: "#006800", StatusInfo: "#005e8b",
 	ANSI: [16]string{
-		"#2c2825", "#a60000", "#006800", "#6f5500", "#0031a9", "#721045", "#005f5f", "#6b5f54",
-		"#8a7f72", "#972500", "#315b00", "#b5703c", "#3548cf", "#531ab6", "#005e8b", "#2c2825",
+		"#23262e", "#a60000", "#006800", "#8a5000", "#0031a9", "#721045", "#005a5f", "#565a63",
+		"#878c95", "#b60000", "#315b00", "#8a4d00", "#3548cf", "#531ab6", "#005e8b", "#23262e",
 	},
 }
 
 var roast = Palette{
-	Bg: "#1a1714", BgSubtle: "#242019", Surface: "#2a2520", SurfaceRaised: "#363230",
-	Text: "#e8e0d4", TextMuted: "#b0a496", TextHeading: "#f0eae0", TextFaint: "#8a7f72",
-	Accent: "#e89b5e", AccentHover: "#f5b07a", Brand: "#d4884a",
-	Border: "#3d3830", BorderStrong: "#5a5248", Decorator: "#4a4338",
-	SynKeyword: "#c8a5ff", SynString: "#b3c785", SynNumber: "#a8b4dc", SynFunction: "#f0a8c3", SynBuiltin: "#e3a0d8", SynType: "#80c8b3", SynVariable: "#95b3cc", SynComment: "#ab9b79", SynDocstring: "#9bbf9b",
-	SynTag: "#80c8b3",
-	StatusErr: "#ff5f59", StatusWarn: "#d0bc00", StatusOk: "#44bc44", StatusInfo: "#2fafff",
+	Bg: "#0d0f14", BgSubtle: "#14171e", Surface: "#1b1f28", SurfaceRaised: "#232833",
+	Text: "#d6dae2", TextMuted: "#9aa0ab", TextHeading: "#f2f4f8", TextFaint: "#656b76",
+	Accent: "#e0a33a", AccentHover: "#f0b95c", Brand: "#ef8a4a",
+	Border: "#2b303b", BorderStrong: "#3a4150", Decorator: "#39415a",
+	SynKeyword: "#b6a0ff", SynString: "#79a8ff", SynNumber: "#79bbff", SynFunction: "#feacd0", SynBuiltin: "#f78fe7", SynType: "#6ae4b9", SynVariable: "#00d3d0", SynComment: "#9a9a9a", SynDocstring: "#88ca9f",
+	SynTag: "#6ae4b9",
+	StatusErr: "#f0685f", StatusWarn: "#d9b34a", StatusOk: "#6bbf6b", StatusInfo: "#5fb8cf",
 	ANSI: [16]string{
-		"#1a1714", "#ff5f59", "#44bc44", "#d0bc00", "#2fafff", "#feacd0", "#6ae4b9", "#e8e0d4",
-		"#6b6157", "#ff7f7f", "#70b900", "#e89b5e", "#79a8ff", "#b6a0ff", "#00d3d0", "#f0eae0",
+		"#0d0f14", "#f0685f", "#6bbf6b", "#d9b34a", "#79a8ff", "#feacd0", "#6ae4b9", "#c9dedf",
+		"#656b76", "#ff7f7f", "#70b900", "#e0a33a", "#79a8ff", "#b6a0ff", "#00d3d0", "#f2f4f8",
 	},
 }
 

@@ -14,33 +14,33 @@
 
 <!-- JylhisPaper.colors  (light) -->
 <palette theme="JylhisPaper">
-  <color role="Window">#faf7f2</color>
-  <color role="WindowText">#2c2825</color>
-  <color role="Base">#fefdfb</color>
-  <color role="AlternateBase">#f0ebe3</color>
-  <color role="Text">#2c2825</color>
-  <color role="BrightText">#1e1b18</color>
-  <color role="Button">#e8e1d6</color>
-  <color role="ButtonText">#2c2825</color>
-  <color role="Highlight">#8a4f24</color>
-  <color role="HighlightedText">#faf7f2</color>
-  <color role="Link">#8a4f24</color>
-  <color role="LinkVisited">#1f4d8a</color><!-- Modus blue-warmer -->
+  <color role="Window">#f6f8fb</color>
+  <color role="WindowText">#23262e</color>
+  <color role="Base">#fcfdff</color>
+  <color role="AlternateBase">#eef2f6</color>
+  <color role="Text">#23262e</color>
+  <color role="BrightText">#12141a</color>
+  <color role="Button">#e6ecf1</color>
+  <color role="ButtonText">#23262e</color>
+  <color role="Highlight">#8a4d00</color>
+  <color role="HighlightedText">#f6f8fb</color>
+  <color role="Link">#8a4d00</color>
+  <color role="LinkVisited">#0031a9</color><!-- Modus blue-warmer -->
 
-  <color role="ToolTipBase">#fefdfb</color>
-  <color role="ToolTipText">#2c2825</color>
-  <color role="Light">#fefdfb</color>
-  <color role="Midlight">#f0ebe3</color>
-  <color role="Mid">#d5cec4</color>
-  <color role="Dark">#6b5f54</color>
-  <color role="Shadow">#2c2825</color>
+  <color role="ToolTipBase">#fcfdff</color>
+  <color role="ToolTipText">#23262e</color>
+  <color role="Light">#fcfdff</color>
+  <color role="Midlight">#eef2f6</color>
+  <color role="Mid">#cfd6de</color>
+  <color role="Dark">#565a63</color>
+  <color role="Shadow">#23262e</color>
 
   <!-- Disabled group -->
-  <color role="WindowText" group="Disabled">#6d6155</color>
-  <color role="Text"        group="Disabled">#6d6155</color>
-  <color role="ButtonText"  group="Disabled">#6d6155</color>
+  <color role="WindowText" group="Disabled">#878c95</color>
+  <color role="Text"        group="Disabled">#878c95</color>
+  <color role="ButtonText"  group="Disabled">#878c95</color>
 
   <!-- Inactive (unfocused) — same color, matches flat paper metaphor -->
-  <color role="Highlight"        group="Inactive">#b0a898</color>
-  <color role="HighlightedText"  group="Inactive">#2c2825</color>
+  <color role="Highlight"        group="Inactive">#aab4c0</color>
+  <color role="HighlightedText"  group="Inactive">#23262e</color>
 </palette>
