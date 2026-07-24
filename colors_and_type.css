@@ -39,7 +39,7 @@ body,
 }
 @media (max-width: 860px) { /* breakpoints.md */
   body,
-  .ds-body { font-size: 1rem; }
+  .ds-body { font-size: var(--type-scale-4); }
 }
 
 /* Headings — monospace, tight leading, near-black heading color */
@@ -79,14 +79,14 @@ h4, .ds-h4 { font-size: var(--type-scale-4); font-weight: 600; }
 /* Monospace label (used for role lines, dates, meta, captions) */
 .ds-meta {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: var(--type-scale-7);
   color: var(--color-text-muted);
   letter-spacing: 0.02em;
 }
 
 /* Subtitle — muted italic serif sitting just below a title */
 .ds-subtitle {
-  font-size: 1.05rem;
+  font-size: var(--type-scale-4);
   color: var(--color-text-muted);
   font-style: italic;
 }
@@ -94,7 +94,7 @@ h4, .ds-h4 { font-size: var(--type-scale-4); font-weight: 600; }
 /* Man-page style section header: FILENAME(section) */
 .ds-man-label {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: var(--type-scale-6);
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--color-text-muted);
@@ -116,7 +116,7 @@ h4, .ds-h4 { font-size: var(--type-scale-4); font-weight: 600; }
 /* Divider with a label — lowercase mono caps between two hairlines */
 .ds-divider-label {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--type-scale-8);
   font-weight: 400;
   letter-spacing: 0.05em;
   color: var(--color-text-muted);
