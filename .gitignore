@@ -16,3 +16,8 @@ result-*
 
 # Claude Code per-user harness state
 .claude/settings.local.json
+
+# Impeccable design skill (vendored, not part of the system) + local state
+.claude/skills/impeccable/
+.impeccable/config.local.json
+.impeccable/hook.cache.json
