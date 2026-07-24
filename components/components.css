@@ -409,3 +409,38 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 .ds-breadcrumb a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
 .ds-breadcrumb__sep { color: var(--color-text-faint); user-select: none; }
 .ds-breadcrumb__current { color: var(--color-text); }
+
+/* ── Responsive · touch · print (system-wide) ─────────────────
+   Feature queries own input method and print; breakpoints elsewhere
+   repeat literal token values (breakpoints.sm 640 / md 860). Touch
+   floor 44px = density.comfortable.hitTargetMin. Imported via
+   styles.css, so every consumer (site, web prototype, specimen)
+   inherits this without repeating it. */
+
+/* Coarse pointer (touch / stylus): primitives clear the 44px floor. */
+@media (pointer: coarse) {
+  .ds-btn,
+  .ds-field__input { min-height: 44px; }
+  .ds-btn { display: inline-flex; align-items: center; justify-content: center; }
+  .ds-btn--link { min-height: 0; } /* inline text button, not a hit-target chip */
+  a.ds-tag { min-height: 44px; display: inline-flex; align-items: center; }
+  .ds-breadcrumb a { padding-block: 6px; }
+}
+
+/* Hover is a pointer affordance — restore base state on touch so a tap
+   doesn't strand the accent border/colour (:active still gives feedback). */
+@media (hover: none) {
+  .ds-btn--primary:hover { background: var(--color-accent); border-color: var(--color-accent); }
+  .ds-btn--ghost:hover  { color: var(--color-text); border-color: var(--color-border); }
+  .ds-btn--search:hover { color: var(--color-text-muted); border-color: var(--color-border); }
+  a.ds-tag:hover        { color: var(--color-text-muted); border-color: var(--color-border); }
+  .ds-field__input:hover { border-color: var(--color-border); }
+}
+
+/* Print: keep components whole across page breaks, drop the loading tail. */
+@media print {
+  .ds-btn[aria-busy="true"]::after { content: none; }
+  .ds-btn, .ds-field__input, .ds-tag, .ds-status,
+  .ds-term, .ds-codeblock, .ds-cv__row, .ds-log__entry,
+  .ds-callout, .ds-alert { break-inside: avoid; }
+}

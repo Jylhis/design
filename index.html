@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Jylhis Design System</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Warm paper, earth copper, monospace headings. Design system for jylhis.com.">
 <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="stylesheet" href="./styles.css">
@@ -88,6 +88,69 @@
   .filter-bar .clear:not(:disabled):active { border-color: var(--color-accent-hover); color: var(--color-accent-hover); }
   .card:active,
   .sw:active { border-color: var(--color-accent-hover); }
+
+  /* ── Responsive · touch · print ───────────────────────────
+     Breakpoints repeat the literal token values (tokens.json →
+     breakpoints.sm 640 / md 860); feature queries own input method
+     and print. Touch floor 44px = density.comfortable.hitTargetMin. */
+
+  /* Safe-area insets (notch / home indicator) via viewport-fit=cover. */
+  main { padding-left: max(24px, env(safe-area-inset-left)); padding-right: max(24px, env(safe-area-inset-right)); }
+  .toolbar { top: max(24px, env(safe-area-inset-top)); right: max(24px, env(safe-area-inset-right)); }
+  .skip-link { left: max(24px, env(safe-area-inset-left)); }
+
+  /* Coarse pointer (touch/stylus): every control clears the 44px floor. */
+  @media (pointer: coarse) {
+    .toolbar button,
+    .filter-bar .clear { min-height: 44px; }
+    .chip { min-height: 44px; display: inline-flex; align-items: center; }
+    .filter-bar { padding: 12px; }
+    .filter-bar .clear { padding-inline: 14px; }
+    .apropos-item a,
+    .palette-link,
+    footer a { display: inline-block; padding-block: 6px; }
+  }
+
+  /* Hover is a pointer affordance — don't strand :hover on touch taps. */
+  @media (hover: none) {
+    .card:hover,
+    .sw:hover { border-color: var(--color-border); }
+    .chip:hover { border-color: var(--color-border); color: var(--color-text); }
+    .toolbar button:hover { border-color: var(--color-border); color: var(--color-text); }
+    .filter-bar .clear:hover { border-color: var(--color-border); color: var(--color-text-muted); }
+  }
+
+  @media (max-width: 860px) { /* breakpoints.md — toolbar floats over scrolling content */
+    .toolbar { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 4px 6px; }
+  }
+
+  @media (max-width: 640px) { /* breakpoints.sm — phone */
+    main {
+      padding-top: calc(env(safe-area-inset-top, 0px) + 3.5rem); /* clear the fixed toolbar */
+      padding-bottom: 80px;
+      padding-left: max(var(--layout-padding-mobile), env(safe-area-inset-left));
+      padding-right: max(var(--layout-padding-mobile), env(safe-area-inset-right));
+    }
+    /* Drop the decorative right-hand man-page label so it can't slide under the toolbar. */
+    header.hero .man > span:last-child { display: none; }
+    header.hero .man { justify-content: flex-start; }
+    .swatches { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+    .tree, footer { font-size: var(--type-scale-8); }
+  }
+
+  @media print {
+    .toolbar, .skip-link, .filter-bar, .ds-caret { display: none !important; }
+    html { scroll-behavior: auto; }
+    main { max-width: none; padding: 0; }
+    a { color: var(--color-text); }
+    /* Reveal destinations for spec and prototype links. */
+    .apropos-item a[href]::after,
+    a.card[href]::after { content: " (" attr(href) ")"; font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-muted); word-break: break-all; }
+    h2.section { break-after: avoid; }
+    .card, .apropos-item, .sw, .group-head + .swatches { break-inside: avoid; }
+    /* On swatches the colour IS the content — force it to print. */
+    .sw .chip { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
 </style>
 <script>
   try {

@@ -112,6 +112,54 @@
     .footer-colophon { font-size: 0.65rem; color: var(--color-text-faint); text-align: center; }
 
     .search-notice { max-width: 48rem; margin: 0 auto; padding: 0 var(--layout-padding-mobile); font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); }
+
+    /* ── Responsive · touch · print ───────────────────────────
+       Breakpoints repeat literal token values (breakpoints.sm 640 /
+       md 860). This kit's .ds-* controls inherit touch/hover/print
+       from components.css; the rules here cover the local chrome. */
+
+    /* Safe-area insets (notch / home indicator). */
+    .site-header, .page-content, .search-notice {
+      padding-left: max(var(--layout-padding-mobile), env(safe-area-inset-left));
+      padding-right: max(var(--layout-padding-mobile), env(safe-area-inset-right));
+    }
+
+    @media (max-width: 860px) { /* breakpoints.md */
+      .footer-nav { grid-template-columns: repeat(2, 1fr); gap: var(--space-lg) var(--space-2xl); }
+    }
+
+    @media (max-width: 640px) { /* breakpoints.sm — phone */
+      h1 { font-size: 1.6rem; }
+      .headline { font-size: 1.4rem; }
+      .note-item { grid-template-columns: 1fr; gap: var(--space-2xs); }
+      .note-date { padding-top: 0; }
+      .contact-links { flex-wrap: wrap; gap: var(--space-md); }
+      .footer-nav { grid-template-columns: 1fr 1fr; }
+      .site-footer { padding: var(--space-2xl) var(--layout-padding-mobile); }
+    }
+
+    /* Coarse pointer: local controls clear the 44px touch floor. */
+    @media (pointer: coarse) {
+      .theme-toggle { width: 44px; height: 44px; }
+      .note-item, .project-entry { padding-block: var(--space-md); }
+      .nav-col a, .contact-links a, .footer-social a { display: inline-block; padding-block: 4px; }
+    }
+
+    /* Touch: don't strand the drawn underline or surface highlight on tap. */
+    @media (hover: none) {
+      a:hover { background-size: 0% 1px; }
+      .note-item:hover { background: transparent; }
+      .project-entry:hover { border-color: transparent; background: var(--color-bg-subtle); }
+      .theme-toggle:hover { color: var(--color-text-muted); border-color: var(--color-border); }
+    }
+
+    @media print {
+      .theme-toggle, .search-notice, .twk-panel { display: none !important; }
+      main { animation: none; }
+      .site-footer { background: transparent; padding: var(--space-lg) 0; }
+      .project-entry, .note-item, .ds-cv__row, pre, .ds-codeblock { break-inside: avoid; }
+      a { color: var(--color-text); background-image: none; }
+    }
   </style>
 </head>
 <body>
