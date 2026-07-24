@@ -162,10 +162,11 @@
 </head>
 <body>
 <a class="skip-link" href="#content">Skip to content</a>
+<div id="copy-status" class="sr-only" role="status" aria-live="polite"></div>
 
 <div class="toolbar">
   <span id="theme-label">paper</span>
-  <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">☾</button>
+  <button id="theme-toggle" type="button" aria-label="switch theme">☾</button>
 </div>
 
 <main id="content">
@@ -443,8 +444,11 @@
     if (!sw || !sw.dataset.hex) return;
     if (!navigator.clipboard) return;
     try {
-      await navigator.clipboard.writeText(sw.dataset.hex.toUpperCase());
+      const hex = sw.dataset.hex.toUpperCase();
+      await navigator.clipboard.writeText(hex);
       sw.classList.add("is-copied");
+      const status = document.getElementById("copy-status");
+      if (status) status.textContent = `copied ${hex}`;
       setTimeout(() => sw.classList.remove("is-copied"), 900);
     } catch {}
   });
@@ -452,6 +456,7 @@
   const apply = (mode, persist = true) => {
     if (mode === "dark") { doc.dataset.theme = "dark"; label.textContent = "roast"; btn.textContent = "☀"; }
     else { delete doc.dataset.theme; label.textContent = "paper"; btn.textContent = "☾"; }
+    btn.setAttribute("aria-label", mode === "dark" ? "switch to paper (light theme)" : "switch to roast (dark theme)");
     if (persist) safeSet("jylhis-theme", mode);
     renderSwatches();
   };
