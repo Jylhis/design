@@ -917,9 +917,15 @@ function generateEmacsCore() {
 ;;  resolves palette role symbols into per-display-class face specs.
 ;;
 ;;  Display tiers, in order of preference:
-;;    - GUI / 24-bit  -> (class color) (min-colors 16777216)  exact hex
-;;    - xterm-256     -> (class color) (min-colors 256)       "color-NNN"
-;;    - 16-color TTY  -> t                                    named ANSI
+;;    - GUI / 24-bit  -> (type graphic) (min-colors 16777216)  exact hex
+;;    - xterm-256     -> (class color) (min-colors 256)        "color-NNN"
+;;    - 16-color TTY  -> (type tty)                            named ANSI
+;;    - fallback      -> t                                     exact hex
+;;
+;;  ANSI names are gated behind (type tty) and the universal t fallback
+;;  repeats the 24-bit hex (valid on every display), so a graphical frame
+;;  that fails the truecolor and 256-color tests can never be handed an
+;;  ANSI name (which errors with "Undefined color" on graphic frames).
 ;;
 ;;  A face may carry GUI-only attributes via the :gui key in its attribute
 ;;  plist; those attributes are folded only into the 24-bit tier so they
@@ -968,9 +974,17 @@ recursively.  All other values pass through unchanged."
     (nreverse out)))
 
 (defun jylhis--build-face-spec (attrs palette)
-  "Build a three-tier Custom SPEC-LIST from ATTRS using PALETTE.
+  "Build a four-tier Custom SPEC-LIST from ATTRS using PALETTE.
 ATTRS is a plist; an optional :gui key carries attributes that should
-appear only in the GUI tier (e.g. :inherit variable-pitch)."
+appear only in the GUI tier (e.g. :inherit variable-pitch).
+
+The 16-color ANSI names are gated behind a (type tty) clause, and the
+universal t fallback repeats the 24-bit hex (a valid color on every
+display).  This guarantees a graphical frame can never be handed an ANSI
+color name: a graphic frame that fails the truecolor and 256-color
+display tests falls through the tty clause to the hex catch-all instead
+of erroring with Undefined color.  Observed via corfu child frames, whose
+per-frame face-spec-recalc selected the ANSI tier on a graphic frame."
   (let* ((gui-extra (plist-get attrs :gui))
          (base (jylhis--strip-key attrs :gui)))
     (list
@@ -979,8 +993,10 @@ appear only in the GUI tier (e.g. :inherit variable-pitch)."
                    (and gui-extra (jylhis--rewrite-plist gui-extra palette 0))))
      (list jylhis--display-256
            (jylhis--rewrite-plist base palette 1))
+     (list '((type tty))
+           (jylhis--rewrite-plist base palette 2))
      (list t
-           (jylhis--rewrite-plist base palette 2)))))
+           (jylhis--rewrite-plist base palette 0)))))
 
 (defconst jylhis--face-specs
   '(
