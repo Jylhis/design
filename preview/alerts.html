@@ -5,11 +5,11 @@
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
-  body { padding: 20px 22px; color: var(--color-text); font-family: "Literata", Georgia, serif; font-size: 14px; line-height: 1.5; max-width: 60ch; }
-  .label { font-family: "JetBrains Mono", monospace; font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 16px 0 8px; }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; max-width: 60ch; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 16px 0 8px; }
   .alert { border: var(--border-hairline) solid; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-sm); margin-bottom: 10px; font-size: 0.95rem; }
-  .alert .head { font-family: "JetBrains Mono", monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-  .alert .head .glyph { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+  .alert .head { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .alert .head .glyph { font-family: var(--font-mono); font-weight: 700; }
   .alert.info { border-color: var(--color-status-info); background: color-mix(in srgb, var(--color-status-info) 10%, transparent); }
   .alert.info .head { color: var(--color-status-info); }
   .alert.ok { border-color: var(--color-status-ok); background: color-mix(in srgb, var(--color-status-ok) 10%, transparent); }
@@ -21,7 +21,7 @@
   .alert p { margin: 0; color: var(--color-text); }
 
   .callout { border: var(--border-hairline) solid var(--color-accent); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: color-mix(in srgb, var(--color-accent) 8%, transparent); margin-bottom: 10px; }
-  .callout .label-row { font-family: "JetBrains Mono", monospace; font-size: 0.7rem; color: var(--color-accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .callout .label-row { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
   .callout .label-row::before { content: "// "; }
 </style></head>
 <body>

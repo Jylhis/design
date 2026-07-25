@@ -82,6 +82,11 @@
   /* Breakpoints — reference only; @media rules repeat these literally: sm 640px · md 860px */
   --breakpoint-sm: 640px;
   --breakpoint-md: 860px;
+  /* Font families */
+  --font-display: "Zilla Slab", "Roboto Slab", Rockwell, Georgia, serif;
+  --font-body: "Hanken Grotesk", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", "Cascadia Code", "Fira Code", ui-monospace, monospace;
+  --font-heading: var(--font-display);
   /* Type scale */
   --type-scale-0: 3.25rem;
   --type-scale-1: 2rem;

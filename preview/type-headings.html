@@ -8,11 +8,12 @@
   body { padding: 20px 22px; color: var(--color-text); }
   .row { display: grid; grid-template-columns: 100px 1fr; gap: 10px 16px; align-items: baseline; }
   .tag { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
-  h1, h2, h3, h4 { font-family: "JetBrains Mono", monospace; color: var(--color-text-heading); margin: 0; line-height: 1.25; letter-spacing: 0.01em; }
-  h1 { font-size: 2rem; font-weight: 700; }
-  h2 { font-size: 1.4rem; font-weight: 600; }
-  h3 { font-size: 1.15rem; font-weight: 600; }
-  h4 { font-size: 1rem; font-weight: 600; }
+  h1, h2, h3, h4 { color: var(--color-text-heading); margin: 0; }
+  /* v2: the plate title is slab (display); sub-headings are grotesk (body). */
+  h1 { font-family: var(--font-heading); font-size: 2rem; font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; }
+  h2 { font-family: var(--font-body); font-size: 1.4rem; font-weight: 600; line-height: 1.3; }
+  h3 { font-family: var(--font-body); font-size: 1.15rem; font-weight: 600; line-height: 1.3; }
+  h4 { font-family: var(--font-body); font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
 </style></head>
 <body>
   <div class="row">

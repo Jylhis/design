@@ -63,7 +63,7 @@ The ASE generator emits binary content; the `--check` mode handles both text and
 
 - `styles.css` — one-import entry point: pulls in `colors_and_type.css`, `motion.css`, and `components/components.css`
 - `colors_and_type.css` — imports `tokens.css` + `fonts.css`, then adds font stacks, semantic type helpers (`.ds-body`, `.ds-h1`, `.ds-meta`, `.ds-code-inline`, etc.), type craft defaults (oldstyle figures, `text-wrap`, hanging punctuation), and the interaction baseline (selection, caret, `:focus-visible` ring)
-- `fonts.css` — self-hosted variable-font `@font-face` blocks (Literata + JetBrains Mono, latin/latin-ext subsets with `unicode-range`)
+- `fonts.css` — self-hosted `@font-face` blocks for the v2 three-role stack: Zilla Slab (display/titles, static 600/700), Hanken Grotesk (UI/body, variable wght), IBM Plex Mono (data/labels/code, static 400/500 + 400 italic); all latin/latin-ext subsets with `unicode-range`. Family stacks are generated into `tokens.css` (`--font-display`/`--font-body`/`--font-mono`/`--font-heading`) from `tokens.json` typography; `colors_and_type.css` consumes them, so families never drift from the datum
 - `motion.css` — the "ink draws on" motion signature (`.ds-rule-draw`, `.ds-typed`, `.ds-caret`); guardrails in `docs/STYLE-GUIDE.md` §5
 - `components/` — React components library: 16 components, each `<Name>/<Name>.jsx` + `<Name>.d.ts` + `card.html` specimen, styled by `components/components.css` (tokens only, class-per-component)
 - `platforms/shell/` — starship.toml, bashrc, zshrc, dircolors (use ANSI names, not hex)

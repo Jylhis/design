@@ -5,12 +5,12 @@
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
-  body { padding: 22px 24px; color: var(--color-text); font-family: "Literata", Georgia, serif; }
+  body { padding: 22px 24px; color: var(--color-text); font-family: var(--font-body); }
   .box { background: color-mix(in srgb, var(--color-accent) 8%, transparent); border: var(--border-hairline) solid var(--color-accent); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); max-width: 520px; }
-  .label { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; text-transform: lowercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin: 0 0 var(--space-sm); font-weight: 400; }
+  .label { font-family: var(--font-mono); font-size: 0.8rem; text-transform: lowercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin: 0 0 var(--space-sm); font-weight: 400; }
   ul { list-style: none; padding: 0; margin: 0; }
   li { position: relative; padding: 0.3rem 0 0.3rem 1.5em; font-size: 0.95rem; }
-  li::before { content: '›'; position: absolute; left: 0; color: var(--color-accent); font-family: "JetBrains Mono", monospace; }
+  li::before { content: '›'; position: absolute; left: 0; color: var(--color-accent); font-family: var(--font-mono); }
   a { color: var(--color-accent); text-decoration: none; }
 </style></head>
 <body>

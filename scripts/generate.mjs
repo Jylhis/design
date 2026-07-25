@@ -243,6 +243,21 @@ function generateTokensCSS() {
     .map((v, i) => `  --type-scale-${i}: ${v}rem;`)
     .join("\n");
 
+  // Font families — the v2 three-role stack, from tokens.json typography.
+  // Emitting these makes display / body / mono part of the generated source of
+  // truth; hand CSS consumes the vars so families cannot drift from tokens.json.
+  // --font-heading is the semantic alias for the title face (display).
+  const fontStack = (role) => {
+    const t = tokens.typography[role];
+    return `"${t.family}", ${t.fallback}`;
+  };
+  const fontVars = [
+    `  --font-display: ${fontStack("display")};`,
+    `  --font-body: ${fontStack("body")};`,
+    `  --font-mono: ${fontStack("mono")};`,
+    `  --font-heading: var(--font-display);`,
+  ].join("\n");
+
   const transitionVars = Object.entries(tokens.motion)
     .map(([k, v]) => `  --transition-${k}: ${v.duration} ${v.css};`)
     .join("\n");
@@ -290,6 +305,8 @@ ${borderWidthVars}
 ${zIndexVars}
 ${breakpointComment}
 ${breakpointVars}
+  /* Font families */
+${fontVars}
   /* Type scale */
 ${typeScaleVars}
   /* Focus ring */

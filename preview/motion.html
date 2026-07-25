@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
-  body { padding: 20px 22px; color: var(--color-text); font-family: "JetBrains Mono", monospace; font-size: 12px; max-width: 60ch; }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: 12px; max-width: 60ch; }
   .label { font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
   .row { display: grid; grid-template-columns: 8ch 1fr 14ch; gap: 12px; align-items: center; margin-bottom: 10px; }
   .row .name { color: var(--color-text); }
@@ -23,7 +23,7 @@
   .puck.move { transform: translateX(calc(100% - 10px)); }
 
   .demo { margin: 22px 0 0; }
-  .underline { font-family: "Literata", Georgia, serif; font-size: 16px; color: var(--color-accent); text-decoration: none; background-image: linear-gradient(currentColor, currentColor); background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px; transition: background-size 250ms cubic-bezier(0.2, 0.6, 0.2, 1); }
+  .underline { font-family: var(--font-body); font-size: 16px; color: var(--color-accent); text-decoration: none; background-image: linear-gradient(currentColor, currentColor); background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px; transition: background-size 250ms cubic-bezier(0.2, 0.6, 0.2, 1); }
   .underline:hover, .underline:focus, .underline.is-active { background-size: 100% 1px; }
 
   @media (max-width: 480px) {

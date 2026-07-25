@@ -5,15 +5,15 @@
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html, body { margin:0; background: var(--color-bg); }
-  body { padding: 20px 22px; color: var(--color-text); font-family: "JetBrains Mono", monospace; font-size: 12px; min-height: 360px; position: relative; }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: 12px; min-height: 360px; position: relative; }
   .label { font-size: 10px; color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
   .scrim { position: absolute; inset: 0; background: var(--color-scrim); display: flex; align-items: center; justify-content: center; padding: 24px; }
   .modal { background: var(--color-surface-raised); border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); width: 100%; max-width: 36ch; padding: 20px 22px; }
   .modal .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
-  .modal h2 { font-family: "JetBrains Mono", monospace; font-size: 0.95rem; font-weight: 700; color: var(--color-text-heading); margin: 0; }
+  .modal h2 { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 700; color: var(--color-text-heading); margin: 0; }
   .modal .close { background: none; border: 1px solid transparent; color: var(--color-text-faint); font: inherit; font-size: 1rem; cursor: pointer; padding: 0 4px; line-height: 1; }
   .modal .close:hover { color: var(--color-accent); }
-  .modal p { font-family: "Literata", Georgia, serif; font-size: 14px; color: var(--color-text); line-height: 1.55; margin: 0 0 14px; }
+  .modal p { font-family: var(--font-body); font-size: 14px; color: var(--color-text); line-height: 1.55; margin: 0 0 14px; }
   .modal .actions { display: flex; gap: 10px; justify-content: flex-end; }
   .btn { font: inherit; font-size: 0.78rem; padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; }
   .btn.primary { background: var(--color-accent); color: var(--color-bg); border: 1px solid var(--color-accent); }
