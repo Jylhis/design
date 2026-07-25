@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A personal design system for jylhis.com. Warm cream paper, single copper accent, monospace headings (JetBrains Mono), serif body (Literata). No emoji, no gradients, no shadows. Unicode glyphs as icons. Syntax colors from Emacs Modus (Operandi light, Vivendi dark).
+A personal design system for jylhis.com — v2, "The Survey". Cool near-white/near-black grounds, a single bronze accent with a vermilion benchmark mark, structural linework in Modus contour blue. Three type roles: Zilla Slab (display/titles), Hanken Grotesk (UI/body), IBM Plex Mono (data/labels/code). No emoji, no gradients, no shadows. Unicode glyphs as icons. Syntax colors from Emacs Modus (Operandi light, Vivendi dark).
 
 ## Commands
 
@@ -41,23 +41,24 @@ A single Bun script with zero dependencies reads `tokens.json` and writes genera
 | Generated file | What |
 |---|---|
 | `tokens.css` | CSS custom properties (`:root` + `[data-theme="dark"]`) |
+| `tokens.md` | Human-readable token spec — palette, syntax, ANSI, type, density, motion, sound, with measured contrast |
 | `docs/components/*.md` | Per-component reference — summary + props table + a11y notes, generated from each `.d.ts` + `card.html` |
 | `tokens-data.js` | JS export for the showcase website (includes derived `contrastPairs` + `swatchContrast`) |
-| `platforms/ghostty/jylhis-{paper,roast}` | Ghostty color themes |
+| `platforms/ghostty/jylhis-{sheet,field}` | Ghostty color themes |
 | `platforms/charm/jylhis/palette.go` | Go lipgloss palette struct |
-| `platforms/glamour/jylhis-{paper,roast,notty}.json` | Charm Glamour terminal-Markdown stylesheets (notty = colorless) |
+| `platforms/glamour/jylhis-{sheet,field,notty}.json` | Charm Glamour terminal-Markdown stylesheets (notty = colorless) |
 | `platforms/emacs/jylhis-theme-core.el` | Shared face spec list + three-tier resolver macro (Tokyo-Themes-style framework) |
-| `platforms/emacs/jylhis-{paper,roast}-palette.el` | Three-tier (GUI / xterm-256 / 16-color ANSI) palette alist per variant |
-| `platforms/emacs/jylhis-{paper,roast}-theme.el` | Entry point: `require`s core+palette and calls `jylhis-apply-faces` |
-| `platforms/hyprland/jylhis-{paper,roast}.conf` | Hyprland border colors |
-| `platforms/rofi/jylhis-{paper,roast}.rasi` | Rofi command palette theme |
+| `platforms/emacs/jylhis-{sheet,field}-palette.el` | Three-tier (GUI / xterm-256 / 16-color ANSI) palette alist per variant |
+| `platforms/emacs/jylhis-{sheet,field}-theme.el` | Entry point: `require`s core+palette and calls `jylhis-apply-faces` |
+| `platforms/hyprland/jylhis-{sheet,field}.conf` | Hyprland border colors |
+| `platforms/rofi/jylhis-{sheet,field}.rasi` | Rofi command palette theme |
 | `platforms/gtk/gtk.css` | GTK 3/4 Adwaita overrides |
 | `platforms/waybar/style.css` | Waybar bar CSS |
 | `platforms/mako/config` | Mako notification config |
-| `platforms/kvantum/Jylhis{Paper,Roast}.colors` | Qt/Kvantum palette XML |
-| `platforms/gimp/jylhis-{paper,roast}.gpl` | GIMP / Inkscape / Krita swatch file |
-| `platforms/adobe/jylhis-{paper,roast}.ase` | Adobe Swatch Exchange (binary) — Photoshop / Illustrator / InDesign / Affinity |
-| `platforms/hyperos/jylhis-{paper,roast}.mtz` | Xiaomi HyperOS/MIUI theme (ZIP with color overrides) |
+| `platforms/kvantum/Jylhis{Sheet,Field}.colors` | Qt/Kvantum palette XML |
+| `platforms/gimp/jylhis-{sheet,field}.gpl` | GIMP / Inkscape / Krita swatch file |
+| `platforms/adobe/jylhis-{sheet,field}.ase` | Adobe Swatch Exchange (binary) — Photoshop / Illustrator / InDesign / Affinity |
+| `platforms/hyperos/jylhis-{sheet,field}.mtz` | Xiaomi HyperOS/MIUI theme (ZIP with color overrides) |
 
 The ASE generator emits binary content; the `--check` mode handles both text and binary outputs.
 
@@ -66,7 +67,7 @@ The ASE generator emits binary content; the `--check` mode handles both text and
 - `styles.css` — one-import entry point: pulls in `colors_and_type.css`, `motion.css`, and `components/components.css`
 - `colors_and_type.css` — imports `tokens.css` + `fonts.css`, then adds font stacks, semantic type helpers (`.ds-body`, `.ds-h1`, `.ds-meta`, `.ds-code-inline`, etc.), type craft defaults (oldstyle figures, `text-wrap`, hanging punctuation), and the interaction baseline (selection, caret, `:focus-visible` ring)
 - `fonts.css` — self-hosted `@font-face` blocks for the v2 three-role stack: Zilla Slab (display/titles, static 600/700), Hanken Grotesk (UI/body, variable wght), IBM Plex Mono (data/labels/code, static 400/500 + 400 italic); all latin/latin-ext subsets with `unicode-range`. Family stacks are generated into `tokens.css` (`--font-display`/`--font-body`/`--font-mono`/`--font-heading`) from `tokens.json` typography; `colors_and_type.css` consumes them, so families never drift from the datum
-- `motion.css` — the "ink draws on" motion signature (`.ds-rule-draw`, `.ds-typed`, `.ds-caret`); guardrails in `docs/STYLE-GUIDE.md` §5
+- `motion.css` — the "survey renders in" motion signature (`.ds-contour-draw`, `.ds-line-extend`, `.ds-readout`, `.ds-caret`); guardrails in `docs/STYLE-GUIDE.md` §5
 - `components/` — React components library: 20 components, each `<Name>/<Name>.jsx` + `<Name>.d.ts` + `card.html` specimen, styled by `components/components.css` (tokens only, class-per-component)
 - `platforms/shell/` — starship.toml, bashrc, zshrc, dircolors (use ANSI names, not hex)
 - `platforms/ghostty/config` — user preferences, not palette
@@ -97,13 +98,13 @@ Static HTML at `index.html`, deployed via GitHub Pages. Color swatches render dy
 
 ## Thematic groups
 
-Roles in `tokens.json` are grouped under a top-level `groups` block — Paperstock (backgrounds), Ink (text), Copper (accent), Linen (borders), Modus (syntax), Signal (status), Spectrum (ANSI). Roles are still the canonical names used in code (`bg`, `accent`, `syn-keyword` …); group names are documentation/UI labels surfaced in the showcase, the per-theme palette page, and the GIMP `.gpl` exports. When adding a new color, register it under the relevant group's `members` list.
+Roles in `tokens.json` are grouped under a top-level `groups` block — Grounds (backgrounds), Ink (text), Bronze (accent + benchmark), Line (borders + contour), Modus (syntax), Signal (status), Spectrum (ANSI). Roles are still the canonical names used in code (`bg`, `accent`, `syn-keyword` …); group names are documentation/UI labels surfaced in the showcase, the per-theme palette page, and the GIMP `.gpl` exports. When adding a new color, register it under the relevant group's `members` list.
 
 ## Key design rules
 
-- **Two themes:** Paper (light) and Roast (dark) are both first-class. Never ship one without the other.
-- **ANSI 11 is always brand copper** — intentional override across all terminal targets.
-- **Copper accent is never a syntax color** — it's reserved for UI chrome and brand marks.
+- **Two themes:** Sheet (light) and Field (dark) are both first-class. Never ship one without the other. `sheet`/`field` are the identifiers used in filenames, Nix options, Go `Mode` constants, and Emacs theme names.
+- **ANSI 11 is always the bronze accent** — intentional override across all terminal targets.
+- **The bronze accent is never a syntax color** — it's reserved for UI chrome and brand marks. `contour` blue is structure only, never interaction.
 - **No hex duplication** — always derive from `tokens.json`. If a value isn't there, add it to `tokens.json` first.
 - **Contrast:** body text AAA on both modes, text-muted AA, text-faint is decorative only.
 - **`accent-subtle`** uses rgba with opacity (not in `tokens.json` directly) — defined in `tokens.css` generation and as opaque approximations in Emacs/Rofi where rgba isn't supported.

@@ -3,7 +3,7 @@
 These files are **read-only reference copies** of the CSS used by the real
 Astro site at [jylhis.com](https://jylhis.com). They are kept here so that
 anyone working on the design system can see how the live site currently
-uses the tokens, and so historical decisions (e.g. the pre-Literata font
+uses the tokens, and so historical decisions (e.g. the pre-v2 font
 stack) remain visible.
 
 ## Direction of truth

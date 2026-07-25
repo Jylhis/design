@@ -12,9 +12,9 @@ colors:
   text-faint: "#878c95"
   accent: "#8a4d00"
   accent-hover: "#a75f0a"
-  benchmark: "#b5450e"
+  brand: "#b5450e"
   contour: "#2f4fb0"
-  contour-faint: "#7f8fb5"
+  decorator: "#7f8fb5"
   border: "#cfd6de"
   border-strong: "#aab4c0"
   status-err: "#a60000"
@@ -219,14 +219,14 @@ asserted.
   colour. Links, focus rings, primary fills, the datum label, CTAs. AAA-tuned.
 - **Deep/Lit Bronze** — `accent-hover` (Sheet `#a75f0a` / Field `#f0b95c`):
   `:hover`/`:active` only, never a base colour.
-- **Benchmark Vermilion** — `benchmark` (Sheet `#b5450e` / Field `#ef8a4a`): the
+- **Benchmark Vermilion** — `brand` (Sheet `#b5450e` / Field `#ef8a4a`): the
   maker's-mark and datum triangle; a survey benchmark, distinct from status red.
 
 ### Structure — contour
 - **Contour Blue** — `contour` (Sheet `#2f4fb0` / Field `#6f9be0`): structural
   linework — contour rings, dividers, diagram strokes. A Modus blue. It is
   structure, never interaction; it never competes with the bronze accent.
-- **Graticule** — `contour-faint` (Sheet `#7f8fb5` / Field `#39415a`): fine
+- **Graticule** — `decorator` (Sheet `#7f8fb5` / Field `#39415a`): fine
   grid, triangulation dashes, and tick chrome. Decorative structural line only.
 
 ### Neutral — grounds (four steps)
@@ -430,7 +430,7 @@ colour on interaction.
 - Set `html { background: var(--color-bg); color: var(--color-text); }` and inherit.
 - Convey elevation by stepping the ground + a 1px hairline.
 - Use `accent` (bronze) for interaction; `contour` (blue) for structure only;
-  `benchmark` for the datum mark only.
+  `brand` for the datum mark only.
 - Render code with the Modus syntax tokens.
 - Pair every status with a glyph + word; keep body AAA, meta AA, faint decorative.
 - Ship both editions together (Sheet + Field).

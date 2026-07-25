@@ -26,7 +26,7 @@ or wrapper packages needed.
         jylhis-design.homeManagerModules.default   # or homeModules.default
         ({ ... }: {
           jylhis.theme.enable  = true;
-          jylhis.theme.variant = "roast";          # or "paper"
+          jylhis.theme.variant = "field";          # or "sheet"
         })
       ];
     };
@@ -59,7 +59,7 @@ pinned `tokens.json` and returns the palette in the shapes Nix configs
 actually use — no `pkgs`, no build:
 
 ```nix
-let p = inputs.jylhis-design.lib.mkPalette "roast";   # or "paper"
+let p = inputs.jylhis-design.lib.mkPalette "field";   # or "sheet"
 in {
   # role → hex (keeps the leading "#")
   wayland.windowManager.hyprland.settings.general."col.active_border" =
@@ -71,7 +71,7 @@ in {
 }
 ```
 
-`mkPalette` accepts `"paper"`/`"roast"` or `"light"`/`"dark"`. The `base16`
+`mkPalette` accepts `"sheet"`/`"field"` or `"light"`/`"dark"`. The `base16`
 attr equals the shipped `platforms/base16/*.yaml`; `tty16` matches the
 console target's slot 0/7/15 override.
 
@@ -98,7 +98,7 @@ document.documentElement.dataset.theme =
 ```
 
 Fonts are loaded from Google Fonts for prototyping. To self-host, vendor
-the Literata and JetBrains Mono `woff2` files into a `fonts/` folder and
+the Zilla Slab, Hanken Grotesk, and IBM Plex Mono `woff2` files into a `fonts/` folder and
 swap the `@import` at the top of `colors_and_type.css` for `@font-face`
 declarations.
 
@@ -123,19 +123,19 @@ go get github.com/jylhis/design/platforms/charm/jylhis
 ```go
 import "github.com/jylhis/design/platforms/charm/jylhis"
 
-t := jylhis.NewTheme(jylhis.Paper) // or jylhis.Roast
+t := jylhis.NewTheme(jylhis.Sheet) // or jylhis.Field
 fmt.Println(t.Title.Render("Notes"))
 fmt.Println(t.Subtle.Render("7 files · updated 2m ago"))
 ```
 
 Inside Bubble Tea, use `jylhis.Detect(os.Stdin, os.Stdout)` or listen for
-`tea.BackgroundColorMsg` to auto-select Paper vs. Roast based on terminal
+`tea.BackgroundColorMsg` to auto-select Sheet vs. Field based on terminal
 background luminance. See `platforms/charm/README.md` for the full API and
 the runnable demo under `platforms/charm/demo/`.
 
 ### Glamour (terminal Markdown)
 
-`platforms/glamour/jylhis-{paper,roast,notty}.json` are Charm
+`platforms/glamour/jylhis-{sheet,field,notty}.json` are Charm
 [Glamour](https://github.com/charmbracelet/glamour) stylesheets — the format
 that renders Markdown in `glow`, `gh`, `glab`, and any Bubble Tea app. Code
 blocks use the Modus syntax roles, so a fenced block reads identically in the
@@ -145,29 +145,29 @@ and attribute stripped — a clean, pipe- and screen-reader-friendly plain rende
 Select a style by path with the `GLAMOUR_STYLE` env var, or per-invocation:
 
 ```bash
-export GLAMOUR_STYLE=$PWD/platforms/glamour/jylhis-roast.json
+export GLAMOUR_STYLE=$PWD/platforms/glamour/jylhis-field.json
 glow README.md
 gh pr view 42                       # gh honours GLAMOUR_STYLE too
 glow -s platforms/glamour/jylhis-notty.json CHANGELOG.md | less   # colourless
 ```
 
 In a Bubble Tea app, load it with
-`glamour.NewTermRenderer(glamour.WithStylePath("…/jylhis-roast.json"))`, or
-`glamour.WithAutoStyle()` to pick Paper vs. Roast from the terminal background.
+`glamour.NewTermRenderer(glamour.WithStylePath("…/jylhis-field.json"))`, or
+`glamour.WithAutoStyle()` to pick Sheet vs. Field from the terminal background.
 
 ---
 
 ## Terminal (Ghostty + shell)
 
-1. Drop `platforms/ghostty/jylhis-paper` and `jylhis-roast` into
+1. Drop `platforms/ghostty/jylhis-sheet` and `jylhis-field` into
    `~/.config/ghostty/themes/`.
-2. Reference one from your Ghostty config: `theme = jylhis-paper`.
+2. Reference one from your Ghostty config: `theme = jylhis-sheet`.
 3. Source `platforms/shell/bashrc.bash` or `zshrc.zsh` from your dotfiles,
    and copy `starship.toml` to `~/.config/starship.toml`.
 4. `eval $(dircolors platforms/shell/dircolors)` wires `ls` / `eza` to the
    same ANSI palette.
 
-ANSI 11 is always the brand copper (`#b5703c` light, `#e89b5e` dark).
+ANSI 11 is always the bronze accent (`#8a4d00` light, `#e0a33a` dark).
 That's intentional — prompts and directory permissions carry the Jylhis
 identity.
 
@@ -185,8 +185,8 @@ Without flakes:
 ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 ```
 
-Either form wraps Ghostty so `theme = jylhis-paper` and
-`theme = jylhis-roast` work out of the box without manually copying files.
+Either form wraps Ghostty so `theme = jylhis-sheet` and
+`theme = jylhis-field` work out of the box without manually copying files.
 
 ---
 
@@ -197,8 +197,8 @@ Load the theme file from your `init.el`:
 ```elisp
 (add-to-list 'custom-theme-load-path
              "~/path/to/design/platforms/emacs/")
-(load-theme 'jylhis-paper t)
-;; or: (load-theme 'jylhis-roast t)
+(load-theme 'jylhis-sheet t)
+;; or: (load-theme 'jylhis-field t)
 
 ;; Optional light/dark toggle (binds C-c T by default):
 (load-file "~/path/to/design/platforms/emacs/jylhis-theme-toggle.el")
@@ -234,7 +234,7 @@ come after the shared base because it overrides `general:col.*` and
 
 ```
 source = ~/.config/hypr/jylhis.conf            # shared (general/decoration/animations)
-source = ~/.config/hypr/jylhis-roast.conf      # or jylhis-paper.conf
+source = ~/.config/hypr/jylhis-field.conf      # or jylhis-sheet.conf
 source = ~/.config/hypr/jylhis-keys.conf       # optional
 # … your overrides below …
 ```
@@ -242,12 +242,12 @@ source = ~/.config/hypr/jylhis-keys.conf       # optional
 ### Other Wayland targets
 
 - **Waybar:** `include-path` the CSS in `platforms/waybar/`
-- **Hyprlock:** source `platforms/hyprlock/jylhis-paper.conf` (or
-  `jylhis-roast.conf`) from `~/.config/hypr/hyprlock.conf`. It ships colors,
+- **Hyprlock:** source `platforms/hyprlock/jylhis-sheet.conf` (or
+  `jylhis-field.conf`) from `~/.config/hypr/hyprlock.conf`. It ships colors,
   fonts, and field layout only — add your `auth`, `grace`, and monitor
   settings below the source line.
 - **Mako:** symlink `platforms/mako/config` to `~/.config/mako/config`
-- **Rofi:** set `@theme "platforms/rofi/jylhis-paper"` (or `jylhis-roast`)
+- **Rofi:** set `@theme "platforms/rofi/jylhis-sheet"` (or `jylhis-field`)
 - **GTK 3/4:** import `platforms/gtk/gtk.css` from your user GTK stylesheet
 - **Kvantum/Qt:** point `kvantummanager` at `platforms/kvantum/`
 
@@ -269,15 +269,15 @@ If you use Stylix, the generated base16 YAML is shipped at a stable
 path under the Nix derivation — point Stylix at it directly:
 
 ```nix
-stylix.base16Scheme = "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-roast.yaml";
-# or jylhis-paper.yaml
+stylix.base16Scheme = "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-field.yaml";
+# or jylhis-sheet.yaml
 ```
 
 Or use the helper exposed by the flake (returns the same path):
 
 ```nix
 stylix.base16Scheme =
-  inputs.jylhis-design.lib.variantToBase16Scheme pkgs "roast";
+  inputs.jylhis-design.lib.variantToBase16Scheme pkgs "field";
 ```
 
 This avoids re-deriving the palette in your config.
@@ -291,13 +291,13 @@ hand-writing `stylix.base16Scheme`:
 # NixOS configuration.nix
 { inputs, ... }: {
   imports = [ inputs.jylhis-design.nixosModules.default ];
-  jylhis.theme = { enable = true; variant = "roast"; };
+  jylhis.theme = { enable = true; variant = "field"; };
 }
 
 # nix-darwin
 { inputs, ... }: {
   imports = [ inputs.jylhis-design.darwinModules.default ];
-  jylhis.theme = { enable = true; variant = "paper"; };
+  jylhis.theme = { enable = true; variant = "sheet"; };
 }
 ```
 
@@ -310,7 +310,7 @@ importing the Home-Manager module.
 ### Variant switching
 
 A small shell helper at `platforms/scripts/jylhis-theme-toggle.sh`
-flips between paper and roast and reloads waybar / mako / hyprland.
+flips between sheet and field and reloads waybar / mako / hyprland.
 It mirrors `platforms/emacs/jylhis-theme-toggle.el` for the desktop
 side, so a single keybind can flip both.
 
@@ -366,7 +366,7 @@ those targets and disable the Jylhis side per-target:
 ```nix
 jylhis.theme = {
   enable  = true;
-  variant = "roast";
+  variant = "field";
   ghostty.enable  = false;
   mako.enable     = false;
   waybar.enable   = false;
@@ -401,22 +401,22 @@ generation time, so the splash always matches the active palette.
   boot.plymouth = {
     enable = true;
     themePackages = [ pkgs.jylhis-themes ];
-    theme = "jylhis-roast";  # or "jylhis-paper"
+    theme = "jylhis-field";  # or "jylhis-sheet"
   };
 }
 ```
 
 Plymouth searches `themePackages` for `share/plymouth/themes/<theme>`,
 so a small overlay (or a shim package) may be needed to symlink
-`share/jylhis/plymouth/jylhis-{paper,roast}/` into the path Plymouth
+`share/jylhis/plymouth/jylhis-{sheet,field}/` into the path Plymouth
 expects:
 
 ```nix
 nixpkgs.overlays = [(final: prev: {
   plymouth-theme-jylhis = final.runCommand "plymouth-theme-jylhis" {} ''
     mkdir -p $out/share/plymouth/themes
-    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-paper $out/share/plymouth/themes/jylhis-paper
-    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-roast $out/share/plymouth/themes/jylhis-roast
+    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-sheet $out/share/plymouth/themes/jylhis-sheet
+    ln -s ${final.jylhis-themes}/share/jylhis/plymouth/jylhis-field $out/share/plymouth/themes/jylhis-field
   '';
 })];
 boot.plymouth.themePackages = [ pkgs.plymouth-theme-jylhis ];
@@ -433,22 +433,22 @@ as a ready-to-import NixOS fragment:
 
 ```nix
 imports = [
-  "${pkgs.jylhis-themes}/share/jylhis/console/jylhis-roast.nix"
-  # or jylhis-paper.nix
+  "${pkgs.jylhis-themes}/share/jylhis/console/jylhis-field.nix"
+  # or jylhis-sheet.nix
 ];
 ```
 
 After `nixos-rebuild switch`, the kernel TTY and any greeter that
 inherits the console palette (tuigreet over `console-on-tty1`, etc.)
-will use the Jylhis colors. ANSI 11 is intentionally the brand copper
+will use the Jylhis colors. ANSI 11 is intentionally the bronze accent
 across all targets, so prompts and active controls carry the Jylhis
 identity from the very first line of console output.
 
 The console palette is **not** a verbatim copy of `tokens.ansi` — slot
 0 (background), slot 7 (default foreground), and slot 15 (bright
 foreground) are derived from the semantic palette (`bg`, `text`,
-`text-heading`) so the kernel TTY renders readably in both Paper and
-Roast. The kernel virtual console uses slot 0 as the actual background
+`text-heading`) so the kernel TTY renders readably in both Sheet and
+Field. The kernel virtual console uses slot 0 as the actual background
 and has no separate page-bg channel, so the "text/bg inversion" role
 that `ansi.black` carries for terminal apps doesn't apply here.
 
@@ -462,15 +462,15 @@ Jylhis theme file to drop in. The mapping below is what you should
 pass to `tuigreet --theme` (or set in regreet's TOML) to get a
 coherent look across boot → login → desktop.
 
-| Greeter slot | ANSI name        | Role / hex (paper · roast)     |
+| Greeter slot | ANSI name        | Role / hex (sheet · field)     |
 |---|---|---|
 | `border`     | `bright-black`   | faint — `#8a7f72` · `#6b6157`  |
 | `text`       | `white`          | body text — `#2c2825` · `#e8e0d4` |
 | `time`       | `cyan`           | syn-type — Modus cyan-cooler   |
 | `container`  | `black`          | bg — `#faf7f2` · `#1a1714`     |
-| `prompt`     | `bright-yellow`  | **brand copper** — `#b5703c` · `#e89b5e` |
+| `prompt`     | `bright-yellow`  | **bronze accent** — `#8a4d00` · `#e0a33a` |
 | `input`      | `white`          | body text (foreground)         |
-| `action`     | `bright-yellow`  | brand copper                   |
+| `action`     | `bright-yellow`  | bronze accent                  |
 | `button`     | `magenta`        | Modus magenta                  |
 | `greet`      | `bright-white`   | text-heading — `#1e1b18` · `#f0eae0` |
 
@@ -482,7 +482,7 @@ tuigreet \
 ```
 
 `bright-yellow` is the intentional override — it's always the brand
-copper across all terminal-adjacent targets, so prompts and active
+bronze across all terminal-adjacent targets, so prompts and active
 controls carry the Jylhis identity even on the login screen.
 
 ---
@@ -492,9 +492,9 @@ controls carry the Jylhis identity even on the login screen.
 1. **Read `tokens.json`** — every value you need is there.
 2. **Add a generator** in `scripts/generate.mjs` that reads from `tokens.json`
    and writes the platform file. Register the output with `out()`.
-3. **Keep ANSI 11 as the brand copper.** That's the one intentional override
+3. **Keep ANSI 11 as the bronze accent.** That's the one intentional override
    across all terminal-adjacent targets.
-4. **Ship both modes.** Light (Paper) and dark (Roast) are first-class. Do
+4. **Ship both modes.** Light (Sheet) and dark (Field) are first-class. Do
    not ship a dark-only or light-only theme.
 5. **Update `README.md` index table** and add a card to
    `platforms/index.html`.

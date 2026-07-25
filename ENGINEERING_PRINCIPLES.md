@@ -17,7 +17,7 @@ isn't in `tokens.json`, add it there first.
 
 ## 2. Dual-theme parity
 
-Paper (light) and Roast (dark) are both first-class. Never ship one
+Sheet (light) and Field (dark) are both first-class. Never ship one
 without the other. Every preview, every platform target, every release
 note covers both modes.
 
@@ -28,11 +28,12 @@ Body text is WCAG 2.1 AAA on both backgrounds. `text-muted` clears AA.
 non-text-critical chrome. The validators enforce the contrast claims in
 `tokens.json` against the actual generated CSS.
 
-## 4. Single copper accent
+## 4. Single bronze accent
 
 One brand color, two roles: `--color-brand` for the favicon/maker's mark,
 `--color-accent` for any accent that carries text meaning (links, focus
-rings, status). The brand copper is **deliberately not a syntax color**.
+rings, status). The bronze accent is **deliberately not a syntax color**, and
+`contour` blue is structure only — it never stands in for interaction.
 
 ## 5. Modus syntax everywhere
 
@@ -45,7 +46,7 @@ grammar, identical pixels across surfaces.
 `›` `▸` `»` `└──` `☾` `☀` `★` `⑂`. No icon font, no SVG sprite, no
 emoji. The only bespoke SVG in the system is the maker's mark.
 
-## 7. Flat paper, no gloss
+## 7. Flat sheet, no gloss
 
 No gradients. No drop shadows. No backdrop-filter or glass. Elevation is
 conveyed with background-color steps and 1px borders. Animation is color

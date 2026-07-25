@@ -5,10 +5,16 @@
 > pipeline exists and CI runs it on every push. The component/state and
 > preview-de-drift recommendations marked **applied** are included in this repo.
 
-# Design System Review — July 2026 (v2)
+# Design System Review — July 2026 (second edition)
 
 Audited per the AI-tells & structural-quality review guide (detect mode:
-findings + recommendations, no rewrites). Supersedes the v1 review.
+findings + recommendations, no rewrites). Supersedes the first review.
+
+> **Historical.** This is the *second edition of the review*, not a review of
+> design v2. It audits the system as it stood **before** the v2 "The Survey"
+> retheme — warm cream grounds, copper accent, Literata + JetBrains Mono. Its
+> palette and type observations describe that state and are kept as-is for the
+> record; the current direction is [`../DESIGN.md`](../DESIGN.md).
 
 ## 1 · Profile & scope
 
@@ -193,7 +199,7 @@ system's own specs. All decisions below were made by the owner.
 ## Kept deviations from Impeccable (intentional)
 
 - **Warm cream paper.** Impeccable flags "the cream default"; here cream IS
-  the brand (Paperstock group), chosen and executed, not defaulted.
+  the brand (Grounds group), chosen and executed, not defaulted.
 - **Monospace headings.** Impeccable's brand register warns against mono as
   lazy "technical" shorthand — this system's mono/serif pairing is its
   documented signature, with craft defaults (lining vs oldstyle figures).

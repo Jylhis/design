@@ -4,11 +4,11 @@ Two GIMP Palette (`.gpl`) files — the standard format for swatches, shared by 
 
 ```
 platforms/gimp/
-├── jylhis-paper.gpl      ← generated (light)
-└── jylhis-roast.gpl      ← generated (dark)
+├── jylhis-sheet.gpl      ← generated (light)
+└── jylhis-field.gpl      ← generated (dark)
 ```
 
-Each file ships every role from the system, grouped under thematic comment headers (`# Paperstock`, `# Ink`, `# Copper`, `# Linen`, `# Modus`, `# Signal`, `# Spectrum`).
+Each file ships every role from the system, grouped under thematic comment headers (`# Grounds`, `# Ink`, `# Bronze`, `# Linen`, `# Modus`, `# Signal`, `# Spectrum`).
 
 ## Install
 
@@ -16,16 +16,16 @@ Each file ships every role from the system, grouped under thematic comment heade
 
 ```bash
 mkdir -p ~/.config/GIMP/2.10/palettes
-cp jylhis-paper.gpl jylhis-roast.gpl ~/.config/GIMP/2.10/palettes/
+cp jylhis-sheet.gpl jylhis-field.gpl ~/.config/GIMP/2.10/palettes/
 ```
 
-GIMP picks them up on next launch. Open them via *Windows → Dockable Dialogs → Palettes* and select **Jylhis Paper** or **Jylhis Roast**.
+GIMP picks them up on next launch. Open them via *Windows → Dockable Dialogs → Palettes* and select **Jylhis Sheet** or **Jylhis Field**.
 
 ### Inkscape
 
 ```bash
 mkdir -p ~/.config/inkscape/palettes
-cp jylhis-paper.gpl jylhis-roast.gpl ~/.config/inkscape/palettes/
+cp jylhis-sheet.gpl jylhis-field.gpl ~/.config/inkscape/palettes/
 ```
 
 Switch in the swatches strip at the bottom of the canvas.

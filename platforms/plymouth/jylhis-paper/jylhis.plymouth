@@ -1,9 +1,0 @@
-# Jylhis Paper — GENERATED from tokens.json. Do not edit by hand.
-[Plymouth Theme]
-Name=Jylhis Paper
-Description=Jylhis design system — paper variant. Text + spinner, no images.
-ModuleName=script
-
-[script]
-ImageDir=.
-ScriptFile=jylhis.script

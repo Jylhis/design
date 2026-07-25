@@ -6,8 +6,8 @@ documents it links to.
 
 ## What this repo is
 
-The Jylhis design system. A personal, paper-and-press visual language with
-two themes (Paper light, Roast dark), one copper accent, no emoji, no
+The Jylhis design system. A personal, cartographic-survey visual language with
+two editions (Sheet light, Field dark), one bronze accent, no emoji, no
 gradients, no shadows. Every color, spacing, motion, and ANSI value lives
 in [`tokens.json`](./tokens.json); every platform target is **generated**
 from it.
@@ -35,10 +35,10 @@ from it.
 - **Never** edit a generated file directly. Edit `tokens.json`, then run
   `bun scripts/generate.mjs`. The list of generated files is in
   [`CLAUDE.md`](./CLAUDE.md#generation-pipeline-scriptsgeneratemjs).
-- **Never** ship one theme without the other. Paper and Roast are both
+- **Never** ship one edition without the other. Sheet and Field are both
   first-class.
 - **Never** add emoji, gradients, drop shadows, or scale/spring
-  animations. The aesthetic is flat paper.
+  animations. The aesthetic is a flat survey sheet.
 - **Never** introduce a new hex value that isn't in `tokens.json`. Add it
   to `tokens.json` first.
 - Run `bun scripts/generate.mjs --check` and the four validators before

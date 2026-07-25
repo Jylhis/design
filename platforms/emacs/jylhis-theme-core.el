@@ -11,8 +11,8 @@
 ;;; Commentary:
 ;;
 ;;  Canonical face spec list for the Jylhis design system, shared by both
-;;  the Paper (light) and Roast (dark) variants.  Each variant ships its
-;;  own three-tier palette in jylhis-{paper,roast}-palette.el; this file
+;;  the Sheet (light) and Field (dark) variants.  Each variant ships its
+;;  own three-tier palette in jylhis-{sheet,field}-palette.el; this file
 ;;  resolves palette role symbols into per-display-class face specs.
 ;;
 ;;  Display tiers, in order of preference:
@@ -422,7 +422,7 @@ folds attributes into the GUI tier only — use it for attributes like
 
 (defun jylhis-apply-faces (theme palette)
   "Apply the canonical Jylhis face mapping to THEME using PALETTE.
-PALETTE is the value of \='jylhis-paper-palette' or \='jylhis-roast-palette'
+PALETTE is the value of \='jylhis-sheet-palette' or \='jylhis-field-palette'
 (or any alist of (ROLE (GUI-HEX XTERM-256 ANSI-16-NAME)))."
   (let ((args (mapcar
                (lambda (spec)

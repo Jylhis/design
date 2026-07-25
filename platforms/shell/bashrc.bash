@@ -1,5 +1,5 @@
 # Jylhis prompt for bash
-# Two-line prompt, copper » that flips red on non-zero exit.
+# Two-line prompt, bronze » that flips red on non-zero exit.
 # Add to ~/.bashrc:
 
 # — Colors (ANSI 16 — your terminal should be using the Jylhis colorscheme) —

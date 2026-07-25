@@ -13,6 +13,6 @@ export interface ChangelogProps {
   entries: ChangelogEntry[];
 }
 
-/** Commit-log changelog — copper nodes on a 1px trunk, dates in the gutter.
+/** Commit-log changelog — bronze nodes on a 1px trunk, dates in the gutter.
  *  The content's real structure (a history) becomes the visual structure. */
 export declare function Changelog(props: ChangelogProps): React.JSX.Element;

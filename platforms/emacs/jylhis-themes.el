@@ -15,13 +15,13 @@
 ;;
 ;;  Usage:
 ;;    (require 'jylhis-themes)
-;;    (load-theme 'jylhis-paper t)   ; light
-;;    (load-theme 'jylhis-roast t)   ; dark
+;;    (load-theme 'jylhis-sheet t)   ; light
+;;    (load-theme 'jylhis-field t)   ; dark
 ;;
 ;;  With auto-dark:
 ;;    (require 'jylhis-themes)
-;;    (setq auto-dark-light-theme 'jylhis-paper
-;;          auto-dark-dark-theme  'jylhis-roast)
+;;    (setq auto-dark-light-theme 'jylhis-sheet
+;;          auto-dark-dark-theme  'jylhis-field)
 ;;    (auto-dark-mode 1)
 ;;
 ;;  Batch mode: `emacs --batch' does not run site-start.el, so
@@ -29,7 +29,7 @@
 ;;  Guard top-level load-theme calls in init files that are
 ;;  byte-compiled:
 ;;    (unless noninteractive
-;;      (load-theme 'jylhis-paper t))
+;;      (load-theme 'jylhis-sheet t))
 ;;
 ;;; Code:
 

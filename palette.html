@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Palette reference — Jylhis Design System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Per-theme palette reference: hex, RGB, HSL, OKLCH, and measured WCAG contrast pairs for Jylhis Paper and Roast.">
+<meta name="description" content="Per-theme palette reference: hex, RGB, HSL, OKLCH, and measured WCAG contrast pairs for Jylhis Sheet and Field.">
 <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="stylesheet" href="./colors_and_type.css">
 <style>
@@ -68,14 +68,14 @@
 <a class="skip-link" href="#content">Skip to content</a>
 
 <div class="toolbar">
-  <span id="theme-label">paper</span>
+  <span id="theme-label">sheet</span>
   <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">☾</button>
 </div>
 
 <main id="content">
   <header class="hero">
     <p class="eyebrow">jylhis design system · palette reference</p>
-    <h1 id="page-title">Paper palette</h1>
+    <h1 id="page-title">Sheet palette</h1>
     <p>Every color in this theme. Hex, RGB, HSL, OKLCH, and measured WCAG contrast against the page background. Click any value to copy.</p>
     <p><a class="back" href="./index.html">◂ back to showcase</a></p>
   </header>
@@ -95,7 +95,7 @@
 
   <h2 class="section">ansi 16 · spectrum</h2>
   <h3 class="group">Spectrum<span class="label-tag">terminal</span></h3>
-  <p class="blurb">slot 11 is intentionally overridden to brand copper.</p>
+  <p class="blurb">slot 11 is intentionally overridden to brand bronze.</p>
   <div id="ansi-host"></div>
 
   <h2 class="section">contrast pairs</h2>
@@ -186,13 +186,13 @@
 
   const renderPalette = () => {
     const mode = doc.dataset.theme === "dark" ? "dark" : "light";
-    titleEl.textContent = mode === "dark" ? "Roast palette" : "Paper palette";
+    titleEl.textContent = mode === "dark" ? "Field palette" : "Sheet palette";
     const cr = (data.swatchContrast && data.swatchContrast[mode]) || {};
 
     // core palette grouped by thematic family
     const palHost = document.getElementById("palette-host");
     palHost.innerHTML = "";
-    for (const gKey of ["paperstock", "ink", "copper", "linen"]) {
+    for (const gKey of ["grounds", "ink", "bronze", "linen"]) {
       const g = data.groups[gKey];
       if (!g) continue;
       const rows = g.members
@@ -235,8 +235,8 @@
 
   // ─── theme toggle ────────────────────────────────────────────────────
   const apply = (mode, persist = true) => {
-    if (mode === "dark") { doc.dataset.theme = "dark"; labelEl.textContent = "roast"; btn.textContent = "☀"; }
-    else { delete doc.dataset.theme; labelEl.textContent = "paper"; btn.textContent = "☾"; }
+    if (mode === "dark") { doc.dataset.theme = "dark"; labelEl.textContent = "field"; btn.textContent = "☀"; }
+    else { delete doc.dataset.theme; labelEl.textContent = "sheet"; btn.textContent = "☾"; }
     if (persist) safeSet("jylhis-theme", mode);
     renderPalette();
   };

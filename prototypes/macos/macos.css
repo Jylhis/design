@@ -3,13 +3,13 @@
  * A faithful macOS desktop — Apple-style menu bar, Dock, traffic-light
  * windows, Spotlight, Control Center, Notification Center — reskinned in
  * the Jylhis design language:
- *   · warm "paper" / "roast" surfaces, a single copper accent
+ *   · cool "sheet" / "field" grounds, a single bronze accent
  *   · IBM Plex Mono for ALL chrome (menus, Dock, Finder toolbar)
- *   · Source Serif for prose (the Notes window)
+ *   · Hanken Grotesk for prose (the Notes window)
  *   · hairline borders, never drop shadows
  *   · Unicode glyphs as app icons — no drawn graphics
  *
- * The bridge to the TUI desktop: a FOCUSED window wears a copper hairline
+ * The bridge to the TUI desktop: a FOCUSED window wears a bronze hairline
  * border, exactly like `.win.focused` in the terminal desktop. Traffic
  * lights reuse the system's own status palette (err / warn / ok).
  */
@@ -74,8 +74,8 @@ html, body {
 }
 
 /* ── Wallpaper ──────────────────────────────────────────────────────
- * No gloss, no photos — a warm paper field with an optional geometric
- * motif drawn in the decorator hairline. A faint copper vignette gives
+ * No gloss, no photos — a cool survey ground with an optional geometric
+ * motif drawn in the decorator hairline. A faint bronze vignette gives
  * depth the way a Mac wallpaper would, without a gradient sheen. */
 .wallpaper {
   position: absolute; inset: 0;
@@ -265,7 +265,7 @@ html, body {
 .mb-menu .sep { height: 1px; background: var(--color-border); margin: 5px 8px; }
 
 /* ════════════════════════════════════════════════════════════════════
- * WINDOWS — traffic-light chrome, flat fills, copper focus border
+ * WINDOWS — traffic-light chrome, flat fills, bronze focus border
  * ════════════════════════════════════════════════════════════════════ */
 .win {
   position: absolute;
@@ -439,28 +439,28 @@ html, body {
 .notes-toolbar .tool { cursor: default; }
 .notes-toolbar .tool:hover { color: var(--color-accent); }
 .notes-toolbar .spacer { flex: 1; }
-.notes-paper {
+.notes-sheet {
   flex: 1 1 auto; overflow: hidden;
   padding: 26px 34px;
   font-family: var(--font-body);
   color: var(--color-text);
 }
-.notes-paper .meta {
+.notes-sheet .meta {
   font-family: var(--font-mono); font-size: 11.5px;
   color: var(--color-text-faint); letter-spacing: 0.04em;
   margin-bottom: 14px;
 }
-.notes-paper h1 {
+.notes-sheet h1 {
   font-family: var(--font-body); font-weight: 600;
   font-size: 25px; line-height: 1.2; margin: 0 0 14px;
   color: var(--color-text-heading); letter-spacing: 0;
 }
-.notes-paper p { font-size: 15.5px; line-height: 1.62; margin: 0 0 13px; text-wrap: pretty; }
-.notes-paper p .accent { color: var(--color-accent); }
-.notes-paper .check { display: flex; align-items: baseline; gap: 10px; font-size: 15px; margin: 0 0 7px; }
-.notes-paper .check .box { font-family: var(--font-mono); color: var(--color-accent); font-size: 13px; }
-.notes-paper .check.done .box { color: var(--color-status-ok); }
-.notes-paper .check.done span { color: var(--color-text-muted); text-decoration: line-through; text-decoration-color: var(--color-text-faint); }
+.notes-sheet p { font-size: 15.5px; line-height: 1.62; margin: 0 0 13px; text-wrap: pretty; }
+.notes-sheet p .accent { color: var(--color-accent); }
+.notes-sheet .check { display: flex; align-items: baseline; gap: 10px; font-size: 15px; margin: 0 0 7px; }
+.notes-sheet .check .box { font-family: var(--font-mono); color: var(--color-accent); font-size: 13px; }
+.notes-sheet .check.done .box { color: var(--color-status-ok); }
+.notes-sheet .check.done span { color: var(--color-text-muted); text-decoration: line-through; text-decoration-color: var(--color-text-faint); }
 
 /* ════════════════════════════════════════════════════════════════════
  * SPOTLIGHT
@@ -581,8 +581,8 @@ html, body {
   background: var(--color-bg-subtle); color: var(--color-text-muted);
 }
 .cc-theme button .sw { width: 100%; height: 26px; border-radius: 5px; border: 1px solid var(--color-border-strong); }
-.cc-theme button .sw.paper { background: #faf7f2; }
-.cc-theme button .sw.roast { background: #1a1714; }
+.cc-theme button .sw.sheet { background: #f6f8fb; }
+.cc-theme button .sw.field { background: #0d0f14; }
 .cc-theme button.on { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-subtle); }
 .cc-theme button .nm { font-size: 12px; }
 
@@ -689,7 +689,7 @@ html, body {
 /* calendar live tile */
 .dock-app.cal { flex-direction: column; gap: 0; overflow: hidden; padding: 0; }
 .dock-app.cal .dow { font-size: 9px; line-height: 14px; width: 100%; text-align: center; background: var(--color-status-err); color: #fff; font-weight: 700; letter-spacing: 0.04em; }
-[data-theme="dark"] .dock-app.cal .dow { color: #1a1714; }
+[data-theme="dark"] .dock-app.cal .dow { color: var(--color-bg); }
 .dock-app.cal .day { font-size: 22px; font-weight: 600; color: var(--color-text-heading); line-height: 36px; }
 /* dock tooltip */
 .dock-app .tip {

@@ -32,7 +32,7 @@ The stylesheet sets both light and dark variants; the system color-scheme prefer
 - Window backgrounds: `bg` / `bg-subtle`.
 - Surface chrome: `surface` / `surface-raised`.
 - Text: `text-heading` / `text` / `text-muted`.
-- Accent: copper across `accent_color`, `accent_bg_color`, `accent_fg_color` (GTK 4 named colors).
+- Accent: bronze across `accent_color`, `accent_bg_color`, `accent_fg_color` (GTK 4 named colors).
 - Borders: linen everywhere; never a hard 1px black.
 
 ## Caveats

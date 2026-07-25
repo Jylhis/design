@@ -96,7 +96,7 @@ func (k KeyMap) FullHelp() [][]key.Binding {
 
 // ListStyles returns list.DefaultStyles themed for Jylhis.
 func ListStyles(t Theme) list.Styles {
-	s := list.DefaultStyles(t.Mode == Roast)
+	s := list.DefaultStyles(t.Mode == Field)
 	p := t.Palette
 	c := lipgloss.Color
 
@@ -126,9 +126,9 @@ func ListStyles(t Theme) list.Styles {
 }
 
 // DelegateStyles returns list.DefaultDelegate styles themed for Jylhis.
-// Selected items get the copper bar + copper title treatment.
+// Selected items get the bronze bar + bronze title treatment.
 func DelegateStyles(t Theme) list.DefaultItemStyles {
-	d := list.NewDefaultItemStyles(t.Mode == Roast)
+	d := list.NewDefaultItemStyles(t.Mode == Field)
 	p := t.Palette
 	c := lipgloss.Color
 
@@ -164,7 +164,7 @@ func TextInput(t Theme, placeholder string) textinput.Model {
 	c := lipgloss.Color
 
 	ti.Prompt = "» "
-	styles := textinput.DefaultStyles(t.Mode == Roast)
+	styles := textinput.DefaultStyles(t.Mode == Field)
 	styles.Focused.Prompt = lipgloss.NewStyle().Foreground(c(p.Accent)).Bold(true)
 	styles.Blurred.Prompt = styles.Focused.Prompt
 	styles.Focused.Text = lipgloss.NewStyle().Foreground(c(p.Text))

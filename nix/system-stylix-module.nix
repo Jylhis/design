@@ -7,7 +7,7 @@
 #
 # Usage (NixOS configuration.nix or nix-darwin configuration.nix):
 #   imports = [ inputs.jylhis-design.nixosModules.default ];   # or darwinModules.default
-#   jylhis.theme = { enable = true; variant = "roast"; };      # or "paper"
+#   jylhis.theme = { enable = true; variant = "field"; };      # or "sheet"
 #
 # Sets:
 #   stylix.enable        (mkDefault true — won't fight an existing setting)
@@ -23,16 +23,16 @@
 let
   cfg = config.jylhis.theme;
   themes = pkgs.callPackage ./themes.nix { };
-  polarity = if cfg.variant == "roast" then "dark" else "light";
+  polarity = if cfg.variant == "field" then "dark" else "light";
 in
 {
   options.jylhis.theme = {
     enable = lib.mkEnableOption "Jylhis design system (system-wide Stylix wiring)";
 
     variant = lib.mkOption {
-      type = lib.types.enum [ "paper" "roast" ];
-      default = "roast";
-      description = "Theme variant: paper (light) or roast (dark).";
+      type = lib.types.enum [ "sheet" "field" ];
+      default = "field";
+      description = "Theme variant: sheet (light) or field (dark).";
     };
   };
 

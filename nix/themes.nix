@@ -42,7 +42,9 @@ let
 in
 stdenvNoCC.mkDerivation {
   pname = "jylhis-themes";
-  version = "0.3.0";
+  # Read from tokens.json so the package version can never drift from the
+  # design system's own `meta.version`.
+  version = (builtins.fromJSON (builtins.readFile ../tokens.json)).meta.version;
 
   inherit src;
 

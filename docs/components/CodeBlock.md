@@ -1,7 +1,7 @@
 <!-- GENERATED from components/CodeBlock/ by scripts/generate.mjs. Do not edit by hand. -->
 # CodeBlock
 
-Fenced code block with optional filename tab. Syntax colors come from Modus tokens, never the copper accent.
+Fenced code block with optional filename tab. Syntax colors come from Modus tokens, never the bronze accent.
 
 ```jsx
 import { CodeBlock } from "../../components/CodeBlock/CodeBlock.jsx";

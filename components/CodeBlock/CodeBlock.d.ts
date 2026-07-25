@@ -7,5 +7,5 @@ export interface CodeBlockProps {
   children?: React.ReactNode;
 }
 
-/** Fenced code block with optional filename tab. Syntax colors come from Modus tokens, never the copper accent. */
+/** Fenced code block with optional filename tab. Syntax colors come from Modus tokens, never the bronze accent. */
 export declare function CodeBlock(props: CodeBlockProps): React.JSX.Element;

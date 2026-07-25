@@ -2,11 +2,11 @@
 # ~/.config/ghostty/config
 
 # Pick one:
-# theme = jylhis-paper
-theme = jylhis-roast
+# theme = jylhis-sheet
+theme = jylhis-field
 
 # Auto-switch with system light/dark (Ghostty 1.0+):
-# theme = light:jylhis-paper,dark:jylhis-roast
+# theme = light:jylhis-sheet,dark:jylhis-field
 
 font-family = "JetBrains Mono"
 font-family-bold = "JetBrains Mono"

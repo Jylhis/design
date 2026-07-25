@@ -3,13 +3,13 @@ import * as React from "react";
 export interface TerminalProps {
   /** Title bar text, e.g. "user@host — zsh". Omit for a bare frame. */
   title?: string;
-  /** Show a blinking copper caret on a trailing empty prompt line */
+  /** Show a blinking bronze caret on a trailing empty prompt line */
   caret?: boolean;
   /** TerminalLine elements, or any pre-styled mono content */
   children?: React.ReactNode;
 }
 
-/** Terminal session frame — the codeblock idiom with a title bar and prompt lines. The prompt chevron is always brand copper (ANSI 11 rule); output colors come from Modus/status tokens, never the accent. */
+/** Terminal session frame — the codeblock idiom with a title bar and prompt lines. The prompt chevron is always the bronze accent (ANSI 11 rule); output colors come from Modus/status tokens, never the accent. */
 export declare function Terminal(props: TerminalProps): React.JSX.Element;
 
 export interface TerminalLineProps {
@@ -21,5 +21,5 @@ export interface TerminalLineProps {
   children?: React.ReactNode;
 }
 
-/** One prompt line inside a Terminal: copper ❯ + command, with optional output block. */
+/** One prompt line inside a Terminal: bronze ❯ + command, with optional output block. */
 export declare function TerminalLine(props: TerminalLineProps): React.JSX.Element;

@@ -312,7 +312,7 @@ function checkFile(rel) {
   // 10. Status indicators must include a glyph or word, not colour-only.
   // Scope: elements whose class explicitly carries an err/warn/ok/info
   // semantic (the CVD-fragile quartet from docs/ACCESSIBILITY.md). Plain
-  // <span class="status">label</span> chips and copper <div class="callout">
+  // <span class="status">label</span> chips and bronze <div class="callout">
   // containers are not status signals — they're labels and decorative
   // surfaces, so we don't flag them.
   const STATUS_CLASS = /\b(alert\s+\w+|status-(err|warn|ok|info)|s-(err|warn|ok|info)|err|warn|ok|info|error|warning|success|fail|failure)\b/;

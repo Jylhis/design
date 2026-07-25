@@ -11,7 +11,7 @@ Click-thru recreation of a personal site as a React prototype, consuming the Jyl
 
 ## Tweaks
 The Tweaks panel switches **light / dark**. There is only one palette:
-the warm copper-on-paper Jylhis design system. Syntax highlights inside
+the bronze-on-sheet Jylhis design system. Syntax highlights inside
 code blocks are drawn from **Emacs Modus** (Operandi light / Vivendi dark)
 so code looks identical in the browser, in the editor, and in the terminal.
 

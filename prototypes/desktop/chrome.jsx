@@ -24,7 +24,7 @@ const MENUS = [
     { label: 'Close window', k: 'q', action: 'noop' },
   ]},
   { name: 'View', hot: 'V', rows: [
-    { label: 'Toggle paper / roast', k: 'T', action: 'theme' },
+    { label: 'Toggle sheet / field', k: 'T', action: 'theme' },
     { group: 'wallpaper' },
     { label: 'Hatch', k: '', action: 'wall:hatch' },
     { label: 'Dots', k: '', action: 'wall:dots' },
@@ -92,8 +92,8 @@ function MenuBar({ openMenu, onOpenMenu, onAction, time, date, theme, onToggleTh
         <div className="seg"><span className="g">⎇</span><span className="v">main</span></div>
         <div className="seg"><span className="g">↕</span><span className="v">wlan0</span></div>
         <div className="seg">
-          <button className="theme-btn" type="button" onClick={onToggleTheme} aria-label="Toggle paper / roast">
-            {theme === 'dark' ? '☾ roast' : '☀ paper'}
+          <button className="theme-btn" type="button" onClick={onToggleTheme} aria-label="Toggle sheet / field">
+            {theme === 'dark' ? '☾ field' : '☀ sheet'}
           </button>
         </div>
         <div className="seg"><span className="g">{date}</span><span className="v clock">{time}</span></div>
@@ -149,7 +149,7 @@ const WK_GROUPS = [
     { key: '1-4', lbl: <>jump to window n</> },
   ]},
   { h: 'view', items: [
-    { key: 'T', lbl: <>toggle <span className="em">paper / roast</span></> },
+    { key: 'T', lbl: <>toggle <span className="em">sheet / field</span></> },
     { key: 'w', lbl: <>cycle wallpaper</> },
     { key: 'F1', lbl: <>full keyboard help</> },
     { key: 'Esc', lbl: <>close overlay</> },
@@ -209,7 +209,7 @@ const HELP_SECS = [
     { keys: <><kbd className="ds-kbd">F1</kbd>…<kbd className="ds-kbd">F10</kbd></>, desc: 'the bottom bar is always live — click or press' },
   ]},
   { h: 'look & feel', rows: [
-    { keys: <><kbd className="ds-kbd">T</kbd></>, desc: 'toggle paper / roast' },
+    { keys: <><kbd className="ds-kbd">T</kbd></>, desc: 'toggle sheet / field' },
     { keys: <><kbd className="ds-kbd">w</kbd></>, desc: 'cycle wallpaper texture' },
     { keys: <><kbd className="ds-kbd">Esc</kbd></>, desc: 'dismiss any overlay' },
   ]},

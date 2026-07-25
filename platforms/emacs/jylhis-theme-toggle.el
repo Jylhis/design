@@ -1,4 +1,4 @@
-;;; jylhis-theme-toggle.el --- Switch Jylhis paper/roast -*- lexical-binding: t; -*-
+;;; jylhis-theme-toggle.el --- Switch Jylhis sheet/field -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;  Minimal toggle helper. Binds to M-x jylhis-toggle-theme.
@@ -11,8 +11,8 @@
 
 ;;; Code:
 
-(defvar jylhis-theme-light 'jylhis-paper)
-(defvar jylhis-theme-dark  'jylhis-roast)
+(defvar jylhis-theme-light 'jylhis-sheet)
+(defvar jylhis-theme-dark  'jylhis-field)
 
 ;;;###autoload
 (defun jylhis-load-theme (&optional mode)
@@ -25,7 +25,7 @@
 
 ;;;###autoload
 (defun jylhis-toggle-theme ()
-  "Toggle between Jylhis paper and roast."
+  "Toggle between Jylhis sheet and field."
   (interactive)
   (let ((current (car custom-enabled-themes)))
     (mapc #'disable-theme custom-enabled-themes)

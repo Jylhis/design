@@ -1,6 +1,6 @@
 # Voice & microcopy
 
-How the system *sounds*. Copy is a design token: the terminal-on-paper aesthetic collapses if the words read like a SaaS landing page. Five rules, no exceptions without a PR.
+How the system *sounds*. Copy is a design token: the surveyor register collapses if the words read like a SaaS landing page. Five rules, no exceptions without a PR.
 
 ---
 

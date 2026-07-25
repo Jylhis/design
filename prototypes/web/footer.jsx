@@ -32,7 +32,7 @@ const Footer = ({ onNav }) => (
       <a href="https://linkedin.com/in/your-handle">linkedin</a>
       <a href="mailto:hello@example.com">email</a>
     </div>
-    <div className="footer-colophon">set in literata &amp; jetbrains mono · built with astro · hosted on cloudflare</div>
+    <div className="footer-colophon">set in zilla slab, hanken grotesk &amp; ibm plex mono · built with astro · hosted on cloudflare</div>
     <div className="footer-rule" aria-hidden="true">────────────────────────────────────────────────────────────────────────</div>
   </footer>
 );

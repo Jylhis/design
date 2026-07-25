@@ -65,7 +65,7 @@ repo. If they drift, restore them.
 [Conventional Commits](https://www.conventionalcommits.org). Examples:
 
 - `feat(tokens): add accent-muted role`
-- `fix(emacs): correct mode-line foreground on Roast`
+- `fix(emacs): correct mode-line foreground on Field`
 - `chore(ci): add gitleaks secret scan`
 - `docs(readme): document release process`
 

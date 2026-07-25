@@ -1,6 +1,6 @@
 # Jylhis LS_COLORS
 # Maps filetypes to the Modus-flavoured ANSI 16-color brand palette.
-# See tokens.md §3 — ANSI 0–6 are Modus accents, 11 is the brand copper.
+# See tokens.md §3 — ANSI 0–6 are Modus accents, 11 is the the bronze accent.
 # Generate with: dircolors -b platforms/shell/dircolors > ~/.dir_colors
 # Then in bash/zsh:  eval "$(dircolors -b ~/.dir_colors)"
 
@@ -66,7 +66,7 @@ EXEC 01;32          # bold olive
 .pdf    00;33
 .org    01
 
-# Code — keyword brown (ANSI 9 bright red ≈ copper when brand-mapped)
+# Code — keyword tone (ANSI 9 bright red ≈ bronze when brand-mapped)
 .rs     00;33
 .go     00;33
 .c      00;33

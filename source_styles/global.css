@@ -34,7 +34,7 @@
   --color-code-text: #2c2825;
   --color-code-border: #d5cec4;
 
-  /* Syntax highlighting — mirrored from tokens.json#syntax (Modus role taxonomy, paper-tuned).
+  /* Syntax highlighting — mirrored from tokens.json#syntax (Modus role taxonomy, Sheet-tuned).
      Snapshot of the canonical design-system values; update this block when tokens.json changes. */
   --color-syntax-keyword: #4a2d80;
   --color-syntax-string: #3d5a1f;
@@ -89,7 +89,7 @@
   --color-code-text: #c8bca8;
   --color-code-border: #3d3830;
 
-  /* Syntax highlighting — mirrored from tokens.json#syntax (dark / roast). */
+  /* Syntax highlighting — mirrored from tokens.json#syntax (dark / Field). */
   --color-syntax-keyword: #c8a5ff;
   --color-syntax-string: #b3c785;
   --color-syntax-comment: #9c8c6e;

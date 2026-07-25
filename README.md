@@ -2,26 +2,26 @@
 
 A design system for **jylhis.com** — the personal site of Markus Jylhänkangas, Senior Software Engineer & DevOps specialist based in Zürich.
 
-The site is personal, technical, and deliberately paper‑like: warm cream backgrounds, a single copper accent, monospace headings, serif body. No frameworks, no gradients, no emoji. Everything is hand‑written CSS.
+The site is personal, technical, and deliberately cartographic: cool near‑neutral grounds, a single bronze accent, engraved plate titles over grotesk body, structure drawn in contour blue. No frameworks, no gradients, no emoji. Everything is hand‑written CSS.
 
 ## Principles
 
-1. **Warm paper, never pure.** Light is `#faf7f2` cream, dark is `#1a1714` roast. White and black are reserved for ink that needs to bleed through, never for the page itself.
-2. **One accent, copper.** A single burnt-orange channels every interactive surface — links, focus rings, the maker's mark. Status reuses the Modus reds/yellows/greens/blues; the brand copper is deliberately *not* a syntax color.
-3. **Dual-theme parity.** Paper and Roast are both first-class. Every token, every preview card, every platform target ships in both. Neither is a tinted afterthought.
+1. **Cool grounds, never pure.** Light is `#f6f8fb` (Sheet), dark is `#0d0f14` (Field). White and black are reserved for ink that needs to bleed through, never for the page itself.
+2. **One accent, bronze.** A single bronze channels every interactive surface — links, focus rings, primary fills. The benchmark vermilion (`brand`, `#b5450e` / `#ef8a4a`) is the maker's mark alone. Status reuses the Modus reds/yellows/greens/blues; the bronze accent is deliberately *not* a syntax color, and `contour` blue is structure, never interaction.
+3. **Dual-edition parity.** Sheet and Field are both first-class. Every token, every preview card, every platform target ships in both. Neither is a tinted afterthought.
 4. **AAA body, AA meta, decorative faint.** Body text is WCAG AAA on both backgrounds. `text-muted` clears AA. `text-faint` is for non-text-critical chrome only — dashed rules, disabled labels.
 5. **Modus syntax everywhere.** Code in Emacs, the web showcase, `bat`, `delta`, and Charm TUIs all render with the same Operandi/Vivendi colors. One source, one grammar.
 6. **Unicode is the icon set.** `›` `▸` `»` `└──` `☾` `☀` `★` `⑂`. No icon font, no SVG sprite, no emoji.
-7. **No shadow, no gradient, no glass.** Elevation is conveyed with 1px borders and background-color steps. Animation is color and translate only — no springs, no scale, no opacity tricks.
+7. **No shadow, no gradient, no glass.** Elevation is conveyed with 1px borders and background-color steps. Animation is color and translate only — no bounce, no scale, no opacity tricks.
 8. **One source of truth.** Every color, spacing, motion, typography, and ANSI value lives in `tokens.json`. Platform targets are generated from it.
 
 ## Inspired by, different from
 
 - **Modus Themes** (Protesilaos). We import the Operandi (light) and Vivendi (dark) syntax palettes verbatim, so any code rendered against Jylhis matches an Emacs Modus session pixel-for-pixel. Where Modus ships eight themes (main + tinted + deuteranopia + tritanopia variants) we ship two — the philosophy is "one warm light, one warm dark, both AAA."
-- **Solarized** (Schoonover). Solarized's selective-contrast and lightness-symmetry ideas underwrite our `text-muted` / `text-faint` ladder. We do not match its CIELAB symmetry between modes — Paper and Roast are tuned independently for warmth, not mirrored.
-- **Nord**. Nord groups its sixteen named colors thematically (Polar Night, Frost, Aurora). We adopt the same idea — thematic group names *over* role names — but with a paper-and-press vocabulary instead of an Arctic one.
+- **Solarized** (Schoonover). Solarized's selective-contrast and lightness-symmetry ideas underwrite our `text-muted` / `text-faint` ladder. We do not match its CIELAB symmetry between modes — Sheet and Field are tuned independently, not mirrored.
+- **Nord**. Nord groups its sixteen named colors thematically (Polar Night, Frost, Aurora). We adopt the same idea — thematic group names *over* role names — but with a cartographic-survey vocabulary instead of an Arctic one.
 - **Catppuccin**. Catppuccin's per-color usage guide and four-flavor parity influenced our integration docs and dual-theme requirements. We do not follow its multi-accent pastel approach — Jylhis is single-accent and warm.
-- **Leuven** (Niessen). Leuven's prose-and-Org focus reminded us that a theme is judged on long-form reading first; our Literata body and `72ch` measure are the answer to that.
+- **Leuven** (Niessen). Leuven's prose-and-Org focus reminded us that a theme is judged on long-form reading first; our Hanken Grotesk body and `72ch` measure are the answer to that.
 
 ## Source
 
@@ -70,8 +70,8 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `tokens-data.js` | Generated JS module for the showcase website. |
 | `styles.css` | **One-import entry point** — pulls in `colors_and_type.css`, `motion.css`, and `components/components.css`. |
 | `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css` + `fonts.css`. |
-| `fonts.css` | Self-hosted variable-font `@font-face` blocks (Literata + JetBrains Mono, latin/latin-ext subsets). |
-| `motion.css` | The "ink draws on" motion signature — `.ds-rule-draw`, `.ds-typed`, `.ds-caret`, mapped to the motion tokens. |
+| `fonts.css` | Self-hosted `@font-face` blocks (Zilla Slab + Hanken Grotesk + IBM Plex Mono, latin/latin-ext subsets). |
+| `motion.css` | The "survey renders in" motion signature — `.ds-contour-draw`, `.ds-line-extend`, `.ds-readout`, `.ds-caret`, mapped to the motion tokens. |
 | `components/` | React components library — 20 components (`Button`, `Tag`, `Alert`, `Callout`, `Terminal`, `Mark`, `Table`, `Tabs`, `Pagination`, `Modal` …), each with JSX, `.d.ts`, and a `card.html` specimen; styled by `components/components.css`. |
 | `scripts/generate.mjs` | Reads `tokens.json`, writes generated platform target files. |
 | `scripts/validate-tokens.mjs` | Schema validation, contrast checks (explicit + extended sweep), CSS `var()` resolution. |
@@ -153,12 +153,12 @@ release is exercised against the consumers below before tagging.
 
 | Consumer | What it pins | Cadence |
 |---|---|---|
-| **jylhis.com** (Astro) | `tokens.css`, `colors_and_type.css`, Literata + JetBrains Mono stack, `source_styles/` reference | Production site; updated on every release. |
-| **Jotain** (personal Emacs config) | `platforms/emacs/jylhis-paper-theme.el`, `jylhis-roast-theme.el`, Modus syntax mappings | Daily driver editor; theme is reloaded on every release. |
+| **jylhis.com** (Astro) | `tokens.css`, `colors_and_type.css`, Zilla Slab + Hanken Grotesk + IBM Plex Mono stack, `source_styles/` reference | Production site; updated on every release. |
+| **Jotain** (personal Emacs config) | `platforms/emacs/jylhis-sheet-theme.el`, `jylhis-field-theme.el`, Modus syntax mappings | Daily driver editor; theme is reloaded on every release. |
 | **Marchyo** (personal NixOS / Hyprland workstation) | `platforms/ghostty/`, `platforms/hyprland/`, `platforms/rofi/`, `platforms/waybar/`, `platforms/mako/`, `platforms/hyprlock/`, `platforms/gtk/`, `platforms/kvantum/`, `platforms/shell/` | Full desktop chrome; pinned via `nix/themes.nix`. |
 | **nacutils** (personal CLI/TUI toolbox) | `platforms/charm/jylhis` Go package (palette, lipgloss styles, Bubble Tea light/dark detection) | Every TUI links the package; CLI conventions enforced via `validate-cli-conventions.mjs`. |
 | **Creative tooling** (GIMP, Inkscape, Krita, Affinity, Photoshop) | `platforms/gimp/*.gpl`, `platforms/adobe/*.ase` | Swatch palettes loaded on demand. |
-| **HyperOS / MIUI phone** | `platforms/hyperos/jylhis-{paper,roast}.mtz` | Manual install per device. |
+| **HyperOS / MIUI phone** | `platforms/hyperos/jylhis-{sheet,field}.mtz` | Manual install per device. |
 
 If a consumer breaks after a release, the bug is in this repo — not in
 the consumer. File it here and revert if necessary before the consumer
@@ -213,7 +213,7 @@ the short form:
 **Tone examples from the real site:**
 - Hero headline: `Build More, Work Less`
 - Role line: `senior software engineer · Zürich, CH`
-- Footer colophon: `set in literata & jetbrains mono · built with astro · hosted on cloudflare`
+- Footer colophon: `set in zilla slab, hanken grotesk & ibm plex mono · built with astro · hosted on cloudflare`
 - Note excerpt: `Modern replacements for traditional Unix tools`
 - Project description: `Personal spin of Omarchy with NixOS`
 
@@ -229,41 +229,41 @@ the short form:
 
 ## VISUAL FOUNDATIONS
 
-**Overall vibe.** A personal engineering notebook printed on warm cream paper, with a single shop‑stamp of copper accent. Code‑editor gutters, man‑page headers, shell prompts — the chrome is literally borrowed from the tools the owner uses all day.
+**Overall vibe.** A topographic survey plate of one engineering practice, with a single bronze accent and one vermilion benchmark stamp. Code‑editor gutters, man‑page headers, shell prompts, map collars — the chrome is literally borrowed from the tools the owner uses all day.
 
 **Colors.**
-- Backgrounds are never pure white. Light mode is `#faf7f2` (warm paper). Dark mode is `#1a1714` (dark roast, never pure black).
+- Backgrounds are never pure white. Light mode is `#f6f8fb` (Sheet). Dark mode is `#0d0f14` (Field, never pure black).
 - Text is never pure black (`#1e1b18` for headings, `#2c2825` for body).
-- A single accent — **copper / burnt orange**. Two roles:
+- A single accent — **bronze**. Two roles:
   - `--color-brand` `#b5703c` — the literal favicon/rune/logo color. Use on large strokes and hero marks where contrast is not measured against text.
-  - `--color-accent` `#8a4f24` (light) / `#e89b5e` (dark) — an accessibility‑tuned darker twin used for links, interactive UI, focus rings, and any accent that carries text meaning. WCAG AA on the paper bg; AAA on dark.
+  - `--color-accent` `#8a4d00` (light) / `#e0a33a` (dark) — an accessibility‑tuned tone used for links, interactive UI, focus rings, and any accent that carries text meaning. WCAG AA on the Sheet ground; AAA on Field.
 - Used for links, the maker's‑mark, code‑string quotes, the "currently" border, and nothing else.
 - A muted family of browns/taupes carries everything else: borders (`#d5cec4`), decorator lines (`#c4baa8`), faint text (`#8a7f72`).
-- **Accessibility.** All body text hits WCAG AAA on both paper and dark backgrounds. `--color-text-muted` is AA. `--color-text-faint` is reserved for decorative / non‑text‑critical roles only (dashed rules, disabled meta).
-- Syntax‑highlight colors come from **Emacs Modus** (Operandi in light, Vivendi in dark) so code blocks look identical in the editor, on the web, in `bat` / `delta`, and inside Charm TUIs. Keyword `#531ab6` (magenta‑cooler), string `#0000b0` (blue‑cooler), function `#721045` (magenta), type/tag `#005f5f` (cyan‑cooler), comment `#7f1010` (red‑faint). Status badges (err/warn/ok/info) reuse the Modus red/yellow/green/blue accents — the brand copper is deliberately **not** a syntax colour.
+- **Accessibility.** All body text hits WCAG AAA on both Sheet and Field grounds. `--color-text-muted` is AA. `--color-text-faint` is reserved for decorative / non‑text‑critical roles only (dashed rules, disabled meta).
+- Syntax‑highlight colors come from **Emacs Modus** (Operandi in light, Vivendi in dark) so code blocks look identical in the editor, on the web, in `bat` / `delta`, and inside Charm TUIs. Keyword `#5317ac` (magenta‑cooler), string `#2544bb` (blue‑warmer), function `#721045` (magenta), type/tag `#005a5f` (cyan‑cooler), comment `#595959` (faint). Status badges (err/warn/ok/info) reuse the Modus red/yellow/green/blue accents — the bronze accent is deliberately **not** a syntax colour.
 
-**Type.** Monospace headings over serif body is the signature. Headings, nav, dates, labels, and chrome use **JetBrains Mono**. Long‑form reading uses **Literata** at 1.125rem / 1.65 line‑height. There is no sans‑serif in this system. Headings are tight (1.25 line‑height, +0.01em tracking).
+**Type.** Three roles is the signature. Display and plate titles use **Zilla Slab**; body, navigation, and controls use **Hanken Grotesk** at 1.0625rem / 1.6 line‑height; data, dates, labels, `//` chrome, and code use **IBM Plex Mono**. Titles are tight (1.02–1.05 line‑height, −0.01em tracking).
 
 **Spacing.** A 4px grid. Tokens go `xs 4 · sm 8 · md 16 · lg 24 · xl 32 · 2xl 48 · 3xl 64`. The page is a two‑column grid: content `72ch max` + a right rail of `16rem` used for sidenotes; collapses to single‑column under 1100px.
 
-**Backgrounds.** Flat warm paper. **No gradients.** **No full‑bleed hero images.** **No hand‑drawn illustrations.** **No repeating patterns or textures.** The one visual flourish is `craft.astro`, which hosts three scroll‑triggered pieces (D3 bar chart, SVG infra topology, Three.js wireframe icosahedron) — but those are demonstrations, not page chrome.
+**Backgrounds.** Flat survey sheet. **No gradients.** **No full‑bleed hero images.** **No hand‑drawn illustrations.** **No repeating patterns or textures.** The one visual flourish is `craft.astro`, which hosts three scroll‑triggered pieces (D3 bar chart, SVG infra topology, Three.js wireframe icosahedron) — but those are demonstrations, not page chrome.
 
 **Animation.** Subdued and purposeful.
 - Page enter: 8px translate‑up + opacity fade, 300ms ease‑out.
 - Links underline via an animated `background-size: 0% → 100% 1px` at 250ms ease‑out.
 - HR's are scroll‑revealed (scaleX 0.4 → 1) using CSS `animation-timeline: view()`.
 - Theme toggle transitions bg/color over 300ms.
-- All easings are `ease-out`. No springs, no bounces, no delays. Respects `prefers-reduced-motion`.
+- All easings are `ease-out`. No bounces, no delays. Respects `prefers-reduced-motion`.
 
 **Hover states.** Color shift only. Links go from `--color-accent` to `--color-accent-hover` (darker). Nav/footer links go from muted‑text to accent. Buttons swap border color to accent. **No scale, no shadow lift, no opacity tricks.**
 
-**Press / active.** Uses `--color-accent-hover` (the darker copper). No shrink transform.
+**Press / active.** Uses `--color-accent-hover` (the deeper bronze). No shrink transform.
 
 **Focus.** `outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 2px` on all focus‑visible. Accessible and visible.
 
 **Borders.** 1px solid `--color-border` almost everywhere. Accent left‑border (3px) is used on exactly two things: the home‑page "currently" box, and mobile sidenotes. Tables get a 2px strong border under `thead`.
 
-**Shadows.** **None.** There is no shadow system. Elevation is conveyed with background‑color steps (bg → bg‑subtle → surface → surface‑raised) and 1px borders. This is a deliberate flat‑paper aesthetic.
+**Shadows.** **None.** There is no shadow system. Elevation is conveyed with background‑color steps (bg → bg‑subtle → surface → surface‑raised) and 1px borders. This is a deliberate flat‑sheet aesthetic.
 
 **Corner radii.** Reserved and small.
 - `2px` on focus rings and the smallest tech tags.
@@ -276,7 +276,7 @@ the short form:
 
 **Transparency / blur.** Used once: `--color-accent-subtle` is `rgba(181,112,60,0.12)` for status‑badge backgrounds. **No backdrop‑filter, no glassmorphism.**
 
-**Imagery.** Cool? Warm? **There is almost no imagery** on the real site. The OG image exists, the apple‑touch‑icon exists, and that's it. If images are added, they should be warm, low‑saturation, and slightly desaturated to sit alongside the cream paper palette. No heavy filters.
+**Imagery.** Cool? Warm? **There is almost no imagery** on the real site. The OG image exists, the apple‑touch‑icon exists, and that's it. If images are added, they should be cool, low‑saturation, and slightly desaturated to sit alongside the survey palette. No heavy filters.
 
 **Layout rules.**
 - Fixed max content width: `72ch`.
@@ -318,7 +318,7 @@ the short form:
 
 ## Known substitutions / gaps
 
-- **Fonts:** the design system pairs **Literata** (body) with **JetBrains Mono** (headings / chrome / code). Both are OFL, variable, and ship full Finnish diacritic coverage. They are imported from **Google Fonts** for prototyping; vendor the `woff2` files into a `fonts/` folder and swap the `@import` at the top of `colors_and_type.css` for `@font-face` declarations when self‑hosting. `source_styles/typography.css` still reflects the real site's historical Source Serif 4 + IBM Plex Mono stack and is kept for reference only — not a live target.
+- **Fonts:** the design system uses three roles — **Zilla Slab** (display/titles), **Hanken Grotesk** (UI/body), **IBM Plex Mono** (data/labels/code). All are OFL and ship full Finnish diacritic coverage. They are already self‑hosted: `fonts.css` carries the `@font-face` blocks and `fonts/` carries the subsetted `woff2` files. `source_styles/typography.css` still reflects the real site's historical Source Serif 4 + IBM Plex Mono stack and is kept for reference only — not a live target.
 - **No slide template** — this design system has no `slides/` folder.
 - **Shell configs not generated** — `platforms/shell/` (starship.toml, bashrc, zshrc, dircolors) use ANSI color names rather than hex values, so they work with whatever terminal theme is loaded and are not generated from `tokens.json`.
 

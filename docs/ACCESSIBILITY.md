@@ -4,8 +4,8 @@ What the system commits to, what it measures, and what it does *not* solve.
 
 ## TL;DR
 
-- **Body text is WCAG AAA on both Paper and Roast.** Headings AAA. `text-muted` AA. `text-faint` is for decoration/disabled only — its use as a text color is lint-enforced off (its light value is nonetheless AA-safe for incidental text).
-- **The accent is AA on Paper, AAA on Roast.** Any link, focus ring, or interactive copper surface clears the AA bar against **every** paperstock surface (page background *and* raised card surfaces); on dark it clears AAA. Inline prose links also carry a persistent underline, so they never rely on color alone.
+- **Body text is WCAG AAA on both Sheet and Field.** Headings AAA. `text-muted` AA. `text-faint` is for decoration/disabled only — its use as a text color is lint-enforced off (its light value is nonetheless AA-safe for incidental text).
+- **The accent is AA on Sheet, AAA on Field.** Any link, focus ring, or interactive bronze surface clears the AA bar against **every** grounds surface (page background *and* raised card surfaces); on dark it clears AAA. Inline prose links also carry a persistent underline, so they never rely on color alone.
 - **Color vision deficiency:** the palette is warm-earth-toned and avoids red/green parity in chrome. The status family (err/warn/ok/info) is the only red/green pairing in the system, and consumers **must** combine status color with a glyph or label — never rely on color alone.
 - **Focus is visible at 2px AAA on every surface.** See [`platforms/KEYBOARD.md`](../platforms/KEYBOARD.md).
 - **Animation respects `prefers-reduced-motion`.** Every transition has the appropriate guard.
@@ -39,15 +39,15 @@ For deeper review beyond static checks (manual screen-reader testing, CVD inspec
 
 | Pair | Mode | Threshold | What it covers |
 |---|---|---|---|
-| `text` on `bg` | light | 7:1 (AAA) | body copy on Paper |
-| `text` on `bg` | dark | 7:1 (AAA) | body copy on Roast |
-| `text-heading` on `bg` | light | 7:1 (AAA) | headings on Paper |
+| `text` on `bg` | light | 7:1 (AAA) | body copy on Sheet |
+| `text` on `bg` | dark | 7:1 (AAA) | body copy on Field |
+| `text-heading` on `bg` | light | 7:1 (AAA) | headings on Sheet |
 | `text-muted` on `bg` | light | 4.5:1 (AA) | metadata, captions |
 | `text-muted` on `bg` | dark | 4.5:1 (AA) | metadata, captions |
-| `accent` on `bg` | light | 4.5:1 (AA) | links, focus rings on Paper |
-| `accent` on `bg` | dark | 7:1 (AAA) | links, focus rings on Roast |
+| `accent` on `bg` | light | 4.5:1 (AA) | links, focus rings on Sheet |
+| `accent` on `bg` | dark | 7:1 (AAA) | links, focus rings on Field |
 
-Beyond the hand-listed pairs, an **extended sweep** in `validate-tokens.mjs` requires `text` / `text-heading` (AAA-adjacent AA), `accent`, and `syn-comment` to clear AA (4.5:1) against **every** paperstock surface (`bg`, `bg-subtle`, `surface`, `surface-raised`) — not just `bg`. This is why `accent` (used as link text on cards) and `syn-comment` are guaranteed legible on raised surfaces, not only the page background.
+Beyond the hand-listed pairs, an **extended sweep** in `validate-tokens.mjs` requires `text` / `text-heading` (AAA-adjacent AA), `accent`, and `syn-comment` to clear AA (4.5:1) against **every** grounds surface (`bg`, `bg-subtle`, `surface`, `surface-raised`) — not just `bg`. This is why `accent` (used as link text on cards) and `syn-comment` are guaranteed legible on raised surfaces, not only the page background.
 
 `text-faint` is reserved for decoration and disabled states. Using it as a text `color` is a build error (`validate-a11y-css.mjs`) unless the rule is decorative — a `::placeholder` / `:disabled` / `::before` / `::after` selector, or a block that opts out of selection with `user-select: none`. If you find yourself reaching for `text-faint` on readable copy, switch to `text-muted`.
 
@@ -61,10 +61,10 @@ A fuller matrix — every text/accent/status role measured against every backgro
 
 ## Color vision deficiency (CVD)
 
-The reference theme nearest to ours, [Modus](https://protesilaos.com/emacs/modus-themes), ships dedicated deuteranopia and tritanopia variants. We do not. We ship two themes — Paper and Roast — and rely on a few constraints that keep the chrome safe:
+The reference theme nearest to ours, [Modus](https://protesilaos.com/emacs/modus-themes), ships dedicated deuteranopia and tritanopia variants. We do not. We ship two themes — Sheet and Field — and rely on a few constraints that keep the chrome safe:
 
-1. **Most of the system is monochrome warm.** Backgrounds, text, borders, and decorators are all on the cream/brown axis. No information is ever encoded in red-vs-green or blue-vs-yellow chrome.
-2. **The accent is a single hue.** Copper has reasonable separation from the surrounding browns under all three CVD types. It is never paired adjacent to a red or green that would be ambiguous.
+1. **Most of the system is a single cool neutral ramp.** Backgrounds, text, borders, and decorators all sit on one desaturated blue-grey axis, from the near-white Sheet ground to the near-black Field ground. No information is ever encoded in red-vs-green or blue-vs-yellow chrome.
+2. **The accent is a single hue.** Bronze separates from the cool neutrals by both hue and lightness, so it survives all three CVD types — under tritanopia, where the bronze/blue distinction weakens most, the lightness gap still carries it. It is never paired adjacent to a red or green that would be ambiguous.
 3. **Code rendering uses Modus syntax.** Modus has been tuned by Protesilaos for accessibility. We adopt the values verbatim, so any CVD work that holds for Modus also holds for our code blocks.
 4. **Status colors are the failure mode.** `status-err` (red), `status-warn` (yellow), `status-ok` (green), `status-info` (blue) form the classic CVD-fragile quartet. The system **requires** that every status indicator carry a glyph or label as well — see the `alerts.html` preview for the canonical pattern (`✗ error`, `! warning`, `✓ success`, `i info`).
 
@@ -78,10 +78,10 @@ If you change a hue, run the palette through a CVD simulator and compare. Two re
 
 Specifically check:
 - The four status alerts in `preview/alerts.html` are still distinguishable as a *set* (you should be able to tell ok from err even if you can't pick green out of the page).
-- The accent-on-paper combination still reads as "this is the link color" rather than blending into surrounding browns.
+- The bronze-on-Sheet combination still reads as "this is the link color" rather than blending into the surrounding cool neutrals, and bronze stays distinct from the `contour` blue used for structural linework.
 - The Modus syntax palette in `preview/code-languages.html` keeps comments distinct from strings under deuteranopia.
 
-If something fails, open an issue or a PR. Adjusting the offending hex on Paper and Roast in `tokens.json` is the single touchpoint.
+If something fails, open an issue or a PR. Adjusting the offending hex on Sheet and Field in `tokens.json` is the single touchpoint.
 
 ---
 
@@ -108,7 +108,7 @@ The system does not currently provide:
 
 Open an issue on [github.com/jylhis/design](https://github.com/jylhis/design) with:
 
-- The mode (Paper or Roast).
+- The mode (Sheet or Field).
 - The token roles involved (`text-muted` on `surface`, etc.).
 - The measured ratio (or a screenshot showing the failure).
 - The platform target if it's a non-web surface (Emacs, Ghostty, etc.).

@@ -3,7 +3,7 @@ import * as React from "react";
 export interface CalloutProps {
   /** Mono lowercase label, rendered with a leading "//" — e.g. "currently", "colophon" */
   label?: string;
-  /** List items, each rendered with a copper "›" marker */
+  /** List items, each rendered with a bronze "›" marker */
   items?: React.ReactNode[];
   /** Free-form body used when `items` is not given */
   children?: React.ReactNode;
@@ -14,5 +14,5 @@ export interface CalloutProps {
   [attr: string]: unknown;
 }
 
-/** Copper left-border callout — the "// currently" pattern from the homepage. */
+/** Bronze-tinted `// note` callout — a hairline bronze border and a lowercase mono label. */
 export declare function Callout(props: CalloutProps): React.JSX.Element;

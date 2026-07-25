@@ -7,7 +7,7 @@
 //   J / K     next / previous section
 //   g 1..9    jump to section N
 //   f         focus current artboard fullscreen (dispatches dblclick)
-//   t         toggle paper / roast theme
+//   t         toggle sheet / field theme
 //   h         cycle brand hue
 //   /         focus first input on the visible artboard
 //   Esc       close overlays / clear focus
@@ -142,7 +142,7 @@ const SHORTCUTS = [
     [['Esc'],        'close overlay / clear focus'],
   ]],
   ['Theme', [
-    [['t'],          'toggle paper / roast'],
+    [['t'],          'toggle sheet / field'],
     [['h'],          'cycle brand hue'],
   ]],
 ];

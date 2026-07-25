@@ -114,10 +114,10 @@ for (const [section, entries] of [["palette", tokens.palette], ["syntax", tokens
   }
 }
 
-// CLAUDE.md hard rule: ANSI slot 11 is always brand copper, so the `accent`
+// CLAUDE.md hard rule: ANSI slot 11 is always brand bronze, so the `accent`
 // role's optional `ansi` override must point at bright-yellow if it's set.
 if (tokens.palette?.accent?.ansi && tokens.palette.accent.ansi !== "bright-yellow") {
-  fail(`palette.accent.ansi: must be "bright-yellow" (CLAUDE.md: ANSI 11 is always brand copper)`);
+  fail(`palette.accent.ansi: must be "bright-yellow" (CLAUDE.md: ANSI 11 is always brand bronze)`);
 }
 
 // Optional per-role `x256` override — an explicit xterm-256 index for the
@@ -161,6 +161,46 @@ for (const [k, v] of scalarEntries(tokens.zIndex)) {
 // they must never drift apart.
 if (tokens.borderWidth?.focus !== tokens.focus?.width) {
   fail(`borderWidth.focus (${tokens.borderWidth?.focus}) must equal focus.width (${tokens.focus?.width})`);
+}
+
+// ─── 1b. Every colour role belongs to exactly one thematic group ──────
+// CLAUDE.md: "When adding a new color, register it under the relevant group's
+// `members` list." Ungrouped roles fall out of the showcase, the palette page,
+// and the GIMP .gpl exports, so they must fail CI rather than go missing.
+
+if (!tokens.groups) {
+  fail("groups: missing");
+} else {
+  const seen = new Map(); // role → [group, ...]
+  for (const [name, g] of Object.entries(tokens.groups)) {
+    if (!Array.isArray(g.members)) {
+      fail(`groups.${name}.members: must be an array`);
+      continue;
+    }
+    if (!g.label) fail(`groups.${name}.label: missing`);
+    for (const m of g.members) {
+      seen.set(m, [...(seen.get(m) ?? []), name]);
+    }
+  }
+
+  const ansiNames = new Set((tokens.ansi ?? []).map((a) => a.name));
+  const knownRoles = new Set([
+    ...Object.keys(tokens.palette ?? {}),
+    ...Object.keys(tokens.syntax ?? {}),
+    ...Object.keys(tokens.status ?? {}),
+    ...ansiNames,
+  ]);
+
+  for (const role of knownRoles) {
+    if (!seen.has(role)) fail(`groups: role "${role}" is not a member of any group`);
+  }
+  for (const [role, groupNames] of seen) {
+    if (!knownRoles.has(role)) {
+      fail(`groups.${groupNames[0]}.members: "${role}" is not a defined color role`);
+    } else if (groupNames.length > 1) {
+      fail(`groups: role "${role}" is claimed by more than one group (${groupNames.join(", ")})`);
+    }
+  }
 }
 
 // ─── 2. Contrast (WCAG 2 relative luminance) ─────────────────────────
@@ -216,17 +256,17 @@ for (const [surface, spec] of Object.entries(tokens.pairs ?? {})) {
   }
 }
 
-// ─── 2b. Extended sweep across every paperstock surface ──────────────
+// ─── 2b. Extended sweep across every grounds surface ──────────────
 // Beyond the seven hand-listed pairs in tokens.json#contrast, body text and
 // the accent need to clear minimum thresholds against EVERY surface, not
 // just `bg`. Cards use `bg-subtle`, modals use `surface-raised`, etc.
 // Thresholds reflect docs/ACCESSIBILITY.md#what-we-measure:
-//   - text, text-heading: AA (4.5:1) against any paperstock surface
-//   - text-muted:        3:1 against any paperstock surface (AA Large)
-//   - accent:            AA (4.5:1) against any paperstock surface — accent is
+//   - text, text-heading: AA (4.5:1) against any grounds surface
+//   - text-muted:        3:1 against any grounds surface (AA Large)
+//   - accent:            AA (4.5:1) against any grounds surface — accent is
 //                        used as link *text* on cards, so it must clear normal-
 //                        size AA on every surface, not just `bg`.
-//   - syn-comment:       AA (4.5:1) against any paperstock surface — comments are
+//   - syn-comment:       AA (4.5:1) against any grounds surface — comments are
 //                        text and may sit on raised card surfaces, not only code-bg.
 //   - status-*:          3:1 against bg (non-text indicator)
 const SURFACES = ["bg", "bg-subtle", "surface", "surface-raised"];

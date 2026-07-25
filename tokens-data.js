@@ -5,7 +5,7 @@
 export const tokens = {
   "meta": {
     "name": "Jylhis Design System",
-    "version": "0.5.0"
+    "version": "1.0.0"
   },
   "groups": {
     "grounds": {
@@ -15,7 +15,8 @@ export const tokens = {
         "bg",
         "bg-subtle",
         "surface",
-        "surface-raised"
+        "surface-raised",
+        "scrim"
       ]
     },
     "ink": {
@@ -508,11 +509,11 @@ export const tokens = {
       "css": "cubic-bezier(0.16, 1, 0.3, 1)",
       "hypr": "0.16,1,0.3,1"
     },
-    "spring": {
+    "survey": {
       "duration": "480ms",
       "css": "cubic-bezier(0.2, 0.8, 0.2, 1)",
       "hypr": "0.2,0.8,0.2,1",
-      "notes": "the long 'survey renders in' ease — expo-out, no overshoot (the system bans bounce); drives contour-draw / line-extend / count-up. Key kept as `spring` until generate.mjs is updated in Phase 2."
+      "notes": "the long 'survey renders in' ease — expo-out, no overshoot (the system bans bounce); drives contour-draw / line-extend / readout"
     }
   },
   "sound": {
@@ -803,6 +804,15 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "text-heading",
+      "bg": "scrim",
+      "fgHex": "#12141a",
+      "bgHex": "#14171e",
+      "ratio": 1.03,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
       "fg": "text",
       "bg": "bg",
       "fgHex": "#23262e",
@@ -836,6 +846,15 @@ export const tokens = {
       "bgHex": "#fcfdff",
       "ratio": 14.86,
       "tag": "AAA"
+    },
+    {
+      "mode": "light",
+      "fg": "text",
+      "bg": "scrim",
+      "fgHex": "#23262e",
+      "bgHex": "#14171e",
+      "ratio": 1.19,
+      "tag": "fail"
     },
     {
       "mode": "light",
@@ -875,6 +894,15 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "text-muted",
+      "bg": "scrim",
+      "fgHex": "#565a63",
+      "bgHex": "#14171e",
+      "ratio": 2.59,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
       "fg": "text-faint",
       "bg": "bg",
       "fgHex": "#878c95",
@@ -911,6 +939,15 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "text-faint",
+      "bg": "scrim",
+      "fgHex": "#878c95",
+      "bgHex": "#14171e",
+      "ratio": 5.31,
+      "tag": "AA"
+    },
+    {
+      "mode": "light",
       "fg": "accent",
       "bg": "bg",
       "fgHex": "#8a4d00",
@@ -944,6 +981,15 @@ export const tokens = {
       "bgHex": "#fcfdff",
       "ratio": 6.57,
       "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "accent",
+      "bg": "scrim",
+      "fgHex": "#8a4d00",
+      "bgHex": "#14171e",
+      "ratio": 2.68,
+      "tag": "fail"
     },
     {
       "mode": "light",
@@ -983,6 +1029,15 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "accent-hover",
+      "bg": "scrim",
+      "fgHex": "#a75f0a",
+      "bgHex": "#14171e",
+      "ratio": 3.66,
+      "tag": "AA Large"
+    },
+    {
+      "mode": "light",
       "fg": "brand",
       "bg": "bg",
       "fgHex": "#b5450e",
@@ -1016,6 +1071,15 @@ export const tokens = {
       "bgHex": "#fcfdff",
       "ratio": 5.4,
       "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "brand",
+      "bg": "scrim",
+      "fgHex": "#b5450e",
+      "bgHex": "#14171e",
+      "ratio": 3.26,
+      "tag": "AA Large"
     },
     {
       "mode": "light",
@@ -1055,6 +1119,15 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "accent-subtle",
+      "bg": "scrim",
+      "fgHex": "#e9e3dd",
+      "bgHex": "#14171e",
+      "ratio": 14.09,
+      "tag": "AAA"
+    },
+    {
+      "mode": "light",
       "fg": "selection-bg",
       "bg": "bg",
       "fgHex": "#ece0cf",
@@ -1088,6 +1161,15 @@ export const tokens = {
       "bgHex": "#fcfdff",
       "ratio": 1.28,
       "tag": "fail"
+    },
+    {
+      "mode": "light",
+      "fg": "selection-bg",
+      "bg": "scrim",
+      "fgHex": "#ece0cf",
+      "bgHex": "#14171e",
+      "ratio": 13.77,
+      "tag": "AAA"
     },
     {
       "mode": "light",
@@ -1127,6 +1209,15 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "cursor",
+      "bg": "scrim",
+      "fgHex": "#8a4d00",
+      "bgHex": "#14171e",
+      "ratio": 2.68,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
       "fg": "status-err",
       "bg": "bg",
       "fgHex": "#a60000",
@@ -1160,6 +1251,15 @@ export const tokens = {
       "bgHex": "#fcfdff",
       "ratio": 7.87,
       "tag": "AAA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-err",
+      "bg": "scrim",
+      "fgHex": "#a60000",
+      "bgHex": "#14171e",
+      "ratio": 2.24,
+      "tag": "fail"
     },
     {
       "mode": "light",
@@ -1199,6 +1299,15 @@ export const tokens = {
     },
     {
       "mode": "light",
+      "fg": "status-warn",
+      "bg": "scrim",
+      "fgHex": "#8a5000",
+      "bgHex": "#14171e",
+      "ratio": 2.76,
+      "tag": "fail"
+    },
+    {
+      "mode": "light",
       "fg": "status-ok",
       "bg": "bg",
       "fgHex": "#006800",
@@ -1232,6 +1341,15 @@ export const tokens = {
       "bgHex": "#fcfdff",
       "ratio": 6.92,
       "tag": "AA"
+    },
+    {
+      "mode": "light",
+      "fg": "status-ok",
+      "bg": "scrim",
+      "fgHex": "#006800",
+      "bgHex": "#14171e",
+      "ratio": 2.54,
+      "tag": "fail"
     },
     {
       "mode": "light",
@@ -1270,6 +1388,15 @@ export const tokens = {
       "tag": "AA"
     },
     {
+      "mode": "light",
+      "fg": "status-info",
+      "bg": "scrim",
+      "fgHex": "#005e8b",
+      "bgHex": "#14171e",
+      "ratio": 2.54,
+      "tag": "fail"
+    },
+    {
       "mode": "dark",
       "fg": "text-heading",
       "bg": "bg",
@@ -1303,6 +1430,15 @@ export const tokens = {
       "fgHex": "#f2f4f8",
       "bgHex": "#232833",
       "ratio": 13.4,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-heading",
+      "bg": "scrim",
+      "fgHex": "#f2f4f8",
+      "bgHex": "#05060a",
+      "ratio": 18.39,
       "tag": "AAA"
     },
     {
@@ -1343,6 +1479,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "text",
+      "bg": "scrim",
+      "fgHex": "#d6dae2",
+      "bgHex": "#05060a",
+      "ratio": 14.45,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
       "fg": "text-muted",
       "bg": "bg",
       "fgHex": "#9aa0ab",
@@ -1376,6 +1521,15 @@ export const tokens = {
       "bgHex": "#232833",
       "ratio": 5.62,
       "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "text-muted",
+      "bg": "scrim",
+      "fgHex": "#9aa0ab",
+      "bgHex": "#05060a",
+      "ratio": 7.71,
+      "tag": "AAA"
     },
     {
       "mode": "dark",
@@ -1415,6 +1569,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "text-faint",
+      "bg": "scrim",
+      "fgHex": "#656b76",
+      "bgHex": "#05060a",
+      "ratio": 3.78,
+      "tag": "AA Large"
+    },
+    {
+      "mode": "dark",
       "fg": "accent",
       "bg": "bg",
       "fgHex": "#e0a33a",
@@ -1451,6 +1614,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "accent",
+      "bg": "scrim",
+      "fgHex": "#e0a33a",
+      "bgHex": "#05060a",
+      "ratio": 9.13,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
       "fg": "accent-hover",
       "bg": "bg",
       "fgHex": "#f0b95c",
@@ -1483,6 +1655,15 @@ export const tokens = {
       "fgHex": "#f0b95c",
       "bgHex": "#232833",
       "ratio": 8.29,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-hover",
+      "bg": "scrim",
+      "fgHex": "#f0b95c",
+      "bgHex": "#05060a",
+      "ratio": 11.38,
       "tag": "AAA"
     },
     {
@@ -1523,6 +1704,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "brand",
+      "bg": "scrim",
+      "fgHex": "#ef8a4a",
+      "bgHex": "#05060a",
+      "ratio": 8.11,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
       "fg": "accent-subtle",
       "bg": "bg",
       "fgHex": "#262119",
@@ -1555,6 +1745,15 @@ export const tokens = {
       "fgHex": "#262119",
       "bgHex": "#232833",
       "ratio": 1.08,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
+      "fg": "accent-subtle",
+      "bg": "scrim",
+      "fgHex": "#262119",
+      "bgHex": "#05060a",
+      "ratio": 1.27,
       "tag": "fail"
     },
     {
@@ -1595,6 +1794,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "selection-bg",
+      "bg": "scrim",
+      "fgHex": "#3a2f1c",
+      "bgHex": "#05060a",
+      "ratio": 1.55,
+      "tag": "fail"
+    },
+    {
+      "mode": "dark",
       "fg": "cursor",
       "bg": "bg",
       "fgHex": "#e0a33a",
@@ -1631,6 +1839,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "cursor",
+      "bg": "scrim",
+      "fgHex": "#e0a33a",
+      "bgHex": "#05060a",
+      "ratio": 9.13,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
       "fg": "status-err",
       "bg": "bg",
       "fgHex": "#f0685f",
@@ -1663,6 +1880,15 @@ export const tokens = {
       "fgHex": "#f0685f",
       "bgHex": "#232833",
       "ratio": 4.81,
+      "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-err",
+      "bg": "scrim",
+      "fgHex": "#f0685f",
+      "bgHex": "#05060a",
+      "ratio": 6.61,
       "tag": "AA"
     },
     {
@@ -1703,6 +1929,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "status-warn",
+      "bg": "scrim",
+      "fgHex": "#d9b34a",
+      "bgHex": "#05060a",
+      "ratio": 10.12,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
       "fg": "status-ok",
       "bg": "bg",
       "fgHex": "#6bbf6b",
@@ -1739,6 +1974,15 @@ export const tokens = {
     },
     {
       "mode": "dark",
+      "fg": "status-ok",
+      "bg": "scrim",
+      "fgHex": "#6bbf6b",
+      "bgHex": "#05060a",
+      "ratio": 8.96,
+      "tag": "AAA"
+    },
+    {
+      "mode": "dark",
       "fg": "status-info",
       "bg": "bg",
       "fgHex": "#5fb8cf",
@@ -1772,6 +2016,15 @@ export const tokens = {
       "bgHex": "#232833",
       "ratio": 6.5,
       "tag": "AA"
+    },
+    {
+      "mode": "dark",
+      "fg": "status-info",
+      "bg": "scrim",
+      "fgHex": "#5fb8cf",
+      "bgHex": "#05060a",
+      "ratio": 8.91,
+      "tag": "AAA"
     }
   ],
   "swatchContrast": {

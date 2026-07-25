@@ -11,5 +11,5 @@ export interface FieldProps extends React.InputHTMLAttributes<HTMLInputElement> 
   textarea?: boolean;
 }
 
-/** Labeled form field — mono label, 1px border input, copper focus ring. */
+/** Labeled form field — mono label, 1px border input, bronze focus ring. */
 export declare function Field(props: FieldProps): React.JSX.Element;

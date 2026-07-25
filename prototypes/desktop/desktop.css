@@ -1,8 +1,8 @@
 /* desktop.css — Jylhis TUI Desktop
  * A graphics-free, Norton-Commander-flavoured desktop environment.
  * Double-line box frames, titles embedded in the border, a discoverable
- * function-key bar, the terminal as the centrepiece. Paper / roast palette,
- * JetBrains Mono throughout, copper as the single accent. No drop shadows.
+ * function-key bar, the terminal as the centrepiece. Sheet / field palette,
+ * IBM Plex Mono throughout, bronze as the single accent. No drop shadows.
  */
 
 @import url("../../colors_and_type.css");

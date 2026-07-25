@@ -1,0 +1,59 @@
+GIMP Palette
+Name: Jylhis Sheet
+Columns: 4
+#
+# Grounds
+246 248 251	bg
+238 242 246	bg-subtle
+230 236 241	surface
+252 253 255	surface-raised
+ 20  23  30	scrim
+# Ink
+ 18  20  26	text-heading
+ 35  38  46	text
+ 86  90  99	text-muted
+135 140 149	text-faint
+# Bronze
+138  77   0	accent
+167  95  10	accent-hover
+181  69  14	brand
+233 227 221	accent-subtle
+236 224 207	selection-bg
+138  77   0	cursor
+# Line
+207 214 222	border
+170 180 192	border-strong
+127 143 181	decorator
+ 47  79 176	contour
+# Modus
+ 83  23 172	syn-keyword
+ 37  68 187	syn-string
+  0  49 169	syn-number
+114  16  69	syn-function
+143   0 117	syn-builtin
+  0  90  95	syn-type
+  0  68 170	syn-variable
+ 89  89  89	syn-comment
+ 42  90  58	syn-docstring
+# Signal
+166   0   0	status-err
+138  80   0	status-warn
+  0 104   0	status-ok
+  0  94 139	status-info
+# Spectrum
+ 35  38  46	ansi-0-black
+166   0   0	ansi-1-red
+  0 104   0	ansi-2-green
+138  80   0	ansi-3-yellow
+  0  49 169	ansi-4-blue
+114  16  69	ansi-5-magenta
+  0  90  95	ansi-6-cyan
+ 86  90  99	ansi-7-white
+135 140 149	ansi-8-bright-black
+182   0   0	ansi-9-bright-red
+ 49  91   0	ansi-10-bright-green
+138  77   0	ansi-11-bright-yellow
+ 53  72 207	ansi-12-bright-blue
+ 83  26 182	ansi-13-bright-magenta
+  0  94 139	ansi-14-bright-cyan
+ 35  38  46	ansi-15-bright-white

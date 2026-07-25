@@ -59,7 +59,7 @@
       # Helpers consumers can call from their own configs.
       lib = {
         # Returns the absolute store path to the generated base16 YAML
-        # for a given variant ("paper" or "roast"), suitable for
+        # for a given variant ("sheet" or "field"), suitable for
         # `stylix.base16Scheme`. Requires the overlay (or a pkgs set
         # that already has `jylhis-themes`).
         variantToBase16Scheme = pkgs: variant:
@@ -67,7 +67,7 @@
 
         # Reads tokens.json and returns the palette in the shapes downstream
         # Nix configs need: { base16, ansi16, tty16, hex, ansi, variantKey }.
-        # `variant` accepts "paper"/"roast" or "light"/"dark". No pkgs needed.
+        # `variant` accepts "sheet"/"field" or "light"/"dark". No pkgs needed.
         mkPalette = variant:
           import ./nix/palette.nix { inherit (nixpkgs) lib; inherit variant; };
       };

@@ -63,8 +63,8 @@ For HTML files in `index.html`, `palette.html`, `font_options.html`, `md.html`, 
 
 For terminal themes (`platforms/ghostty/`, `platforms/emacs/`, `platforms/shell/`), Wayland chrome (`platforms/hyprland/`, `platforms/waybar/`, `platforms/mako/`, `platforms/rofi/`), and GUI themes (`platforms/gtk/`, `platforms/kvantum/`):
 
-- Foreground/background pairs meet the contrast floors documented in `tokens.json#contrast`. The token validator's extended sweep covers the four paperstock surfaces; if a platform composes its own surfaces (e.g. mako notification body), spot-check those manually with [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) or `bun scripts/validate-tokens.mjs`'s helpers.
-- Named ANSI colours are used in any terminal-emitting code (slot 11 = brand copper across the system). Hex literals only where the target requires them (Ghostty, Rofi).
+- Foreground/background pairs meet the contrast floors documented in `tokens.json#contrast`. The token validator's extended sweep covers the four grounds surfaces; if a platform composes its own surfaces (e.g. mako notification body), spot-check those manually with [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) or `bun scripts/validate-tokens.mjs`'s helpers.
+- Named ANSI colours are used in any terminal-emitting code (slot 11 = the bronze accent across the system). Hex literals only where the target requires them (Ghostty, Rofi).
 - Status colour is never the only signal — pairs with a glyph (`✓`/`✗`/`!`/`i`) or word.
 - The theme works in a remapped terminal: the user can override ANSI 0–15 via terminal preferences without breaking the design.
 
@@ -110,7 +110,7 @@ Use the simulators listed in `docs/ACCESSIBILITY.md§How to verify a change`:
 
 Specifically check:
 - The four status alerts in `preview/alerts.html` are still distinguishable as a *set* under deuteranopia.
-- The accent-on-paper combination still reads as "this is the link colour" rather than blending into surrounding browns.
+- The bronze-on-Sheet combination still reads as "this is the link colour" rather than blending into the surrounding cool neutrals, and stays distinct from `contour` blue.
 - The Modus syntax palette in `preview/code-languages.html` keeps comments distinct from strings.
 - Any new colour added to `tokens.json` is checked under all three CVD types.
 

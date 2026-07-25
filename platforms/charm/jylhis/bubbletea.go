@@ -14,7 +14,7 @@ type ThemeMsg struct {
 }
 
 // Detect is a tea.Cmd batch that asks the terminal for its background color.
-// Pair with the msg handler in ApplyBackground to auto-select Paper vs Roast.
+// Pair with the msg handler in ApplyBackground to auto-select Sheet vs Field.
 //
 //	func (m model) Init() tea.Cmd       { return jylhis.Detect }
 //	func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -31,12 +31,12 @@ func ApplyBackground(msg tea.Msg) (Theme, bool) {
 		return Theme{}, false
 	}
 	if bg.IsDark() {
-		return NewTheme(Roast), true
+		return NewTheme(Field), true
 	}
-	return NewTheme(Paper), true
+	return NewTheme(Sheet), true
 }
 
-// AdaptiveColor returns a color.Color that picks the paper or roast
+// AdaptiveColor returns a color.Color that picks the sheet or field
 // variant given a known-dark-background boolean (e.g. from BackgroundColorMsg).
 // Useful when you want a single adaptive color outside of the Theme struct.
 func AdaptiveColor(isDark bool, light, dark string) color.Color {

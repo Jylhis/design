@@ -12,7 +12,7 @@
 //
 //	import "github.com/jylhis/design/platforms/charm/jylhis"
 //
-//	t := jylhis.NewTheme(jylhis.Paper) // or jylhis.Roast
+//	t := jylhis.NewTheme(jylhis.Sheet) // or jylhis.Field
 //	fmt.Println(t.Title.Render("Notes"))
 //	fmt.Println(t.Subtle.Render("7 files · updated 2m ago"))
 //
@@ -27,12 +27,12 @@ import (
 	"charm.land/lipgloss/v2"
 )
 
-// Mode selects the light (Paper) or dark (Roast) variant.
+// Mode selects the light (Sheet) or dark (Field) variant.
 type Mode int
 
 const (
-	Paper Mode = iota // light — warm cream, copper accent
-	Roast             // dark  — dark roast, copper accent
+	Sheet Mode = iota // light — cool near-white ground, bronze accent
+	Field             // dark  — cool near-black ground, bronze accent
 )
 
 // Palette is the raw Jylhis palette for one mode.
@@ -42,11 +42,11 @@ type Palette struct {
 	Bg, BgSubtle, Surface, SurfaceRaised string
 	// Text
 	Text, TextMuted, TextHeading, TextFaint string
-	// Accent family — copper
+	// Accent family — bronze
 	Accent, AccentHover, Brand string
 	// Structure
 	Border, BorderStrong, Decorator string
-	// Syntax — Emacs Modus (Operandi for Paper, Vivendi for Roast).
+	// Syntax — Emacs Modus (Operandi for Sheet, Vivendi for Field).
 	// Uniform with the CSS vars and the Emacs themes.
 	SynKeyword, SynString, SynNumber, SynFunction, SynType, SynBuiltin,
 	SynVariable, SynTag, SynComment, SynDocstring string
@@ -56,9 +56,9 @@ type Palette struct {
 	ANSI [16]string
 }
 
-// paper is the canonical light palette. Hex values are the single source of truth.
+// sheet is the canonical light palette. Hex values are the single source of truth.
 // When they change, update tokens.json first, then run: bun scripts/generate.mjs
-var paper = Palette{
+var sheet = Palette{
 	Bg: "#f6f8fb", BgSubtle: "#eef2f6", Surface: "#e6ecf1", SurfaceRaised: "#fcfdff",
 	Text: "#23262e", TextMuted: "#565a63", TextHeading: "#12141a", TextFaint: "#878c95",
 	Accent: "#8a4d00", AccentHover: "#a75f0a", Brand: "#b5450e",
@@ -72,7 +72,7 @@ var paper = Palette{
 	},
 }
 
-var roast = Palette{
+var field = Palette{
 	Bg: "#0d0f14", BgSubtle: "#14171e", Surface: "#1b1f28", SurfaceRaised: "#232833",
 	Text: "#d6dae2", TextMuted: "#9aa0ab", TextHeading: "#f2f4f8", TextFaint: "#656b76",
 	Accent: "#e0a33a", AccentHover: "#f0b95c", Brand: "#ef8a4a",
@@ -88,10 +88,10 @@ var roast = Palette{
 
 // PaletteFor returns the raw palette for a mode.
 func PaletteFor(m Mode) Palette {
-	if m == Roast {
-		return roast
+	if m == Field {
+		return field
 	}
-	return paper
+	return sheet
 }
 
 // C is a convenience wrapper: lipgloss color from a hex string in the palette.

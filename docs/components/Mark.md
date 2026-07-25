@@ -1,7 +1,7 @@
 <!-- GENERATED from components/Mark/ by scripts/generate.mjs. Do not edit by hand. -->
 # Mark
 
-Personal brand mark — "jy ❯", pure type, chevron always copper.
+Personal brand mark — "jy ❯", pure type, chevron always bronze.
 
 ```jsx
 import { Mark } from "../../components/Mark/Mark.jsx";

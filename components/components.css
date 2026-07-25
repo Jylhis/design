@@ -30,7 +30,7 @@
   border: var(--border-hairline) solid var(--color-accent);
 }
 .ds-btn--primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
-/* Press / active — deepen to the darker copper. Colour and border only; no shrink transform. */
+/* Press / active — deepen to the darker bronze. Colour and border only; no shrink transform. */
 .ds-btn--primary:active { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
 .ds-btn--ghost {
   background: transparent;
@@ -180,7 +180,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 .ds-alert--err .ds-alert__head { color: var(--color-status-err); }
 
 /* ── Callout (the "// currently" pattern) ───────────────── */
-/* Hairline copper border + 8% copper tint; the `//` label is what makes it
+/* Hairline bronze border + 8% bronze tint; the `//` label is what makes it
    a callout — see docs/STYLE-GUIDE.md §9. */
 .ds-callout {
   background: color-mix(in srgb, var(--color-accent) 8%, transparent);
@@ -214,7 +214,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 
 /* ── Terminal ───────────────────────────────────────────── */
 /* Terminal session frame. Same hairline/radius language as ds-codeblock;
-   prompt chevron is ALWAYS copper (the ANSI 11 rule). Output coloring is
+   prompt chevron is ALWAYS bronze (the ANSI 11 rule). Output coloring is
    the consumer's job, via Modus syntax / status tokens — never the accent. */
 .ds-term {
   border: var(--border-hairline) solid var(--color-border-strong);

@@ -8,7 +8,7 @@ The system is small and stays small on purpose. The rules below explain why.
 
 ## 1. Colors
 
-### Paperstock — backgrounds
+### Grounds — backgrounds
 
 - **`bg`** is the page itself. Set it on `<html>` (or `<body>`) and almost nothing else.
 - **`bg-subtle`** is the next step up. Use it for the tag chip background, code block fills, faint zebra striping.
@@ -24,13 +24,13 @@ The system is small and stays small on purpose. The rules below explain why.
 - **`text-muted`** for metadata, captions, secondary labels — anything still readable but pulled back.
 - **`text-faint`** is *not* readable as body copy. It's for dashed rules, disabled meta, and chrome decorations. If a sighted user must read it, use `text-muted` instead.
 
-### Copper — the single accent
+### Bronze — the single accent
 
 - **`accent`** is the only interactive color: links, focus rings, the "currently" box border, button text on ghost buttons.
 - **`accent-hover`** is the darker twin used on hover/active states. Never use it as a base color.
-- **`brand`** is the literal logo copper. Use it for *large* marks where contrast against text isn't measured: the maker's mark, hero strokes, sticker art. Do not use `brand` as a link color — it doesn't clear AA on the paper background.
+- **`brand`** is the benchmark vermilion — the maker's mark and datum triangle. Use it for *large* marks where contrast against text isn't measured: the maker's mark, hero strokes, sticker art. Do not use `brand` as a link color — it doesn't clear AA on the Sheet ground, and it is not `status-err`.
 
-> Copper is not a syntax color. The brand never appears inside a code block.
+> Bronze is not a syntax color. The brand never appears inside a code block.
 
 ### Paired foregrounds
 
@@ -42,11 +42,12 @@ fill with its pair, never a guessed colour: a primary button is
 validator proves each pair clears its `min` ratio in both editions (the
 Paired-Foreground rule, DESIGN.md).
 
-### Linen — borders
+### Line — borders and contour
 
 - **`border`** for everything by default. 1px solid.
 - **`border-strong`** is reserved for table thead underlines and form-field hover state.
-- **`decorator`** is for dashed horizontal rules and the `└──` tree lines. Don't use it as a real border color.
+- **`decorator`** is the graticule — dashed horizontal rules, tick chrome, and the `└──` tree lines. Don't use it as a real border color.
+- **`contour`** is structural linework only: contour rings, diagram strokes, dividers that carry meaning. It is *structure, never interaction* — it must never stand in for `accent`.
 
 ### Signal — status
 
@@ -63,21 +64,23 @@ These exist exclusively for code rendering. They are tuned to match the Modus Op
 
 ### Spectrum — ANSI 16
 
-The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to brand copper across every terminal target so prompts and `ls` directory permissions carry the system identity.
+The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to the bronze accent across every terminal target so prompts and `ls` directory permissions carry the system identity.
 
 ---
 
 ## 2. Type
 
-- **Body** is Literata 1.125rem / 1.65 line-height. It should be the only font for prose.
-- **Headings** are JetBrains Mono. They should be the only font for navigation, labels, and `//` chrome.
-- **Code** is JetBrains Mono inline and in blocks. It is the same family as headings on purpose — code reads as a label.
+Three roles, three families — set from `tokens.json#typography` and emitted as `--font-display` / `--font-body` / `--font-mono`.
+
+- **Display & titles** are Zilla Slab — the engraved plate register. Headings and hero titles only.
+- **Body & UI** are Hanken Grotesk 1.0625rem / 1.6 line-height. It should be the only font for prose, navigation, and controls.
+- **Data, labels & code** are IBM Plex Mono. Labels, meta, `//` chrome, tabular figures, and every code block — data reads as data.
 
 ### Type scale (10 steps)
 
-`2 · 1.6 · 1.4 · 1.15 · 1 · 0.95 · 0.85 · 0.8 · 0.75 · 0.72` (rem) — emitted as `--type-scale-0…9` from `tokens.json`. Pick from the scale. Don't introduce custom sizes.
+`3.25 · 2 · 1.4 · 1.15 · 1.0625 · 0.95 · 0.85 · 0.8 · 0.75 · 0.72` (rem) — emitted as `--type-scale-0…9` from `tokens.json`. Pick from the scale. Don't introduce custom sizes.
 
-- `1.6` is the compact page title (`.ds-title`); `0.95` is component body copy (cards, alerts, CV); `0.8` is mono chrome (meta, tags, breadcrumbs); `0.72` is the floor — nothing renders smaller.
+- `3.25` is the hero display (`h1` / `.ds-h1`); `2` is the compact page title (`.ds-title`); `0.95` is component body copy (cards, alerts, CV); `0.8` is mono chrome (meta, tags, breadcrumbs); `0.72` is the floor — nothing renders smaller.
 - Placeholder and help text use `text-muted`, never `text-faint` — anything a user must read has to clear AA.
 
 ### Casing
@@ -109,25 +112,26 @@ The terminal palette. Slot 11 (`bright-yellow`) is intentionally overridden to b
 
 ## 5. Motion
 
-The signature is **“ink draws on”**: nothing fades or floats — things are *drawn*, *typed*, or *blinked* onto the paper, the way ink and terminals behave. Helpers live in `motion.css` (`.ds-rule-draw`, `.ds-typed`, `.ds-caret`).
+The signature is **“survey renders in”**: nothing fades or floats — a surface is *drawn*, *extended*, or *read out*, the way a plate is plotted and a terminal reports. Helpers live in `motion.css` (`.ds-contour-draw`, `.ds-line-extend`, `.ds-readout`, `.ds-caret`).
 
 | Token | Duration | Easing | Use for |
 |---|---|---|---|
 | `fast` | 150ms | ease-out | hover/focus color shifts |
 | `base` | 250ms | ease-out | link underline, theme toggle, drawer open |
 | `slow` | 300ms | ease-out | page enter, rule-draw entrances |
-| `spring` | 420ms | overshoot | the rare playful affordance |
+| `survey` | 480ms | ease-out (expo) | the full plate render — contour draw-in |
 
 Three signature idioms, mapped to the tokens above:
 
-- **rule-draw** — a horizontal rule draws in left→right (`slow`, scaleX from 0).
-- **type-on** — a mono label types on with `steps()` (420ms).
-- **caret** — a copper block caret blinks (1.1s, stepped) for prompts and loading.
+- **contour-draw** — a stroke draws along its own length (`survey`, dashoffset to 0).
+- **line-extend** — a rule extends from the datum (`slow`, scaleX from 0).
+- **readout** — a mono value types on with `steps()` (420ms).
+- **caret** — a bronze block caret blinks (1.1s, stepped) for prompts and loading.
 
 Rules:
 
-- Animate **color** and **translate** only — plus the three idioms above, which are the *named* exceptions (draw = scaleX, type-on = stepped width, caret = stepped opacity). No scale pops, no rotates, no crossfades.
-- Max **one** drawn entrance per viewport. The caret never appears twice on one surface.
+- Animate **color** and **translate** only — plus the idioms above, which are the *named* exceptions (contour-draw = dashoffset, line-extend = scaleX, readout = stepped width, caret = stepped opacity). No scale pops, no rotates, no crossfades, no bounce.
+- Max **one** full plate render per viewport. The caret never appears twice on one surface.
 - All continuous easings are `ease-out`; the idioms use `steps()` — stepped, like a terminal, never tweened.
 - Always honor `prefers-reduced-motion` (the universal guard in `colors_and_type.css` covers every helper; drawn/typed elements land in their final state).
 
@@ -142,7 +146,7 @@ Rules:
 
 ### The personal mark
 
-The mark is the prompt: **`jy ❯`** — pure type, set in JetBrains Mono, chevron always copper. On live surfaces it may carry the blinking caret (`.ds-caret`); in print and tty it is static.
+The mark is the prompt: **`jy ❯`** — pure type, set in IBM Plex Mono, chevron always bronze. On live surfaces it may carry the blinking caret (`.ds-caret`); in print and tty it is static.
 
 - Appears **once per surface**: footer sign-off, contact line, man-page footer, 404.
 - Never scaled above 56px; never used as a syntax element or inside code blocks.
@@ -181,7 +185,7 @@ Copy is a design token. Five rules — first person singular; buttons are lowerc
 - Don't add a shadow. If something needs to feel raised, step it up to `surface-raised`.
 - Don't add a gradient.
 - Don't use `text-faint` for body copy.
-- Don't introduce a sans-serif. Body is Literata serif; everything else is JetBrains Mono.
+- Don't introduce a fourth family. Display is Zilla Slab, body and UI are Hanken Grotesk, data and code are IBM Plex Mono.
 - Don't introduce a second accent. The system has one accent on purpose.
 - Don't ship a feature in only one theme.
 - Don't ship a tinted status card without its label. The tint + hairline border only appears with a `//` label (callout) or a status glyph + word (alert) — color alone is decoration, not meaning. And never a side-stripe: 3px left borders are reserved for the selected-item marker.

@@ -1,7 +1,7 @@
 # Jylhis design system — Ghostty wrapped with Jylhis themes.
 #
-# Creates a wrapped Ghostty binary that includes the Jylhis Paper and Roast
-# themes in its search path. Use `theme = jylhis-paper` or `theme = jylhis-roast`
+# Creates a wrapped Ghostty binary that includes the Jylhis Sheet and Field
+# themes in its search path. Use `theme = jylhis-sheet` or `theme = jylhis-field`
 # in your Ghostty config.
 #
 # Usage:
@@ -18,10 +18,10 @@ let
   themeFiles = symlinkJoin {
     name = "jylhis-ghostty-themes";
     paths = [
-      (writeTextDir "share/ghostty/themes/jylhis-paper"
-        (builtins.readFile ../platforms/ghostty/jylhis-paper))
-      (writeTextDir "share/ghostty/themes/jylhis-roast"
-        (builtins.readFile ../platforms/ghostty/jylhis-roast))
+      (writeTextDir "share/ghostty/themes/jylhis-sheet"
+        (builtins.readFile ../platforms/ghostty/jylhis-sheet))
+      (writeTextDir "share/ghostty/themes/jylhis-field"
+        (builtins.readFile ../platforms/ghostty/jylhis-field))
     ];
   };
 in
@@ -36,7 +36,7 @@ symlinkJoin {
   '';
 
   meta = {
-    description = "Ghostty terminal with Jylhis Paper and Roast themes";
+    description = "Ghostty terminal with Jylhis Sheet and Field themes";
     homepage = "https://github.com/jylhis/design";
     license = lib.licenses.mit;
     mainProgram = "ghostty";

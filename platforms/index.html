@@ -167,27 +167,27 @@
   }
   .mock .body { padding: 14px 16px; }
 
-  /* ───── Paper vs Roast variants ───── */
-  .mock.paper {
+  /* ───── Sheet vs Field variants ───── */
+  .mock.sheet {
     background: #fefdfb;
     color: #2c2825;
   }
-  .mock.paper .bar {
+  .mock.sheet .bar {
     background: #e8e1d6;
     color: #6b5f54;
     border-bottom-color: #d5cec4;
   }
-  .mock.roast {
+  .mock.field {
     background: #1a1714;
     color: #e8e0d4;
     border-color: #3d3830;
   }
-  .mock.roast .bar {
+  .mock.field .bar {
     background: #2a2520;
     color: #b0a496;
     border-bottom-color: #3d3830;
   }
-  .mock.roast .bar .mode { color: #e89b5e; }
+  .mock.field .bar .mode { color: #e89b5e; }
 
   /* ===============================================
      Ghostty terminal mock
@@ -204,31 +204,31 @@
   .term .tag { }
   .term .err { }
 
-  /* Paper syntax — Modus role taxonomy, paper-tuned (tokens.json#syntax) */
-  .mock.paper .term .prompt-path { color: #b5703c; }
-  .mock.paper .term .prompt-git  { color: #006800; }
-  .mock.paper .term .prompt-dirty{ color: #6f5500; }
-  .mock.paper .term .prompt-glyph{ color: #8a4f24; }
-  .mock.paper .term .comment     { color: #7e6c4d; font-style: italic; }
-  .mock.paper .term .kw          { color: #4a2d80; font-weight: 600; }
-  .mock.paper .term .str         { color: #3d5a1f; }
-  .mock.paper .term .num         { color: #1f4d8a; }
-  .mock.paper .term .fn          { color: #8a2348; font-weight: 600; }
-  .mock.paper .term .tag         { color: #134a4a; }
-  .mock.paper .term .err         { color: #a60000; }
+  /* Sheet syntax — Modus role taxonomy, Sheet-tuned (tokens.json#syntax) */
+  .mock.sheet .term .prompt-path { color: #b5703c; }
+  .mock.sheet .term .prompt-git  { color: #006800; }
+  .mock.sheet .term .prompt-dirty{ color: #6f5500; }
+  .mock.sheet .term .prompt-glyph{ color: #8a4f24; }
+  .mock.sheet .term .comment     { color: #7e6c4d; font-style: italic; }
+  .mock.sheet .term .kw          { color: #4a2d80; font-weight: 600; }
+  .mock.sheet .term .str         { color: #3d5a1f; }
+  .mock.sheet .term .num         { color: #1f4d8a; }
+  .mock.sheet .term .fn          { color: #8a2348; font-weight: 600; }
+  .mock.sheet .term .tag         { color: #134a4a; }
+  .mock.sheet .term .err         { color: #a60000; }
 
-  /* Roast syntax — Modus role taxonomy, roast-tuned (tokens.json#syntax) */
-  .mock.roast .term .prompt-path { color: #e89b5e; }
-  .mock.roast .term .prompt-git  { color: #44bc44; }
-  .mock.roast .term .prompt-dirty{ color: #d0bc00; }
-  .mock.roast .term .prompt-glyph{ color: #e89b5e; }
-  .mock.roast .term .comment     { color: #9c8c6e; font-style: italic; }
-  .mock.roast .term .kw          { color: #c8a5ff; font-weight: 600; }
-  .mock.roast .term .str         { color: #b3c785; }
-  .mock.roast .term .num         { color: #a8b4dc; }
-  .mock.roast .term .fn          { color: #f0a8c3; font-weight: 600; }
-  .mock.roast .term .tag         { color: #80c8b3; }
-  .mock.roast .term .err         { color: #ff5f59; }
+  /* Field syntax — Modus role taxonomy, Field-tuned (tokens.json#syntax) */
+  .mock.field .term .prompt-path { color: #e89b5e; }
+  .mock.field .term .prompt-git  { color: #44bc44; }
+  .mock.field .term .prompt-dirty{ color: #d0bc00; }
+  .mock.field .term .prompt-glyph{ color: #e89b5e; }
+  .mock.field .term .comment     { color: #9c8c6e; font-style: italic; }
+  .mock.field .term .kw          { color: #c8a5ff; font-weight: 600; }
+  .mock.field .term .str         { color: #b3c785; }
+  .mock.field .term .num         { color: #a8b4dc; }
+  .mock.field .term .fn          { color: #f0a8c3; font-weight: 600; }
+  .mock.field .term .tag         { color: #80c8b3; }
+  .mock.field .term .err         { color: #ff5f59; }
 
   /* ===============================================
      Rofi / command palette mock
@@ -258,17 +258,17 @@
   }
   .palette .row .kbd { font-size: 0.7rem; }
 
-  .mock.paper.palette .input   { background: #f0ebe3; border-bottom-color: #d5cec4; color: #2c2825; }
-  .mock.paper.palette .input .caret { color: #8a4f24; }
-  .mock.paper.palette .hint    { background: #f0ebe3; border-bottom-color: #d5cec4; color: #6b5f54; }
-  .mock.paper.palette .row.selected { background: #e8d4b8; border-left-color: #8a4f24; }
-  .mock.paper.palette .row .kbd     { color: #6b5f54; }
+  .mock.sheet.palette .input   { background: #f0ebe3; border-bottom-color: #d5cec4; color: #2c2825; }
+  .mock.sheet.palette .input .caret { color: #8a4f24; }
+  .mock.sheet.palette .hint    { background: #f0ebe3; border-bottom-color: #d5cec4; color: #6b5f54; }
+  .mock.sheet.palette .row.selected { background: #e8d4b8; border-left-color: #8a4f24; }
+  .mock.sheet.palette .row .kbd     { color: #6b5f54; }
 
-  .mock.roast.palette .input   { background: #242019; border-bottom-color: #3d3830; color: #e8e0d4; }
-  .mock.roast.palette .input .caret { color: #e89b5e; }
-  .mock.roast.palette .hint    { background: #242019; border-bottom-color: #3d3830; color: #b0a496; }
-  .mock.roast.palette .row.selected { background: #3a2c20; border-left-color: #e89b5e; }
-  .mock.roast.palette .row .kbd     { color: #b0a496; }
+  .mock.field.palette .input   { background: #242019; border-bottom-color: #3d3830; color: #e8e0d4; }
+  .mock.field.palette .input .caret { color: #e89b5e; }
+  .mock.field.palette .hint    { background: #242019; border-bottom-color: #3d3830; color: #b0a496; }
+  .mock.field.palette .row.selected { background: #3a2c20; border-left-color: #e89b5e; }
+  .mock.field.palette .row .kbd     { color: #b0a496; }
 
   /* ===============================================
      Waybar mock — single row
@@ -294,15 +294,15 @@
     padding-left: 7px;
   }
   .waybar-wrap .spacer { flex: 1; border-right: none; }
-  .waybar.paper { background: #faf7f2; color: #2c2825; }
-  .waybar.paper > div { border-right-color: #d5cec4; }
-  .waybar.paper .ws.active { color: #8a4f24; background: #e8d4b8; border-left-color: #8a4f24; }
-  .waybar.paper .ws { color: #6b5f54; }
+  .waybar.sheet { background: #faf7f2; color: #2c2825; }
+  .waybar.sheet > div { border-right-color: #d5cec4; }
+  .waybar.sheet .ws.active { color: #8a4f24; background: #e8d4b8; border-left-color: #8a4f24; }
+  .waybar.sheet .ws { color: #6b5f54; }
 
-  .waybar.roast { background: #1a1714; color: #e8e0d4; border-color: #3d3830; }
-  .waybar.roast > div { border-right-color: #3d3830; }
-  .waybar.roast .ws.active { color: #e89b5e; background: #363230; border-left-color: #e89b5e; }
-  .waybar.roast .ws { color: #b0a496; }
+  .waybar.field { background: #1a1714; color: #e8e0d4; border-color: #3d3830; }
+  .waybar.field > div { border-right-color: #3d3830; }
+  .waybar.field .ws.active { color: #e89b5e; background: #363230; border-left-color: #e89b5e; }
+  .waybar.field .ws { color: #b0a496; }
 
   /* ===============================================
      Notification (mako) mock
@@ -318,10 +318,10 @@
   .notif .msg { font-family: var(--font-body); font-size: 0.88rem; margin: 0 0 8px; line-height: 1.4; }
   .notif .footer { font-size: 0.68rem; }
 
-  .mock.paper .notif .inner { border-left-color: #8a4f24; }
-  .mock.paper .notif .footer { color: #8a7f72; }
-  .mock.roast .notif .inner { border-left-color: #e89b5e; }
-  .mock.roast .notif .footer { color: #8a7f72; }
+  .mock.sheet .notif .inner { border-left-color: #8a4f24; }
+  .mock.sheet .notif .footer { color: #8a7f72; }
+  .mock.field .notif .inner { border-left-color: #e89b5e; }
+  .mock.field .notif .footer { color: #8a7f72; }
 
   /* ===============================================
      Emacs mock
@@ -341,16 +341,16 @@
     margin-right: 0.8em;
     color: #8a7f72;
   }
-  .mock.roast .emacs .num-col { color: #6b6157; }
+  .mock.field .emacs .num-col { color: #6b6157; }
   .emacs .modeline {
     padding: 4px 14px;
     font-size: 0.7rem;
   }
-  .mock.paper .emacs .modeline { background: #e8e1d6; color: #2c2825; border-top: 1px solid #d5cec4; }
-  .mock.roast .emacs .modeline { background: #2a2520; color: #e8e0d4; border-top: 1px solid #3d3830; }
+  .mock.sheet .emacs .modeline { background: #e8e1d6; color: #2c2825; border-top: 1px solid #d5cec4; }
+  .mock.field .emacs .modeline { background: #2a2520; color: #e8e0d4; border-top: 1px solid #3d3830; }
   .emacs .modeline .mark { color: var(--color-accent); font-weight: bold; }
-  .mock.paper .emacs .modeline .mark { color: #8a4f24; }
-  .mock.roast .emacs .modeline .mark { color: #e89b5e; }
+  .mock.sheet .emacs .modeline .mark { color: #8a4f24; }
+  .mock.field .emacs .modeline .mark { color: #e89b5e; }
 
   /* kbd chips */
   kbd {
@@ -383,7 +383,7 @@
 <header>
   <p class="eyebrow">jylhis design system · platforms index</p>
   <h1>One system across web, terminal, Hyprland, desktop, Emacs.</h1>
-  <p>This page is the visual proof that the paper / roast palette, copper accent, monospace language, and keyboard primitives hold up on every surface I actually live in. Each target below shows the light and dark variants side-by-side. Source files live in <code>platforms/</code>.</p>
+  <p>This page is the visual proof that the Sheet / Field palette, bronze accent, monospace language, and keyboard primitives hold up on every surface I actually live in. Each target below shows the light and dark variants side-by-side. Source files live in <code>platforms/</code>.</p>
   <nav>
     <a href="#terminal">ghostty</a>
     <a href="#palette">command palette / rofi</a>
@@ -402,14 +402,14 @@
   <section class="target" id="terminal">
     <div class="head">
       <p class="name">Ghostty / terminal</p>
-      <p class="files"><code>platforms/ghostty/{jylhis-paper,jylhis-roast,config}</code></p>
+      <p class="files"><code>platforms/ghostty/{jylhis-sheet,jylhis-field,config}</code></p>
     </div>
-    <p class="lede">16-color ANSI, earth-toned. Red/green/blue are bent toward the brand palette; real red is reserved for errors. Cursor is the copper accent. Brand prompt is a <code>»</code> glyph that flips to red on non-zero exit.</p>
+    <p class="lede">16-color ANSI, earth-toned. Red/green/blue are bent toward the brand palette; real red is reserved for errors. Cursor is the bronze accent. Brand prompt is a <code>»</code> glyph that flips to red on non-zero exit.</p>
     <div class="grid">
 
-      <!-- paper -->
-      <div class="mock paper">
-        <div class="bar"><span>ghostty · jylhis-paper</span><span class="mode">light</span></div>
+      <!-- sheet -->
+      <div class="mock sheet">
+        <div class="bar"><span>ghostty · jylhis-sheet</span><span class="mode">light</span></div>
         <pre class="body term"><span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
 <span class="row"><span class="prompt-glyph" aria-hidden="true">» </span>git status</span>
 <span class="row"><span class="comment"># On branch main · 2 ahead</span></span>
@@ -423,9 +423,9 @@
 <span class="row"><span class="err">error:</span> undefined variable 'pkgs.plex-mono'</span></pre>
       </div>
 
-      <!-- roast -->
-      <div class="mock roast">
-        <div class="bar"><span>ghostty · jylhis-roast</span><span class="mode">dark</span></div>
+      <!-- field -->
+      <div class="mock field">
+        <div class="bar"><span>ghostty · jylhis-field</span><span class="mode">dark</span></div>
         <pre class="body term"><span class="row"><span class="prompt-path">~/projects/hm-config</span> on <span class="prompt-git">main</span> <span class="prompt-dirty">✗</span></span>
 <span class="row"><span class="prompt-glyph" aria-hidden="true">» </span>git status</span>
 <span class="row"><span class="comment"># On branch main · 2 ahead</span></span>
@@ -450,8 +450,8 @@
     <p class="lede">Same prompt (<code>»</code>), same hint row, same selected-item marker (<kbd>accent-subtle</kbd> bg + 3px accent left-border). You should be able to close your eyes, open a palette on any surface, and land on the same keybinding grammar.</p>
     <div class="grid">
 
-      <div class="mock paper palette">
-        <div class="bar"><span>rofi · jylhis-paper.rasi</span><span class="mode">light</span></div>
+      <div class="mock sheet palette">
+        <div class="bar"><span>rofi · jylhis-sheet.rasi</span><span class="mode">light</span></div>
         <div class="input"><span class="caret" aria-hidden="true">» </span>nix<span style="opacity:.4"> rebuild</span></div>
         <div class="hint">type a filter · tab to cycle · esc to close</div>
         <div class="list">
@@ -463,8 +463,8 @@
         </div>
       </div>
 
-      <div class="mock roast palette">
-        <div class="bar"><span>rofi · jylhis-roast.rasi</span><span class="mode">dark</span></div>
+      <div class="mock field palette">
+        <div class="bar"><span>rofi · jylhis-field.rasi</span><span class="mode">dark</span></div>
         <div class="input"><span class="caret" aria-hidden="true">» </span>nix<span style="opacity:.4"> rebuild</span></div>
         <div class="hint">type a filter · tab to cycle · esc to close</div>
         <div class="list">
@@ -486,7 +486,7 @@
     </div>
     <p class="lede">Top bar, 28px, monospace. Workspace 2 is active — same selected language as everywhere else. Active window border in Hyprland uses a 45°-gradient of <code>accent → brand</code>; inactive windows dim by 8%.</p>
 
-    <div class="waybar-wrap waybar paper" style="margin-bottom:10px">
+    <div class="waybar-wrap waybar sheet" style="margin-bottom:10px">
       <div class="ws">1</div>
       <div class="ws active">2 notes</div>
       <div class="ws">3</div>
@@ -500,7 +500,7 @@
       <div style="border-right:none">bat 84%</div>
     </div>
 
-    <div class="waybar-wrap waybar roast">
+    <div class="waybar-wrap waybar field">
       <div class="ws">1</div>
       <div class="ws active">2 notes</div>
       <div class="ws">3</div>
@@ -524,7 +524,7 @@
     <p class="lede">Same accent left-border as the selected row, same dismiss hint (<code>esc to dismiss · meta+n to focus</code>) always visible. Urgency is communicated by border color (<code>ok · warn · err</code>), not by glow.</p>
     <div class="grid">
 
-      <div class="mock paper">
+      <div class="mock sheet">
         <div class="bar"><span>mako · default</span><span class="mode">light</span></div>
         <div class="body notif" style="padding:0">
           <div class="inner">
@@ -535,7 +535,7 @@
         </div>
       </div>
 
-      <div class="mock roast">
+      <div class="mock field">
         <div class="bar"><span>mako · default</span><span class="mode">dark</span></div>
         <div class="body notif" style="padding:0">
           <div class="inner">
@@ -552,21 +552,21 @@
   <section class="target" id="hyprlock">
     <div class="head">
       <p class="name">Hyprlock lock screen</p>
-      <p class="files"><code>platforms/hyprlock/jylhis-{paper,roast}.conf</code></p>
+      <p class="files"><code>platforms/hyprlock/jylhis-{sheet,field}.conf</code></p>
     </div>
     <p class="lede">Boot → login → desktop stays one look. The password field carries the same selected-item language as everywhere else — a 2px accent-family border on a <code>surface</code> fill, <code>accent</code> while verifying, <code>status-err</code> on a failed attempt. Colors and fonts only; auth and grace stay the consumer's.</p>
     <div class="grid">
 
-      <div class="mock paper">
-        <div class="bar"><span>hyprlock · jylhis-paper</span><span class="mode">light</span></div>
+      <div class="mock sheet">
+        <div class="bar"><span>hyprlock · jylhis-sheet</span><span class="mode">light</span></div>
         <div class="body" style="background:#faf7f2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:32px 0">
           <div style="font-family:'JetBrains Mono',monospace; font-size:34px; color:#2c2825">09:41</div>
           <div style="width:70%; height:40px; border:2px solid #b0a898; background:#e8e1d6; border-radius:0; display:flex; align-items:center; padding:0 14px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#6b5f54">Enter Password</div>
         </div>
       </div>
 
-      <div class="mock roast">
-        <div class="bar"><span>hyprlock · jylhis-roast</span><span class="mode">dark</span></div>
+      <div class="mock field">
+        <div class="bar"><span>hyprlock · jylhis-field</span><span class="mode">dark</span></div>
         <div class="body" style="background:#1a1714; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:32px 0">
           <div style="font-family:'JetBrains Mono',monospace; font-size:34px; color:#e8e0d4">09:41</div>
           <div style="width:70%; height:40px; border:2px solid #5a5248; background:#2a2520; border-radius:0; display:flex; align-items:center; padding:0 14px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#b0a496">Enter Password</div>
@@ -578,36 +578,36 @@
   <!-- ─────────── EMACS ─────────── -->
   <section class="target" id="emacs">
     <div class="head">
-      <p class="name">Emacs · jylhis-paper / jylhis-roast</p>
-      <p class="files"><code>platforms/emacs/{jylhis-paper-theme,jylhis-roast-theme,jylhis-theme-toggle}.el</code></p>
+      <p class="name">Emacs · jylhis-sheet / jylhis-field</p>
+      <p class="files"><code>platforms/emacs/{jylhis-sheet-theme,jylhis-field-theme,jylhis-theme-toggle}.el</code></p>
     </div>
     <p class="lede">Modus-style semantic face targeting: same syntax colors as the terminal, same accent on <code>line-number-current-line</code>, <code>vertico-current</code>, <code>org-level-1</code>, magit <code>branch-current</code>. Toggle with <kbd>M-x jylhis-toggle-theme</kbd>.</p>
     <div class="grid">
 
-      <div class="mock paper emacs">
-        <div class="bar"><span>emacs · jylhis-paper</span><span class="mode">light</span></div>
+      <div class="mock sheet emacs">
+        <div class="bar"><span>emacs · jylhis-sheet</span><span class="mode">light</span></div>
         <pre class="scratch term"><span class="row"><span class="num-col">42</span><span class="comment">;; Jylhis tokens — exposed as defvars</span></span>
 <span class="row"><span class="num-col">43</span><span class="kw">(defvar</span> <span class="fn">jylhis-accent</span> <span class="str">"#8a4f24"</span></span>
-<span class="row"><span class="num-col">44</span>  <span class="str">"Brand copper. See tokens.md §1."</span><span class="kw">)</span></span>
+<span class="row"><span class="num-col">44</span>  <span class="str">"Brand bronze. See tokens.md §1."</span><span class="kw">)</span></span>
 <span class="row"><span class="num-col">45</span></span>
 <span class="row" style="background:#e8d4b8"><span class="num-col" style="color:#8a4f24; font-weight:bold;">46</span><span class="kw">(defun</span> <span class="fn">jylhis-load</span> (<span class="tag">&amp;optional</span> mode)</span>
-<span class="row"><span class="num-col">47</span>  <span class="str">"Load paper or roast."</span></span>
+<span class="row"><span class="num-col">47</span>  <span class="str">"Load sheet or field."</span></span>
 <span class="row"><span class="num-col">48</span>  <span class="kw">(let</span> ((target (<span class="kw">if</span> (<span class="kw">eq</span> mode 'light)</span>
-<span class="row"><span class="num-col">49</span>                    'jylhis-paper 'jylhis-roast)))</span>
+<span class="row"><span class="num-col">49</span>                    'jylhis-sheet 'jylhis-field)))</span>
 <span class="row"><span class="num-col">50</span>    (load-theme target <span class="num">t</span>)<span class="kw">))</span><span class="kw">)</span></span></pre>
         <div class="modeline"><span class="mark">●</span> jylhis.el &nbsp;·&nbsp; <span style="color:#006800">main</span> &nbsp;·&nbsp; (Emacs-Lisp) &nbsp;·&nbsp; L46 C12</div>
       </div>
 
-      <div class="mock roast emacs">
-        <div class="bar"><span>emacs · jylhis-roast</span><span class="mode">dark</span></div>
+      <div class="mock field emacs">
+        <div class="bar"><span>emacs · jylhis-field</span><span class="mode">dark</span></div>
         <pre class="scratch term"><span class="row"><span class="num-col">42</span><span class="comment">;; Jylhis tokens — exposed as defvars</span></span>
 <span class="row"><span class="num-col">43</span><span class="kw">(defvar</span> <span class="fn">jylhis-accent</span> <span class="str">"#e89b5e"</span></span>
-<span class="row"><span class="num-col">44</span>  <span class="str">"Brand copper. See tokens.md §1."</span><span class="kw">)</span></span>
+<span class="row"><span class="num-col">44</span>  <span class="str">"Brand bronze. See tokens.md §1."</span><span class="kw">)</span></span>
 <span class="row"><span class="num-col">45</span></span>
 <span class="row" style="background:#3a2c20"><span class="num-col" style="color:#e89b5e; font-weight:bold;">46</span><span class="kw">(defun</span> <span class="fn">jylhis-load</span> (<span class="tag">&amp;optional</span> mode)</span>
-<span class="row"><span class="num-col">47</span>  <span class="str">"Load paper or roast."</span></span>
+<span class="row"><span class="num-col">47</span>  <span class="str">"Load sheet or field."</span></span>
 <span class="row"><span class="num-col">48</span>  <span class="kw">(let</span> ((target (<span class="kw">if</span> (<span class="kw">eq</span> mode 'light)</span>
-<span class="row"><span class="num-col">49</span>                    'jylhis-paper 'jylhis-roast)))</span>
+<span class="row"><span class="num-col">49</span>                    'jylhis-sheet 'jylhis-field)))</span>
 <span class="row"><span class="num-col">50</span>    (load-theme target <span class="num">t</span>)<span class="kw">))</span><span class="kw">)</span></span></pre>
         <div class="modeline"><span class="mark">●</span> jylhis.el &nbsp;·&nbsp; <span style="color:#44bc44">main</span> &nbsp;·&nbsp; (Emacs-Lisp) &nbsp;·&nbsp; L46 C12</div>
       </div>
@@ -620,17 +620,17 @@
       <p class="name">Charm TUI · bubbletea + lipgloss + bubbles</p>
       <p class="files"><code>platforms/charm/jylhis/{palette,theme,bubbles,bubbletea}.go</code> · <code>demo/</code></p>
     </div>
-    <p class="lede">Go package exposing the full Jylhis palette as pre-built <code>lipgloss.Style</code>s. Auto-swaps paper ↔ roast from <code>tea.BackgroundColorMsg</code>. Ships themed <code>list</code>, <code>help</code>, <code>spinner</code>, <code>textinput</code> bubbles and a default keymap that mirrors the web shortcuts (<kbd>/</kbd> filter, <kbd>^K</kbd> palette, <kbd>^⇧L</kbd> theme).</p>
+    <p class="lede">Go package exposing the full Jylhis palette as pre-built <code>lipgloss.Style</code>s. Auto-swaps sheet ↔ field from <code>tea.BackgroundColorMsg</code>. Ships themed <code>list</code>, <code>help</code>, <code>spinner</code>, <code>textinput</code> bubbles and a default keymap that mirrors the web shortcuts (<kbd>/</kbd> filter, <kbd>^K</kbd> palette, <kbd>^⇧L</kbd> theme).</p>
     <div class="grid">
 
-      <div class="mock paper">
-        <div class="bar"><span>bubbletea · jylhis.Paper</span><span class="mode">light</span></div>
+      <div class="mock sheet">
+        <div class="bar"><span>bubbletea · jylhis.Sheet</span><span class="mode">light</span></div>
         <pre class="body term"><span class="row"><span class="prompt-glyph">jylhis</span> <span class="comment">── design system · charm tui ── ⠙</span></span>
 <span class="row"><span class="str">● shipping</span>  <span class="tag">● tokens.md</span>  <span class="prompt-dirty">● nushell</span>  <span class="err">● out of scope</span></span>
 <span class="row"> </span>
 <span class="row">┌─ Jylhis · platform targets ─────────────────────┐</span>
 <span class="row">│ <span class="kw">Ghostty colorscheme</span>                             │</span>
-<span class="row">│   paper + roast, 16-color ANSI                  │</span>
+<span class="row">│   sheet + field, 16-color ANSI                  │</span>
 <span class="row">│ <span class="kw">Hyprland tokens</span>                                 │</span>
 <span class="row">│   borders, waybar, rofi, mako                   │</span>
 <span class="row" style="background:#e8d4b8"><span style="color:#8a4f24">│▎</span><span class="fn">Charm TUI kit</span>                                   │</span>
@@ -641,14 +641,14 @@
 <span class="row"><span class="kbd">↑↓/jk</span> navigate  <kbd class="kbd">/</kbd> filter  <span class="kbd">^⇧L</span> theme  <span class="kbd">q</span> quit</span></pre>
       </div>
 
-      <div class="mock roast">
-        <div class="bar"><span>bubbletea · jylhis.Roast</span><span class="mode">dark</span></div>
+      <div class="mock field">
+        <div class="bar"><span>bubbletea · jylhis.Field</span><span class="mode">dark</span></div>
         <pre class="body term"><span class="row"><span class="prompt-glyph">jylhis</span> <span class="comment">── design system · charm tui ── ⠙</span></span>
 <span class="row"><span class="str">● shipping</span>  <span class="tag">● tokens.md</span>  <span class="prompt-dirty">● nushell</span>  <span class="err">● out of scope</span></span>
 <span class="row"> </span>
 <span class="row">┌─ Jylhis · platform targets ─────────────────────┐</span>
 <span class="row">│ <span class="kw">Ghostty colorscheme</span>                             │</span>
-<span class="row">│   paper + roast, 16-color ANSI                  │</span>
+<span class="row">│   sheet + field, 16-color ANSI                  │</span>
 <span class="row">│ <span class="kw">Hyprland tokens</span>                                 │</span>
 <span class="row">│   borders, waybar, rofi, mako                   │</span>
 <span class="row" style="background:#3a2c20"><span style="color:#e89b5e">│▎</span><span class="fn">Charm TUI kit</span>                                   │</span>
@@ -671,19 +671,19 @@
     <p class="lede">The same primitives re-appear on every surface. Focus ring is always 2px solid accent at 2px offset. Every shortcut appears in a <code>kbd</code>. ESC always labeled.</p>
 
     <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px;">
-      <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
+      <div class="mock sheet" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
         <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">focus</p>
         <button style="font-family:var(--font-mono); font-size:0.88rem; padding:6px 14px; background:#fefdfb; color:#2c2825; border:1px solid #b0a898; border-radius:4px; outline:2px solid #8a4f24; outline-offset:2px;">focused button</button>
         <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">2px solid accent · 2px offset</p>
       </div>
 
-      <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
+      <div class="mock sheet" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
         <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">kbd</p>
         <p style="margin:0; color:#2c2825;">save with <kbd>Cmd</kbd> + <kbd>S</kbd> · open palette <kbd>Cmd</kbd> + <kbd>K</kbd></p>
         <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">mono · 0.72em · bordered</p>
       </div>
 
-      <div class="mock paper" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
+      <div class="mock sheet" style="padding:18px; font-family: var(--font-body); font-size: 0.9rem;">
         <p style="margin:0 0 10px; font-family: var(--font-mono); font-size:0.72rem; color:#8a7f72; text-transform:uppercase; letter-spacing:0.05em;">selected</p>
         <div style="background:#e8d4b8; border-left:3px solid #8a4f24; padding:8px 12px; font-family:var(--font-mono); font-size:0.85rem; color:#2c2825;">row.selected</div>
         <p style="margin:14px 0 0; color:#6b5f54; font-size:0.82rem;">accent-subtle bg · accent left-border</p>

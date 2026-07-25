@@ -20,7 +20,7 @@ const h = React.createElement;
 
 const { Terminal, TerminalLine } = window.exports;
 ReactDOM.createRoot(document.getElementById("root")).render(
-  h(Terminal, { title: "jy@paper — zsh", caret: true },
+  h(Terminal, { title: "jy@sheet — zsh", caret: true },
     h(TerminalLine, { cwd: "~/jylhis", cmd: "just validate" },
       h("span", { style: { color: "var(--color-status-ok)" } }, "✓"),
       " tokens.json — 74 roles, contrast clean\n",

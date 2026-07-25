@@ -39,7 +39,7 @@ This wires `ls --color`, `eza`, and any tool that consults `LS_COLORS` to the sa
 
 ## Why these are hand-authored
 
-The other platform targets are fully resolved hex (Emacs, Ghostty, GTK, etc.). The shell is the one place where *not* resolving the hex is a feature — by referencing ANSI names like `red`, `green`, `yellow`, the configs adapt to whichever terminal theme is currently loaded. If you swap from Paper to Roast, the prompt repaints automatically without re-sourcing.
+The other platform targets are fully resolved hex (Emacs, Ghostty, GTK, etc.). The shell is the one place where *not* resolving the hex is a feature — by referencing ANSI names like `red`, `green`, `yellow`, the configs adapt to whichever terminal theme is currently loaded. If you swap from Sheet to Field, the prompt repaints automatically without re-sourcing.
 
 This means:
 
@@ -47,9 +47,9 @@ This means:
 - **Bashrc / zshrc aliases** rely on terminal-driven colors, never hard-coded ANSI escapes.
 - **Dircolors** uses 8-color ANSI codes (30–37, 90–97) — never 256-color or truecolor codes — so the directory listing always blends with the running theme.
 
-## ANSI 11 is brand copper
+## ANSI 11 is the bronze accent
 
-Slot 11 (`bright-yellow`) is intentionally overridden to copper across every terminal target. The shell configs use `bright_yellow` deliberately for prompt path segments and `dircolors` directory entries — that's where the brand copper shows through.
+Slot 11 (`bright-yellow`) is intentionally overridden to bronze across every terminal target. The shell configs use `bright_yellow` deliberately for prompt path segments and `dircolors` directory entries — that's where the the bronze accent shows through.
 
 ## Contract
 

@@ -17,7 +17,7 @@ const COMMANDS = [
   { k: 'help',     d: 'show what you can do here' },
   { k: 'ls',       d: 'list ~/projects/jylhis' },
   { k: 'about',    d: 'about this desktop' },
-  { k: 'theme',    d: 'toggle paper / roast' },
+  { k: 'theme',    d: 'toggle sheet / field' },
   { k: 'launch',   d: 'open the command launcher' },
   { k: 'date',     d: 'current date & time' },
   { k: 'clear',    d: 'clear the screen' },
@@ -31,7 +31,7 @@ const LAUNCH_ITEMS = [
   { kind: 'app',  ic: '▸', label: 'now playing',desc: 'music · agenda',    hint: '',      action: 'focus-now' },
   { kind: 'file', ic: '·', label: 'astro.config.mjs', desc: 'recent · 2m', hint: '⏎',    action: 'focus-cmdr' },
   { kind: 'file', ic: '·', label: 'notes/desktop.md', desc: 'recent · 18m', hint: '⏎',   action: 'focus-cmdr' },
-  { kind: 'act',  ic: '◆', label: 'toggle theme',  desc: 'paper ↔ roast',  hint: 'T',     action: 'theme' },
+  { kind: 'act',  ic: '◆', label: 'toggle theme',  desc: 'sheet ↔ field',  hint: 'T',     action: 'theme' },
   { kind: 'act',  ic: '◆', label: 'cycle wallpaper',desc: 'hatch · dots · scan', hint: 'w', action: 'wall-cycle' },
   { kind: 'act',  ic: '◆', label: 'keyboard help',  desc: 'full reference', hint: 'F1',    action: 'help' },
 ];
@@ -42,8 +42,8 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "light",
   "wallpaper": "hatch",
   "density": "comfortable",
-  "fontMono": "JetBrains Mono",
-  "fontBody": "Literata",
+  "fontMono": "IBM Plex Mono",
+  "fontBody": "Hanken Grotesk",
   "centerWide": true
 }/*EDITMODE-END*/;
 
@@ -83,7 +83,7 @@ function App() {
 
   // ── fonts ──
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-mono', `"${tweaks.fontMono}", "JetBrains Mono", "Cascadia Code", monospace`);
+    document.documentElement.style.setProperty('--font-mono', `"${tweaks.fontMono}", "IBM Plex Mono", "Cascadia Code", monospace`);
     document.documentElement.style.setProperty('--font-body', `"${tweaks.fontBody}", Charter, Georgia, serif`);
   }, [tweaks.fontMono, tweaks.fontBody]);
 
@@ -155,14 +155,14 @@ function App() {
         <span><span className="accent">    ▞  ▚    </span>  <span className="dim">os</span>     nixos · hyprland</span>,
         <span><span className="accent">   ▞ ▞▚ ▚   </span>  <span className="dim">wm</span>     tui-desktop (tmux-like)</span>,
         <span><span className="accent">  ▞▖    ▗▚  </span>  <span className="dim">shell</span>  zsh · starship</span>,
-        <span><span className="accent">  ▝▘▘▘▘▘▘▝▘ </span>  <span className="dim">theme</span>  jylhis · {theme === 'dark' ? 'roast' : 'paper'}</span>,
-        <span className="dim">  one accent (copper) · monospace · no graphics.</span>,
+        <span><span className="accent">  ▝▘▘▘▘▘▘▝▘ </span>  <span className="dim">theme</span>  jylhis · {theme === 'dark' ? 'field' : 'sheet'}</span>,
+        <span className="dim">  one accent (bronze) · monospace · no graphics.</span>,
       ];
     } else if (lower.startsWith('theme')) {
       const arg = lower.split(/\s+/)[1];
-      const next = arg === 'roast' ? 'dark' : arg === 'paper' ? 'light' : (theme === 'dark' ? 'light' : 'dark');
+      const next = arg === 'field' ? 'dark' : arg === 'sheet' ? 'light' : (theme === 'dark' ? 'light' : 'dark');
       setTweak('theme', next);
-      out = [<span><span className="ok">✓</span> switched to <span className="accent">{next === 'dark' ? 'roast' : 'paper'}</span> · every surface follows</span>];
+      out = [<span><span className="ok">✓</span> switched to <span className="accent">{next === 'dark' ? 'field' : 'sheet'}</span> · every surface follows</span>];
     } else if (lower === 'launch' || lower === 'apps') {
       setInput(''); setOverlay('launcher'); setLaunchQuery(''); setLaunchSel(0); return;
     } else if (lower === 'date') {
@@ -383,8 +383,8 @@ function App() {
       <TweaksPanel title="Tweaks">
         <TweakSection label="theme">
           <TweakRadio label="mode" value={tweaks.theme} onChange={(v) => setTweak('theme', v)} options={[
-            { value: 'light', label: 'paper' },
-            { value: 'dark', label: 'roast' },
+            { value: 'light', label: 'sheet' },
+            { value: 'dark', label: 'field' },
           ]} />
           <TweakSelect label="wallpaper" value={tweaks.wallpaper} onChange={(v) => setTweak('wallpaper', v)} options={[
             { value: 'hatch', label: 'hatch ╱╱' },
@@ -404,14 +404,14 @@ function App() {
 
         <TweakSection label="type">
           <TweakSelect label="mono" value={tweaks.fontMono} onChange={(v) => setTweak('fontMono', v)} options={[
-            { value: 'JetBrains Mono', label: 'JetBrains Mono' },
             { value: 'IBM Plex Mono', label: 'IBM Plex Mono' },
+            { value: 'JetBrains Mono', label: 'JetBrains Mono' },
             { value: 'Fira Code', label: 'Fira Code' },
           ]} />
           <TweakSelect label="body" value={tweaks.fontBody} onChange={(v) => setTweak('fontBody', v)} options={[
-            { value: 'Literata', label: 'Literata' },
-            { value: 'Charter', label: 'Charter' },
-            { value: 'Georgia', label: 'Georgia' },
+            { value: 'Hanken Grotesk', label: 'Hanken Grotesk' },
+            { value: 'Inter', label: 'Inter' },
+            { value: 'system-ui', label: 'system-ui' },
           ]} />
         </TweakSection>
 

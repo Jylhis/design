@@ -7,7 +7,7 @@ Design system for [Bubble Tea](https://github.com/charmbracelet/bubbletea) + [Li
 ```
 platforms/charm/
 ├── jylhis/
-│   ├── palette.go    — raw palette (Paper + Roast), single source of truth
+│   ├── palette.go    — raw palette (Sheet + Field), single source of truth
 │   ├── theme.go      — pre-built lipgloss styles (Title, Selected, Kbd, Err…)
 │   ├── bubbles.go    — DefaultKeys + ListStyles/DelegateStyles/TextInput/Spinner/Help
 │   └── bubbletea.go  — Detect cmd + ApplyBackground for auto light/dark
@@ -20,7 +20,7 @@ platforms/charm/
 ```go
 import "github.com/jylhis/design/platforms/charm/jylhis"
 
-t := jylhis.NewTheme(jylhis.Paper) // or jylhis.Roast
+t := jylhis.NewTheme(jylhis.Sheet) // or jylhis.Field
 
 fmt.Println(t.Title.Render(" Notes "))
 fmt.Println(t.Subtle.Render("7 files · updated 2m ago"))
@@ -43,7 +43,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 ## What you get, for free
 
-- **One selected-item language** across web, rofi, Emacs, and TUIs: copper bar + copper title, surface-raised fill.
+- **One selected-item language** across web, rofi, Emacs, and TUIs: bronze bar + bronze title, surface-raised fill.
 - **Earth-toned ANSI 16**: green is olive, blue is slate, magenta is plum — red stays real red, for errors only.
 - **DefaultKeys** that mirror the web shortcuts: `/` filter, `^K` palette, `^⇧L` theme toggle, `?` help, `q` quit.
 - **KbdHint(key, label)** helper that renders `[q] quit`-style key hints in the house style.
@@ -64,7 +64,7 @@ seriesColors := []lipgloss.Color{
     lipgloss.Color(t.Palette.SynString),    // Modus blue-cooler
     lipgloss.Color(t.Palette.SynNumber),    // Modus blue-warmer
     lipgloss.Color(t.Palette.SynFunction),  // Modus magenta
-    lipgloss.Color(t.Palette.Accent),       // copper (highlight)
+    lipgloss.Color(t.Palette.Accent),       // bronze (highlight)
 }
 ```
 

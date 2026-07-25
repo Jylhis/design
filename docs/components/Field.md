@@ -1,7 +1,7 @@
 <!-- GENERATED from components/Field/ by scripts/generate.mjs. Do not edit by hand. -->
 # Field
 
-Labeled form field — mono label, 1px border input, copper focus ring.
+Labeled form field — mono label, 1px border input, bronze focus ring.
 
 ```jsx
 import { Field } from "../../components/Field/Field.jsx";

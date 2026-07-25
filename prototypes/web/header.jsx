@@ -11,7 +11,7 @@ const Header = ({ crumbs = [{label: 'home', href: '/', current: true}], onNav, o
         onNavigate={(href) => onNav?.(href)}
       />
       <Button variant="search" kbdHint="/" onClick={onSearch}>search</Button>
-      <button className="theme-toggle" onClick={onToggleTheme} aria-label={theme === 'dark' ? 'switch to paper (light theme)' : 'switch to roast (dark theme)'}>
+      <button className="theme-toggle" onClick={onToggleTheme} aria-label={theme === 'dark' ? 'switch to sheet (light theme)' : 'switch to field (dark theme)'}>
         {theme === 'dark' ? '☀' : '☾'}
       </button>
     </div>

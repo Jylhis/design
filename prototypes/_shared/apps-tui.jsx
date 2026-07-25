@@ -304,7 +304,7 @@ function Emacs() {
     { t: <>  output: <span className="str">'static'</span>,</>, ln: 9 },
     { t: <>  integrations: [<span className="fn">mdx</span>(<span className="tag">{`{`}</span></>, ln: 10, cur: true },
     { t: <>    syntaxHighlight: <span className="str">'shiki'</span>,</>, ln: 11 },
-    { t: <>    shikiConfig: <span className="tag">{`{ theme: 'jylhis-paper' }`}</span>,</>, ln: 12 },
+    { t: <>    shikiConfig: <span className="tag">{`{ theme: 'jylhis-sheet' }`}</span>,</>, ln: 12 },
     { t: <>  <span className="tag">{`}`}</span>)],</>, ln: 13 },
     { t: <>  vite: <span className="tag">{`{`}</span></>, ln: 14 },
     { t: <>    css: <span className="tag">{`{ devSourcemap: true }`}</span>,</>, ln: 15 },

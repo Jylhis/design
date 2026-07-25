@@ -1,6 +1,6 @@
 # Jylhis design system — Emacs theme package.
 #
-# Builds the Jylhis Paper and Roast Emacs themes as an Emacs package
+# Builds the Jylhis Sheet and Field Emacs themes as an Emacs package
 # using trivialBuild. Add to your Emacs packages and load-theme.
 #
 # Usage:
@@ -24,7 +24,7 @@ trivialBuild {
   src = ../platforms/emacs;
 
   meta = {
-    description = "Jylhis Paper and Roast themes for Emacs — copper accent, Modus syntax";
+    description = "Jylhis Sheet and Field themes for Emacs — bronze accent, Modus syntax";
     homepage = "https://github.com/jylhis/design";
     license = lib.licenses.mit;
   };

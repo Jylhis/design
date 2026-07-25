@@ -1,7 +1,7 @@
 <!-- GENERATED from components/Terminal/ by scripts/generate.mjs. Do not edit by hand. -->
 # Terminal
 
-Terminal session frame — the codeblock idiom with a title bar and prompt lines. The prompt chevron is always brand copper (ANSI 11 rule); output colors come from Modus/status tokens, never the accent.
+Terminal session frame — the codeblock idiom with a title bar and prompt lines. The prompt chevron is always the bronze accent (ANSI 11 rule); output colors come from Modus/status tokens, never the accent.
 
 ```jsx
 import { Terminal } from "../../components/Terminal/Terminal.jsx";
@@ -12,7 +12,7 @@ import { Terminal } from "../../components/Terminal/Terminal.jsx";
 | prop | type | required | description |
 |------|------|----------|-------------|
 | `title` | `string` |  | Title bar text, e.g. "user@host — zsh". Omit for a bare frame. |
-| `caret` | `boolean` |  | Show a blinking copper caret on a trailing empty prompt line |
+| `caret` | `boolean` |  | Show a blinking bronze caret on a trailing empty prompt line |
 | `children` | `React.ReactNode` |  | TerminalLine elements, or any pre-styled mono content |
 
 ## Props — `TerminalLineProps`

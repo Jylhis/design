@@ -100,7 +100,7 @@ func NewTheme(m Mode) Theme {
 	t.Rule = lipgloss.NewStyle().Foreground(col(p.Decorator))
 
 	// Interactive — one selected-item language across the whole system.
-	// Copper bg + paper fg is the same recipe as the web and rofi.
+	// Bronze bg + ground fg is the same recipe as the web and rofi.
 	t.Selected = lipgloss.NewStyle().
 		Foreground(col(p.SurfaceRaised)).
 		Background(col(p.Accent)).

@@ -1,6 +1,6 @@
 /* global React */
 /* windows.jsx — macOS windows reskinned in the Jylhis language.
- * Traffic-light chrome, flat fills, and a copper hairline border when
+ * Traffic-light chrome, flat fills, and a bronze hairline border when
  * focused (the bridge to the TUI desktop's `.win.focused`). All presentational;
  * app.jsx owns focus + position state.
  */
@@ -48,7 +48,7 @@ const FINDER_SIDE = [
   { ic: '⊟', lb: 'Macintosh HD' },
   { ic: '◍', lb: 'Network' },
   { grp: 'Tags' },
-  { tag: 'var(--color-accent)', lb: 'copper' },
+  { tag: 'var(--color-accent)', lb: 'bronze' },
   { tag: 'var(--color-syntax-string)', lb: 'olive' },
   { tag: 'var(--color-syntax-tag)', lb: 'slate' },
 ];
@@ -121,7 +121,7 @@ function Finder({ id, focused, style, onFocus, onClose, onOpenSearch }) {
   );
 }
 
-// ── Notes window — the one place prose runs in Source Serif ──
+// ── Notes window — the one place prose runs in the grotesk body face ──
 function Notes({ id, focused, style, onFocus, onClose }) {
   return (
     <Win id={id} title="desktop-notes" sub="iCloud" plainTitle focused={focused} style={style}
@@ -137,15 +137,15 @@ function Notes({ id, focused, style, onFocus, onClose }) {
           <span className="spacer"></span>
           <span className="tool">⤢ Share</span>
         </div>
-        <div className="notes-paper">
+        <div className="notes-sheet">
           <div className="meta">edited just now · ~/projects/notes/theming.md</div>
           <h1>Theming macOS in the Jylhis language</h1>
           <p>The trick isn't to fight the platform — it's to <span className="accent">strip the gloss</span> and let the bones show. Keep the menu bar, keep the Dock, keep the traffic lights. Then replace every gradient and shadow with a single hairline, and every system font with the mono.</p>
-          <div className="check done"><span className="box">☑</span><span>warm paper / roast surfaces, one copper accent</span></div>
-          <div className="check done"><span className="box">☑</span><span>IBM Plex Mono for chrome, Source Serif for prose</span></div>
-          <div className="check"><span className="box">☐</span><span>focused window borrows the copper border from the TUI desktop</span></div>
+          <div className="check done"><span className="box">☑</span><span>cool sheet / field grounds, one bronze accent</span></div>
+          <div className="check done"><span className="box">☑</span><span>IBM Plex Mono for chrome, Hanken Grotesk for prose</span></div>
+          <div className="check"><span className="box">☐</span><span>focused window borrows the bronze border from the TUI desktop</span></div>
           <div className="check"><span className="box">☐</span><span>traffic lights reuse the err / warn / ok status palette</span></div>
-          <p>What you're reading right now is set in Source Serif 4 — the only surface on the whole desktop that isn't monospace. That contrast <span className="accent">is</span> the system.</p>
+          <p>What you're reading right now is set in Hanken Grotesk — the only surface on the whole desktop that isn't monospace. That contrast <span className="accent">is</span> the system.</p>
         </div>
       </div>
     </Win>

@@ -5,7 +5,7 @@
 #
 # Behavior:
 #   1. Read $XDG_STATE_HOME/jylhis/active-theme (defaults to ~/.local/state).
-#      The file is a single line: "paper" or "roast". If absent, defaults to roast.
+#      The file is a single line: "sheet" or "field". If absent, defaults to field.
 #   2. Flip the value and rewrite the file atomically.
 #   3. Reload the desktop daemons that pick up the change:
 #        - waybar  (SIGUSR2 — config reload)
@@ -27,13 +27,13 @@ state_file="$state_dir/active-theme"
 
 mkdir -p "$state_dir"
 
-current="roast"
+current="field"
 [[ -r "$state_file" ]] && current="$(cat "$state_file")"
 
 case "$current" in
-  paper) next="roast" ;;
-  roast) next="paper" ;;
-  *)     next="roast" ;;  # unknown contents → reset to roast
+  sheet) next="field" ;;
+  field) next="sheet" ;;
+  *)     next="field" ;;  # unknown contents → reset to field
 esac
 
 # Atomic write: tmp file + rename.

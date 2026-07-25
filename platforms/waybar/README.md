@@ -31,7 +31,7 @@ killall -SIGUSR2 waybar 2>/dev/null || (killall waybar; waybar &)
 
 ## Light vs dark
 
-Waybar has no native theme switcher; the generated CSS picks up whatever variables are exposed by the parent compositor or your shell init. If you want auto-switch on Hyprland, run a small `hyprctl dispatch` script that swaps the symlink between two pre-built CSS files on `prefers-color-scheme` change. The current `style.css` ships one mode (Paper); adding a dark sibling is straightforward — extend `generateWaybar()` to emit `style-paper.css` and `style-roast.css`.
+Waybar has no native theme switcher; the generated CSS picks up whatever variables are exposed by the parent compositor or your shell init. If you want auto-switch on Hyprland, run a small `hyprctl dispatch` script that swaps the symlink between two pre-built CSS files on `prefers-color-scheme` change. The current `style.css` ships one mode (Sheet); adding a dark sibling is straightforward — extend `generateWaybar()` to emit `style-sheet.css` and `style-field.css`.
 
 > **TODO:** dual-mode emit. Single-mode is fine for most users since most NixOS / Arch ricers want to commit to one theme and use Hyprland animations only on transitions, not Waybar.
 

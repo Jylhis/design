@@ -1,7 +1,7 @@
 <!-- GENERATED from components/Changelog/ by scripts/generate.mjs. Do not edit by hand. -->
 # Changelog
 
-Commit-log changelog — copper nodes on a 1px trunk, dates in the gutter. The content's real structure (a history) becomes the visual structure.
+Commit-log changelog — bronze nodes on a 1px trunk, dates in the gutter. The content's real structure (a history) becomes the visual structure.
 
 ```jsx
 import { Changelog } from "../../components/Changelog/Changelog.jsx";

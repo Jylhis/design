@@ -16,7 +16,7 @@
   main { max-width: calc(var(--maxw) + var(--rail) + var(--gap)); margin: 0 auto; padding: 56px 24px 120px; }
   header.hero { margin-bottom: var(--space-2xl); }
   header.hero .man { font-family: var(--font-mono); font-size: var(--type-scale-6); font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: 0 0 18px; display: flex; justify-content: space-between; gap: 12px; }
-  header.hero h1 { font-family: var(--font-mono); font-size: clamp(var(--type-scale-1), 5.5vw, var(--type-scale-0)); font-weight: 700; color: var(--color-text-heading); letter-spacing: -0.01em; margin: 0 0 14px; }
+  header.hero h1 { font-family: var(--font-display); font-size: clamp(var(--type-scale-1), 5.5vw, var(--type-scale-0)); font-weight: 700; color: var(--color-text-heading); letter-spacing: -0.01em; margin: 0 0 14px; }
   .hero-rule { height: 1px; background: var(--color-border); margin-top: var(--space-xl); }
   header.hero p { color: var(--color-text-muted); max-width: var(--maxw); margin: 0 0 var(--space-md); }
   header.hero .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
@@ -171,7 +171,7 @@
 
 <main id="content">
   <header class="hero">
-    <p class="man"><span id="man-label" style="--ds-type-ch: 10.5ch">JYLHIS(7)</span><span aria-hidden="true">JYLHIS(7)</span></p>
+    <p class="man"><span id="man-label" style="--ds-readout-ch: 10.5ch">JYLHIS(7)</span><span aria-hidden="true">JYLHIS(7)</span></p>
     <h1>One datum, every sheet. <span class="pill" id="version-pill">version</span></h1>
     <p>A design system for <a href="https://jylhis.com" style="color: var(--color-accent); text-decoration: none;">jylhis.com</a>. One bronze accent, cool near-neutral grounds, structure drawn in Modus contour blue. Ten platform targets from Ghostty to Charm TUI, every one a sheet triangulated to a single <a href="./md.html?src=tokens.md" style="color: var(--color-accent); text-decoration: none;">token spec</a>.</p>
     <div class="tags">
@@ -294,7 +294,8 @@
     <a class="chip" href="./preview/pagination.html" data-search="pagination prev next pager numbered load more">pagination</a>
     <a class="chip" href="./preview/kbd.html" data-search="kbd keyboard shortcut chord chip accent typewriter">kbd</a>
     <a class="chip" href="./preview/blockquote.html" data-search="blockquote pull quote hanken grotesk cite quotation marker">blockquote</a>
-    <a class="chip" href="./preview/motion.html" data-search="motion fast base slow spring duration easing reduced motion underline link">motion</a>
+    <a class="chip" href="./preview/motion.html" data-search="motion fast base slow survey duration easing reduced motion underline link">motion</a>
+    <a class="chip" href="./preview/survey-renders-in.html" data-search="motion signature idioms contour draw line extend readout caret survey renders in">survey renders in</a>
     <a class="chip" href="./preview/code-block.html" data-search="code block inline modus syntax fenced">code · single</a>
     <a class="chip" href="./preview/code-languages.html" data-search="code python javascript js go rust bash shell nix json diff modus syntax language">code · multi-language</a>
     <a class="chip" href="./preview/icons.html" data-search="icons unicode chevron tree dashes glyphs decorators">icons</a>
@@ -523,10 +524,10 @@
   const manLabel = document.getElementById("man-label");
   const heroRule = document.getElementById("hero-rule");
   if (manLabel && heroRule) {
-    manLabel.classList.add("ds-typed");
-    heroRule.classList.add("ds-rule-draw");
+    manLabel.classList.add("ds-readout");
+    heroRule.classList.add("ds-line-extend");
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      manLabel.classList.add("is-typed");
+      manLabel.classList.add("is-read");
       heroRule.classList.add("is-drawn");
     }));
   }

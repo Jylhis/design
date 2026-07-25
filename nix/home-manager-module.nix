@@ -5,7 +5,7 @@
 #
 # Usage (in your home-manager config):
 #   imports = [ /path/to/design/nix/home-manager-module.nix ];
-#   jylhis.theme = { enable = true; variant = "roast"; };
+#   jylhis.theme = { enable = true; variant = "field"; };
 #
 # Or with callPackage if you need to pass the themes package:
 #   imports = [ (import /path/to/design/nix/home-manager-module.nix { inherit jylhis-themes; }) ];
@@ -16,16 +16,29 @@ let
   cfg = config.jylhis.theme;
   themes = pkgs.callPackage ./themes.nix {};
   variant = cfg.variant;
-  otherVariant = if variant == "roast" then "paper" else "roast";
+  otherVariant = if variant == "field" then "sheet" else "field";
+
+  # fzf colors are GENERATED into platforms/shell/fzf-{sheet,field}.sh from
+  # tokens.json (see `generateFzf` in scripts/generate.mjs). Read the value back
+  # out rather than restating hexes here — this module must never carry its own
+  # copy of the palette.
+  fzfColors =
+    let
+      file = builtins.readFile "${themes}/share/jylhis/shell/fzf-${variant}.sh";
+      m = builtins.match "(.|\n)*--color=([^\"]*)\"(.|\n)*" file;
+    in
+      if m == null
+      then throw "jylhis: could not read --color= out of fzf-${variant}.sh"
+      else builtins.elemAt m 1;
 in
 {
   options.jylhis.theme = {
     enable = lib.mkEnableOption "Jylhis design system theme";
 
     variant = lib.mkOption {
-      type = lib.types.enum [ "paper" "roast" ];
-      default = "roast";
-      description = "Theme variant: paper (light) or roast (dark).";
+      type = lib.types.enum [ "sheet" "field" ];
+      default = "field";
+      description = "Theme variant: sheet (light) or field (dark).";
     };
 
     ghostty.enable = lib.mkOption {
@@ -75,24 +88,24 @@ in
     # Ghostty themes (both variants installed, active one set in config)
     xdg.configFile = lib.mkMerge [
       (lib.mkIf cfg.ghostty.enable {
-        "ghostty/themes/jylhis-paper".source = "${themes}/share/jylhis/ghostty/jylhis-paper";
-        "ghostty/themes/jylhis-roast".source = "${themes}/share/jylhis/ghostty/jylhis-roast";
+        "ghostty/themes/jylhis-sheet".source = "${themes}/share/jylhis/ghostty/jylhis-sheet";
+        "ghostty/themes/jylhis-field".source = "${themes}/share/jylhis/ghostty/jylhis-field";
       })
 
       # Mako
       (lib.mkIf cfg.mako.enable {
         "mako/config".source =
-          if variant == "roast"
+          if variant == "field"
           then "${themes}/share/jylhis/mako/config"
-          else "${themes}/share/jylhis/mako/config-paper";
+          else "${themes}/share/jylhis/mako/config-sheet";
       })
 
       # Waybar
       (lib.mkIf cfg.waybar.enable {
         "waybar/style.css".source =
-          if variant == "roast"
+          if variant == "field"
           then "${themes}/share/jylhis/waybar/style.css"
-          else "${themes}/share/jylhis/waybar/style-paper.css";
+          else "${themes}/share/jylhis/waybar/style-sheet.css";
       })
 
       # Starship
@@ -102,8 +115,8 @@ in
 
       # bat
       (lib.mkIf cfg.bat.enable {
-        "bat/themes/jylhis-paper.tmTheme".source = "${themes}/share/jylhis/bat/jylhis-paper.tmTheme";
-        "bat/themes/jylhis-roast.tmTheme".source = "${themes}/share/jylhis/bat/jylhis-roast.tmTheme";
+        "bat/themes/jylhis-sheet.tmTheme".source = "${themes}/share/jylhis/bat/jylhis-sheet.tmTheme";
+        "bat/themes/jylhis-field.tmTheme".source = "${themes}/share/jylhis/bat/jylhis-field.tmTheme";
       })
     ];
 
@@ -117,27 +130,7 @@ in
     # mkForce: importing this HM module is an explicit ask for jylhis colors —
     # win over Stylix's `programs.fzf` target, which writes the same var.
     home.sessionVariables = lib.mkIf cfg.fzf.enable {
-      FZF_DEFAULT_OPTS = lib.mkForce "--color=fg:${
-        if variant == "roast" then "#e8e0d4" else "#2c2825"
-      },bg:${
-        if variant == "roast" then "#1a1714" else "#faf7f2"
-      },hl:${
-        if variant == "roast" then "#e89b5e" else "#9a5a2a"
-      },fg+:${
-        if variant == "roast" then "#f0eae0" else "#1e1b18"
-      },bg+:${
-        if variant == "roast" then "#2e2520" else "#f0e6da"
-      },hl+:${
-        if variant == "roast" then "#f5b07a" else "#7a4622"
-      },info:${
-        if variant == "roast" then "#b0a496" else "#6b5f54"
-      },prompt:${
-        if variant == "roast" then "#e89b5e" else "#9a5a2a"
-      },pointer:${
-        if variant == "roast" then "#e89b5e" else "#9a5a2a"
-      },border:${
-        if variant == "roast" then "#3d3830" else "#d5cec4"
-      }";
+      FZF_DEFAULT_OPTS = lib.mkForce "--color=${fzfColors}";
     };
   };
 }

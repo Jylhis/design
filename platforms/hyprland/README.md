@@ -4,8 +4,8 @@ Two minimal `*.conf` snippets carrying the Jylhis border colors, plus a hand-aut
 
 ```
 platforms/hyprland/
-├── jylhis-paper.conf      ← generated (light borders)
-├── jylhis-roast.conf      ← generated (dark borders)
+├── jylhis-sheet.conf      ← generated (light borders)
+├── jylhis-field.conf      ← generated (dark borders)
 └── jylhis.conf            ← hand-authored (binds, animations, layout)
 ```
 
@@ -14,9 +14,9 @@ platforms/hyprland/
 Source the relevant theme file from your `~/.config/hypr/hyprland.conf`:
 
 ```hyprlang
-source = ~/path/to/design/platforms/hyprland/jylhis-paper.conf
+source = ~/path/to/design/platforms/hyprland/jylhis-sheet.conf
 # or
-source = ~/path/to/design/platforms/hyprland/jylhis-roast.conf
+source = ~/path/to/design/platforms/hyprland/jylhis-field.conf
 ```
 
 Pair it with the broader settings (binds, animations, layout) by also sourcing the hand-authored file:
@@ -31,7 +31,7 @@ The generated files set border colors (active / inactive / group) using the Jylh
 
 ## Animation curves
 
-The hand-authored `jylhis.conf` references the system motion tokens: `fast` (150ms), `base` (250ms), `slow` (300ms), `spring` (420ms). Each token is exposed as a Hyprland `bezier` named after the system token, so you can wire bezier `= myCurve, 0.2, 0.6, 0.2, 1` against system tokens directly.
+The hand-authored `jylhis.conf` references the system motion tokens: `fast` (150ms), `base` (250ms), `slow` (300ms), `survey` (480ms). Each token is exposed as a Hyprland `bezier` named after the system token, so you can wire bezier `= myCurve, 0.2, 0.6, 0.2, 1` against system tokens directly.
 
 ## Contract
 

@@ -324,7 +324,7 @@ The terminal predates WCAG. There is no comprehensive standard. WCAG2ICT and the
   ```
 
   Never `[red]Failed[/red]` with no glyph. A colour-blind or speech user sees a word with no semantic prefix.
-- Prefer **named ANSI 4-bit colours** over hex literals in terminal-emitting code. Most terminals only let users remap the named 16. Slot 11 (`bright-yellow`) is intentionally overridden to brand copper across every Jylhis terminal target — see [`../tokens.md`](../tokens.md).
+- Prefer **named ANSI 4-bit colours** over hex literals in terminal-emitting code. Most terminals only let users remap the named 16. Slot 11 (`bright-yellow`) is intentionally overridden to the bronze accent across every Jylhis terminal target — see [`../tokens.md`](../tokens.md).
 - Maintain ≥ 4.5:1 contrast against likely backgrounds. The `tokens.json#contrast` block is the source of truth; `scripts/validate-tokens.mjs` enforces it.
 
 ### 4.2 Animation

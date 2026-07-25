@@ -131,9 +131,9 @@ function AIPanel({ withSelection = false, mode = 'panel' }) {
             <div>
               <div className="selection-cite">{`integrations: [mdx({
     syntaxHighlight: 'shiki',
-    shikiConfig: { theme: 'jylhis-paper' },
+    shikiConfig: { theme: 'jylhis-sheet' },
 })],`}</div>
-              <p>why does shikiConfig.theme not pick up dark mode? it stays paper even when prefers-color-scheme is dark.</p>
+              <p>why does shikiConfig.theme not pick up dark mode? it stays sheet even when prefers-color-scheme is dark.</p>
             </div>
           </div>
         )}
@@ -142,9 +142,9 @@ function AIPanel({ withSelection = false, mode = 'panel' }) {
           <div>
             <p>Shiki resolves the theme at build time, not at request time — so a single string locks you to one palette in the rendered HTML. Two ways out:</p>
             <p><strong>1. Pass both themes</strong> and Shiki emits CSS variables that swap with your color-scheme:</p>
-            <pre><span className="key">shikiConfig</span>: {`{`}{'\n'}  <span className="key">themes</span>: {`{`}{'\n'}    <span className="key">light</span>: <span className="str">'jylhis-paper'</span>,{'\n'}    <span className="key">dark</span>: <span className="str">'jylhis-roast'</span>{'\n'}  {`}`}{'\n'}{`}`}</pre>
+            <pre><span className="key">shikiConfig</span>: {`{`}{'\n'}  <span className="key">themes</span>: {`{`}{'\n'}    <span className="key">light</span>: <span className="str">'jylhis-sheet'</span>,{'\n'}    <span className="key">dark</span>: <span className="str">'jylhis-field'</span>{'\n'}  {`}`}{'\n'}{`}`}</pre>
             <p>This generates two style sets gated on <code>[data-theme]</code> selectors, matching your <code>tokens.md</code> dark/light split.</p>
-            <p><strong>2. Or, render twice</strong> server-side and toggle visibility — heavier payload but pixel-identical control. Given your jylhis-paper / jylhis-roast palette already share token names, option 1 is cleaner.</p>
+            <p><strong>2. Or, render twice</strong> server-side and toggle visibility — heavier payload but pixel-identical control. Given your jylhis-sheet / jylhis-field palette already share token names, option 1 is cleaner.</p>
           </div>
         </div>
       </div>

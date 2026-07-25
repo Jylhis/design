@@ -1,6 +1,6 @@
 /* global React */
 /* chrome.jsx — menu bar (Apple/Jylhis menu + app menus + right-side status),
- * the Dock, and Spotlight. Reskinned in mono chrome; copper accent on active.
+ * the Dock, and Spotlight. Reskinned in mono chrome; bronze accent on active.
  */
 
 // ── Menu bar dropdown definitions ──
@@ -182,7 +182,7 @@ function Dock({ onApp, bouncing, calDay, calDow }) {
 // ── Spotlight ──
 const SPOT_RESULTS = [
   { grp: 'Top Hit' },
-  { ic: '◐', kind: 'Action', t: 'Toggle Appearance — Paper / Roast', d: 'switch the whole desktop', action: 'theme' },
+  { ic: '◐', kind: 'Action', t: 'Toggle Appearance — Sheet / Field', d: 'switch the whole desktop', action: 'theme' },
   { grp: 'Applications' },
   { ic: '◧', kind: 'App', t: 'Finder', d: 'file manager', action: 'finder' },
   { ic: '▤', kind: 'App', t: 'Notes', d: 'desktop-notes.md open', action: 'notes' },

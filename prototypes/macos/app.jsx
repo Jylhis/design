@@ -7,7 +7,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "wallpaper": "rings",
   "menubarMusic": true,
   "fontMono": "IBM Plex Mono",
-  "fontBody": "Source Serif 4"
+  "fontBody": "Hanken Grotesk"
 }/*EDITMODE-END*/;
 
 // window geometry on the 1600×1000 canvas
@@ -37,8 +37,8 @@ function App() {
 
   // ── fonts ──
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-mono', `"${tweaks.fontMono}", "JetBrains Mono", monospace`);
-    document.documentElement.style.setProperty('--font-body', `"${tweaks.fontBody}", Charter, Georgia, serif`);
+    document.documentElement.style.setProperty('--font-mono', `"${tweaks.fontMono}", "IBM Plex Mono", monospace`);
+    document.documentElement.style.setProperty('--font-body', `"${tweaks.fontBody}", Inter, system-ui, sans-serif`);
   }, [tweaks.fontMono, tweaks.fontBody]);
 
   // ── clock ──
@@ -147,7 +147,7 @@ function App() {
             <div className="motif"></div>
           </div>
           <div className="desk-sig">
-            <div><span className="mk">▞</span> jylhis · {theme === 'dark' ? 'roast' : 'paper'}</div>
+            <div><span className="mk">▞</span> jylhis · {theme === 'dark' ? 'field' : 'sheet'}</div>
             <div>macOS, themed — one accent, no gloss</div>
           </div>
 
@@ -186,15 +186,15 @@ function App() {
       <TweaksPanel title="Tweaks">
         <TweakSection label="appearance">
           <TweakRadio label="theme" value={tweaks.theme} onChange={(v) => setTweak('theme', v)} options={[
-            { value: 'light', label: 'paper' },
-            { value: 'dark', label: 'roast' },
+            { value: 'light', label: 'sheet' },
+            { value: 'dark', label: 'field' },
           ]} />
           <TweakSelect label="wallpaper" value={tweaks.wallpaper} onChange={(v) => setTweak('wallpaper', v)} options={[
             { value: 'rings', label: 'rings ◎' },
             { value: 'dots', label: 'dot grid' },
             { value: 'hatch', label: 'hatch ╱╱' },
             { value: 'grid', label: 'grid ▦' },
-            { value: 'plain', label: 'plain paper' },
+            { value: 'plain', label: 'plain sheet' },
           ]} />
         </TweakSection>
 
@@ -208,10 +208,10 @@ function App() {
             { value: 'JetBrains Mono', label: 'JetBrains Mono' },
             { value: 'Fira Code', label: 'Fira Code' },
           ]} />
-          <TweakSelect label="prose (serif)" value={tweaks.fontBody} onChange={(v) => setTweak('fontBody', v)} options={[
-            { value: 'Source Serif 4', label: 'Source Serif 4' },
-            { value: 'Literata', label: 'Literata' },
-            { value: 'Georgia', label: 'Georgia' },
+          <TweakSelect label="prose (grotesk)" value={tweaks.fontBody} onChange={(v) => setTweak('fontBody', v)} options={[
+            { value: 'Hanken Grotesk', label: 'Hanken Grotesk' },
+            { value: 'Inter', label: 'Inter' },
+            { value: 'system-ui', label: 'system-ui' },
           ]} />
         </TweakSection>
 
@@ -219,7 +219,7 @@ function App() {
           <div style={{ fontSize: 11.5, color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
             <div>click the <span style={{ color: 'var(--color-accent)' }}>▞</span> menu, the clock, or the control-centre glyph</div>
             <div><span style={{ color: 'var(--color-accent)' }}>/</span> or <span style={{ color: 'var(--color-accent)' }}>⌘Space</span> — Spotlight · <span style={{ color: 'var(--color-accent)' }}>T</span> — toggle theme</div>
-            <div>click a window to give it the copper focus border</div>
+            <div>click a window to give it the bronze focus border</div>
           </div>
         </TweakSection>
       </TweaksPanel>

@@ -49,7 +49,7 @@ In TUI / Emacs: `[C-x b]` style with literal brackets. Rofi: kbd hints right-ali
 Rule: after a leader key is held (default: `<leader>` is `SPC` in Emacs, `Super` in Hyprland, `Cmd+K` on web), a bottom-anchored popover shows the submenu tree.
 
 Visual:
-- Paper bg (`surface-raised`), accent left-border (3px), `1rem` padding.
+- Raised ground (`surface-raised`), accent left-border (3px), `1rem` padding.
 - Grid of `key` → `command description`.
 - Key in `accent` + mono + bold. Description in body text + muted.
 - Escape closes. The ESC hint lives top-right of the popover.

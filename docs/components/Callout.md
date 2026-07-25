@@ -1,7 +1,7 @@
 <!-- GENERATED from components/Callout/ by scripts/generate.mjs. Do not edit by hand. -->
 # Callout
 
-Copper left-border callout — the "// currently" pattern from the homepage.
+Bronze-tinted `// note` callout — a hairline bronze border and a lowercase mono label.
 
 ```jsx
 import { Callout } from "../../components/Callout/Callout.jsx";
@@ -12,7 +12,7 @@ import { Callout } from "../../components/Callout/Callout.jsx";
 | prop | type | required | description |
 |------|------|----------|-------------|
 | `label` | `string` |  | Mono lowercase label, rendered with a leading "//" — e.g. "currently", "colophon" |
-| `items` | `React.ReactNode[]` |  | List items, each rendered with a copper "›" marker |
+| `items` | `React.ReactNode[]` |  | List items, each rendered with a bronze "›" marker |
 | `children` | `React.ReactNode` |  | Free-form body used when `items` is not given |
 | `headingLevel` | `2 \| 3 \| 4 \| 5 \| 6` |  | Heading level for the label — set to place it correctly in the document outline (avoid skipping levels). Defaults to 3. |
 | `attr` | `string]: unknown` | yes |  |

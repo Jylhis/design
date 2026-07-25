@@ -3,7 +3,7 @@
 //	cd platforms/charm && go run ./demo
 //
 // It shows: title, list with delegate, selected-item language,
-// status badges, kbd hints, help bar, spinner, and the copper accent.
+// status badges, kbd hints, help bar, spinner, and the bronze accent.
 // Auto-detects light/dark from the terminal background.
 package main
 
@@ -41,11 +41,11 @@ type model struct {
 }
 
 func initialModel() model {
-	t := jylhis.NewTheme(jylhis.Paper) // default before bg query answers
+	t := jylhis.NewTheme(jylhis.Sheet) // default before bg query answers
 	k := jylhis.DefaultKeys()
 
 	items := []list.Item{
-		item{"Ghostty colorscheme", "paper + roast, 16-color ANSI", "ok"},
+		item{"Ghostty colorscheme", "sheet + field, 16-color ANSI", "ok"},
 		item{"Hyprland tokens", "borders, waybar, rofi, mako", "ok"},
 		item{"Emacs deftheme", "modus-style semantic face targeting", "ok"},
 		item{"Charm TUI kit", "lipgloss + bubbles + bubbletea", "info"},
@@ -98,10 +98,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case msg.String() == "ctrl+c" || msg.String() == "q":
 			return m, tea.Quit
 		case msg.String() == "ctrl+shift+l":
-			if m.theme.Mode == jylhis.Paper {
-				m.theme = jylhis.NewTheme(jylhis.Roast)
+			if m.theme.Mode == jylhis.Sheet {
+				m.theme = jylhis.NewTheme(jylhis.Field)
 			} else {
-				m.theme = jylhis.NewTheme(jylhis.Paper)
+				m.theme = jylhis.NewTheme(jylhis.Sheet)
 			}
 			m.list.Styles = jylhis.ListStyles(m.theme)
 			d := list.NewDefaultDelegate()

@@ -6,31 +6,31 @@
 # in-tree; upstreamed here so there is one canonical copy.
 #
 # Usage (via the flake):
-#   let p = inputs.jylhis-design.lib.mkPalette "roast"; in
-#   p.hex.accent          # "#e89b5e"
+#   let p = inputs.jylhis-design.lib.mkPalette "field"; in
+#   p.hex.accent          # "#e0a33a"
 #   p.base16              # base16 attrset (base00..base0F, scheme, author)
 #   p.tty16               # 16-color list, slots 0/7/15 made TTY-readable
 #
 # Or standalone:
-#   import ./nix/palette.nix { lib = pkgs.lib; variant = "paper"; }
+#   import ./nix/palette.nix { lib = pkgs.lib; variant = "sheet"; }
 #
-# `variant` accepts "paper"/"roast" or "light"/"dark".
+# `variant` accepts "sheet"/"field" or "light"/"dark".
 
 {
   lib,
-  variant ? "roast",
+  variant ? "field",
 }:
 let
   tokens = builtins.fromJSON (builtins.readFile ../tokens.json);
 
   # Normalise variant → tokens.json key ("light" | "dark").
   key =
-    if variant == "light" || variant == "paper" then
+    if variant == "light" || variant == "sheet" then
       "light"
-    else if variant == "dark" || variant == "roast" then
+    else if variant == "dark" || variant == "field" then
       "dark"
     else
-      throw "jylhis palette: unknown variant \"${variant}\" (want paper/roast or light/dark)";
+      throw "jylhis palette: unknown variant \"${variant}\" (want sheet/field or light/dark)";
 
   sh = lib.removePrefix "#";
 
@@ -40,9 +40,9 @@ let
 in
 {
   # base16 mapping — semantic slots → design tokens. Matches
-  # platforms/base16/jylhis-{paper,roast}.yaml.
+  # platforms/base16/jylhis-{sheet,field}.yaml.
   base16 = {
-    scheme = if key == "dark" then "Jylhis Roast" else "Jylhis Paper";
+    scheme = if key == "dark" then "Jylhis Field" else "Jylhis Sheet";
     author = "Markus Jylhankangas (https://jylhis.com)";
     base00 = sh p.bg.${key};
     base01 = sh p."bg-subtle".${key};
@@ -67,7 +67,7 @@ in
 
   # Kernel-TTY palette: slots 0/7/15 come from the semantic palette
   # (bg / text / text-heading) so the console renders readably in both
-  # variants. Mirrors platforms/console/jylhis-{paper,roast}.nix.
+  # variants. Mirrors platforms/console/jylhis-{sheet,field}.nix.
   tty16 =
     let
       overrides = {

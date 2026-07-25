@@ -12,10 +12,10 @@ If the user invokes this skill without any other guidance, ask them what they wa
 
 ## Quick reference
 
-- Link `colors_and_type.css` for tokens + font families (Literata body, JetBrains Mono headings/chrome/code).
-- Look and feel: warm cream paper, copper accent, monospace headings, no emoji, no gradients, no shadows. Unicode glyphs (`›`, `▸`, `»`, `☾`, `★`, `└──`) do the job icons normally would.
+- Link `colors_and_type.css` for tokens + font families (Zilla Slab display/titles, Hanken Grotesk UI/body, IBM Plex Mono data/labels/code).
+- Look and feel: cool near-white/near-black grounds, one bronze accent, a vermilion benchmark mark, structural linework in contour blue, no emoji, no gradients, no shadows. Unicode glyphs (`›`, `▸`, `»`, `☾`, `★`, `└──`) do the job icons normally would.
 - `components/` has the React components library (buttons, cards, tags, kbd, alerts, code blocks …); `preview/` has card-sized specimens. Import `styles.css` to get everything (tokens, fonts, type helpers, motion, component styles) in one link.
-- **Syntax highlights come from Emacs Modus** (Operandi in light mode, Vivendi in dark). The Modus palette is canonical for code everywhere — Emacs, web `<pre>`, `bat`/`delta`, Charm TUI output. The copper accent is brand chrome only, never a syntax colour.
+- **Syntax highlights come from Emacs Modus** (Operandi in light mode, Vivendi in dark). The Modus palette is canonical for code everywhere — Emacs, web `<pre>`, `bat`/`delta`, Charm TUI output. The bronze accent is brand chrome only, never a syntax colour.
 
 ## Cross-platform
 
@@ -23,13 +23,13 @@ The system extends beyond the web. Canonical palette lives in `tokens.md`; keybo
 
 | Target | Files |
 |---|---|
-| Ghostty | `platforms/ghostty/{jylhis-paper,jylhis-roast,config}` |
+| Ghostty | `platforms/ghostty/{jylhis-sheet,jylhis-field,config}` |
 | Shells | `platforms/shell/{bashrc.bash,zshrc.zsh,dircolors,starship.toml}` — bash + zsh supported |
 | Hyprland + Waybar + Mako | `platforms/{hyprland,waybar,mako}/` |
-| Rofi (command palette) | `platforms/rofi/jylhis-{paper,roast}.rasi` |
+| Rofi (command palette) | `platforms/rofi/jylhis-{sheet,field}.rasi` |
 | GTK 3/4 | `platforms/gtk/gtk.css` |
 | Kvantum / Qt | `platforms/kvantum/` |
-| Emacs (Modus-style deftheme) | `platforms/emacs/jylhis-{paper,roast}-theme.el` + `jylhis-theme-toggle.el` |
+| Emacs (Modus-style deftheme) | `platforms/emacs/jylhis-{sheet,field}-theme.el` + `jylhis-theme-toggle.el` |
 | **Charm TUI (Go)** | `platforms/charm/jylhis/` — lipgloss palette + styles, themed bubbles (list/help/spinner/textinput), bubbletea light/dark detection, default keymap. Pairs with harmonica and ntcharts. See `platforms/charm/README.md`. |
 
 Visual index: `platforms/index.html`. When extending to a new target, read `tokens.md` first and re-use the same hex values — don't re-derive.

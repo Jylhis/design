@@ -5,7 +5,7 @@
 # Drop in the [Fonts] and [Appearance] sections of your qt5ct.conf.
 
 [Appearance]
-color_scheme_path=~/.config/qt5ct/colors/JylhisRoast.conf
+color_scheme_path=~/.config/qt5ct/colors/JylhisField.conf
 custom_palette=true
 icon_theme=Papirus-Dark
 standard_dialogs=default

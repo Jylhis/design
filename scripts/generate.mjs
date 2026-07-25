@@ -271,7 +271,7 @@ function generateTokensCSS() {
   // Derived rgba values — opacity-based, so kept out of tokens.json's hex-only palette.
   // Compose each from its source token so the RGB never drifts from tokens.json:
   // accent-subtle is the accent at low opacity; the modal/overlay scrim is the scrim
-  // ink at a higher opacity (deeper on roast, where the page is already dark).
+  // ink at a higher opacity (deeper on Field, where the page is already dark).
   const rgbaOf = (role, mode, alpha) => {
     const [r, g, b] = hexToRgb(color(role, mode));
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
@@ -333,8 +333,8 @@ ${varBlock("dark")}
 // ─── 2. Ghostty themes ───────────────────────────────────────────────
 
 function generateGhostty(mode) {
-  const label = mode === "light" ? "Paper" : "Roast";
-  const themeName = mode === "light" ? "jylhis-paper" : "jylhis-roast";
+  const label = mode === "light" ? "Sheet" : "Field";
+  const themeName = mode === "light" ? "jylhis-sheet" : "jylhis-field";
   const modus = mode === "light" ? "Operandi" : "Vivendi";
 
   const lines = [
@@ -382,7 +382,7 @@ function generateGoPalette() {
   };
 
   const paletteStruct = (mode) => {
-    const varName = mode === "light" ? "paper" : "roast";
+    const varName = mode === "light" ? "sheet" : "field";
     const allRoles = [...Object.keys(tokens.palette), ...Object.keys(tokens.syntax), ...Object.keys(tokens.status)];
 
     const fields = [];
@@ -427,7 +427,7 @@ function generateGoPalette() {
 //
 //\timport "github.com/jylhis/design/platforms/charm/jylhis"
 //
-//\tt := jylhis.NewTheme(jylhis.Paper) // or jylhis.Roast
+//\tt := jylhis.NewTheme(jylhis.Sheet) // or jylhis.Field
 //\tfmt.Println(t.Title.Render("Notes"))
 //\tfmt.Println(t.Subtle.Render("7 files \u00b7 updated 2m ago"))
 //
@@ -442,12 +442,12 @@ import (
 \t"charm.land/lipgloss/v2"
 )
 
-// Mode selects the light (Paper) or dark (Roast) variant.
+// Mode selects the light (Sheet) or dark (Field) variant.
 type Mode int
 
 const (
-\tPaper Mode = iota // light \u2014 warm cream, copper accent
-\tRoast             // dark  \u2014 dark roast, copper accent
+\tSheet Mode = iota // light \u2014 cool near-white ground, bronze accent
+\tField             // dark  \u2014 cool near-black ground, bronze accent
 )
 
 // Palette is the raw Jylhis palette for one mode.
@@ -457,11 +457,11 @@ type Palette struct {
 \tBg, BgSubtle, Surface, SurfaceRaised string
 \t// Text
 \tText, TextMuted, TextHeading, TextFaint string
-\t// Accent family \u2014 copper
+\t// Accent family \u2014 bronze
 \tAccent, AccentHover, Brand string
 \t// Structure
 \tBorder, BorderStrong, Decorator string
-\t// Syntax \u2014 Emacs Modus (Operandi for Paper, Vivendi for Roast).
+\t// Syntax \u2014 Emacs Modus (Operandi for Sheet, Vivendi for Field).
 \t// Uniform with the CSS vars and the Emacs themes.
 \tSynKeyword, SynString, SynNumber, SynFunction, SynType, SynBuiltin,
 \tSynVariable, SynTag, SynComment, SynDocstring string
@@ -471,7 +471,7 @@ type Palette struct {
 \tANSI [16]string
 }
 
-// paper is the canonical light palette. Hex values are the single source of truth.
+// sheet is the canonical light palette. Hex values are the single source of truth.
 // When they change, update tokens.json first, then run: bun scripts/generate.mjs
 ${paletteStruct("light")}
 
@@ -479,10 +479,10 @@ ${paletteStruct("dark")}
 
 // PaletteFor returns the raw palette for a mode.
 func PaletteFor(m Mode) Palette {
-\tif m == Roast {
-\t\treturn roast
+\tif m == Field {
+\t\treturn field
 \t}
-\treturn paper
+\treturn sheet
 }
 
 // C is a convenience wrapper: lipgloss color from a hex string in the palette.
@@ -493,12 +493,12 @@ func C(hex string) color.Color { return lipgloss.Color(hex) }
 // ─── 4. Hyprland color configs ──────────────────────────────────────
 
 function generateHyprland(mode) {
-  const label = mode === "light" ? "Paper" : "Roast";
+  const label = mode === "light" ? "Sheet" : "Field";
 
   const hex = (role) => color(role, mode).slice(1); // strip #
 
   if (mode === "light") {
-    return `# Jylhis Paper (light) border colors for Hyprland
+    return `# Jylhis Sheet (light) border colors for Hyprland
 # GENERATED from tokens.json. Do not edit by hand.
 # source this from hyprland.conf when in light mode.
 
@@ -513,11 +513,11 @@ decoration {
 }
 
 misc {
-    background_color = 0x${hex("bg")}            # paper
+    background_color = 0x${hex("bg")}            # sheet
 }
 `;
   } else {
-    return `# Jylhis Roast (dark) border colors for Hyprland
+    return `# Jylhis Field (dark) border colors for Hyprland
 # GENERATED from tokens.json. Do not edit by hand.
 
 general {
@@ -531,7 +531,7 @@ decoration {
 }
 
 misc {
-    background_color = 0x${hex("bg")}            # roast
+    background_color = 0x${hex("bg")}            # field
 }
 `;
   }
@@ -540,7 +540,7 @@ misc {
 // ─── 4b. Hyprlock lock-screen theme ─────────────────────────────────
 
 function generateHyprlock(mode) {
-  const label = mode === "light" ? "Paper" : "Roast";
+  const label = mode === "light" ? "Sheet" : "Field";
   const variant = mode === "light" ? "light" : "dark";
   const rgba = (role) => `rgba(${color(role, mode).slice(1)}ff)`;
 
@@ -608,8 +608,8 @@ label {
 // ─── 5. Kvantum color palettes ──────────────────────────────────────
 
 function generateKvantum(mode) {
-  const label = mode === "light" ? "Paper" : "Roast";
-  const themeName = mode === "light" ? "JylhisPaper" : "JylhisRoast";
+  const label = mode === "light" ? "Sheet" : "Field";
+  const themeName = mode === "light" ? "JylhisSheet" : "JylhisField";
 
   const c = (role) => color(role, mode);
   const synNum = tokens.syntax["syn-number"][mode];
@@ -657,7 +657,7 @@ function generateKvantum(mode) {
   <color role="Text"        group="Disabled">${c("text-faint")}</color>
   <color role="ButtonText"  group="Disabled">${c("text-faint")}</color>
 
-  <!-- Inactive (unfocused) \u2014 same color, matches flat paper metaphor -->
+  <!-- Inactive (unfocused) \u2014 same color, matches the flat survey-sheet metaphor -->
   <color role="Highlight"        group="Inactive">${c("border-strong")}</color>
   <color role="HighlightedText"  group="Inactive">${c("text")}</color>
 </palette>
@@ -700,15 +700,15 @@ function generateKvantum(mode) {
 
 // ─── 6. Emacs themes (Tokyo-Themes-style shared core, three-tier display fallbacks) ──
 //
-// Both Paper and Roast variants share `jylhis-theme-core.el`, which holds the
+// Both Sheet and Field variants share `jylhis-theme-core.el`, which holds the
 // canonical face spec list as a small DSL and resolves each role across three
 // display tiers:
 //   - GUI / 24-bit:    exact hex from tokens.json
 //   - xterm-256:       "color-NNN" indexed slot
 //   - 16-color TTY:    named ANSI slot ("red", "brightyellow", …)
 //
-// Per-variant palette files (jylhis-{paper,roast}-palette.el) carry the
-// three tiers per role; per-variant entry-point files (jylhis-{paper,roast}-
+// Per-variant palette files (jylhis-{sheet,field}-palette.el) carry the
+// three tiers per role; per-variant entry-point files (jylhis-{sheet,field}-
 // theme.el) wire the palette into the shared core and call provide-theme.
 
 // Maps the short aliases used in the Elisp DSL to their source-of-truth
@@ -769,7 +769,7 @@ function _emacsRoleX256(alias, mode) {
 }
 
 function generateEmacsPalette(mode) {
-  const variant = mode === "light" ? "paper" : "roast";
+  const variant = mode === "light" ? "sheet" : "field";
   const themeName = `jylhis-${variant}`;
   const aliases = Object.keys(EMACS_ROLE_MAP);
 
@@ -835,16 +835,16 @@ across display classes.")
 }
 
 function generateEmacsTheme(mode) {
-  const variant = mode === "light" ? "paper" : "roast";
+  const variant = mode === "light" ? "sheet" : "field";
   const themeName = `jylhis-${variant}`;
   const desc = mode === "light"
-    ? "Jylhis — light theme. Copper accent on warm paper, Modus-derived syntax tuned for paper."
-    : "Jylhis — dark theme. Copper accent on warm roast, Modus-derived syntax tuned for roast.";
+    ? "Jylhis — light theme. Bronze accent on the Sheet ground, Modus-derived syntax tuned for Sheet."
+    : "Jylhis — dark theme. Bronze accent on the Field ground, Modus-derived syntax tuned for Field.";
   const commentary = mode === "light"
-    ? 'Light "paper" variant'
-    : 'Dark "roast" variant';
-  const sibling = mode === "light" ? "jylhis-roast-theme.el" : "jylhis-paper-theme.el";
-  const otherTheme = mode === "light" ? "jylhis-roast" : "jylhis-paper";
+    ? 'Light "sheet" variant'
+    : 'Dark "field" variant';
+  const sibling = mode === "light" ? "jylhis-field-theme.el" : "jylhis-sheet-theme.el";
+  const otherTheme = mode === "light" ? "jylhis-field" : "jylhis-sheet";
   const otherMode = mode === "light" ? "dark" : "light";
   const label = mode === "light" ? "light" : "dark";
 
@@ -935,8 +935,8 @@ function generateEmacsCore() {
 ;;; Commentary:
 ;;
 ;;  Canonical face spec list for the Jylhis design system, shared by both
-;;  the Paper (light) and Roast (dark) variants.  Each variant ships its
-;;  own three-tier palette in jylhis-{paper,roast}-palette.el; this file
+;;  the Sheet (light) and Field (dark) variants.  Each variant ships its
+;;  own three-tier palette in jylhis-{sheet,field}-palette.el; this file
 ;;  resolves palette role symbols into per-display-class face specs.
 ;;
 ;;  Display tiers, in order of preference:
@@ -1346,7 +1346,7 @@ folds attributes into the GUI tier only — use it for attributes like
 
 (defun jylhis-apply-faces (theme palette)
   "Apply the canonical Jylhis face mapping to THEME using PALETTE.
-PALETTE is the value of \\='jylhis-paper-palette' or \\='jylhis-roast-palette'
+PALETTE is the value of \\='jylhis-sheet-palette' or \\='jylhis-field-palette'
 \(or any alist of (ROLE (GUI-HEX XTERM-256 ANSI-16-NAME)))."
   (let ((args (mapcar
                (lambda (spec)
@@ -1365,7 +1365,7 @@ PALETTE is the value of \\='jylhis-paper-palette' or \\='jylhis-roast-palette'
 // ─── 7. Rofi themes ─────────────────────────────────────────────────
 
 function generateRofi(mode) {
-  const label = mode === "light" ? "paper" : "roast";
+  const label = mode === "light" ? "sheet" : "field";
   const c = (role) => color(role, mode);
   const iconTheme = mode === "light" ? "Papirus" : "Papirus-Dark";
   // accent-subtle for rofi (opaque, not rgba)
@@ -1373,8 +1373,8 @@ function generateRofi(mode) {
   const textFaint = mode === "light" ? "#8a7f72" : "#6b6157";
 
   const commentHeader = mode === "light"
-    ? `/* Jylhis Rofi \u2014 light variant (paper). GENERATED from tokens.json. */`
-    : `/*\n * Jylhis Rofi \u2014 dark variant (roast). GENERATED from tokens.json.\n * This is THE command palette visual language \u2014 identical DNA to web Cmd+K\n * and Emacs M-x/Vertico. See platforms/KEYBOARD.md \u00a7"Command palette".\n */`;
+    ? `/* Jylhis Rofi \u2014 light variant (Sheet). GENERATED from tokens.json. */`
+    : `/*\n * Jylhis Rofi \u2014 dark variant (Field). GENERATED from tokens.json.\n * This is THE command palette visual language \u2014 identical DNA to web Cmd+K\n * and Emacs M-x/Vertico. See platforms/KEYBOARD.md \u00a7"Command palette".\n */`;
 
   return `${commentHeader}
 
@@ -1701,13 +1701,13 @@ scrollbar slider:hover {
 }
 
 // ─── 9. Waybar CSS ──────────────────────────────────────────────────
-// Waybar is hardcoded dark (roast) in the original. We generate it the same way.
+// Waybar is hardcoded dark (Field) in the original. We generate it the same way.
 
 function generateWaybar(mode = "dark") {
   const c = (role) => color(role, mode);
   const synType = tokens.syntax["syn-type"][mode];
 
-  const label = mode === "light" ? "Paper" : "Roast";
+  const label = mode === "light" ? "Sheet" : "Field";
   const modus = mode === "light" ? "Operandi" : "Vivendi";
 
   return `/* Jylhis Waybar ${label} — GENERATED from tokens.json. Do not edit by hand.
@@ -1841,7 +1841,7 @@ function generateMako(mode = "dark") {
   return `# Jylhis Mako — GENERATED from tokens.json. Do not edit by hand.
 # ~/.config/mako/config
 # Notifications with the command-palette language: accent left-border,
-# monospace meta, paper/roast bg. Dismiss hint always visible.
+# monospace meta, Sheet/Field bg. Dismiss hint always visible.
 
 font=IBM Plex Mono 11
 width=380
@@ -1853,7 +1853,7 @@ border-radius=4
 max-icon-size=32
 icon-path=/usr/share/icons/Adwaita
 
-# Default \u2014 ${mode === "light" ? "paper" : "roast"}
+# Default \u2014 ${mode === "light" ? "sheet" : "field"}
 background-color=${c("surface")}
 text-color=${c("text")}
 border-color=${c("border-strong")}
@@ -1955,7 +1955,7 @@ export const tokens = ${JSON.stringify(enriched, null, 2)};
 // ─── GIMP .gpl palette ───────────────────────────────────────────────
 
 function generateGimpPalette(mode) {
-  const label = mode === "light" ? "Paper" : "Roast";
+  const label = mode === "light" ? "Sheet" : "Field";
   const lines = [
     "GIMP Palette",
     `Name: Jylhis ${label}`,
@@ -2068,8 +2068,8 @@ function generateAdobeSwatch(mode) {
 // ─── 14. Base16 YAML ────────────────────────────────────────────────
 
 function generateBase16(mode) {
-  const slug = mode === "light" ? "jylhis-paper" : "jylhis-roast";
-  const label = mode === "light" ? "Jylhis Paper" : "Jylhis Roast";
+  const slug = mode === "light" ? "jylhis-sheet" : "jylhis-field";
+  const label = mode === "light" ? "Jylhis Sheet" : "Jylhis Field";
   const author = "Markus Jylhankangas (https://jylhis.com)";
 
   // Base16 slot mapping from tokens.json roles
@@ -2112,7 +2112,7 @@ function generateBase16(mode) {
 // ─── 15. fzf color export ───────────────────────────────────────────
 
 function generateFzf(mode) {
-  const label = mode === "light" ? "paper" : "roast";
+  const label = mode === "light" ? "sheet" : "field";
   const c = (role) => color(role, mode);
 
   // fzf uses --color= with named fields
@@ -2145,7 +2145,7 @@ export FZF_DEFAULT_OPTS="\$FZF_DEFAULT_OPTS --color=${colors.join(",")}"
 // ─── 16. bat/delta tmTheme ──────────────────────────────────────────
 
 function generateTmTheme(mode) {
-  const label = mode === "light" ? "Jylhis Paper" : "Jylhis Roast";
+  const label = mode === "light" ? "Jylhis Sheet" : "Jylhis Field";
   const c = (role) => color(role, mode);
   const syn = (role) => tokens.syntax[role][mode];
 
@@ -2278,18 +2278,18 @@ function generateTmTheme(mode) {
 // ─── 17. NixOS console.colors fragment ──────────────────────────────
 
 function generateConsole(mode = "dark") {
-  const label = mode === "light" ? "Paper" : "Roast";
+  const label = mode === "light" ? "Sheet" : "Field";
   const sh = (s) => s.slice(1); // drop leading #
 
   // The kernel TTY uses ANSI slot 0 as the actual screen background and slot
   // 7 as the default foreground — there's no separate page-bg channel like
   // terminal apps have. The tokens.ansi array is tuned for the terminal-app
   // case (slot 0 carries the "text/bg inversion" role, slot 7 is text-muted
-  // on paper bg), so it produces an unreadable Paper TTY when copied verbatim.
+  // on Sheet bg), so it produces an unreadable Sheet TTY when copied verbatim.
   //
   // Override slots 0/7/15 from the semantic palette so the bare TTY and any
   // greeter inheriting it stay readable in both variants. Accent slots
-  // (1-6, 9-14, including the brand-copper override at slot 11) keep the
+  // (1-6, 9-14, including the bronze-accent override at slot 11) keep the
   // Modus values from tokens.ansi unchanged.
   const semantic = {
     0: tokens.palette.bg[mode],
@@ -2304,7 +2304,7 @@ function generateConsole(mode = "dark") {
 # NixOS Linux virtual console (TTY) palette. Import from your
 # configuration.nix or a NixOS module:
 #
-#   imports = [ "\${pkgs.jylhis-themes}/share/jylhis/console/jylhis-${mode === "light" ? "paper" : "roast"}.nix" ];
+#   imports = [ "\${pkgs.jylhis-themes}/share/jylhis/console/jylhis-${mode === "light" ? "sheet" : "field"}.nix" ];
 #
 # Slots 0/7/15 are derived from the semantic palette (bg / text /
 # text-heading) rather than tokens.ansi — the kernel TTY uses slot 0 as the
@@ -2329,8 +2329,8 @@ function hexToRgbFloats(hex) {
 }
 
 function generatePlymouthManifest(mode) {
-  const variant = mode === "light" ? "paper" : "roast";
-  const label = mode === "light" ? "Paper" : "Roast";
+  const variant = mode === "light" ? "sheet" : "field";
+  const label = mode === "light" ? "Sheet" : "Field";
 
   return `# Jylhis ${label} — GENERATED from tokens.json. Do not edit by hand.
 [Plymouth Theme]
@@ -2345,7 +2345,7 @@ ScriptFile=jylhis.script
 }
 
 function generatePlymouthScript(mode) {
-  const variant = mode === "light" ? "paper" : "roast";
+  const variant = mode === "light" ? "sheet" : "field";
   const bg = hexToRgbFloats(color("bg", mode));
   const text = hexToRgbFloats(color("text", mode));
   const accent = hexToRgbFloats(color("accent", mode));
@@ -2498,8 +2498,8 @@ function buildZipStore(entries) {
 // Colors use #AARRGGBB (alpha-first 8-digit hex); all opaque → #ff prefix.
 
 function generateHyperOS(mode) {
-  const variant = mode === "light" ? "paper" : "roast";
-  const label = mode === "light" ? "Paper" : "Roast";
+  const variant = mode === "light" ? "sheet" : "field";
+  const label = mode === "light" ? "Sheet" : "Field";
   const version = tokens.meta.version;
 
   // Convert #rrggbb → #ffrrggbb (MIUI alpha-first format, fully opaque)
@@ -2737,6 +2737,185 @@ function parseA11y(jsx) {
 
 const mdEscape = (s) => String(s).replace(/\|/g, "\\|");
 
+// ─── docs: tokens.md (human-readable companion to tokens.json) ───────
+// GENERATED so the spec can never drift from the source of truth. Prose is
+// authored here; every value is read from tokens.json.
+
+function generateTokensMd() {
+  const L = [];
+  const groupOf = (role) => {
+    for (const [, g] of Object.entries(tokens.groups)) {
+      if (g.members.includes(role)) return g.label;
+    }
+    return "";
+  };
+  const ratio = (fg, bg, mode) =>
+    contrastRatio(color(fg, mode), color(bg, mode)).toFixed(2);
+
+  L.push("<!-- GENERATED from tokens.json by scripts/generate.mjs. Do not edit by hand. -->");
+  L.push("# Jylhis Design System — Platform Tokens", "");
+  L.push(
+    "This is the human-readable companion to the canonical token source,",
+    "[`tokens.json`](./tokens.json). Every platform-specific file in `platforms/`",
+    "derives from `tokens.json` through `scripts/generate.mjs`; when a value",
+    "changes, update `tokens.json` first, then regenerate and validate the targets.",
+    "",
+    "The two editions are **Sheet** (light) and **Field** (dark). `sheet` / `field`",
+    "are the identifiers used in generated filenames, Nix options, Go `Mode`",
+    "constants, and Emacs theme names.",
+    "",
+  );
+
+  L.push("## 0. Principles", "");
+  L.push(
+    "1. **Cool grounds, one bronze accent.** A single desaturated blue-grey ramp carries every surface and every weight of ink. No pure white, no pure black.",
+    "2. **AAA for body text, AA for meta, no exceptions.** Ratios are computed from `tokens.json` in the palette table below.",
+    "3. **Keyboard is first-class on every surface.** Focus must be visible in 2px at AAA contrast. Shortcuts are always labeled. Selected items share one visual language across web, Emacs, rofi.",
+    "4. **Both editions are first-class.** No \"dark mode as an afterthought\" — every platform ships Sheet and Field together.",
+    "5. **Structure is not interaction.** `contour` blue draws linework; `accent` bronze is the only interactive colour; `brand` vermilion is the benchmark mark alone.",
+    "",
+    "---",
+    "",
+  );
+
+  // ── 1. Core palette ──
+  L.push("## 1. Core palette", "");
+  L.push("| Role | Group | Sheet | Field | Notes |");
+  L.push("|---|---|---|---|---|");
+  for (const [role, v] of Object.entries(tokens.palette)) {
+    if (!v.light || !v.dark) continue;
+    L.push(`| \`${role}\` | ${groupOf(role)} | \`${v.light}\` | \`${v.dark}\` | ${mdEscape(v.notes || "")} |`);
+  }
+  L.push("");
+  L.push("Measured contrast against the page ground (`bg`):", "");
+  L.push("| Role | Sheet ratio | Field ratio |");
+  L.push("|---|---|---|");
+  for (const role of ["text", "text-heading", "text-muted", "text-faint", "accent", "accent-hover", "brand", "contour"]) {
+    L.push(`| \`${role}\` | ${ratio(role, "bg", "light")}:1 | ${ratio(role, "bg", "dark")}:1 |`);
+  }
+  L.push("");
+  L.push("`text-faint` is decorative/disabled only — it is not a body-text colour.", "");
+
+  // ── 2. Syntax + status ──
+  L.push("## 2. Syntax / semantic family", "");
+  L.push(
+    "Derived from **Emacs Modus** (Operandi light / Vivendi dark) so highlights are",
+    "identical in the editor, in web code blocks, in terminal `bat`/`delta`, and in",
+    "Charm TUI renderers. The bronze accent is deliberately **not** a syntax colour",
+    "— it is reserved for UI chrome and brand marks, never used for code.",
+    "",
+  );
+  L.push("### Syntax (font-lock)", "");
+  L.push("| Role | Modus name | Sheet | Field |");
+  L.push("|---|---|---|---|");
+  for (const [role, v] of Object.entries(tokens.syntax)) {
+    L.push(`| \`${role}\` | ${mdEscape(v.modus || "")} | \`${v.light}\` | \`${v.dark}\` |`);
+  }
+  L.push("");
+  L.push("### Status (project badges, flymake, diff markers, notifications)", "");
+  L.push("| Role | Modus accent | ANSI slot | Sheet | Field |");
+  L.push("|---|---|---|---|---|");
+  for (const [role, v] of Object.entries(tokens.status)) {
+    L.push(`| \`${role}\` | ${mdEscape(v.modus || "")} | \`${v.ansi || ""}\` | \`${v.light}\` | \`${v.dark}\` |`);
+  }
+  L.push("");
+  L.push("Status colour never travels alone — every status carries a glyph **and** a word.", "");
+
+  // ── 3. ANSI ──
+  L.push("## 3. Terminal 16-color ANSI", "");
+  L.push(
+    "Light is \"Jylhis Sheet\"; dark is \"Jylhis Field\". Values pull from the Modus",
+    "accent family so `ls`, `bat`, `delta`, `git log` and Emacs `ansi-color` share",
+    "one palette. ANSI 11 (bright-yellow) is the one intentional brand override —",
+    "the bronze accent lands there so terminal warnings, directory permissions and",
+    "prompts carry the Jylhis identity.",
+    "",
+  );
+  L.push("| ANSI | Name | Sheet | Field | Role |");
+  L.push("|---|---|---|---|---|");
+  tokens.ansi.forEach((a, i) => {
+    L.push(`| ${i} | ${a.name} | \`${a.light}\` | \`${a.dark}\` | ${mdEscape(a.role || "")} |`);
+  });
+  L.push("");
+  L.push("**Selection bg / cursor:** `selection-bg` / `cursor`.", "");
+
+  // ── 4. Typography ──
+  const ty = tokens.typography;
+  L.push("## 4. Typography", "");
+  L.push("| Role | Family | Fallback |");
+  L.push("|---|---|---|");
+  L.push(`| Display / titles | ${ty.display.family} | ${mdEscape(ty.display.fallback)} |`);
+  L.push(`| UI / body | ${ty.body.family} | ${mdEscape(ty.body.fallback)} |`);
+  L.push(`| Data / labels / code | ${ty.mono.family} | ${mdEscape(ty.mono.fallback)} |`);
+  L.push(`| **TUI / Emacs / terminal fallback** | ${ty.mono.family} | ${mdEscape(ty.tuiFallback)} |`);
+  L.push("");
+  const steps = Object.values(ty.scale);
+  L.push(
+    `Size scale: \`${steps.join(" / ")}\` — emitted as \`--type-scale-0…${steps.length - 1}\` in`,
+    "`tokens.css`; headings consume the vars so sizes cannot drift. The last step is",
+    "the floor — nothing renders smaller.",
+    "",
+    `Line height: \`${ty.heading.lineHeight}\` for plate titles, \`${ty.body.lineHeight}\` for body, \`${tokens.density.tui.lineHeight}\` for TUI / dense lists.`,
+    "",
+  );
+
+  // ── 5. Density ──
+  L.push("## 5. Density", "");
+  const dRows = [
+    ["line-height", "lineHeight"],
+    ["row-pad-y", "rowPadY"],
+    ["hit-target-min", "hitTargetMin"],
+    ["gap-inline", "gapInline"],
+    ["gap-block", "gapBlock"],
+  ];
+  L.push("| Token | Web comfortable | Web compact | TUI/Emacs |");
+  L.push("|---|---|---|---|");
+  for (const [label, key] of dRows) {
+    const cell = (m) => (tokens.density[m][key] === undefined ? "n/a" : tokens.density[m][key]);
+    L.push(`| \`${label}\` | ${cell("comfortable")} | ${cell("compact")} | ${cell("tui")} |`);
+  }
+  L.push("");
+  L.push(
+    "Default: **comfortable** on web, **TUI** in terminal / Emacs. Compact is an",
+    "opt-in for data-dense UI (tables, file lists).",
+    "",
+  );
+
+  // ── 6. Motion ──
+  L.push("## 6. Motion", "");
+  L.push("Every token is defined in both CSS and Hyprland (named bezier).", "");
+  L.push("| Token | Duration | Easing (CSS) | Hypr bezier |");
+  L.push("|---|---|---|---|");
+  for (const [k, v] of Object.entries(tokens.motion)) {
+    L.push(`| \`${k}\` | ${v.duration} | \`${v.css}\` | \`${v.hypr}\` |`);
+  }
+  L.push("");
+  L.push(
+    "The signature is \"survey renders in\": `contour-draw`, `line-extend`, `readout`",
+    "(see `motion.css`). Motion is *functional* — masking repaint, suggesting",
+    "direction — never decorative. Nothing bounces. Reduce-motion respected",
+    "everywhere.",
+    "",
+  );
+
+  // ── 7. Sound ──
+  L.push("## 7. Sound / notification vocabulary", "");
+  L.push(
+    "Three tones only. Mapped to `libcanberra` sound theme names so GNOME/KDE/mako",
+    "can pick them up.",
+    "",
+  );
+  L.push("| Token | Sound theme name | Meaning |");
+  L.push("|---|---|---|");
+  for (const [k, v] of Object.entries(tokens.sound)) {
+    L.push(`| \`sound-${k}\` | \`${v.theme}\` | ${mdEscape(v.meaning)} |`);
+  }
+  L.push("");
+  L.push("No continuous / ambient sounds. Default volume: 60%.", "");
+
+  return L.join("\n");
+}
+
 function generateComponentDoc(name) {
   const dir = resolve(ROOT, COMPONENTS_DIR, name);
   const dtsPath = join(dir, `${name}.d.ts`);
@@ -2798,51 +2977,52 @@ function generateComponentIndex(names) {
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
-out("platforms/glamour/jylhis-paper.json", generateGlamour("light"));
-out("platforms/glamour/jylhis-roast.json", generateGlamour("dark"));
+out("platforms/glamour/jylhis-sheet.json", generateGlamour("light"));
+out("platforms/glamour/jylhis-field.json", generateGlamour("dark"));
 out("platforms/glamour/jylhis-notty.json", generateGlamour(null));
 const _componentNames = listComponents();
 for (const _name of _componentNames) out(`docs/components/${_name}.md`, generateComponentDoc(_name));
 out("docs/components/README.md", generateComponentIndex(_componentNames));
-out("platforms/ghostty/jylhis-paper", generateGhostty("light"));
-out("platforms/ghostty/jylhis-roast", generateGhostty("dark"));
+out("platforms/ghostty/jylhis-sheet", generateGhostty("light"));
+out("platforms/ghostty/jylhis-field", generateGhostty("dark"));
 out("platforms/charm/jylhis/palette.go", generateGoPalette());
-out("platforms/hyprland/jylhis-paper.conf", generateHyprland("light"));
-out("platforms/hyprland/jylhis-roast.conf", generateHyprland("dark"));
-out("platforms/hyprlock/jylhis-paper.conf", generateHyprlock("light"));
-out("platforms/hyprlock/jylhis-roast.conf", generateHyprlock("dark"));
-out("platforms/kvantum/JylhisPaper.colors", generateKvantum("light"));
-out("platforms/kvantum/JylhisRoast.colors", generateKvantum("dark"));
+out("platforms/hyprland/jylhis-sheet.conf", generateHyprland("light"));
+out("platforms/hyprland/jylhis-field.conf", generateHyprland("dark"));
+out("platforms/hyprlock/jylhis-sheet.conf", generateHyprlock("light"));
+out("platforms/hyprlock/jylhis-field.conf", generateHyprlock("dark"));
+out("platforms/kvantum/JylhisSheet.colors", generateKvantum("light"));
+out("platforms/kvantum/JylhisField.colors", generateKvantum("dark"));
 out("platforms/emacs/jylhis-theme-core.el",     generateEmacsCore());
-out("platforms/emacs/jylhis-paper-palette.el",  generateEmacsPalette("light"));
-out("platforms/emacs/jylhis-roast-palette.el",  generateEmacsPalette("dark"));
-out("platforms/emacs/jylhis-paper-theme.el",    generateEmacsTheme("light"));
-out("platforms/emacs/jylhis-roast-theme.el",    generateEmacsTheme("dark"));
-out("platforms/rofi/jylhis-paper.rasi", generateRofi("light"));
-out("platforms/rofi/jylhis-roast.rasi", generateRofi("dark"));
+out("platforms/emacs/jylhis-sheet-palette.el",  generateEmacsPalette("light"));
+out("platforms/emacs/jylhis-field-palette.el",  generateEmacsPalette("dark"));
+out("platforms/emacs/jylhis-sheet-theme.el",    generateEmacsTheme("light"));
+out("platforms/emacs/jylhis-field-theme.el",    generateEmacsTheme("dark"));
+out("platforms/rofi/jylhis-sheet.rasi", generateRofi("light"));
+out("platforms/rofi/jylhis-field.rasi", generateRofi("dark"));
 out("platforms/gtk/gtk.css", generateGTK());
 out("platforms/waybar/style.css", generateWaybar("dark"));
-out("platforms/waybar/style-paper.css", generateWaybar("light"));
+out("platforms/waybar/style-sheet.css", generateWaybar("light"));
 out("platforms/mako/config", generateMako("dark"));
-out("platforms/mako/config-paper", generateMako("light"));
-out("platforms/gimp/jylhis-paper.gpl", generateGimpPalette("light"));
-out("platforms/gimp/jylhis-roast.gpl", generateGimpPalette("dark"));
-out("platforms/adobe/jylhis-paper.ase", generateAdobeSwatch("light"));
-out("platforms/adobe/jylhis-roast.ase", generateAdobeSwatch("dark"));
-out("platforms/base16/jylhis-paper.yaml", generateBase16("light"));
-out("platforms/base16/jylhis-roast.yaml", generateBase16("dark"));
-out("platforms/shell/fzf-paper.sh", generateFzf("light"));
-out("platforms/shell/fzf-roast.sh", generateFzf("dark"));
-out("platforms/bat/jylhis-paper.tmTheme", generateTmTheme("light"));
-out("platforms/bat/jylhis-roast.tmTheme", generateTmTheme("dark"));
-out("platforms/console/jylhis-paper.nix", generateConsole("light"));
-out("platforms/console/jylhis-roast.nix", generateConsole("dark"));
-out("platforms/plymouth/jylhis-paper/jylhis.plymouth", generatePlymouthManifest("light"));
-out("platforms/plymouth/jylhis-paper/jylhis.script",   generatePlymouthScript("light"));
-out("platforms/plymouth/jylhis-roast/jylhis.plymouth", generatePlymouthManifest("dark"));
-out("platforms/plymouth/jylhis-roast/jylhis.script",   generatePlymouthScript("dark"));
-out("platforms/hyperos/jylhis-paper.mtz", generateHyperOS("light"));
-out("platforms/hyperos/jylhis-roast.mtz", generateHyperOS("dark"));
+out("platforms/mako/config-sheet", generateMako("light"));
+out("platforms/gimp/jylhis-sheet.gpl", generateGimpPalette("light"));
+out("platforms/gimp/jylhis-field.gpl", generateGimpPalette("dark"));
+out("platforms/adobe/jylhis-sheet.ase", generateAdobeSwatch("light"));
+out("platforms/adobe/jylhis-field.ase", generateAdobeSwatch("dark"));
+out("platforms/base16/jylhis-sheet.yaml", generateBase16("light"));
+out("platforms/base16/jylhis-field.yaml", generateBase16("dark"));
+out("platforms/shell/fzf-sheet.sh", generateFzf("light"));
+out("platforms/shell/fzf-field.sh", generateFzf("dark"));
+out("platforms/bat/jylhis-sheet.tmTheme", generateTmTheme("light"));
+out("platforms/bat/jylhis-field.tmTheme", generateTmTheme("dark"));
+out("platforms/console/jylhis-sheet.nix", generateConsole("light"));
+out("platforms/console/jylhis-field.nix", generateConsole("dark"));
+out("platforms/plymouth/jylhis-sheet/jylhis.plymouth", generatePlymouthManifest("light"));
+out("platforms/plymouth/jylhis-sheet/jylhis.script",   generatePlymouthScript("light"));
+out("platforms/plymouth/jylhis-field/jylhis.plymouth", generatePlymouthManifest("dark"));
+out("platforms/plymouth/jylhis-field/jylhis.script",   generatePlymouthScript("dark"));
+out("platforms/hyperos/jylhis-sheet.mtz", generateHyperOS("light"));
+out("platforms/hyperos/jylhis-field.mtz", generateHyperOS("dark"));
+out("tokens.md", generateTokensMd());
 out("tokens-data.js", generateTokensData());
 
 // ─── Write or check ─────────────────────────────────────────────────

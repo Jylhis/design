@@ -9,6 +9,75 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-07-25
+
+v2, **"The Survey"** — a full retheme. This is a breaking major: theme
+identifiers, colour values, type stack, and motion token names all change.
+Downstream pins must be updated deliberately. Design rationale lives in
+[`DESIGN.md`](./DESIGN.md); the migration sequence is
+[`docs/v2/BUILD-PLAN.md`](./docs/v2/BUILD-PLAN.md).
+
+### Changed — BREAKING
+
+- **Theme identifiers renamed `paper`→`sheet`, `roast`→`field`** across every
+  generated target, Nix option, Go `Mode` constant, and Emacs theme symbol.
+  Files move from `jylhis-{paper,roast}.*` to `jylhis-{sheet,field}.*`
+  (`JylhisPaper.colors`→`JylhisSheet.colors`, `style-paper.css`→
+  `style-sheet.css`, `config-paper`→`config-sheet`, `fzf-paper.sh`→
+  `fzf-sheet.sh`). Emacs users load `jylhis-sheet` / `jylhis-field`; Nix users
+  set `jylhis.theme.variant = "sheet" | "field"`. **Sheet** and **Field** are
+  the display names.
+- **Palette retoned to the Survey world.** Warm cream/roast grounds become cool
+  near-white/near-black; the copper accent becomes bronze; a new `brand`
+  benchmark vermilion carries the maker's mark; a new `contour` Modus blue
+  carries structural linework, and `decorator` becomes the graticule.
+- **Type stack replaced.** Literata + JetBrains Mono give way to three roles:
+  Zilla Slab (display/titles), Hanken Grotesk (UI/body), IBM Plex Mono
+  (data/labels/code). `--font-display` joins `--font-body` / `--font-mono`.
+- **Motion token `spring` renamed `survey`** (`--transition-spring` →
+  `--transition-survey`), retimed 420ms → 480ms and re-eased from an overshoot
+  curve to expo-out. The system now bans bounce outright.
+- **Motion idioms renamed** to the "survey renders in" grammar: `.ds-rule-draw`
+  → `.ds-line-extend`, `.ds-typed` → `.ds-readout` (state class `.is-typed` →
+  `.is-read`, custom property `--ds-type-ch` → `--ds-readout-ch`). `.ds-caret`
+  is unchanged.
+- **Token groups renamed** — Paperstock → Grounds, Copper → Bronze,
+  Linen → Line.
+
+### Added
+
+- `.ds-contour-draw` — the third motion idiom: a stroked path that draws along
+  its own length via `stroke-dashoffset`, on the `survey` token.
+- `contour` and `scrim` are first-class palette roles; `scrim` is now registered
+  under the Grounds group.
+- `preview/survey-renders-in.html` (renamed from `preview/ink-draws-on.html`),
+  now linked from the showcase index.
+- `validate-tokens.mjs`: every colour role must belong to exactly one thematic
+  group, no group may claim an undefined role, and no role may be claimed twice
+  — ungrouped roles silently fell out of the showcase and the `.gpl` exports.
+
+### Fixed
+
+- `nix/home-manager-module.nix` shipped a **hand-copied v1 palette** for
+  `FZF_DEFAULT_OPTS`. It now reads the generated `fzf-{sheet,field}.sh` back out
+  of the themes package, so fzf colours can never drift from `tokens.json`.
+- `platforms/hyprland/jylhis.conf` and `preview/motion.html` still carried the
+  retired 420ms overshoot bezier. Both now use the `survey` curve, and
+  `preview/motion.html` consumes `var(--transition-*)` instead of restating
+  durations.
+- Prototypes (`tablet`, `macos`, `desktop`) carried hard-coded v1 hexes and
+  defaulted their font pickers to Literata / JetBrains Mono; all now resolve
+  through token vars and the v2 stack.
+- The showcase hero `h1` was set in mono, contradicting the page's own type
+  claim; it now uses `--font-display`.
+- `nix/themes.nix` pinned `version = "0.3.0"` while `tokens.json` said `0.5.0`.
+  The package version is now read from `tokens.json`.
+- `tokens.md` is now **generated** from `tokens.json` (with measured contrast
+  ratios) instead of being a hand-maintained copy of every hex.
+- Documentation, skills, and the `.impeccable/design.json` sidecar were still
+  describing v1 (warm cream paper, copper, Literata/JetBrains Mono, Paper/Roast)
+  after the token layer had moved to v2; all are now in sync.
+
 ## [0.5.0] — 2026-07-14
 
 ### Added

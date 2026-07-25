@@ -1,7 +1,7 @@
 /* global React */
 /* panels.jsx — Control Center + Notification Center, reskinned.
- * Flat tiles, hairline borders, copper accent for "on" states. The theme
- * module here drives the same paper/roast toggle as the Tweaks panel.
+ * Flat tiles, hairline borders, bronze accent for "on" states. The theme
+ * module here drives the same sheet/field toggle as the Tweaks panel.
  */
 
 function ControlCenter({ theme, onToggleTheme, onClose }) {
@@ -48,15 +48,15 @@ function ControlCenter({ theme, onToggleTheme, onClose }) {
           <div className="slider"><i style={{ width: '45%' }}></i><span className="gl">♪</span></div>
         </div>
 
-        {/* theme — drives paper/roast */}
+        {/* theme — drives sheet/field */}
         <div className="cc-tile wide">
           <div className="ttl"><span className="gl">◐</span> Appearance</div>
           <div className="cc-theme">
             <button className={theme === 'light' ? 'on' : ''} onClick={() => onToggleTheme('light')}>
-              <span className="sw paper"></span><span className="nm">Paper</span>
+              <span className="sw sheet"></span><span className="nm">Sheet</span>
             </button>
             <button className={theme === 'dark' ? 'on' : ''} onClick={() => onToggleTheme('dark')}>
-              <span className="sw roast"></span><span className="nm">Roast</span>
+              <span className="sw field"></span><span className="nm">Field</span>
             </button>
           </div>
         </div>
@@ -91,7 +91,7 @@ function NotificationCenter({ date }) {
           <span className="app">⊞</span>
           <div className="body">
             <div className="top"><span className="nm">Finder</span><span className="ago">2m ago</span></div>
-            <div className="msg">“jylhis-paper.ase” finished exporting to ~/Downloads — 14 swatches.</div>
+            <div className="msg">“jylhis-sheet.ase” finished exporting to ~/Downloads — 14 swatches.</div>
           </div>
         </div>
       </div>

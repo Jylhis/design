@@ -4,8 +4,8 @@ Two color themes for [Ghostty](https://ghostty.org/) plus a sample `config` show
 
 ```
 platforms/ghostty/
-├── jylhis-paper           ← generated (light)
-├── jylhis-roast           ← generated (dark)
+├── jylhis-sheet           ← generated (light)
+├── jylhis-field           ← generated (dark)
 └── config                 ← hand-authored (font, padding, opacity — not the palette)
 ```
 
@@ -15,21 +15,21 @@ The two theme files are generated from `tokens.json`. The `config` file is a sta
 
 ```bash
 mkdir -p ~/.config/ghostty/themes
-cp jylhis-paper jylhis-roast ~/.config/ghostty/themes/
+cp jylhis-sheet jylhis-field ~/.config/ghostty/themes/
 ```
 
 Then in `~/.config/ghostty/config`:
 
 ```
-theme = jylhis-paper
+theme = jylhis-sheet
 # or
-theme = jylhis-roast
+theme = jylhis-field
 ```
 
 For automatic light/dark following the system:
 
 ```
-theme = light:jylhis-paper,dark:jylhis-roast
+theme = light:jylhis-sheet,dark:jylhis-field
 ```
 
 ## Nix
@@ -40,9 +40,9 @@ ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 
 This wraps Ghostty with the themes available via `XDG_DATA_DIRS` so you don't have to copy files. See [`../../nix/ghostty.nix`](../../nix/ghostty.nix).
 
-## ANSI 11 is brand copper
+## ANSI 11 is the bronze accent
 
-Slot 11 (`bright-yellow`) is intentionally overridden to the brand copper across every terminal target — Ghostty included. That's why prompts, directory permissions, and `ls --color` carry the Jylhis identity. Don't "fix" it.
+Slot 11 (`bright-yellow`) is intentionally overridden to the the bronze accent across every terminal target — Ghostty included. That's why prompts, directory permissions, and `ls --color` carry the Jylhis identity. Don't "fix" it.
 
 ## Pairs with
 

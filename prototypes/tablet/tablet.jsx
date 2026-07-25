@@ -64,16 +64,16 @@ const SCENES = [
   {
     id: 'volume',
     title: '17:03 — hardware key feedback',
-    body: 'Hardware volume / brightness keys show a roast-toned chip in the center. The sleep stays out of the way.',
+    body: 'Hardware volume / brightness keys show a field-toned chip in the center. The sleep stays out of the way.',
     layout: 'split',
     left: 'browser', right: 'ai',
     overlay: 'hw-toast',
     toast: { kind: 'volume', label: 'volume', value: 62, glyph: '♪' },
   },
   {
-    id: 'roast',
-    title: '21:48 — Super+Shift+T · roast',
-    body: 'One bind flips paper to roast across system, status bar, and every app. Same key on desktop, tablet, and phone.',
+    id: 'field',
+    title: '21:48 — Super+Shift+T · field',
+    body: 'One bind flips sheet to field across system, status bar, and every app. Same key on desktop, tablet, and phone.',
     layout: 'split',
     left: 'emacs', right: 'term',
     overlay: null,
@@ -185,7 +185,7 @@ function Shade({ time, onClose }) {
     { label: 'wi-fi', sub: 'jylhis_5g', glyph: '↕', on: true },
     { label: 'bluetooth', sub: 'folio · pen', glyph: '▼', on: true },
     { label: 'do not disturb', sub: 'off', glyph: '◉', on: false },
-    { label: 'dark mode', sub: 'paper', glyph: '☀', on: false },
+    { label: 'dark mode', sub: 'sheet', glyph: '☀', on: false },
     { label: 'airplane', sub: 'off', glyph: '✈', on: false },
     { label: 'hotspot', sub: 'off', glyph: '☉', on: false },
     { label: 'rotation', sub: 'locked', glyph: '↻', on: true },
@@ -410,7 +410,7 @@ function HwToast({ toast }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <span className="glyph">{toast.glyph}</span>
         <span style={{ flex: 1 }}>{toast.label}</span>
-        <span style={{ color: '#e89b5e', fontWeight: 600 }}>{toast.value}%</span>
+        <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>{toast.value}%</span>
       </div>
       <div className="track"><div className="fill" style={{ width: `${toast.value}%` }} /></div>
       <span style={{ fontSize: 10, color: 'rgba(240,234,224,0.5)' }}>F2 / F3 to adjust · Fn+M mute</span>
@@ -464,7 +464,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "showKbdStrip": true,
   "showWalkthrough": true,
   "fontMono": "IBM Plex Mono",
-  "fontBody": "Source Serif 4"
+  "fontBody": "Hanken Grotesk"
 }/*EDITMODE-END*/;
 
 function App() {
@@ -480,7 +480,7 @@ function App() {
 
   // Fonts
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-mono', `"${tweaks.fontMono}", "JetBrains Mono", "Cascadia Code", monospace`);
+    document.documentElement.style.setProperty('--font-mono', `"${tweaks.fontMono}", "IBM Plex Mono", "Cascadia Code", monospace`);
     document.documentElement.style.setProperty('--font-body', `"${tweaks.fontBody}", Charter, Georgia, serif`);
   }, [tweaks.fontMono, tweaks.fontBody]);
 
@@ -629,8 +629,8 @@ function App() {
       <TweaksPanel title="Tweaks">
         <TweakSection title="theme">
           <TweakRadio label="mode" value={tweaks.theme} onChange={(v) => setTweak('theme', v)} options={[
-            { value: 'light', label: 'paper' },
-            { value: 'dark', label: 'roast' },
+            { value: 'light', label: 'sheet' },
+            { value: 'dark', label: 'field' },
           ]} />
         </TweakSection>
 
@@ -652,10 +652,10 @@ function App() {
             { value: 'Fira Code', label: 'Fira Code' },
           ]} />
           <TweakSelect label="body" value={tweaks.fontBody} onChange={(v) => setTweak('fontBody', v)} options={[
-            { value: 'Source Serif 4', label: 'Source Serif 4' },
-            { value: 'Literata', label: 'Literata' },
-            { value: 'Charter', label: 'Charter' },
-            { value: 'Georgia', label: 'Georgia' },
+            { value: 'Hanken Grotesk', label: 'Hanken Grotesk' },
+            { value: 'Inter', label: 'Inter' },
+            { value: 'system-ui', label: 'system-ui' },
+            { value: 'Segoe UI', label: 'Segoe UI' },
           ]} />
         </TweakSection>
 
