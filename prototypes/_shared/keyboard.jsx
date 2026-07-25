@@ -114,7 +114,7 @@ const KB_STYLE = `
 
   /* skip link — hidden until tabbed */
   .kb-skip{position:fixed;top:-100px;left:14px;z-index:2147483647;
-    padding:10px 14px;background:var(--color-brand);color:#faf7f2;
+    padding:10px 14px;background:var(--color-brand);color:var(--color-bg);
     font:700 .82rem/1 var(--font-mono);letter-spacing:.04em;
     border:2px solid var(--color-text-heading);border-radius:3px;
     box-shadow:3px 3px 0 0 var(--color-text-heading);text-decoration:none;
