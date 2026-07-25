@@ -436,7 +436,8 @@ function Walkthrough({ step, total, scenario, onPrev, onNext }) {
 
 // ── Dock ──
 function Dock({ activeApp, onPick }) {
-  const items = DOCK_APPS.map(id => APPS.find(a => a.id === id)).filter(Boolean);
+  const byId = new Map(APPS.map(app => [app.id, app]));
+  const items = DOCK_APPS.map(id => byId.get(id)).filter(Boolean);
   return (
     <div className="dock">
       {items.map(a => (

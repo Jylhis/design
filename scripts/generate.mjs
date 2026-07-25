@@ -2752,8 +2752,10 @@ function generateTokensMd() {
   const ratio = (fg, bg, mode) =>
     contrastRatio(color(fg, mode), color(bg, mode)).toFixed(2);
 
-  L.push("<!-- GENERATED from tokens.json by scripts/generate.mjs. Do not edit by hand. -->");
-  L.push("# Jylhis Design System — Platform Tokens", "");
+  L.push(
+    "<!-- GENERATED from tokens.json by scripts/generate.mjs. Do not edit by hand. -->",
+    "# Jylhis Design System — Platform Tokens", "",
+  );
   L.push(
     "This is the human-readable companion to the canonical token source,",
     "[`tokens.json`](./tokens.json). Every platform-specific file in `platforms/`",
@@ -2779,22 +2781,28 @@ function generateTokensMd() {
   );
 
   // ── 1. Core palette ──
-  L.push("## 1. Core palette", "");
-  L.push("| Role | Group | Sheet | Field | Notes |");
-  L.push("|---|---|---|---|---|");
+  L.push(
+    "## 1. Core palette", "",
+    "| Role | Group | Sheet | Field | Notes |",
+    "|---|---|---|---|---|",
+  );
   for (const [role, v] of Object.entries(tokens.palette)) {
     if (!v.light || !v.dark) continue;
     L.push(`| \`${role}\` | ${groupOf(role)} | \`${v.light}\` | \`${v.dark}\` | ${mdEscape(v.notes || "")} |`);
   }
-  L.push("");
-  L.push("Measured contrast against the page ground (`bg`):", "");
-  L.push("| Role | Sheet ratio | Field ratio |");
-  L.push("|---|---|---|");
+  L.push(
+    "",
+    "Measured contrast against the page ground (`bg`):", "",
+    "| Role | Sheet ratio | Field ratio |",
+    "|---|---|---|",
+  );
   for (const role of ["text", "text-heading", "text-muted", "text-faint", "accent", "accent-hover", "brand", "contour"]) {
     L.push(`| \`${role}\` | ${ratio(role, "bg", "light")}:1 | ${ratio(role, "bg", "dark")}:1 |`);
   }
-  L.push("");
-  L.push("`text-faint` is decorative/disabled only — it is not a body-text colour.", "");
+  L.push(
+    "",
+    "`text-faint` is decorative/disabled only — it is not a body-text colour.", "",
+  );
 
   // ── 2. Syntax + status ──
   L.push("## 2. Syntax / semantic family", "");
@@ -2805,21 +2813,27 @@ function generateTokensMd() {
     "— it is reserved for UI chrome and brand marks, never used for code.",
     "",
   );
-  L.push("### Syntax (font-lock)", "");
-  L.push("| Role | Modus name | Sheet | Field |");
-  L.push("|---|---|---|---|");
+  L.push(
+    "### Syntax (font-lock)", "",
+    "| Role | Modus name | Sheet | Field |",
+    "|---|---|---|---|",
+  );
   for (const [role, v] of Object.entries(tokens.syntax)) {
     L.push(`| \`${role}\` | ${mdEscape(v.modus || "")} | \`${v.light}\` | \`${v.dark}\` |`);
   }
-  L.push("");
-  L.push("### Status (project badges, flymake, diff markers, notifications)", "");
-  L.push("| Role | Modus accent | ANSI slot | Sheet | Field |");
-  L.push("|---|---|---|---|---|");
+  L.push(
+    "",
+    "### Status (project badges, flymake, diff markers, notifications)", "",
+    "| Role | Modus accent | ANSI slot | Sheet | Field |",
+    "|---|---|---|---|---|",
+  );
   for (const [role, v] of Object.entries(tokens.status)) {
     L.push(`| \`${role}\` | ${mdEscape(v.modus || "")} | \`${v.ansi || ""}\` | \`${v.light}\` | \`${v.dark}\` |`);
   }
-  L.push("");
-  L.push("Status colour never travels alone — every status carries a glyph **and** a word.", "");
+  L.push(
+    "",
+    "Status colour never travels alone — every status carries a glyph **and** a word.", "",
+  );
 
   // ── 3. ANSI ──
   L.push("## 3. Terminal 16-color ANSI", "");
@@ -2831,24 +2845,30 @@ function generateTokensMd() {
     "prompts carry the Jylhis identity.",
     "",
   );
-  L.push("| ANSI | Name | Sheet | Field | Role |");
-  L.push("|---|---|---|---|---|");
+  L.push(
+    "| ANSI | Name | Sheet | Field | Role |",
+    "|---|---|---|---|---|",
+  );
   tokens.ansi.forEach((a, i) => {
     L.push(`| ${i} | ${a.name} | \`${a.light}\` | \`${a.dark}\` | ${mdEscape(a.role || "")} |`);
   });
-  L.push("");
-  L.push("**Selection bg / cursor:** `selection-bg` / `cursor`.", "");
+  L.push(
+    "",
+    "**Selection bg / cursor:** `selection-bg` / `cursor`.", "",
+  );
 
   // ── 4. Typography ──
   const ty = tokens.typography;
-  L.push("## 4. Typography", "");
-  L.push("| Role | Family | Fallback |");
-  L.push("|---|---|---|");
-  L.push(`| Display / titles | ${ty.display.family} | ${mdEscape(ty.display.fallback)} |`);
-  L.push(`| UI / body | ${ty.body.family} | ${mdEscape(ty.body.fallback)} |`);
-  L.push(`| Data / labels / code | ${ty.mono.family} | ${mdEscape(ty.mono.fallback)} |`);
-  L.push(`| **TUI / Emacs / terminal fallback** | ${ty.mono.family} | ${mdEscape(ty.tuiFallback)} |`);
-  L.push("");
+  L.push(
+    "## 4. Typography", "",
+    "| Role | Family | Fallback |",
+    "|---|---|---|",
+    `| Display / titles | ${ty.display.family} | ${mdEscape(ty.display.fallback)} |`,
+    `| UI / body | ${ty.body.family} | ${mdEscape(ty.body.fallback)} |`,
+    `| Data / labels / code | ${ty.mono.family} | ${mdEscape(ty.mono.fallback)} |`,
+    `| **TUI / Emacs / terminal fallback** | ${ty.mono.family} | ${mdEscape(ty.tuiFallback)} |`,
+    "",
+  );
   const steps = Object.values(ty.scale);
   L.push(
     `Size scale: \`${steps.join(" / ")}\` — emitted as \`--type-scale-0…${steps.length - 1}\` in`,
@@ -2868,8 +2888,10 @@ function generateTokensMd() {
     ["gap-inline", "gapInline"],
     ["gap-block", "gapBlock"],
   ];
-  L.push("| Token | Web comfortable | Web compact | TUI/Emacs |");
-  L.push("|---|---|---|---|");
+  L.push(
+    "| Token | Web comfortable | Web compact | TUI/Emacs |",
+    "|---|---|---|---|",
+  );
   for (const [label, key] of dRows) {
     const cell = (m) => (tokens.density[m][key] === undefined ? "n/a" : tokens.density[m][key]);
     L.push(`| \`${label}\` | ${cell("comfortable")} | ${cell("compact")} | ${cell("tui")} |`);
@@ -2882,10 +2904,12 @@ function generateTokensMd() {
   );
 
   // ── 6. Motion ──
-  L.push("## 6. Motion", "");
-  L.push("Every token is defined in both CSS and Hyprland (named bezier).", "");
-  L.push("| Token | Duration | Easing (CSS) | Hypr bezier |");
-  L.push("|---|---|---|---|");
+  L.push(
+    "## 6. Motion", "",
+    "Every token is defined in both CSS and Hyprland (named bezier).", "",
+    "| Token | Duration | Easing (CSS) | Hypr bezier |",
+    "|---|---|---|---|",
+  );
   for (const [k, v] of Object.entries(tokens.motion)) {
     L.push(`| \`${k}\` | ${v.duration} | \`${v.css}\` | \`${v.hypr}\` |`);
   }
@@ -2905,13 +2929,17 @@ function generateTokensMd() {
     "can pick them up.",
     "",
   );
-  L.push("| Token | Sound theme name | Meaning |");
-  L.push("|---|---|---|");
+  L.push(
+    "| Token | Sound theme name | Meaning |",
+    "|---|---|---|",
+  );
   for (const [k, v] of Object.entries(tokens.sound)) {
     L.push(`| \`sound-${k}\` | \`${v.theme}\` | ${mdEscape(v.meaning)} |`);
   }
-  L.push("");
-  L.push("No continuous / ambient sounds. Default volume: 60%.", "");
+  L.push(
+    "",
+    "No continuous / ambient sounds. Default volume: 60%.", "",
+  );
 
   return L.join("\n");
 }
