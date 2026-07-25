@@ -72,7 +72,7 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `colors_and_type.css` | Hand‑authored font stacks + semantic type helpers. Imports `tokens.css` + `fonts.css`. |
 | `fonts.css` | Self-hosted variable-font `@font-face` blocks (Literata + JetBrains Mono, latin/latin-ext subsets). |
 | `motion.css` | The "ink draws on" motion signature — `.ds-rule-draw`, `.ds-typed`, `.ds-caret`, mapped to the motion tokens. |
-| `components/` | React components library — 16 components (`Button`, `Tag`, `Alert`, `Callout`, `Terminal`, `Mark` …), each with JSX, `.d.ts`, and a `card.html` specimen; styled by `components/components.css`. |
+| `components/` | React components library — 20 components (`Button`, `Tag`, `Alert`, `Callout`, `Terminal`, `Mark`, `Table`, `Tabs`, `Pagination`, `Modal` …), each with JSX, `.d.ts`, and a `card.html` specimen; styled by `components/components.css`. |
 | `scripts/generate.mjs` | Reads `tokens.json`, writes generated platform target files. |
 | `scripts/validate-tokens.mjs` | Schema validation, contrast checks (explicit + extended sweep), CSS `var()` resolution. |
 | `scripts/validate-a11y-html.mjs` | HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph). |
@@ -87,7 +87,9 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `docs/INTEGRATION.md` | How to consume the system from web, Go, terminal, Emacs, Wayland, Nix; how to add a new platform. |
 | `docs/CLI-TUI-GUIDELINES.md` | Design conventions for any CLI/TUI shipped with the system. |
 | `docs/ACCESSIBILITY.md` | Measurable WCAG commitments, CVD policy, and what the validators enforce. |
+| `docs/PRINCIPLES.md` | Design principles — the *why*: values, structural + interaction principles, the named rules. |
 | `docs/STYLE-GUIDE.md` | Visual language: when to pick which token. |
+| `docs/components/` | Per-component reference (generated) — summary, props table, accessibility notes. |
 | `docs/VOICE.md` | Voice & microcopy — copy is a design token; errno-style errors, lowercase command buttons. |
 | `docs/REVIEW.md` | Structural design review (AI-tells audit) with applied recommendations. |
 | `platforms/KEYBOARD.md` | Focus, kbd, command-palette, selected-row, canonical shortcuts. |

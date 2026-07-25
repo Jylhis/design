@@ -47,6 +47,14 @@
   --color-status-warn: #8a5000;
   --color-status-ok: #006800;
   --color-status-info: #005e8b;
+  /* Foreground pairs */
+  --color-accent-foreground: #f6f8fb;
+  --color-accent-hover-foreground: #f6f8fb;
+  --color-brand-foreground: #f6f8fb;
+  --color-bg-subtle-foreground: #23262e;
+  --color-surface-foreground: #23262e;
+  --color-surface-raised-foreground: #23262e;
+  --color-selection-bg-foreground: #23262e;
   --color-accent-subtle: rgba(138, 77, 0, 0.12);
   --color-scrim: rgba(20, 23, 30, 0.4);
   /* Spacing */
@@ -153,6 +161,14 @@
   --color-status-warn: #d9b34a;
   --color-status-ok: #6bbf6b;
   --color-status-info: #5fb8cf;
+  /* Foreground pairs */
+  --color-accent-foreground: #0d0f14;
+  --color-accent-hover-foreground: #0d0f14;
+  --color-brand-foreground: #0d0f14;
+  --color-bg-subtle-foreground: #d6dae2;
+  --color-surface-foreground: #d6dae2;
+  --color-surface-raised-foreground: #d6dae2;
+  --color-selection-bg-foreground: #d6dae2;
   --color-accent-subtle: rgba(224, 163, 58, 0.15);
   --color-scrim: rgba(5, 6, 10, 0.55);
 }

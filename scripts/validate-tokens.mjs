@@ -195,6 +195,27 @@ for (const { fg, bg, mode, min, label } of checks) {
   if (ratio < min) fail(`contrast: ${label} ${fgc} on ${bgc} = ${ratio.toFixed(2)}:1 (< ${min}:1)`);
 }
 
+// ─── 2·pairs. Foreground/background pairing ──────────────────────────
+// tokens.json#pairs declares, for every fill that carries text, the
+// foreground role guaranteed to sit on it (DESIGN.md: the Paired-Foreground
+// rule). Each pairing must resolve and clear its `min` ratio in BOTH modes;
+// generate.mjs emits a --color-<surface>-foreground var for each.
+let pairChecks = 0;
+for (const [surface, spec] of Object.entries(tokens.pairs ?? {})) {
+  if (!spec || typeof spec !== "object") { fail(`pairs.${surface}: must be an object`); continue; }
+  if (!spec.fg) { fail(`pairs.${surface}: missing "fg"`); continue; }
+  if (typeof spec.min !== "number") fail(`pairs.${surface}: "min" must be a number`);
+  for (const mode of ["light", "dark"]) {
+    const fgc = colorFor(spec.fg, mode);
+    const bgc = colorFor(surface, mode);
+    if (!fgc) { fail(`pairs.${surface}.fg: "${spec.fg}" is not a known color role`); break; }
+    if (!bgc) { fail(`pairs.${surface}: "${surface}" is not a known color role`); break; }
+    pairChecks++;
+    const ratio = contrast(fgc, bgc);
+    if (ratio < spec.min) fail(`pairs: ${spec.label ?? surface} — ${fgc} on ${bgc} (${mode}) = ${ratio.toFixed(2)}:1 (< ${spec.min}:1)`);
+  }
+}
+
 // ─── 2b. Extended sweep across every paperstock surface ──────────────
 // Beyond the seven hand-listed pairs in tokens.json#contrast, body text and
 // the accent need to clear minimum thresholds against EVERY surface, not
@@ -411,4 +432,4 @@ if (errors.length) {
 }
 
 const roleCount = requiredPalette.length + requiredSyntax.length + 4 + 16;
-console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${ansiFgChecksDone} ANSI-fg + ${ttyChecksDone} TTY + ${tintChecksDone} tint contrast checks + ${modelineSepChecks} modeline-sep)`);
+console.log(`✓ token validation passed (${roleCount} roles, ${checks.length} explicit + ${sweepCount} swept + ${pairChecks} pairing + ${ansiFgChecksDone} ANSI-fg + ${ttyChecksDone} TTY + ${tintChecksDone} tint contrast checks + ${modelineSepChecks} modeline-sep)`);

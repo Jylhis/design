@@ -133,6 +133,28 @@ Inside Bubble Tea, use `jylhis.Detect(os.Stdin, os.Stdout)` or listen for
 background luminance. See `platforms/charm/README.md` for the full API and
 the runnable demo under `platforms/charm/demo/`.
 
+### Glamour (terminal Markdown)
+
+`platforms/glamour/jylhis-{paper,roast,notty}.json` are Charm
+[Glamour](https://github.com/charmbracelet/glamour) stylesheets — the format
+that renders Markdown in `glow`, `gh`, `glab`, and any Bubble Tea app. Code
+blocks use the Modus syntax roles, so a fenced block reads identically in the
+terminal, in Emacs, and on the web. `notty` is the same theme with every colour
+and attribute stripped — a clean, pipe- and screen-reader-friendly plain render.
+
+Select a style by path with the `GLAMOUR_STYLE` env var, or per-invocation:
+
+```bash
+export GLAMOUR_STYLE=$PWD/platforms/glamour/jylhis-roast.json
+glow README.md
+gh pr view 42                       # gh honours GLAMOUR_STYLE too
+glow -s platforms/glamour/jylhis-notty.json CHANGELOG.md | less   # colourless
+```
+
+In a Bubble Tea app, load it with
+`glamour.NewTermRenderer(glamour.WithStylePath("…/jylhis-roast.json"))`, or
+`glamour.WithAutoStyle()` to pick Paper vs. Roast from the terminal background.
+
 ---
 
 ## Terminal (Ghostty + shell)
@@ -477,6 +499,40 @@ controls carry the Jylhis identity even on the login screen.
 5. **Update `README.md` index table** and add a card to
    `platforms/index.html`.
 6. **Add an entry to `CHANGELOG.md`** under the next unreleased version.
+
+---
+
+## Design system over MCP (AI agents)
+
+PRODUCT.md names AI agents extending the system as a secondary user. The
+`platforms/mcp/` server exposes the datum to any MCP client (Claude Code,
+Cursor, …) so an agent reads the system instead of guessing token values or
+component props. It is stdlib-only Go — a single static binary, no
+dependencies — and speaks MCP stdio (newline-delimited JSON-RPC).
+
+The repo ships a ready [`.mcp.json`](../.mcp.json); Claude Code picks it up
+automatically when the project is opened. To register it elsewhere:
+
+```json
+{
+  "mcpServers": {
+    "jylhis-design": { "command": "sh", "args": ["-c", "cd platforms/mcp && exec go run ."] }
+  }
+}
+```
+
+Tools:
+
+- `list_tokens` — every colour role, grouped, with blurbs and members.
+- `get_token {role}` — a role's Sheet/Field hex, notes, paired foreground, and
+  every WCAG contrast claim it appears in.
+- `list_components` / `get_component {name}` — the generated per-component
+  reference (summary, props table, accessibility notes).
+- `get_principles` — the design principles ([`PRINCIPLES.md`](PRINCIPLES.md)).
+
+The server resolves the repo root by walking up from its working directory to
+the folder holding `tokens.json`, so it needs no configuration. Build a static
+binary for distribution with `cd platforms/mcp && go build -o jylhis-design-mcp .`.
 
 ---
 

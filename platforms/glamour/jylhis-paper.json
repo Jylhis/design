@@ -1,0 +1,218 @@
+{
+  "document": {
+    "block_prefix": "\n",
+    "block_suffix": "\n",
+    "color": "#23262e",
+    "margin": 2
+  },
+  "block_quote": {
+    "color": "#565a63",
+    "italic": true,
+    "indent": 1,
+    "indent_token": "│ "
+  },
+  "paragraph": {},
+  "list": {
+    "level_indent": 2
+  },
+  "heading": {
+    "block_suffix": "\n",
+    "color": "#12141a",
+    "bold": true
+  },
+  "h1": {
+    "prefix": " ",
+    "suffix": " ",
+    "color": "#f6f8fb",
+    "background_color": "#8a4d00",
+    "bold": true
+  },
+  "h2": {
+    "prefix": "## ",
+    "color": "#12141a",
+    "bold": true
+  },
+  "h3": {
+    "prefix": "### ",
+    "color": "#12141a",
+    "bold": true
+  },
+  "h4": {
+    "prefix": "#### ",
+    "color": "#565a63",
+    "bold": true
+  },
+  "h5": {
+    "prefix": "##### ",
+    "color": "#565a63"
+  },
+  "h6": {
+    "prefix": "###### ",
+    "color": "#878c95"
+  },
+  "text": {},
+  "strikethrough": {
+    "crossed_out": true
+  },
+  "emph": {
+    "italic": true
+  },
+  "strong": {
+    "bold": true
+  },
+  "hr": {
+    "color": "#cfd6de",
+    "format": "\n──────────\n"
+  },
+  "item": {
+    "block_prefix": "• "
+  },
+  "enumeration": {
+    "block_prefix": ". "
+  },
+  "task": {
+    "ticked": "[✓] ",
+    "unticked": "[ ] "
+  },
+  "link": {
+    "color": "#8a4d00",
+    "underline": true
+  },
+  "link_text": {
+    "color": "#8a4d00",
+    "bold": true
+  },
+  "image": {
+    "color": "#2f4fb0",
+    "underline": true
+  },
+  "image_text": {
+    "color": "#565a63",
+    "format": "image: {{.text}}"
+  },
+  "code": {
+    "prefix": " ",
+    "suffix": " ",
+    "color": "#23262e",
+    "background_color": "#eef2f6"
+  },
+  "code_block": {
+    "margin": 2,
+    "chroma": {
+      "text": {
+        "color": "#23262e"
+      },
+      "error": {
+        "color": "#a60000"
+      },
+      "comment": {
+        "color": "#595959",
+        "italic": true
+      },
+      "comment_preproc": {
+        "color": "#5317ac"
+      },
+      "keyword": {
+        "color": "#5317ac"
+      },
+      "keyword_reserved": {
+        "color": "#5317ac"
+      },
+      "keyword_namespace": {
+        "color": "#5317ac"
+      },
+      "keyword_type": {
+        "color": "#005a5f"
+      },
+      "operator": {
+        "color": "#5317ac"
+      },
+      "punctuation": {
+        "color": "#23262e"
+      },
+      "name": {
+        "color": "#0044aa"
+      },
+      "name_builtin": {
+        "color": "#8f0075"
+      },
+      "name_tag": {
+        "color": "#005a5f"
+      },
+      "name_attribute": {
+        "color": "#721045"
+      },
+      "name_class": {
+        "color": "#005a5f"
+      },
+      "name_constant": {
+        "color": "#0031a9"
+      },
+      "name_decorator": {
+        "color": "#8f0075"
+      },
+      "name_exception": {
+        "color": "#a60000"
+      },
+      "name_function": {
+        "color": "#721045"
+      },
+      "name_other": {
+        "color": "#0044aa"
+      },
+      "literal": {
+        "color": "#2544bb"
+      },
+      "literal_number": {
+        "color": "#0031a9"
+      },
+      "literal_date": {
+        "color": "#2544bb"
+      },
+      "literal_string": {
+        "color": "#2544bb"
+      },
+      "literal_string_escape": {
+        "color": "#8f0075"
+      },
+      "generic_deleted": {
+        "color": "#a60000"
+      },
+      "generic_emph": {
+        "italic": true
+      },
+      "generic_inserted": {
+        "color": "#006800"
+      },
+      "generic_strong": {
+        "bold": true
+      },
+      "generic_subheading": {
+        "color": "#5317ac"
+      },
+      "background": {
+        "background_color": "#eef2f6"
+      }
+    }
+  },
+  "table": {
+    "center_separator": "┼",
+    "column_separator": "│",
+    "row_separator": "─",
+    "color": "#23262e"
+  },
+  "definition_term": {
+    "color": "#12141a",
+    "bold": true
+  },
+  "definition_description": {
+    "block_prefix": "\n  ",
+    "color": "#23262e"
+  },
+  "html_block": {
+    "color": "#878c95"
+  },
+  "html_span": {
+    "color": "#878c95"
+  }
+}

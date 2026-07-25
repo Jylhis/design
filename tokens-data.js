@@ -529,6 +529,43 @@ export const tokens = {
       "meaning": "long task finished"
     }
   },
+  "pairs": {
+    "accent": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the bronze fill — primary button"
+    },
+    "accent-hover": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the bronze :hover/:active fill"
+    },
+    "brand": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on a solid benchmark-vermilion fill"
+    },
+    "bg-subtle": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on the subtle fill — code, zebra"
+    },
+    "surface": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on a card surface"
+    },
+    "surface-raised": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on a raised plate / modal / dropdown"
+    },
+    "selection-bg": {
+      "fg": "text",
+      "min": 7,
+      "label": "selected text on the selection highlight"
+    }
+  },
   "contrast": [
     {
       "fg": "text",

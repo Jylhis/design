@@ -280,6 +280,15 @@ are cool near-white / near-black; ink bleeds through, it is never the page.
 **The Contour-Is-Contrast Rule.** Contour intervals map to contrast steps. A role
 below its measured floor does not print — the legend proves the level.
 
+**The Paired-Foreground Rule.** Every fill that carries text ships a paired
+guaranteed-contrast foreground token: `tokens.json#pairs` maps each such surface
+(the bronze `accent`/`accent-hover` fills, `brand`, and the `bg-subtle`/`surface`/
+`surface-raised`/`selection-bg` grounds) to the foreground role that sits on it,
+with a `min` ratio the validator proves in both editions. Generation emits a
+`--color-<surface>-foreground` var for each; a fill never guesses its own text
+colour. It is the survey's version of shadcn's background/foreground pairing —
+contrast is declared and plotted, not assumed.
+
 ## Typography
 
 **Display / titles:** Zilla Slab (technical slab serif) — plate and page

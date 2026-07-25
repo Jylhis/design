@@ -26,7 +26,7 @@ Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `g
 
 CI (`.github/workflows/validate.yml`) runs all six validators on every push/PR. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The Pages workflow (`pages.yml`) regenerates and deploys `index.html` plus all preview/prototype assets to GitHub Pages on `main`.
 
-Specs the validators enforce live in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md), [`docs/CLI-TUI-GUIDELINES.md`](docs/CLI-TUI-GUIDELINES.md), and [`platforms/KEYBOARD.md`](platforms/KEYBOARD.md). For deeper review beyond static checks, invoke the `/design-review` skill in `.claude/skills/design-review/`.
+The design reasoning behind the system (values, structural and interaction principles, the named rules) lives in [`docs/PRINCIPLES.md`](docs/PRINCIPLES.md). Specs the validators enforce live in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md), [`docs/CLI-TUI-GUIDELINES.md`](docs/CLI-TUI-GUIDELINES.md), and [`platforms/KEYBOARD.md`](platforms/KEYBOARD.md). For deeper review beyond static checks, invoke the `/design-review` skill in `.claude/skills/design-review/`.
 
 ## Architecture
 
@@ -41,9 +41,11 @@ A single Bun script with zero dependencies reads `tokens.json` and writes genera
 | Generated file | What |
 |---|---|
 | `tokens.css` | CSS custom properties (`:root` + `[data-theme="dark"]`) |
+| `docs/components/*.md` | Per-component reference — summary + props table + a11y notes, generated from each `.d.ts` + `card.html` |
 | `tokens-data.js` | JS export for the showcase website (includes derived `contrastPairs` + `swatchContrast`) |
 | `platforms/ghostty/jylhis-{paper,roast}` | Ghostty color themes |
 | `platforms/charm/jylhis/palette.go` | Go lipgloss palette struct |
+| `platforms/glamour/jylhis-{paper,roast,notty}.json` | Charm Glamour terminal-Markdown stylesheets (notty = colorless) |
 | `platforms/emacs/jylhis-theme-core.el` | Shared face spec list + three-tier resolver macro (Tokyo-Themes-style framework) |
 | `platforms/emacs/jylhis-{paper,roast}-palette.el` | Three-tier (GUI / xterm-256 / 16-color ANSI) palette alist per variant |
 | `platforms/emacs/jylhis-{paper,roast}-theme.el` | Entry point: `require`s core+palette and calls `jylhis-apply-faces` |
@@ -65,11 +67,12 @@ The ASE generator emits binary content; the `--check` mode handles both text and
 - `colors_and_type.css` — imports `tokens.css` + `fonts.css`, then adds font stacks, semantic type helpers (`.ds-body`, `.ds-h1`, `.ds-meta`, `.ds-code-inline`, etc.), type craft defaults (oldstyle figures, `text-wrap`, hanging punctuation), and the interaction baseline (selection, caret, `:focus-visible` ring)
 - `fonts.css` — self-hosted `@font-face` blocks for the v2 three-role stack: Zilla Slab (display/titles, static 600/700), Hanken Grotesk (UI/body, variable wght), IBM Plex Mono (data/labels/code, static 400/500 + 400 italic); all latin/latin-ext subsets with `unicode-range`. Family stacks are generated into `tokens.css` (`--font-display`/`--font-body`/`--font-mono`/`--font-heading`) from `tokens.json` typography; `colors_and_type.css` consumes them, so families never drift from the datum
 - `motion.css` — the "ink draws on" motion signature (`.ds-rule-draw`, `.ds-typed`, `.ds-caret`); guardrails in `docs/STYLE-GUIDE.md` §5
-- `components/` — React components library: 16 components, each `<Name>/<Name>.jsx` + `<Name>.d.ts` + `card.html` specimen, styled by `components/components.css` (tokens only, class-per-component)
+- `components/` — React components library: 20 components, each `<Name>/<Name>.jsx` + `<Name>.d.ts` + `card.html` specimen, styled by `components/components.css` (tokens only, class-per-component)
 - `platforms/shell/` — starship.toml, bashrc, zshrc, dircolors (use ANSI names, not hex)
 - `platforms/ghostty/config` — user preferences, not palette
 - `platforms/KEYBOARD.md` — focus ring, kbd chip, command palette, selected-item spec
 - `platforms/charm/jylhis/{theme,bubbles,bubbletea}.go` — lipgloss styles and Bubble Tea integration
+- `platforms/mcp/` — stdlib-only Go MCP server exposing tokens, component specs, and principles to AI agents (`.mcp.json` registers it; `docs/INTEGRATION.md` documents the tools)
 - `platforms/emacs/jylhis-themes.el` — autoload registration for `custom-theme-load-path`
 - `platforms/emacs/jylhis-theme-toggle.el` — `M-x jylhis-toggle-theme` (and `jylhis-load-theme`) helpers
 - `platforms/emacs/face-manifest.json` — curated face list for `validate-emacs-faces.mjs`; edit in lock-step with the spec list in `scripts/generate.mjs`

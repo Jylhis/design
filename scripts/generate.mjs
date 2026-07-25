@@ -8,7 +8,7 @@
 //   (default)  — write generated files in-place
 //   --check    — generate to temp dir, diff against committed files, exit 1 if different
 
-import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, existsSync, readdirSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join } from "node:path";
@@ -196,6 +196,12 @@ function generateTokensCSS() {
     lines.push(`  --color-syntax-tag: ${tokens.syntax["syn-type"][mode]};`);
     lines.push("  /* Status */");
     for (const r of Object.keys(tokens.status)) lines.push(`  ${cssName(r)}: ${tokens.status[r][mode]};`);
+    // Foreground pairs — every fill that carries text ships its guaranteed-
+    // contrast foreground token (tokens.json#pairs, enforced by validate-tokens).
+    lines.push("  /* Foreground pairs */");
+    for (const [surface, spec] of Object.entries(tokens.pairs ?? {})) {
+      lines.push(`  ${cssName(surface)}-foreground: ${allRoles[spec.fg][mode]};`);
+    }
     return lines.join("\n");
   };
 
@@ -2571,9 +2577,233 @@ function generateHyperOS(mode) {
   ]);
 }
 
+// ─── Charm Glamour — terminal Markdown stylesheet ───────────────────
+// Glamour (github.com/charmbracelet/glamour) renders Markdown in the
+// terminal from a JSON stylesheet — powers `glow`, `gh`, `glab`, and
+// Bubble Tea apps (dogfooded via nacutils). One StylePrimitive
+// (color + background_color + SGR bools + prefix/suffix/format) is reused
+// per Markdown element; color is a truecolor "#rrggbb" string. The `notty`
+// variant is literally this file minus every colour/attribute key — the
+// schema separates structure (prefix/indent/margin/glyphs) from colour, so
+// a colourless theme falls out for free. Select with GLAMOUR_STYLE=<path>.
+//
+// mode: "light" (Sheet) | "dark" (Field) | null (notty, colourless).
+function generateGlamour(mode) {
+  const withColor = mode !== null;
+  const c = (role) => (withColor ? color(role, mode) : undefined);
+  const on = (v) => (withColor ? v : undefined); // gate an SGR flag on colour mode
+
+  // code_block syntax highlighting — Modus syntax roles → Chroma token types.
+  const chroma = {
+    text:                  { color: c("text") },
+    error:                 { color: c("status-err") },
+    comment:               { color: c("syn-comment"), italic: on(true) },
+    comment_preproc:       { color: c("syn-keyword") },
+    keyword:               { color: c("syn-keyword") },
+    keyword_reserved:      { color: c("syn-keyword") },
+    keyword_namespace:     { color: c("syn-keyword") },
+    keyword_type:          { color: c("syn-type") },
+    operator:              { color: c("syn-keyword") },
+    punctuation:           { color: c("text") },
+    name:                  { color: c("syn-variable") },
+    name_builtin:          { color: c("syn-builtin") },
+    name_tag:              { color: c("syn-type") },
+    name_attribute:        { color: c("syn-function") },
+    name_class:            { color: c("syn-type") },
+    name_constant:         { color: c("syn-number") },
+    name_decorator:        { color: c("syn-builtin") },
+    name_exception:        { color: c("status-err") },
+    name_function:         { color: c("syn-function") },
+    name_other:            { color: c("syn-variable") },
+    literal:               { color: c("syn-string") },
+    literal_number:        { color: c("syn-number") },
+    literal_date:          { color: c("syn-string") },
+    literal_string:        { color: c("syn-string") },
+    literal_string_escape: { color: c("syn-builtin") },
+    generic_deleted:       { color: c("status-err") },
+    generic_emph:          { italic: on(true) },
+    generic_inserted:      { color: c("status-ok") },
+    generic_strong:        { bold: on(true) },
+    generic_subheading:    { color: c("syn-keyword") },
+    background:            { background_color: c("bg-subtle") },
+  };
+
+  const style = {
+    document:     { block_prefix: "\n", block_suffix: "\n", color: c("text"), margin: 2 },
+    block_quote:  { color: c("text-muted"), italic: on(true), indent: 1, indent_token: "│ " },
+    paragraph:    {},
+    list:         { level_indent: 2 },
+    heading:      { block_suffix: "\n", color: c("text-heading"), bold: on(true) },
+    // h1 renders as a bronze title bar: bg-tone ink on the accent fill — the
+    // Paired-Foreground rule, in the terminal (bg is accent's paired fg).
+    h1:           { prefix: " ", suffix: " ", color: c("bg"), background_color: c("accent"), bold: on(true) },
+    h2:           { prefix: "## ", color: c("text-heading"), bold: on(true) },
+    h3:           { prefix: "### ", color: c("text-heading"), bold: on(true) },
+    h4:           { prefix: "#### ", color: c("text-muted"), bold: on(true) },
+    h5:           { prefix: "##### ", color: c("text-muted") },
+    h6:           { prefix: "###### ", color: c("text-faint") },
+    text:         {},
+    strikethrough:{ crossed_out: on(true) },
+    emph:         { italic: on(true) },
+    strong:       { bold: on(true) },
+    hr:           { color: c("border"), format: "\n──────────\n" },
+    item:         { block_prefix: "• " },
+    enumeration:  { block_prefix: ". " },
+    task:         { ticked: "[✓] ", unticked: "[ ] " },
+    link:         { color: c("accent"), underline: on(true) },
+    link_text:    { color: c("accent"), bold: on(true) },
+    image:        { color: c("contour"), underline: on(true) },
+    image_text:   { color: c("text-muted"), format: "image: {{.text}}" },
+    code:         { prefix: " ", suffix: " ", color: c("text"), background_color: c("bg-subtle") },
+    code_block:   { margin: 2, chroma: withColor ? chroma : undefined },
+    table:        { center_separator: "┼", column_separator: "│", row_separator: "─", color: c("text") },
+    definition_term:        { color: c("text-heading"), bold: on(true) },
+    definition_description: { block_prefix: "\n  ", color: c("text") },
+    html_block:   { color: c("text-faint") },
+    html_span:    { color: c("text-faint") },
+  };
+
+  // JSON.stringify drops every `undefined`-valued key, so the notty build is
+  // exactly this object minus all colour/SGR keys (structure/glyphs remain).
+  return JSON.stringify(style, null, 2) + "\n";
+}
+
+// ─── Per-component reference docs ───────────────────────────────────
+// Generated from each component's .d.ts (summary + typed props), card.html
+// (anatomy = the demo-label rows), and .jsx (accessibility comments). Keeps
+// component docs single-source: the JSDoc you already write IS the reference.
+// A component that lacks a typed, documented .d.ts fails generation — that is
+// the "every component is documented" check.
+const COMPONENTS_DIR = "components";
+
+function listComponents() {
+  return readdirSync(resolve(ROOT, COMPONENTS_DIR), { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name)
+    .sort();
+}
+
+function cleanJsdoc(block) {
+  return block
+    .split("\n")
+    .map((l) => l.replace(/^\s*\/?\*+\/?/, "").trim())
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseSummary(dts) {
+  // The JSDoc block immediately before `export declare function` — the inner
+  // guard `(?!\*\/)` stops the match from swallowing an earlier prop's doc.
+  const m = dts.match(/\/\*\*((?:(?!\*\/)[\s\S])*)\*\/\s*export declare function/);
+  return m ? cleanJsdoc(m[1]) : "";
+}
+
+function parseInterfaces(dts) {
+  const result = [];
+  const re = /export interface (\w+)([^{]*)\{([\s\S]*?)\n\}/g;
+  let m;
+  while ((m = re.exec(dts))) {
+    const [, name, ext, body] = m;
+    const props = [];
+    const propRe = /(?:\/\*\*([\s\S]*?)\*\/\s*)?["']?([A-Za-z_][\w-]*)["']?(\?)?:\s*([^;]+);/g;
+    let p;
+    while ((p = propRe.exec(body))) {
+      const [, doc, pname, opt, type] = p;
+      props.push({ name: pname, optional: !!opt, type: type.trim().replace(/\s+/g, " "), doc: doc ? cleanJsdoc(doc) : "" });
+    }
+    result.push({ name, extends: ext.replace(/\bextends\b/, "").trim(), props });
+  }
+  return result;
+}
+
+function parseAnatomy(card) {
+  const labels = [];
+  const re = /demo-label"\s*\}\s*,\s*"([^"]+)"/g;
+  let m;
+  while ((m = re.exec(card))) labels.push(m[1].trim());
+  return [...new Set(labels)];
+}
+
+function parseA11y(jsx) {
+  const notes = [];
+  for (const line of jsx.split("\n")) {
+    const m = line.match(/\/\/\s*(.*)/);
+    if (!m) continue;
+    if (/aria|ACCESSIBILITY|KEYBOARD|\brole\b|focus|tabindex|WAI|dialog|native/i.test(m[1])) notes.push(m[1].trim());
+  }
+  return [...new Set(notes)];
+}
+
+const mdEscape = (s) => String(s).replace(/\|/g, "\\|");
+
+function generateComponentDoc(name) {
+  const dir = resolve(ROOT, COMPONENTS_DIR, name);
+  const dtsPath = join(dir, `${name}.d.ts`);
+  if (!existsSync(dtsPath)) {
+    throw new Error(`component ${name}: missing ${name}.d.ts — every component must ship a typed, documented sidecar`);
+  }
+  const dts = readFileSync(dtsPath, "utf8");
+  const jsx = existsSync(join(dir, `${name}.jsx`)) ? readFileSync(join(dir, `${name}.jsx`), "utf8") : "";
+  const card = existsSync(join(dir, "card.html")) ? readFileSync(join(dir, "card.html"), "utf8") : "";
+
+  const summary = parseSummary(dts);
+  const interfaces = parseInterfaces(dts).sort((a, b) =>
+    a.name === `${name}Props` ? -1 : b.name === `${name}Props` ? 1 : a.name.localeCompare(b.name),
+  );
+  if (!summary) throw new Error(`component ${name}: ${name}.d.ts has no summary JSDoc on its exported function`);
+
+  const L = [];
+  L.push(`<!-- GENERATED from components/${name}/ by scripts/generate.mjs. Do not edit by hand. -->`);
+  L.push(`# ${name}`, "");
+  L.push(summary, "");
+  L.push("```jsx", `import { ${name} } from "../../components/${name}/${name}.jsx";`, "```", "");
+  const anatomy = parseAnatomy(card);
+  if (anatomy.length) {
+    L.push("## Anatomy", "");
+    for (const a of anatomy) L.push(`- ${a}`);
+    L.push("");
+  }
+  for (const iface of interfaces) {
+    L.push(`## Props — \`${iface.name}\``, "");
+    if (iface.extends) L.push(`Extends \`${mdEscape(iface.extends)}\`.`, "");
+    L.push("| prop | type | required | description |", "|------|------|----------|-------------|");
+    for (const p of iface.props) {
+      L.push(`| \`${p.name}\` | \`${mdEscape(p.type)}\` | ${p.optional ? "" : "yes"} | ${mdEscape(p.doc)} |`);
+    }
+    L.push("");
+  }
+  const a11y = parseA11y(jsx);
+  if (a11y.length) {
+    L.push("## Accessibility", "");
+    for (const n of a11y) L.push(`- ${n}`);
+    L.push("");
+  }
+  L.push("## See also", "");
+  L.push(`- Specimen: [\`components/${name}/card.html\`](../../components/${name}/card.html)`);
+  L.push("- Principles: [`docs/PRINCIPLES.md`](../PRINCIPLES.md) · Accessibility: [`docs/ACCESSIBILITY.md`](ACCESSIBILITY.md)", "");
+  return L.join("\n");
+}
+
+function generateComponentIndex(names) {
+  const L = [];
+  L.push("<!-- GENERATED by scripts/generate.mjs. Do not edit by hand. -->");
+  L.push("# Component reference", "");
+  L.push(`The ${names.length} React components, each generated from its \`.d.ts\` + \`card.html\`. See [\`docs/PRINCIPLES.md\`](../PRINCIPLES.md) for the reasoning behind them.`, "");
+  for (const n of names) L.push(`- [${n}](${n}.md)`);
+  L.push("");
+  return L.join("\n");
+}
+
 // ─── Register all outputs ───────────────────────────────────────────
 
 out("tokens.css", generateTokensCSS());
+out("platforms/glamour/jylhis-paper.json", generateGlamour("light"));
+out("platforms/glamour/jylhis-roast.json", generateGlamour("dark"));
+out("platforms/glamour/jylhis-notty.json", generateGlamour(null));
+const _componentNames = listComponents();
+for (const _name of _componentNames) out(`docs/components/${_name}.md`, generateComponentDoc(_name));
+out("docs/components/README.md", generateComponentIndex(_componentNames));
 out("platforms/ghostty/jylhis-paper", generateGhostty("light"));
 out("platforms/ghostty/jylhis-roast", generateGhostty("dark"));
 out("platforms/charm/jylhis/palette.go", generateGoPalette());

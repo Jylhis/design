@@ -26,7 +26,7 @@
 .ds-btn[aria-busy="true"]::after { content: " …"; }
 .ds-btn--primary {
   background: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-accent-foreground);
   border: var(--border-hairline) solid var(--color-accent);
 }
 .ds-btn--primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
@@ -426,6 +426,130 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
   a.ds-tag { min-height: 44px; display: inline-flex; align-items: center; }
   .ds-breadcrumb a { padding-block: 6px; }
 }
+
+/* ── Table ──────────────────────────────────────────────── */
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-7);
+  color: var(--color-text);
+}
+.ds-table caption {
+  text-align: left;
+  font-size: var(--type-scale-8);
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: var(--space-sm);
+}
+.ds-table thead th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: var(--border-focus) solid var(--color-border-strong);
+  padding: var(--space-sm) 10px;
+  font-size: var(--type-scale-9);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.ds-table th[data-align="right"], .ds-table td[data-align="right"] { text-align: right; }
+.ds-table tbody td {
+  padding: 7px 10px;
+  border-bottom: var(--border-hairline) solid var(--color-border);
+  color: var(--color-surface-foreground);
+  vertical-align: middle;
+}
+.ds-table td[data-mono] { color: var(--color-syntax-string); }
+.ds-table--zebra tbody tr:nth-child(even) td { background: var(--color-bg-subtle); }
+.ds-table tbody tr:hover td { background: var(--color-bg-subtle); }
+
+/* ── Tabs ───────────────────────────────────────────────── */
+.ds-tabs__list { display: flex; gap: 2px; border-bottom: var(--border-hairline) solid var(--color-border); margin-bottom: -1px; }
+.ds-tabs__tab {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-7);
+  padding: var(--space-sm) 14px;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: var(--border-hairline) solid transparent;
+  border-bottom: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+.ds-tabs__tab:hover { color: var(--color-accent); }
+.ds-tabs__tab[aria-selected="true"] {
+  color: var(--color-text-heading);
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border);
+}
+.ds-tabs__tab:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-tabs__panel {
+  border: var(--border-hairline) solid var(--color-border);
+  border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+  padding: 14px 16px;
+  background: var(--color-bg-subtle);
+  color: var(--color-surface-foreground);
+}
+/* rail variant — accent underline, no folder chrome */
+.ds-tabs--rail .ds-tabs__list { gap: 18px; }
+.ds-tabs--rail .ds-tabs__tab { padding: var(--space-sm) 0; border-radius: 0; border: none; position: relative; }
+.ds-tabs--rail .ds-tabs__tab[aria-selected="true"] { background: transparent; color: var(--color-text-heading); }
+.ds-tabs--rail .ds-tabs__tab[aria-selected="true"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
+  height: var(--border-focus); background: var(--color-accent);
+}
+.ds-tabs--rail .ds-tabs__panel { border: none; border-radius: 0; background: transparent; padding: 14px 0 0; }
+
+/* ── Pagination ─────────────────────────────────────────── */
+.ds-pager { display: flex; gap: var(--space-xs); align-items: center; flex-wrap: wrap; font-family: var(--font-mono); }
+.ds-pager a, .ds-pager span {
+  font-size: var(--type-scale-7);
+  min-width: 26px;
+  text-align: center;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-hairline) solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.ds-pager a:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-pager a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-pager [aria-current="page"] {
+  color: var(--color-text-heading);
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-subtle);
+}
+.ds-pager__gap { color: var(--color-text-faint); cursor: default; pointer-events: none; user-select: none; }
+.ds-pager__arrow { color: var(--color-accent); }
+
+/* ── Modal (native <dialog>) ────────────────────────────── */
+.ds-modal {
+  background: var(--color-surface-raised);
+  color: var(--color-surface-raised-foreground);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 36ch;
+  padding: 20px 22px;
+}
+.ds-modal::backdrop { background: var(--color-scrim); }
+.ds-modal__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-sm); gap: var(--space-md); }
+.ds-modal__title { font-family: var(--font-mono); font-size: var(--type-scale-5); font-weight: 700; color: var(--color-text-heading); margin: 0; }
+.ds-modal__close {
+  background: none;
+  border: var(--border-hairline) solid transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--type-scale-4);
+  cursor: pointer;
+  padding: 0 var(--space-xs);
+  line-height: 1;
+}
+.ds-modal__close:hover { color: var(--color-accent); }
+.ds-modal__body { font-family: var(--font-body); color: var(--color-text); line-height: 1.55; margin: 0 0 14px; }
+.ds-modal__actions { display: flex; gap: var(--space-sm); justify-content: flex-end; }
 
 /* Hover is a pointer affordance — restore base state on touch so a tap
    doesn't strand the accent border/colour (:active still gives feedback). */

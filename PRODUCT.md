@@ -77,7 +77,7 @@ validator gauntlet; CI enforces every validator on push/PR.
   CSS `var()` resolution; HTML a11y; CSS a11y; CLI/TUI conventions; Emacs face
   manifest; preview hex provenance. If a validator is wrong, fix it in the same
   PR; never silence it.
-- **Components:** a React library of 16 components, each `<Name>.jsx` + `.d.ts`
+- **Components:** a React library of 20 components, each `<Name>.jsx` + `.d.ts`
   + `card.html` specimen, styled by `components/components.css` using tokens
   only, one class per component.
 - **Emacs three-tier degradation:** every face spec degrades 24-bit GUI hex →

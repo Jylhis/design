@@ -91,6 +91,12 @@
     { src = "platforms/bat/jylhis-roast.tmTheme"; dest = "share/jylhis/bat/jylhis-roast.tmTheme"; }
   ];
 
+  glamour = [
+    { src = "platforms/glamour/jylhis-paper.json"; dest = "share/jylhis/glamour/jylhis-paper.json"; }
+    { src = "platforms/glamour/jylhis-roast.json"; dest = "share/jylhis/glamour/jylhis-roast.json"; }
+    { src = "platforms/glamour/jylhis-notty.json"; dest = "share/jylhis/glamour/jylhis-notty.json"; }
+  ];
+
   scripts = [
     { src = "platforms/scripts/jylhis-theme-toggle.sh";
       dest = "share/jylhis/scripts/jylhis-theme-toggle.sh";

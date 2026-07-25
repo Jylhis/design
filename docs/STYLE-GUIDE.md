@@ -32,6 +32,16 @@ The system is small and stays small on purpose. The rules below explain why.
 
 > Copper is not a syntax color. The brand never appears inside a code block.
 
+### Paired foregrounds
+
+Every fill that carries text has a paired foreground token, declared in
+`tokens.json#pairs` and emitted as `--color-<surface>-foreground`. Put text on a
+fill with its pair, never a guessed colour: a primary button is
+`background: var(--color-accent); color: var(--color-accent-foreground)`; a card is
+`background: var(--color-surface); color: var(--color-surface-foreground)`. The
+validator proves each pair clears its `min` ratio in both editions (the
+Paired-Foreground rule, DESIGN.md).
+
 ### Linen — borders
 
 - **`border`** for everything by default. 1px solid.
