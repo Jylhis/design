@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- The maker's mark: the prompt, jy ❯ — pure type, chevron in benchmark
+       vermilion. Colors are tokens.json text-heading / brand per edition. -->
+  <style>
+    .ink { fill: #12141a; }
+    .chev { fill: #b5450e; }
+    @media (prefers-color-scheme: dark) {
+      .ink { fill: #f2f4f8; }
+      .chev { fill: #ef8a4a; }
+    }
+    text {
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+      font-weight: 600;
+    }
+  </style>
+  <text class="ink" x="1" y="22" font-size="17">jy</text>
+  <text class="chev" x="21" y="22" font-size="15">❯</text>
+</svg>

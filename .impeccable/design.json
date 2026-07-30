@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-25T00:00:00Z",
+  "title": "Design System: Jylhis Design System",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Bronze",
+        "canonical": "#8a4d00",
+        "dark": "#e0a33a"
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Deep Bronze",
+        "canonical": "#a75f0a",
+        "dark": "#f0b95c"
+      },
+      "brand": {
+        "role": "primary",
+        "displayName": "Benchmark Vermilion",
+        "canonical": "#b5450e",
+        "dark": "#ef8a4a"
+      },
+      "contour": {
+        "role": "tertiary",
+        "displayName": "Contour Blue",
+        "canonical": "#2f4fb0",
+        "dark": "#6f9be0"
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Sheet Ground",
+        "canonical": "#f6f8fb",
+        "dark": "#0d0f14",
+        "tonalRamp": [
+          "#0d0f14",
+          "#14171e",
+          "#1b1f28",
+          "#232833",
+          "#878c95",
+          "#cfd6de",
+          "#eef2f6",
+          "#f6f8fb"
+        ]
+      },
+      "bg-subtle": {
+        "role": "neutral",
+        "displayName": "Subtle Ground",
+        "canonical": "#eef2f6",
+        "dark": "#14171e"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#e6ecf1",
+        "dark": "#1b1f28"
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised Plate",
+        "canonical": "#fcfdff",
+        "dark": "#232833"
+      },
+      "text-heading": {
+        "role": "neutral",
+        "displayName": "Heading Ink",
+        "canonical": "#12141a",
+        "dark": "#f2f4f8"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Body Ink",
+        "canonical": "#23262e",
+        "dark": "#d6dae2",
+        "tonalRamp": [
+          "#12141a",
+          "#23262e",
+          "#565a63",
+          "#878c95",
+          "#aab4c0",
+          "#cfd6de",
+          "#eef2f6",
+          "#f2f4f8"
+        ]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#565a63",
+        "dark": "#9aa0ab"
+      },
+      "text-faint": {
+        "role": "neutral",
+        "displayName": "Faint Ink",
+        "canonical": "#878c95",
+        "dark": "#656b76"
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#cfd6de",
+        "dark": "#2b303b"
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "#aab4c0",
+        "dark": "#3a4150"
+      },
+      "decorator": {
+        "role": "neutral",
+        "displayName": "Graticule",
+        "canonical": "#7f8fb5",
+        "dark": "#39415a"
+      },
+      "status-err": {
+        "role": "tertiary",
+        "displayName": "Error Red",
+        "canonical": "#a60000",
+        "dark": "#f0685f"
+      },
+      "status-warn": {
+        "role": "tertiary",
+        "displayName": "Warning Yellow",
+        "canonical": "#8a5000",
+        "dark": "#d9b34a"
+      },
+      "status-ok": {
+        "role": "tertiary",
+        "displayName": "Success Green",
+        "canonical": "#006800",
+        "dark": "#6bbf6b"
+      },
+      "status-info": {
+        "role": "tertiary",
+        "displayName": "Info Blue",
+        "canonical": "#005e8b",
+        "dark": "#5fb8cf"
+      },
+      "syn-keyword": {
+        "role": "secondary",
+        "displayName": "Modus Keyword",
+        "canonical": "#5317ac",
+        "dark": "#b6a0ff"
+      },
+      "syn-string": {
+        "role": "secondary",
+        "displayName": "Modus String",
+        "canonical": "#2544bb",
+        "dark": "#79a8ff"
+      },
+      "syn-number": {
+        "role": "secondary",
+        "displayName": "Modus Number",
+        "canonical": "#0031a9",
+        "dark": "#79bbff"
+      },
+      "syn-function": {
+        "role": "secondary",
+        "displayName": "Modus Function",
+        "canonical": "#721045",
+        "dark": "#feacd0"
+      },
+      "syn-builtin": {
+        "role": "secondary",
+        "displayName": "Modus Builtin",
+        "canonical": "#8f0075",
+        "dark": "#f78fe7"
+      },
+      "syn-type": {
+        "role": "secondary",
+        "displayName": "Modus Type",
+        "canonical": "#005a5f",
+        "dark": "#6ae4b9"
+      },
+      "syn-variable": {
+        "role": "secondary",
+        "displayName": "Modus Variable",
+        "canonical": "#0044aa",
+        "dark": "#00d3d0"
+      },
+      "syn-comment": {
+        "role": "secondary",
+        "displayName": "Modus Comment",
+        "canonical": "#595959",
+        "dark": "#9a9a9a"
+      },
+      "syn-docstring": {
+        "role": "secondary",
+        "displayName": "Modus Docstring",
+        "canonical": "#2a5a3a",
+        "dark": "#88ca9f"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page h1 — the engraved Zilla Slab plate title."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Compact page title (.ds-title), Zilla Slab 600."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings (h2) in Hanken Grotesk semibold; h3/h4 step down the scale."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Hanken Grotesk prose, capped at 72ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "IBM Plex Mono meta lines, dates, captions; UPPERCASE(7) man-page variant."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Inline and block code in IBM Plex Mono, Modus-highlighted."
+      }
+    },
+    "motion": [
+      {
+        "name": "fast",
+        "value": "150ms cubic-bezier(0.25, 0.1, 0.25, 1)",
+        "purpose": "Hover/focus color shifts."
+      },
+      {
+        "name": "base",
+        "value": "250ms cubic-bezier(0.2, 0.6, 0.2, 1)",
+        "purpose": "Link underline, theme toggle, drawer open."
+      },
+      {
+        "name": "slow",
+        "value": "300ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Page enter and the line-extend entrance."
+      },
+      {
+        "name": "survey",
+        "value": "480ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "The full plate render — contour draw-in and readout."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "860px"
+      },
+      {
+        "name": "notes",
+        "value": "CSS media queries cannot read custom properties; hand-authored @media rules repeat these values literally and carry a `/* breakpoints.<name> */` comment."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single bronze call to action; lowercase command copy.",
+      "html": "<button class=\"ds-btn ds-btn--primary\">say hello ›</button>",
+      "css": ".ds-btn { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 0.9rem; padding: 0.5rem 1rem; border-radius: var(--radius-sm, 3px); cursor: pointer; transition: border-color 150ms ease-out, color 150ms ease-out, background-color 150ms ease-out; } .ds-btn--primary { background: var(--color-accent, #8a4d00); color: var(--color-bg, #f6f8fb); border: 1px solid var(--color-accent, #8a4d00); } .ds-btn--primary:hover, .ds-btn--primary:active { background: var(--color-accent-hover, #a75f0a); border-color: var(--color-accent-hover, #a75f0a); } .ds-btn--primary:focus-visible { outline: 2px solid var(--color-accent, #8a4d00); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action; hairline border that shifts to bronze on hover.",
+      "html": "<button class=\"ds-btn ds-btn--ghost\">read more ›</button>",
+      "css": ".ds-btn { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 0.9rem; padding: 0.5rem 1rem; border-radius: var(--radius-sm, 3px); cursor: pointer; transition: border-color 150ms ease-out, color 150ms ease-out; } .ds-btn--ghost { background: transparent; color: var(--color-text, #23262e); border: 1px solid var(--color-border, #cfd6de); } .ds-btn--ghost:hover { color: var(--color-accent, #8a4d00); border-color: var(--color-accent, #8a4d00); } .ds-btn--ghost:active { color: var(--color-accent-hover, #a75f0a); border-color: var(--color-accent-hover, #a75f0a); } .ds-btn--ghost:focus-visible { outline: 2px solid var(--color-accent, #8a4d00); outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Monospace chip on the subtle ground; interactive tags shift to bronze.",
+      "html": "<a href=\"#\" class=\"ds-tag\">nixos</a>",
+      "css": ".ds-tag { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 0.875rem; padding: 0.15em 0.55em; border-radius: var(--radius-sm, 3px); background: var(--color-bg-subtle, #eef2f6); border: 1px solid var(--color-border, #cfd6de); color: var(--color-text-muted, #565a63); text-decoration: none; cursor: pointer; transition: border-color 150ms ease-out, color 150ms ease-out; } .ds-tag:hover { color: var(--color-accent, #8a4d00); border-color: var(--color-accent, #8a4d00); } .ds-tag:active { color: var(--color-accent-hover, #a75f0a); border-color: var(--color-accent-hover, #a75f0a); } .ds-tag:focus-visible { outline: 2px solid var(--color-accent, #8a4d00); outline-offset: 2px; }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "status-badge",
+      "description": "UPPERCASE mono badge; status color paired with the word, never color alone.",
+      "html": "<span class=\"ds-status ds-status--active\">active</span>",
+      "css": ".ds-status { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 0.8125rem; padding: 0.1em 0.5em; border-radius: var(--radius-sm, 3px); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; } .ds-status--active { color: var(--color-status-ok, #006800); background: color-mix(in srgb, var(--color-status-ok, #006800) 12%, transparent); border: 1px solid var(--color-status-ok, #006800); }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat container; tonal fill + hairline border, no shadow. The inner link takes the focus ring.",
+      "html": "<article class=\"ds-card\"><header class=\"ds-card__head\"><h3 class=\"ds-card__title\"><a href=\"#\">marchyo</a></h3></header><p class=\"ds-card__desc\">Personal spin of Omarchy with NixOS.</p></article>",
+      "css": ".ds-card { border: 1px solid var(--color-border, #cfd6de); border-radius: var(--radius-md, 4px); padding: 1rem; background: var(--color-surface-raised, #fcfdff); font-family: var(--font-body, 'Hanken Grotesk', serif); } .ds-card__title { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 0.95rem; font-weight: 600; color: var(--color-text-heading, #12141a); margin: 0 0 0.25rem; } .ds-card__title a { color: inherit; text-decoration: none; } .ds-card__title a:hover { color: var(--color-accent-hover, #a75f0a); } .ds-card__title a:focus-visible { outline: 2px solid var(--color-accent, #8a4d00); outline-offset: 2px; } .ds-card__desc { font-size: 0.9rem; color: var(--color-text-muted, #565a63); margin: 0; line-height: 1.45; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Mono field on the ground; border strengthens on hover, shifts to bronze on focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field__label\">email</span><input class=\"ds-field__input\" type=\"email\" placeholder=\"you@example.com\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--font-mono, 'IBM Plex Mono', monospace); } .ds-field__label { font-size: 0.9rem; color: var(--color-text, #23262e); } .ds-field__input { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 0.9rem; color: var(--color-text, #23262e); background: var(--color-bg, #f6f8fb); border: 1px solid var(--color-border, #cfd6de); border-radius: var(--radius-sm, 3px); padding: 0.5rem; box-sizing: border-box; transition: border-color 150ms ease-out; } .ds-field__input::placeholder { color: var(--color-text-muted, #565a63); } .ds-field__input:hover { border-color: var(--color-border-strong, #aab4c0); } .ds-field__input:focus { outline: 2px solid var(--color-accent, #8a4d00); outline-offset: 2px; border-color: var(--color-accent, #8a4d00); }"
+    },
+    {
+      "name": "Callout",
+      "kind": "custom",
+      "refersTo": "callout",
+      "description": "The '// currently' pattern: 8% bronze tint, hairline bronze border, lowercase mono label, bronze › bullets.",
+      "html": "<aside class=\"ds-callout\"><p class=\"ds-callout__label\">currently</p><ul><li>building a survey-grade design system</li><li>reading everything in the queue</li></ul></aside>",
+      "css": ".ds-callout { background: color-mix(in srgb, var(--color-accent, #8a4d00) 8%, transparent); border: 1px solid var(--color-accent, #8a4d00); border-radius: var(--radius-md, 4px); padding: 1rem 1.5rem; font-family: var(--font-body, 'Hanken Grotesk', serif); } .ds-callout__label { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 0.875rem; text-transform: lowercase; letter-spacing: 0.08em; color: var(--color-text-muted, #565a63); margin: 0 0 0.5rem; } .ds-callout__label::before { content: '// '; } .ds-callout ul { list-style: none; padding: 0; margin: 0; } .ds-callout li { position: relative; padding: 0.3rem 0 0.3rem 1.5em; font-size: 0.95rem; } .ds-callout li::before { content: '›'; position: absolute; left: 0; color: var(--color-accent, #8a4d00); font-family: var(--font-mono, 'IBM Plex Mono', monospace); }"
+    },
+    {
+      "name": "Terminal",
+      "kind": "custom",
+      "refersTo": "terminal",
+      "description": "Mono session frame; prompt chevron is always bronze (the ANSI-11 rule). Output color is never the accent.",
+      "html": "<div class=\"ds-term\"><div class=\"ds-term__title\">~/projects</div><div class=\"ds-term__body\"><div class=\"ds-term__entry\"><div class=\"ds-term__line\"><span class=\"ds-term__cwd\">~/projects</span><span class=\"ds-term__chev\"> ❯ </span><span class=\"ds-term__cmd\">ls -la</span></div><pre class=\"ds-term__out\">drwxr-xr-x  design  marchyo  jotain</pre></div></div></div>",
+      "css": ".ds-term { border: 1px solid var(--color-border-strong, #aab4c0); border-radius: var(--radius-md, 4px); background: var(--color-surface, #e6ecf1); font-family: var(--font-mono, 'IBM Plex Mono', monospace); overflow: hidden; } .ds-term__title { font-size: 0.8125rem; color: var(--color-text-muted, #565a63); letter-spacing: 0.04em; padding: 0.5rem 1rem; border-bottom: 1px dashed var(--color-border, #cfd6de); } .ds-term__body { padding: 0.5rem 1rem; font-size: 0.9rem; line-height: 1.6; } .ds-term__line { display: flex; align-items: baseline; white-space: pre-wrap; } .ds-term__cwd { color: var(--color-text-muted, #565a63); } .ds-term__chev { color: var(--color-accent, #8a4d00); font-weight: 700; } .ds-term__cmd { color: var(--color-text, #23262e); font-weight: 500; } .ds-term__out { margin: 0.125rem 0 0; padding: 0; font: inherit; color: var(--color-text-muted, #565a63); white-space: pre-wrap; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Survey",
+    "overview": "This is a topographic survey of one engineering practice. The page is a survey sheet: a cool near-white ground, never pure white, with ink that is never pure black. Everything is set in the tools of the trade — plate titles are engraved in a slab serif, body and controls run in a quiet grotesk, and data, labels, dates and code are monospace, as if read off an instrument. A single bronze accent is the only colour that invites a hand, and one vermilion benchmark marks the datum. Structure — contour rings, dividers, diagram strokes — is drawn in a Modus blue that never competes with the accent. The chrome is borrowed honestly from the surfaces the owner lives in all day: man-page headers, shell prompts (jy ❯), code-editor gutters, tree lines, map collars, and // margin comments.\n\nThe system is deliberately small and slow-changing, and the restraint is the personality. There are two editions and only two: Sheet (light) and Field (dark), both first-class, both tuned independently rather than mirrored. Components feel tool-honest and utilitarian — functional first, unfussy, every affordance earning its place. Depth is a lie the system refuses to tell: no shadows, no gradients, no glass. Elevation is four steps of background colour and a 1px hairline, nothing more. Motion follows the 'survey renders in' grammar — nothing fades or floats; a contour draws along its length, a rule extends from the datum, a mono readout types on, a bronze caret blinks, and everything else is a colour or translate shift on an ease-out curve. Nothing bounces.",
+    "keyCharacteristics": [
+      "Cool near-white Sheet and near-black Field grounds — never pure white, never pure black.",
+      "One bronze accent, reserved for interaction; one vermilion benchmark for the maker's mark. Neither is ever a syntax colour.",
+      "Contour blue is structure only — linework, never interaction.",
+      "Three type roles: Zilla Slab display, Hanken Grotesk body and UI, IBM Plex Mono data, labels and code.",
+      "Flat by doctrine: elevation is background steps + 1px borders, never shadow.",
+      "Unicode glyphs are the icon set; the mark is pure type: jy ❯, with the benchmark △-in-○ as the datum stamp.",
+      "Both editions ship together, always; accessibility is a mechanical contract, not a claim."
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "There is exactly one accent, bronze, and no screen may introduce a second. Its rarity is what lets it mean 'interact here.'",
+        "section": "colors"
+      },
+      {
+        "name": "The Bronze-Is-Not-Code Rule",
+        "body": "The brand bronze never appears inside a code block and is never a syntax color. The syntax palette is a contract with editor users; the accent is a contract with the reader.",
+        "section": "colors"
+      },
+      {
+        "name": "The Never-Pure Rule",
+        "body": "No pure white and no pure black anywhere on a surface. White and black exist only as ink that must bleed through, never as the page.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three-Role Rule",
+        "body": "Zilla Slab for display and plate titles, Hanken Grotesk for body and UI, IBM Plex Mono for data, labels and code. No fourth family, and each role stays in its lane.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono-Chrome Rule",
+        "body": "Labels, dates, tags, tabular figures, code, and every // margin note are monospace. If it is data or a label, it is mono; if it is prose or a control, it is grotesk; if it is a title, it is slab.",
+        "section": "typography"
+      },
+      {
+        "name": "The Oldstyle-In-Prose Rule",
+        "body": "Numbers in running prose use proportional figures; numbers in mono chrome, tables and code reset to tabular lining figures so columns stay aligned.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Sheet Rule",
+        "body": "If something needs to feel raised, step it up one Grounds level. Never add a shadow, never fake a lift. Elevation is color, not light.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Small-Radius Rule",
+        "body": "Nothing rounder than 4px on a container, and no pill buttons. The system's edges are crisp, like a cut survey sheet.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Structure-Is-Not-Interaction Rule",
+        "body": "Contour blue draws structure — rings, dividers, diagram strokes. It never stands in for the bronze accent, and the accent never draws structure. A reader must be able to tell 'this is a line' from 'this is a thing you touch' by colour alone.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do set html { background: var(--color-bg); color: var(--color-text); } and let everything inherit.",
+      "Do convey elevation by stepping bg → bg-subtle → surface → surface-raised, plus a 1px border.",
+      "Do use accent for anything interactive that has no color of its own; use accent-hover only for hover/active.",
+      "Do render code with the Modus syntax tokens so blocks match Emacs, bat, delta, and the Charm TUIs.",
+      "Do ship every interactive primitive with hover, :focus-visible, active, and — where inert — disabled and loading (aria-busy + mono ellipsis).",
+      "Do ship both editions together; keep body text AAA, meta AA, and text-faint decorative only.",
+      "Do pair every status color with a glyph + word (alerts) or a // label (callouts)."
+    ],
+    "donts": [
+      "Don't add a shadow, a gradient, a backdrop-filter, or glass. Elevation is color, never light.",
+      "Don't introduce a second accent, or use text-faint for body copy.",
+      "Don't pick a color from the syntax palette because you like the hue — it is a contract with editor users.",
+      "Don't introduce a fourth type family, or a size outside the ten-step scale.",
+      "Don't ship pill buttons or a 12–16px rounded-card aesthetic; radii stop at 4px on containers.",
+      "Don't ship a tinted status card without its label, and never a decorative 3px side-stripe (that stroke is the selected-item marker only).",
+      "Don't use emoji, an icon font, or an SVG sprite; default to a Unicode glyph, and only draw a thin square-capped currentColor SVG if a glyph genuinely cannot.",
+      "Don't duplicate a hex value in consumer code — every color derives from tokens.json."
+    ]
+  }
+}

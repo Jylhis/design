@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Pagination</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-8); max-width: 60ch; }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
+
+  /* prev / next pair */
+  .prev-next { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 22px; padding-top: 12px; border-top: 1px solid var(--color-border); }
+  .prev-next a { font-size: var(--type-scale-8); color: var(--color-text-muted); text-decoration: none; max-width: 28ch; }
+  .prev-next a:hover { color: var(--color-accent); }
+  .prev-next a .marker { color: var(--color-text-faint); margin: 0 0.4ch; }
+  .prev-next a:hover .marker { color: var(--color-accent); }
+  .prev-next a .title { color: var(--color-text-heading); display: block; margin-top: 2px; }
+  .prev-next .next { text-align: right; }
+
+  /* numbered pager */
+  .pager { display: flex; gap: 4px; align-items: center; margin-bottom: 22px; flex-wrap: wrap; }
+  .pager a, .pager span { font-size: var(--type-scale-9); min-width: 26px; text-align: center; padding: 4px 8px; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--color-text-muted); text-decoration: none; }
+  .pager a:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .pager a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .pager [aria-current="page"] { color: var(--color-text-heading); border-color: var(--color-border-strong); background: var(--color-bg-subtle); }
+  .pager .gap { color: var(--color-text-faint); cursor: default; pointer-events: none; }
+  .pager .arrow { color: var(--color-accent); }
+
+  /* "more" infinite-style */
+  .more { text-align: center; margin: 18px 0; }
+  .more button { font: inherit; font-size: var(--type-scale-9); padding: 6px 14px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); cursor: pointer; }
+  .more button:hover { color: var(--color-accent); border-color: var(--color-accent); }
+</style></head>
+<body>
+  <span class="label">prev / next · for notes &amp; long-form</span>
+  <nav class="prev-next" aria-label="pagination">
+    <a href="#">
+      <span class="marker">◂ prev</span>
+      <span class="title">Modern Linux Command-Line Tools</span>
+    </a>
+    <a href="#" class="next">
+      <span class="marker">next ▸</span>
+      <span class="title">Generating themes from a single source of truth</span>
+    </a>
+  </nav>
+
+  <span class="label">numbered pager · current = 4</span>
+  <nav class="pager" aria-label="pagination">
+    <a href="#" class="arrow" aria-label="previous">◂</a>
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <span class="gap">…</span>
+    <a href="#">3</a>
+    <span aria-current="page">4</span>
+    <a href="#">5</a>
+    <span class="gap">…</span>
+    <a href="#">12</a>
+    <a href="#" class="arrow" aria-label="next">▸</a>
+  </nav>
+
+  <span class="label">load-more · for index pages</span>
+  <div class="more"><button>load 10 more notes</button></div>
+</body></html>

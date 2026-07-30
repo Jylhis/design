@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Website UI kit</title>
+  <link rel="stylesheet" href="../../styles.css"/>
+  <style>
+    /* ——— Layout + page chrome ——— */
+    html, body { margin:0; background: var(--color-bg); }
+    body { color: var(--color-text); }
+    a { color: var(--color-accent); cursor: pointer;
+        text-decoration: underline; text-decoration-color: transparent;
+        text-decoration-thickness: 1px; text-underline-offset: 3px;
+        transition: text-decoration-color var(--transition-base), color var(--transition-fast); }
+    a:hover { color: var(--color-accent-hover); text-decoration-color: currentColor; }
+    nav a, footer a, .nav-col a, .ds-breadcrumb a, .contact-links a, .rss-link, .ds-callout a, .ds-tag, .project-name, .project-github-link, .tree-item a, .note-title { text-decoration: none !important; }
+
+    main { animation: page-enter var(--transition-slow); }
+    @keyframes page-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .page-content { max-width: 48rem; margin: 0 auto; padding: var(--space-xl) var(--layout-padding-mobile) var(--space-3xl); }
+
+    /* Header */
+    .site-header { display:flex; justify-content:space-between; align-items:center; padding: var(--space-xl) var(--layout-padding-mobile); font-family: var(--font-mono); max-width: 48rem; margin: 0 auto; }
+    .site-wordmark-group { display:flex; align-items:center; gap: var(--space-sm); text-decoration:none; }
+    .makers-mark { font-size: 1.2rem; display:inline-flex; align-items:center; }
+    .wordmark { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; color: var(--color-text-heading); letter-spacing: 0.02em; }
+    .header-right { display:flex; align-items:center; gap: 0.75rem; }
+    .theme-toggle { background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-pill); width: 2rem; height: 2rem; cursor: pointer; font-size: 0.9rem; color: var(--color-text-muted); display:flex; align-items:center; justify-content:center; font-family: var(--font-mono); }
+    .theme-toggle:hover { color: var(--color-accent); border-color: var(--color-accent); }
+
+    /* Typography */
+    body { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; }
+    h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.25; letter-spacing: 0.01em; color: var(--color-text-heading); margin: 0; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: var(--space-lg); }
+    h2 { font-size: 1.4rem; font-weight: 600; margin: var(--space-2xl) 0 var(--space-md); }
+    h3 { font-size: 1.15rem; font-weight: 600; margin: var(--space-xl) 0 0.75rem; }
+    p { margin-bottom: var(--space-lg); }
+    .subtitle { font-size: 1.05rem; color: var(--color-text-muted); font-style: italic; margin-top: calc(-1 * var(--space-md)); margin-bottom: var(--space-2xl); }
+
+    /* Home */
+    .home-intro { margin-top: var(--space-xl); }
+    .headline { font-size: 1.6rem; margin-bottom: var(--space-sm); }
+    .role { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-muted); letter-spacing: 0.02em; margin-bottom: var(--space-sm); }
+    .tagline { font-size: 1.05rem; color: var(--color-text-muted); margin-bottom: var(--space-xl); line-height: 1.6; }
+    .home-greeting p { font-size: 1.15rem; line-height: 1.7; margin-bottom: var(--space-md); }
+    #currently { margin-top: var(--space-2xl); }
+    .contact-links { margin-top: var(--space-2xl); display:flex; gap: var(--space-lg); font-family: var(--font-mono); font-size: 0.85rem; }
+    .contact-links a { color: var(--color-text-muted); }
+    .contact-links a:hover { color: var(--color-accent); }
+
+    /* Notes */
+    .notes-list { list-style: none; padding: 0; margin: 0; }
+    .note-item { display: grid; grid-template-columns: 7rem 1fr; gap: var(--space-lg); padding: var(--space-md) 0; border-bottom: 1px solid var(--color-border); cursor: pointer; color: inherit; text-decoration: none; }
+    .notes-list li:first-child .note-item { border-top: 1px solid var(--color-border); }
+    .note-item:hover { background: var(--color-bg-subtle); }
+    .note-item:focus-visible,
+    .project-entry:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    .note-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted); padding-top: 0.15em; }
+    .note-title { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 500; color: var(--color-text-heading); cursor: pointer; }
+    .note-title:hover { color: var(--color-accent); }
+    .note-excerpt { font-size: 0.9rem; color: var(--color-text-muted); margin: var(--space-xs) 0; line-height: 1.5; }
+    .rss-line { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: var(--space-2xl); }
+    .rss-link { color: var(--color-text-muted); }
+
+    /* Tag rows use .ds-tag-list from the design system */
+    .note-content .ds-tag-list, .project-entry .ds-tag-list { margin-top: var(--space-xs); }
+
+    /* Projects */
+    .terminal-prompt { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: var(--space-xl); }
+    .prompt-char { color: var(--color-accent); margin-right: 0.5em; }
+    .projects-list { display:flex; flex-direction: column; gap: var(--space-xl); }
+    .project-entry { display: block; padding: var(--space-lg); background: var(--color-bg-subtle); border-radius: 4px; border: 1px solid transparent; cursor: pointer; transition: border-color var(--transition-fast), background var(--transition-fast); color: inherit; text-decoration: none; }
+    .project-entry:hover { border-color: var(--color-border); background: var(--color-surface); }
+    .project-header { font-family: var(--font-mono); font-size: 0.8rem; display: flex; gap: var(--space-md); align-items: baseline; margin-bottom: var(--space-sm); flex-wrap: wrap; }
+    .perms { color: var(--color-text-faint); }
+    .project-name { color: var(--color-accent); font-weight: 600; font-size: 0.95rem; }
+    .project-name:hover { color: var(--color-accent-hover); text-decoration: underline; }
+    .project-date { color: var(--color-text-faint); margin-left: auto; }
+    .project-desc { font-size: 0.95rem; margin: 0 0 var(--space-sm); line-height: 1.5; }
+    .project-links { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-faint); margin-top: var(--space-sm); }
+    .tree-item a { color: var(--color-text-muted); }
+    .tree-item span { color: var(--color-text-muted); }
+
+    /* Dividers & prose bits — .ds-divider-label / .ds-man-label come from the system */
+    .ds-divider-label { margin: var(--space-2xl) 0 var(--space-lg); }
+    .man-header { margin-bottom: var(--space-xl); }
+    .prose { max-width: 65ch; }
+    /* Canonical quote treatment: the bronze » marker hangs into the margin —
+       no side-stripe (matches preview/blockquote.html; DESIGN.md reserves the
+       3px stroke for the selected-item marker only). */
+    .prose blockquote { position: relative; margin-left: 0; padding-left: 1.4ch; color: var(--color-text-muted); font-style: italic; }
+    .prose blockquote::before { content: '»'; font-family: var(--font-mono); color: var(--color-accent); font-style: normal; position: absolute; left: 0; top: 0; line-height: inherit; }
+    .prose hr { border: none; border-top: 1px solid var(--color-border); margin: var(--space-2xl) 0; }
+    pre { background: var(--color-code-bg); border: 1px solid var(--color-code-border); border-radius: 4px; padding: var(--space-lg); overflow-x: auto; font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.6; }
+    .ds-codeblock { margin: var(--space-lg) 0; }
+
+    /* CV — rendered by the CvEntry design-system component (.ds-cv) */
+    .ds-cv { margin-bottom: var(--space-2xl); }
+
+    /* Footer */
+    .site-footer { font-family: var(--font-mono); background: var(--color-surface); padding: var(--space-3xl); margin-top: var(--space-3xl); color: var(--color-text-muted); font-size: 0.8rem; }
+    .footer-rule { color: var(--color-decorator); letter-spacing: -0.05em; overflow: hidden; white-space: nowrap; margin-bottom: var(--space-md); }
+    .footer-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); max-width: 50rem; margin: 0 auto var(--space-2xl); }
+    .nav-heading { font-weight: 600; color: var(--color-text); font-size: 0.75rem; text-transform: lowercase; letter-spacing: 0.08em; display: block; margin-bottom: var(--space-sm); }
+    .nav-col ul { list-style: none; padding: 0; margin: 0; display:flex; flex-direction: column; gap: var(--space-xs); }
+    .nav-col a { color: var(--color-text-muted); font-family: var(--font-body); font-size: 0.85rem; }
+    .nav-col a:hover { color: var(--color-accent); }
+    .footer-identity { display: flex; align-items: center; justify-content: center; gap: var(--space-sm); color: var(--color-decorator); margin-bottom: var(--space-lg); }
+    .footer-social { display: flex; justify-content: center; gap: var(--space-lg); margin-bottom: var(--space-md); font-size: 0.78rem; }
+    .footer-colophon { font-size: 0.65rem; color: var(--color-text-faint); text-align: center; }
+
+    .search-notice { max-width: 48rem; margin: 0 auto; padding: 0 var(--layout-padding-mobile); font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); }
+
+    /* ── Responsive · touch · print ───────────────────────────
+       Breakpoints repeat literal token values (breakpoints.sm 640 /
+       md 860). This kit's .ds-* controls inherit touch/hover/print
+       from components.css; the rules here cover the local chrome. */
+
+    /* Safe-area insets (notch / home indicator). */
+    .site-header, .page-content, .search-notice {
+      padding-left: max(var(--layout-padding-mobile), env(safe-area-inset-left));
+      padding-right: max(var(--layout-padding-mobile), env(safe-area-inset-right));
+    }
+
+    @media (max-width: 860px) { /* breakpoints.md */
+      .footer-nav { grid-template-columns: repeat(2, 1fr); gap: var(--space-lg) var(--space-2xl); }
+    }
+
+    @media (max-width: 640px) { /* breakpoints.sm — phone */
+      h1 { font-size: 1.6rem; }
+      .headline { font-size: 1.4rem; }
+      .note-item { grid-template-columns: 1fr; gap: var(--space-2xs); }
+      .note-date { padding-top: 0; }
+      .contact-links { flex-wrap: wrap; gap: var(--space-md); }
+      .footer-nav { grid-template-columns: 1fr 1fr; }
+      .site-footer { padding: var(--space-2xl) var(--layout-padding-mobile); }
+    }
+
+    /* Coarse pointer: local controls clear the 44px touch floor. */
+    @media (pointer: coarse) {
+      .theme-toggle { width: 44px; height: 44px; }
+      .note-item, .project-entry { padding-block: var(--space-md); }
+      .nav-col a, .contact-links a, .footer-social a { display: inline-block; padding-block: 4px; }
+    }
+
+    /* Touch: don't strand the drawn underline or surface highlight on tap. */
+    @media (hover: none) {
+      a:hover { text-decoration-color: transparent; }
+      .note-item:hover { background: transparent; }
+      .project-entry:hover { border-color: transparent; background: var(--color-bg-subtle); }
+      .theme-toggle:hover { color: var(--color-text-muted); border-color: var(--color-border); }
+    }
+
+    @media print {
+      .theme-toggle, .search-notice, .twk-panel { display: none !important; }
+      main { animation: none; }
+      .site-footer { background: transparent; padding: var(--space-lg) 0; }
+      .project-entry, .note-item, .ds-cv__row, pre, .ds-codeblock { break-inside: avoid; }
+      a { color: var(--color-text); text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- Design-system components — the same JSX the component cards load; window.exports accumulates their exports -->
+  <script>window.exports = {}; window.require = () => window.exports;</script>
+  <script type="text/babel" data-presets="env,react" src="../../components/Tag/Tag.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/StatusBadge/StatusBadge.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/CodeBlock/CodeBlock.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/CvEntry/CvEntry.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/Callout/Callout.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/Breadcrumb/Breadcrumb.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/Button/Button.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/Kbd/Kbd.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/Divider/Divider.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/ManLabel/ManLabel.jsx"></script>
+  <script type="text/babel" data-presets="env,react" src="../../components/Mark/Mark.jsx"></script>
+
+  <script type="text/babel" src="../_shared/tweaks-panel.jsx"></script>
+  <script type="text/babel" src="./header.jsx"></script>
+  <script type="text/babel" src="./footer.jsx"></script>
+  <script type="text/babel" src="./primitives.jsx"></script>
+  <script type="text/babel" src="./pages.jsx"></script>
+
+  <script type="text/babel">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "colorMode": "light"
+    }/*EDITMODE-END*/;
+
+    const App = () => {
+      const [path, setPath] = React.useState('/');
+      const [activeNote, setActiveNote] = React.useState(null);
+      const [activeProject, setActiveProject] = React.useState(null);
+      const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+      const [searchNotice, setSearchNotice] = React.useState(false);
+      const theme = tweaks.colorMode || 'light';
+
+      React.useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+      }, [theme]);
+
+      const navTo = (p) => { setActiveNote(null); setActiveProject(null); setPath(p); window.scrollTo(0,0); };
+      const openNote = (n) => { setActiveNote(n); setPath(`/notes/${n.slug}/`); window.scrollTo(0,0); };
+      const openProject = (p) => { setActiveProject(p); setPath(`/projects/${p.slug}/`); window.scrollTo(0,0); };
+
+      // Breadcrumbs
+      const crumbs = (() => {
+        if (activeNote) return [{label:'home', href:'/'}, {label:'notes', href:'/notes/'}, {label: activeNote.title.toLowerCase(), current:true}];
+        if (activeProject) return [{label:'home', href:'/'}, {label:'projects', href:'/projects/'}, {label: activeProject.title.toLowerCase(), current:true}];
+        if (path === '/') return [{label:'home', current: true}];
+        if (path.startsWith('/notes')) return [{label:'home', href:'/'}, {label:'notes', current:true}];
+        if (path.startsWith('/projects')) return [{label:'home', href:'/'}, {label:'projects', current:true}];
+        if (path.startsWith('/resume')) return [{label:'home', href:'/'}, {label:'resume', current:true}];
+        return [{label:'home', href:'/'}, {label:'404', current:true}];
+      })();
+
+      let page;
+      if (activeNote) page = <NoteDetail note={activeNote}/>;
+      else if (activeProject) page = <ProjectDetail project={activeProject}/>;
+      else if (path === '/') page = <HomePage onNav={navTo}/>;
+      else if (path === '/notes/') page = <NotesPage onOpenNote={openNote}/>;
+      else if (path === '/projects/') page = <ProjectsPage onOpenProject={openProject}/>;
+      else if (path === '/resume/') page = <ResumePage/>;
+      else page = <NotFoundPage onNav={navTo}/>;
+
+      return (
+        <>
+          <Header crumbs={crumbs} onNav={navTo} theme={theme} onToggleTheme={() => setTweak('colorMode', theme === 'dark' ? 'light' : 'dark')} onSearch={() => setSearchNotice(true)}/>
+          {searchNotice && <div className="search-notice" role="status">search is not wired in this kit</div>}
+          <main className="page-content">{page}</main>
+          <Footer onNav={navTo}/>
+          <TweaksPanel>
+            <TweakRadio label="mode" value={theme} options={['light', 'dark']} onChange={(v) => setTweak('colorMode', v)} />
+          </TweaksPanel>
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+</body>
+</html>

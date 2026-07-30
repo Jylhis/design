@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Type — Scaling</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); }
+  .tag { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 10px; }
+  table { border-collapse: collapse; font-family: var(--font-mono); font-size: var(--type-scale-8); width: 100%; }
+  th { text-align: left; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--type-scale-9); border-bottom: 2px solid var(--color-border-strong); padding: 0 0.9em 0.4em 0; }
+  td { padding: 0.35em 0.9em 0.35em 0; border-bottom: 1px solid var(--color-border); vertical-align: baseline; }
+  td:last-child, th:last-child { padding-right: 0; }
+  .step { color: var(--color-text-heading); font-weight: 600; }
+  .px { color: var(--color-text-muted); text-align: right; }
+  .sample { font-family: var(--font-body); color: var(--color-text); min-width: 18ch; }
+  .floor td { background: var(--color-accent-subtle); }
+  .key { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-muted); margin: 12px 0 0; line-height: 1.6; }
+  .key b { color: var(--color-accent); font-weight: 600; }
+  .scroll { overflow-x: auto; max-width: 100%; }
+</style></head>
+<body>
+  <span class="tag">ten steps · rem against the reader's root size</span>
+  <div class="scroll">
+    <table>
+    <caption class="sr-only">Type scale steps with their rem value and rendered size at a 16px and 24px browser default</caption>
+    <thead>
+      <tr><th scope="col">step</th><th scope="col">rem</th><th scope="col">at&nbsp;16px</th><th scope="col">at&nbsp;24px</th><th scope="col">sample</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="step">scale-0</td><td>3.25</td><td class="px">52.0</td><td class="px">78.0</td><td class="sample" style="font-size: var(--type-scale-0)">One datum.</td></tr>
+      <tr><td class="step">scale-1</td><td>2</td><td class="px">32.0</td><td class="px">48.0</td><td class="sample" style="font-size: var(--type-scale-1)">Every sheet.</td></tr>
+      <tr><td class="step">scale-2</td><td>1.4</td><td class="px">22.4</td><td class="px">33.6</td><td class="sample" style="font-size: var(--type-scale-2)">Infrastructure topology</td></tr>
+      <tr><td class="step">scale-3</td><td>1.15</td><td class="px">18.4</td><td class="px">27.6</td><td class="sample" style="font-size: var(--type-scale-3)">Development environment</td></tr>
+      <tr><td class="step">scale-4</td><td>1.0625</td><td class="px">17.0</td><td class="px">25.5</td><td class="sample" style="font-size: var(--type-scale-4)">Body copy sits here.</td></tr>
+      <tr><td class="step">scale-5</td><td>0.95</td><td class="px">15.2</td><td class="px">22.8</td><td class="sample" style="font-size: var(--type-scale-5)">Component body copy.</td></tr>
+      <tr class="floor"><td class="step">scale-6</td><td>0.9</td><td class="px">14.4</td><td class="px">21.6</td><td class="sample" style="font-size: var(--type-scale-6)">Readable floor — help text, labels, cells.</td></tr>
+      <tr><td class="step">scale-7</td><td>0.875</td><td class="px">14.0</td><td class="px">21.0</td><td class="sample" style="font-size: var(--type-scale-7)">Mono chrome — tags, callout labels.</td></tr>
+      <tr><td class="step">scale-8</td><td>0.85</td><td class="px">13.6</td><td class="px">20.4</td><td class="sample" style="font-size: var(--type-scale-8)">Dates, captions, column heads.</td></tr>
+      <tr class="floor"><td class="step">scale-9</td><td>0.8125</td><td class="px">13.0</td><td class="px">19.5</td><td class="sample" style="font-size: var(--type-scale-9)">Absolute floor — badges, refs, keycaps.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="key">
+    <b>scale-6</b> is the readable floor — anything a user must read sits here or higher.<br>
+    <b>scale-9</b> is the absolute floor — glanceable chrome only; nothing renders smaller.<br>
+    The px columns are what those steps become at a 16px and a 24px browser default. Raise your own default and this whole card follows.
+  </p>
+</body></html>

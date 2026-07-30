@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Personal mark</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-9); }
+  .row { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .mark { font-size: var(--type-scale-2); font-weight: 600; color: var(--color-text-heading); letter-spacing: 0.01em; }
+  .mark .chevron { color: var(--color-accent); }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 8px; }
+  .usage { margin-top: 18px; display: grid; gap: 6px; font-size: var(--type-scale-8); color: var(--color-text-muted); }
+  .usage .chevron { color: var(--color-accent); }
+  .rules { margin-top: 16px; border-top: 1px dashed var(--color-decorator); padding-top: 10px; font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.03em; }
+</style></head>
+<body>
+  <div class="row">
+    <div>
+      <div class="mark">jy&thinsp;<span class="chevron">❯</span><span class="ds-caret" aria-hidden="true"></span></div>
+      <div class="label">the mark — live surfaces</div>
+    </div>
+    <div>
+      <div class="mark">jy&thinsp;<span class="chevron">❯</span></div>
+      <div class="label">static — print &amp; tty</div>
+    </div>
+  </div>
+  <div class="usage">
+    <span>footer sign-off: &nbsp;jy <span class="chevron">❯</span> built by hand, no tracking</span>
+    <span>contact line: &nbsp;jy <span class="chevron">❯</span> say hello</span>
+  </div>
+  <p class="rules">once per surface · chevron always bronze · caret never twice on one page · pure type, renders everywhere</p>
+</body></html>

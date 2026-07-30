@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Motion</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-8); max-width: 60ch; }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
+  .row { display: grid; grid-template-columns: 8ch 1fr 14ch; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .row .name { color: var(--color-text); }
+  .row .name .duration { color: var(--color-text-faint); display: block; font-size: var(--type-scale-9); margin-top: 1px; }
+  .track { height: 4px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-pill); position: relative; overflow: hidden; }
+  .puck { position: absolute; top: -3px; bottom: -3px; left: 0; width: 10px; background: var(--color-accent); border-radius: var(--radius-pill); transform: translateX(0); will-change: transform; }
+  .play { font: inherit; font-size: var(--type-scale-9); padding: 4px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); cursor: pointer; transition: border-color var(--transition-fast); }
+  .play:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .play:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+  .puck.fast   { transition: transform var(--transition-fast); }
+  .puck.base   { transition: transform var(--transition-base); }
+  .puck.slow   { transition: transform var(--transition-slow); }
+  .puck.survey { transition: transform var(--transition-survey); }
+  .puck.move { transform: translateX(calc(100% - 10px)); }
+
+  .demo { margin: 22px 0 0; }
+  .underline { font-family: var(--font-body); font-size: var(--type-scale-4); color: var(--color-accent); text-decoration: none; background-image: linear-gradient(currentColor, currentColor); background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px; transition: background-size var(--transition-base); }
+  .underline:hover, .underline:focus, .underline.is-active { background-size: 100% 1px; }
+
+  @media (max-width: 30em) {
+    .row { grid-template-columns: 1fr; gap: 6px; }
+    .row .name { display: flex; align-items: baseline; gap: 8px; }
+    .row .name .duration { display: inline; margin-top: 0; }
+    .play { justify-self: end; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .puck { transition: none !important; }
+  }
+</style></head>
+<body>
+  <span class="label">motion tokens · click play to run · respects prefers-reduced-motion</span>
+  <div class="row">
+    <span class="name">fast<span class="duration">150ms · ease-out</span></span>
+    <div class="track"><div class="puck fast" data-token="fast"></div></div>
+    <button class="play" data-target="fast">play ▸</button>
+  </div>
+  <div class="row">
+    <span class="name">base<span class="duration">250ms · ease-out</span></span>
+    <div class="track"><div class="puck base" data-token="base"></div></div>
+    <button class="play" data-target="base">play ▸</button>
+  </div>
+  <div class="row">
+    <span class="name">slow<span class="duration">300ms · ease-out</span></span>
+    <div class="track"><div class="puck slow" data-token="slow"></div></div>
+    <button class="play" data-target="slow">play ▸</button>
+  </div>
+  <div class="row">
+    <span class="name">survey<span class="duration">480ms · ease-out</span></span>
+    <div class="track"><div class="puck survey" data-token="survey"></div></div>
+    <button class="play" data-target="survey">play ▸</button>
+  </div>
+
+  <div class="demo">
+    <span class="label">link underline · 250ms ease-out · hover the link</span>
+    <p style="font-family: var(--font-body); font-size: var(--type-scale-4); color: var(--color-text);">
+      Read more about <a class="underline" href="#">Modus syntax fidelity</a> across web, Emacs, and the terminal.
+    </p>
+  </div>
+
+<script>
+  document.querySelectorAll(".play").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tok = btn.dataset.target;
+      const puck = document.querySelector(`.puck[data-token="${tok}"]`);
+      puck.classList.toggle("move");
+    });
+  });
+  document.querySelectorAll(".underline").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      link.classList.toggle("is-active");
+    });
+  });
+</script>
+</body></html>

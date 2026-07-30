@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Spacing</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-9); }
+  .row { display: grid; grid-template-columns: 90px 1fr 70px; gap: 10px 14px; align-items: center; }
+  .tok { color: var(--color-text-heading); font-weight: 600; }
+  .bar { height: 10px; background: var(--color-accent); border-radius: 1px; }
+  .val { color: var(--color-text-faint); text-align: right; }
+</style></head>
+<body>
+  <div class="row">
+    <span class="tok">space-2xs</span><div class="bar" style="width:2px"></div>  <span class="val">2px · 0.125rem</span>
+    <span class="tok">space-xs</span> <div class="bar" style="width:4px"></div>  <span class="val">4px · 0.25rem</span>
+    <span class="tok">space-sm</span> <div class="bar" style="width:8px"></div>  <span class="val">8px · 0.5rem</span>
+    <span class="tok">space-md</span> <div class="bar" style="width:16px"></div> <span class="val">16px · 1rem</span>
+    <span class="tok">space-lg</span> <div class="bar" style="width:24px"></div> <span class="val">24px · 1.5rem</span>
+    <span class="tok">space-xl</span> <div class="bar" style="width:32px"></div> <span class="val">32px · 2rem</span>
+    <span class="tok">space-2xl</span><div class="bar" style="width:48px"></div> <span class="val">48px · 3rem</span>
+    <span class="tok">space-3xl</span><div class="bar" style="width:64px"></div> <span class="val">64px · 4rem</span>
+  </div>
+</body></html>

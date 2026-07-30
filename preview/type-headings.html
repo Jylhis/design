@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Type — Headings</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); }
+  .row { display: grid; grid-template-columns: minmax(6rem, auto) 1fr; gap: 10px 16px; align-items: baseline; }
+  .tag { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  h1, h2, h3, h4 { color: var(--color-text-heading); margin: 0; overflow-wrap: anywhere; }
+  /* v2: the plate title is slab (display); sub-headings are grotesk (body). */
+  h1 { font-family: var(--font-heading); font-size: var(--type-scale-1); font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; }
+  h2 { font-family: var(--font-body); font-size: var(--type-scale-2); font-weight: 600; line-height: 1.3; }
+  h3 { font-family: var(--font-body); font-size: var(--type-scale-3); font-weight: 600; line-height: 1.3; }
+  h4 { font-family: var(--font-body); font-size: var(--type-scale-4); font-weight: 600; line-height: 1.3; }
+</style></head>
+<body>
+  <div class="row">
+    <span class="tag">h1 · 700</span><h1>Build More, Work Less</h1>
+    <span class="tag">h2 · 600</span><h2>Infrastructure topology</h2>
+    <span class="tag">h3 · 600</span><h3>Development Environment</h3>
+    <span class="tag">h4 · 600</span><h4>Operating System</h4>
+  </div>
+</body></html>

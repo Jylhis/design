@@ -1,0 +1,31 @@
+{
+  "name": "@jylhis/design",
+  "version": "1.1.0",
+  "description": "Jylhis design system: tokens, CSS, fonts, and React components",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": ["**/*.css"],
+  "files": [
+    "styles.css",
+    "tokens.css",
+    "tokens.json",
+    "tokens-data.js",
+    "colors_and_type.css",
+    "motion.css",
+    "fonts.css",
+    "fonts",
+    "components"
+  ],
+  "exports": {
+    ".": "./tokens-data.js",
+    "./styles.css": "./styles.css",
+    "./tokens.css": "./tokens.css",
+    "./tokens.json": "./tokens.json",
+    "./colors_and_type.css": "./colors_and_type.css",
+    "./motion.css": "./motion.css",
+    "./fonts.css": "./fonts.css",
+    "./components.css": "./components/components.css",
+    "./fonts/*": "./fonts/*",
+    "./components/*": "./components/*"
+  }
+}

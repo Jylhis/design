@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "jylhis-design": {
+      "command": "sh",
+      "args": ["-c", "cd platforms/mcp && exec go run ."],
+      "env": {}
+    }
+  }
+}

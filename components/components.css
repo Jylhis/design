@@ -1,0 +1,581 @@
+/*
+ * components/components.css — hand-authored styles for the React components
+ * library. Class-per-component; tokens only, no raw hex. Hover/focus states
+ * live here so the JSX stays declarative. The universal reduced-motion guard
+ * in colors_and_type.css covers every transition below.
+ */
+
+/* ── Button ─────────────────────────────────────────────── */
+.ds-btn {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-6);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+.ds-btn:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-btn:disabled {
+  color: var(--color-text-faint);
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+/* Loading — set aria-busy on the button; a trailing mono ellipsis does the work, no spinner */
+.ds-btn[aria-busy="true"] { cursor: progress; }
+.ds-btn[aria-busy="true"]::after { content: " …"; }
+.ds-btn--primary {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+  border: var(--border-hairline) solid var(--color-accent);
+}
+.ds-btn--primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+/* Press / active — deepen to the darker bronze. Colour and border only; no shrink transform. */
+.ds-btn--primary:active { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+.ds-btn--ghost {
+  background: transparent;
+  color: var(--color-text);
+  border: var(--border-hairline) solid var(--color-border);
+}
+.ds-btn--ghost:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-btn--ghost:active { color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+.ds-btn--link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-accent);
+  font-size: var(--type-scale-6);
+}
+.ds-btn--link:hover { color: var(--color-accent-hover); }
+.ds-btn--link:active { color: var(--color-accent-hover); }
+.ds-btn--search {
+  background: var(--color-bg-subtle);
+  border: var(--border-hairline) solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--type-scale-6);
+  padding: 0.35rem 0.6rem;
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.ds-btn--search:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-btn--search:active { color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+
+/* ── Kbd ────────────────────────────────────────────────── */
+.ds-kbd {
+  font-family: var(--font-mono);
+  font-size: max(0.75em, var(--type-floor));
+  padding: 0.1em 0.4em;
+  border: var(--border-hairline) solid var(--color-border);
+  border-bottom-width: 2px; /* key-cap depth, not a focus width */
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.ds-kbd--accent { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-kbd-chord { display: inline-flex; gap: 0.25em; align-items: baseline; }
+
+/* ── Tag ────────────────────────────────────────────────── */
+.ds-tag {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-7);
+  padding: 0.15em 0.55em;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-subtle);
+  border: var(--border-hairline) solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+a.ds-tag { text-decoration: none; cursor: pointer; }
+a.ds-tag:hover { color: var(--color-accent); border-color: var(--color-accent); }
+a.ds-tag:active { color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+
+/* Tag layout — wrapping row of chips */
+.ds-tag-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* ── Mark — personal brand mark: jy ❯ ───────────────────── */
+.ds-mark {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-text-heading);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.ds-mark__chevron { color: var(--color-accent); }
+
+/* ── StatusBadge ────────────────────────────────────────── */
+.ds-status {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-9);
+  padding: 0.1em 0.5em;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.ds-status__glyph { font-weight: 700; margin-right: 0.4em; }
+.ds-status--active {
+  color: var(--color-status-ok);
+  background: color-mix(in srgb, var(--color-status-ok) 12%, transparent);
+  border: var(--border-hairline) solid var(--color-status-ok);
+}
+.ds-status--archived {
+  color: var(--color-text-muted);
+  background: var(--color-bg-subtle);
+  border: var(--border-hairline) solid var(--color-border);
+}
+.ds-status--experimental {
+  /* contour here is a non-interactive lifecycle label — structure, not interaction */
+  color: var(--color-contour);
+  background: color-mix(in srgb, var(--color-contour) 12%, transparent);
+  border: var(--border-hairline) solid var(--color-contour);
+}
+.ds-status--contributed {
+  color: var(--color-status-info);
+  background: color-mix(in srgb, var(--color-status-info) 12%, transparent);
+  border: var(--border-hairline) solid var(--color-status-info);
+}
+
+/* ── Alert ──────────────────────────────────────────────── */
+/* Full hairline border + status tint — never a side-stripe. The glyph +
+   uppercase word in __head carry the meaning; tint alone is decoration. */
+.ds-alert {
+  border: var(--border-hairline) solid var(--color-border-strong);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-subtle);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--type-scale-5);
+  line-height: 1.5;
+}
+.ds-alert__head {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-9);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+.ds-alert__glyph { font-weight: 700; }
+.ds-alert p { margin: 0; color: var(--color-text); }
+/* 10% tint — validate-tokens.mjs §2e proves head (AA) + body (AAA) legibility
+   on every tint level in both modes. */
+.ds-alert--info { border-color: var(--color-status-info); background: color-mix(in srgb, var(--color-status-info) 10%, transparent); }
+.ds-alert--info .ds-alert__head { color: var(--color-status-info); }
+.ds-alert--ok { border-color: var(--color-status-ok); background: color-mix(in srgb, var(--color-status-ok) 10%, transparent); }
+.ds-alert--ok .ds-alert__head { color: var(--color-status-ok); }
+.ds-alert--warn { border-color: var(--color-status-warn); background: color-mix(in srgb, var(--color-status-warn) 10%, transparent); }
+.ds-alert--warn .ds-alert__head { color: var(--color-status-warn); }
+.ds-alert--err { border-color: var(--color-status-err); background: color-mix(in srgb, var(--color-status-err) 10%, transparent); }
+.ds-alert--err .ds-alert__head { color: var(--color-status-err); }
+
+/* ── Callout (the "// currently" pattern) ───────────────── */
+/* Hairline bronze border + 8% bronze tint; the `//` label is what makes it
+   a callout — see docs/STYLE-GUIDE.md §9. */
+.ds-callout {
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border: var(--border-hairline) solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  font-family: var(--font-body);
+}
+.ds-callout__label {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-7);
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-sm);
+  font-weight: 400;
+}
+.ds-callout__label::before { content: "// "; }
+.ds-callout ul { list-style: none; padding: 0; margin: 0; }
+.ds-callout li { position: relative; padding: 0.3rem 0 0.3rem 1.5em; font-size: var(--type-scale-5); }
+.ds-callout li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+}
+.ds-callout a { color: var(--color-accent); text-decoration: none; }
+.ds-callout a:hover { color: var(--color-accent-hover); }
+.ds-callout a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+
+/* ── Terminal ───────────────────────────────────────────── */
+/* Terminal session frame. Same hairline/radius language as ds-codeblock;
+   prompt chevron is ALWAYS bronze (the ANSI 11 rule). Output coloring is
+   the consumer's job, via Modus syntax / status tokens — never the accent. */
+.ds-term {
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  overflow: hidden;
+}
+.ds-term__title {
+  font-size: var(--type-scale-9);
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--border-hairline) dashed var(--color-border);
+}
+.ds-term__body {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--type-scale-6);
+  line-height: 1.6;
+}
+.ds-term__entry + .ds-term__entry { margin-top: var(--space-xs); }
+.ds-term__line { display: flex; align-items: baseline; white-space: pre-wrap; }
+.ds-term__cwd { color: var(--color-text-muted); }
+.ds-term__chev { color: var(--color-accent); font-weight: 700; }
+.ds-term__cmd { color: var(--color-text); font-weight: 500; }
+.ds-term__out {
+  margin: var(--space-2xs) 0 0;
+  padding: 0;
+  font: inherit;
+  color: var(--color-text-muted);
+  white-space: pre-wrap;
+}
+
+/* ── ProjectCard ────────────────────────────────────────── */
+.ds-card {
+  border: var(--border-hairline) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--color-surface-raised);
+  font-family: var(--font-body);
+}
+.ds-card--subtle { background: var(--color-bg-subtle); border-color: var(--color-border-strong); }
+.ds-card__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-sm); }
+.ds-card__title {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-5);
+  font-weight: 600;
+  color: var(--color-text-heading);
+  margin: 0 0 var(--space-xs);
+}
+.ds-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+.ds-card__title a:hover,
+.ds-card__title a:active {
+  color: var(--color-accent-hover);
+}
+.ds-card__title a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+.ds-card__desc { font-size: var(--type-scale-6); color: var(--color-text-muted); margin: 0 0 var(--space-sm); line-height: 1.45; }
+.ds-card__tags { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+
+/* ── Field ──────────────────────────────────────────────── */
+.ds-field { display: flex; flex-direction: column; gap: var(--space-xs); font-family: var(--font-mono); }
+.ds-field__label { font-size: var(--type-scale-6); color: var(--color-text); }
+.ds-field__help { font-size: var(--type-scale-6); color: var(--color-text-muted); }
+.ds-field__help--error { color: var(--color-status-err); }
+.ds-field__input {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-6);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: var(--border-hairline) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color var(--transition-fast);
+}
+.ds-field__input::placeholder { color: var(--color-text-muted); }
+.ds-field__input:hover { border-color: var(--color-border-strong); }
+.ds-field__input:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); border-color: var(--color-accent); }
+.ds-field__input:disabled { color: var(--color-text-faint); background: var(--color-bg-subtle); cursor: not-allowed; }
+.ds-field__input[aria-invalid="true"] { border-color: var(--color-status-err); }
+
+/* ── CodeBlock ──────────────────────────────────────────── */
+.ds-codeblock { font-family: var(--font-mono); }
+.ds-codeblock__filename {
+  font-size: var(--type-scale-9);
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: var(--border-hairline) solid var(--color-code-border);
+  border-bottom: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: 0.4rem 1rem;
+  display: inline-block;
+  margin-bottom: -1px;
+  letter-spacing: 0.02em;
+}
+.ds-codeblock pre {
+  background: var(--color-code-bg);
+  border: var(--border-hairline) solid var(--color-code-border);
+  border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+  padding: var(--space-md);
+  margin: 0;
+  overflow-x: auto;
+  line-height: 1.6;
+  font-size: var(--type-scale-6);
+}
+.ds-codeblock--plain pre { border-radius: var(--radius-md); }
+
+/* ── CvEntry (line-numbered) ────────────────────────────── */
+.ds-cv { font-family: var(--font-mono); counter-reset: cv-line; color: var(--color-text); }
+.ds-cv__row { display: grid; grid-template-columns: 3rem 1fr; border-left: 1px solid var(--color-border); counter-increment: cv-line; }
+.ds-cv__num {
+  font-size: var(--type-scale-9);
+  color: var(--color-text-faint);
+  text-align: right;
+  padding-right: 0.9rem;
+  padding-top: 0.18rem;
+  user-select: none;
+  line-height: 1.65;
+}
+.ds-cv__num::after { content: counter(cv-line); }
+.ds-cv__body { padding: 0.15rem 0 0.15rem 0.9rem; border-left: 1px solid var(--color-border); line-height: 1.65; font-size: var(--type-scale-5); }
+.ds-cv__role { font-weight: 600; color: var(--color-text-heading); }
+.ds-cv__company { color: var(--color-accent); }
+.ds-cv__date { font-size: var(--type-scale-8); color: var(--color-text-muted); }
+.ds-cv__desc { font-family: var(--font-body); color: var(--color-text); font-size: var(--type-scale-5); }
+.ds-cv__hl { font-family: var(--font-body); color: var(--color-text-muted); font-size: var(--type-scale-6); padding-left: 1.8rem; }
+.ds-cv__blank { height: 1.65em; }
+.ds-cv__skill-key { color: var(--color-syntax-keyword); }
+.ds-cv__skill-bracket { color: var(--color-text-muted); }
+.ds-cv__skill-value { color: var(--color-syntax-string); }
+.ds-cv__skill-sep { color: var(--color-text-faint); user-select: none; }
+
+/* ── Changelog (commit-log history) ─────────────────────── */
+.ds-log { font-family: var(--font-body); font-size: var(--type-scale-4); color: var(--color-text); }
+.ds-log__entry { display: grid; grid-template-columns: 11ch 2ch 1fr; gap: 0 var(--space-sm); }
+.ds-log__date {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-8);
+  color: var(--color-text-muted);
+  padding-top: 0.28em;
+  text-align: right;
+}
+.ds-log__gutter {
+  font-family: var(--font-mono);
+  color: var(--color-text-faint);
+  text-align: center;
+  position: relative;
+  user-select: none;
+}
+.ds-log__node { color: var(--color-accent); font-weight: 700; }
+.ds-log__gutter::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 1.5em;
+  bottom: -0.4em;
+  width: 1px;
+  background: var(--color-border);
+}
+.ds-log__entry:last-child .ds-log__gutter::after { display: none; }
+.ds-log__body { padding-bottom: 1.1em; }
+.ds-log__what { margin: 0; color: var(--color-text); line-height: 1.5; }
+.ds-log__what a { color: var(--color-accent); text-decoration: none; }
+.ds-log__what a:hover { color: var(--color-accent-hover); }
+.ds-log__what a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-log__ref { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-muted); }
+@media (max-width: 40em) { /* breakpoints.sm */
+  .ds-log__entry { grid-template-columns: 2ch 1fr; }
+  .ds-log__date { display: none; }
+}
+
+/* ── Breadcrumb ─────────────────────────────────────────── */
+.ds-breadcrumb {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-6);
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--color-text-muted);
+}
+.ds-breadcrumb a { color: var(--color-accent); text-decoration: none; }
+.ds-breadcrumb a:hover { color: var(--color-accent-hover); }
+.ds-breadcrumb a:active { color: var(--color-accent-hover); }
+.ds-breadcrumb a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-breadcrumb__sep { color: var(--color-text-faint); user-select: none; }
+.ds-breadcrumb__current { color: var(--color-text); }
+
+/* ── Responsive · touch · print (system-wide) ─────────────────
+   Feature queries own input method and print; breakpoints elsewhere
+   repeat literal token values (breakpoints.sm 640 / md 860). Touch
+   floor 44px = density.comfortable.hitTargetMin. Imported via
+   styles.css, so every consumer (site, web prototype, specimen)
+   inherits this without repeating it. */
+
+/* Coarse pointer (touch / stylus): primitives clear the 44px floor. */
+@media (pointer: coarse) {
+  .ds-btn,
+  .ds-field__input { min-height: 44px; }
+  .ds-btn { display: inline-flex; align-items: center; justify-content: center; }
+  .ds-btn--link { min-height: 0; } /* inline text button, not a hit-target chip */
+  a.ds-tag { min-height: 44px; display: inline-flex; align-items: center; }
+  .ds-breadcrumb a { padding-block: 6px; }
+}
+
+/* ── Table ──────────────────────────────────────────────── */
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-6);
+  color: var(--color-text);
+}
+/* Wrap a table in .ds-table-scroll when its columns cannot compress further —
+   the table scrolls inside its own box instead of pushing the page sideways.
+   A table that stays inside its column at 320px / 200% text does not need it;
+   one with mono data columns almost always does (docs/ACCESSIBILITY.md
+   § Text resizing & reflow, WCAG 1.4.10). */
+.ds-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.ds-table caption {
+  text-align: left;
+  font-size: var(--type-scale-8);
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: var(--space-sm);
+}
+.ds-table thead th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: var(--border-focus) solid var(--color-border-strong);
+  padding: var(--space-sm) 10px;
+  font-size: var(--type-scale-8);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.ds-table th[data-align="right"], .ds-table td[data-align="right"] { text-align: right; }
+.ds-table tbody td {
+  padding: 7px 10px;
+  border-bottom: var(--border-hairline) solid var(--color-border);
+  color: var(--color-surface-foreground);
+  vertical-align: middle;
+}
+.ds-table td[data-mono] { color: var(--color-syntax-string); }
+.ds-table--zebra tbody tr:nth-child(even) td { background: var(--color-bg-subtle); }
+.ds-table tbody tr:hover td { background: var(--color-bg-subtle); }
+
+/* ── Tabs ───────────────────────────────────────────────── */
+.ds-tabs__list { display: flex; gap: 2px; border-bottom: var(--border-hairline) solid var(--color-border); margin-bottom: -1px; }
+.ds-tabs__tab {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-6);
+  padding: var(--space-sm) 14px;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: var(--border-hairline) solid transparent;
+  border-bottom: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+.ds-tabs__tab:hover { color: var(--color-accent); }
+.ds-tabs__tab[aria-selected="true"] {
+  color: var(--color-text-heading);
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border);
+}
+.ds-tabs__tab:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-tabs__panel {
+  border: var(--border-hairline) solid var(--color-border);
+  border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+  padding: 14px 16px;
+  background: var(--color-bg-subtle);
+  color: var(--color-surface-foreground);
+}
+/* rail variant — accent underline, no folder chrome */
+.ds-tabs--rail .ds-tabs__list { gap: 18px; }
+.ds-tabs--rail .ds-tabs__tab { padding: var(--space-sm) 0; border-radius: 0; border: none; position: relative; }
+.ds-tabs--rail .ds-tabs__tab[aria-selected="true"] { background: transparent; color: var(--color-text-heading); }
+.ds-tabs--rail .ds-tabs__tab[aria-selected="true"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
+  height: var(--border-focus); background: var(--color-accent);
+}
+.ds-tabs--rail .ds-tabs__panel { border: none; border-radius: 0; background: transparent; padding: 14px 0 0; }
+
+/* ── Pagination ─────────────────────────────────────────── */
+.ds-pager { display: flex; gap: var(--space-xs); align-items: center; flex-wrap: wrap; font-family: var(--font-mono); }
+.ds-pager a, .ds-pager span {
+  font-size: var(--type-scale-6);
+  min-width: 26px;
+  text-align: center;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-hairline) solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.ds-pager a:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.ds-pager a:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.ds-pager [aria-current="page"] {
+  color: var(--color-text-heading);
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-subtle);
+}
+.ds-pager__gap { color: var(--color-text-faint); cursor: default; pointer-events: none; user-select: none; }
+.ds-pager__arrow { color: var(--color-accent); }
+
+/* ── Modal (native <dialog>) ────────────────────────────── */
+.ds-modal {
+  background: var(--color-surface-raised);
+  color: var(--color-surface-raised-foreground);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 36ch;
+  padding: 20px 22px;
+}
+.ds-modal::backdrop { background: var(--color-scrim); }
+.ds-modal__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-sm); gap: var(--space-md); }
+.ds-modal__title { font-family: var(--font-mono); font-size: var(--type-scale-5); font-weight: 700; color: var(--color-text-heading); margin: 0; }
+.ds-modal__close {
+  background: none;
+  border: var(--border-hairline) solid transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--type-scale-4);
+  cursor: pointer;
+  padding: 0 var(--space-xs);
+  line-height: 1;
+}
+.ds-modal__close:hover { color: var(--color-accent); }
+.ds-modal__body { font-family: var(--font-body); color: var(--color-text); line-height: 1.55; margin: 0 0 14px; }
+.ds-modal__actions { display: flex; gap: var(--space-sm); justify-content: flex-end; }
+
+/* Hover is a pointer affordance — restore base state on touch so a tap
+   doesn't strand the accent border/colour (:active still gives feedback). */
+@media (hover: none) {
+  .ds-btn--primary:hover { background: var(--color-accent); border-color: var(--color-accent); }
+  .ds-btn--ghost:hover  { color: var(--color-text); border-color: var(--color-border); }
+  .ds-btn--search:hover { color: var(--color-text-muted); border-color: var(--color-border); }
+  a.ds-tag:hover        { color: var(--color-text-muted); border-color: var(--color-border); }
+  .ds-field__input:hover { border-color: var(--color-border); }
+}
+
+/* Print: keep components whole across page breaks, drop the loading tail. */
+@media print {
+  .ds-btn[aria-busy="true"]::after { content: none; }
+  .ds-btn, .ds-field__input, .ds-tag, .ds-status,
+  .ds-term, .ds-codeblock, .ds-cv__row, .ds-log__entry,
+  .ds-callout, .ds-alert { break-inside: avoid; }
+}

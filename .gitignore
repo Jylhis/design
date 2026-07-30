@@ -1,0 +1,23 @@
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# Generated local artifacts
+_site/
+result
+result-*
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Claude Code per-user harness state
+.claude/settings.local.json
+
+# Impeccable design skill (vendored, not part of the system) + local state
+.claude/skills/impeccable/
+.impeccable/config.local.json
+.impeccable/hook.cache.json

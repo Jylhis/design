@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Code · multi-language</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-8); }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 12px 0 6px; }
+  .filename { font-size: var(--type-scale-9); color: var(--color-text-muted); background: var(--color-surface); border: 1px solid var(--color-code-border); border-bottom: none; border-radius: 4px 4px 0 0; padding: 0.4rem 0.9rem; display: inline-block; margin-bottom: -1px; letter-spacing: 0.02em; }
+  pre { background: var(--color-code-bg); border: 1px solid var(--color-code-border); border-radius: 0 4px 4px 4px; padding: 12px 14px; margin: 0 0 16px; overflow-x: auto; line-height: 1.6; font-size: var(--type-scale-8); tab-size: 2; }
+  /* Modus token classes — mirror the Emacs face mapping */
+  .k { color: var(--color-syntax-keyword); font-weight: 600; }
+  .s { color: var(--color-syntax-string); }
+  .n { color: var(--color-syntax-number); }
+  .f { color: var(--color-syntax-function); font-weight: 600; }
+  .b { color: var(--color-syntax-builtin); }
+  .t { color: var(--color-syntax-type); }
+  .v { color: var(--color-syntax-variable); }
+  .c { color: var(--color-syntax-comment); font-style: italic; }
+  .d { color: var(--color-syntax-docstring); }
+  .add { color: var(--color-status-ok); }
+  .del { color: var(--color-status-err); }
+  .hunk { color: var(--color-syntax-keyword); }
+</style></head>
+<body>
+  <span class="label">python</span>
+  <div class="filename">contrast.py</div>
+<pre><span class="c"># WCAG 2 relative-luminance contrast ratio</span>
+<span class="k">def</span> <span class="f">luminance</span>(<span class="v">hex_</span>: <span class="t">str</span>) -&gt; <span class="t">float</span>:
+    <span class="d">"""Return the relative luminance of a #RRGGBB color."""</span>
+    <span class="v">r</span>, <span class="v">g</span>, <span class="v">b</span> = (<span class="b">int</span>(<span class="v">hex_</span>[<span class="v">i</span>:<span class="v">i</span>+<span class="n">2</span>], <span class="n">16</span>) / <span class="n">255</span> <span class="k">for</span> <span class="v">i</span> <span class="k">in</span> (<span class="n">1</span>, <span class="n">3</span>, <span class="n">5</span>))
+    <span class="k">return</span> <span class="n">0.2126</span>*<span class="v">r</span> + <span class="n">0.7152</span>*<span class="v">g</span> + <span class="n">0.0722</span>*<span class="v">b</span></pre>
+
+  <span class="label">javascript</span>
+  <div class="filename">tokens.js</div>
+<pre><span class="k">import</span> { <span class="v">tokens</span> } <span class="k">from</span> <span class="s">"./tokens-data.js"</span>;
+
+<span class="k">export const</span> <span class="f">swatchFor</span> = (<span class="v">role</span>, <span class="v">mode</span> = <span class="s">"light"</span>) =&gt; {
+  <span class="k">const</span> <span class="v">entry</span> = <span class="v">tokens</span>.<span class="v">palette</span>[<span class="v">role</span>] ?? <span class="v">tokens</span>.<span class="v">syntax</span>[<span class="v">role</span>];
+  <span class="k">if</span> (!<span class="v">entry</span>) <span class="k">throw new</span> <span class="t">Error</span>(<span class="s">`unknown role: </span>${<span class="v">role</span>}<span class="s">`</span>);
+  <span class="k">return</span> <span class="v">entry</span>[<span class="v">mode</span>];
+};</pre>
+
+  <span class="label">go</span>
+  <div class="filename">palette.go</div>
+<pre><span class="k">package</span> <span class="b">jylhis</span>
+
+<span class="c">// Palette captures one theme's resolved colors.</span>
+<span class="k">type</span> <span class="t">Palette</span> <span class="k">struct</span> {
+    <span class="v">Bg</span>, <span class="v">Text</span>, <span class="v">Accent</span> <span class="t">string</span>
+}
+
+<span class="k">func</span> (<span class="v">p</span> <span class="t">Palette</span>) <span class="f">Link</span>() <span class="t">string</span> { <span class="k">return</span> <span class="v">p</span>.<span class="v">Accent</span> }</pre>
+
+  <span class="label">rust</span>
+  <div class="filename">contrast.rs</div>
+<pre><span class="k">pub fn</span> <span class="f">contrast</span>(<span class="v">a</span>: <span class="t">[u8; 3]</span>, <span class="v">b</span>: <span class="t">[u8; 3]</span>) -&gt; <span class="t">f64</span> {
+    <span class="k">let</span> (<span class="v">la</span>, <span class="v">lb</span>) = (<span class="f">luminance</span>(<span class="v">a</span>), <span class="f">luminance</span>(<span class="v">b</span>));
+    <span class="k">let</span> (<span class="v">hi</span>, <span class="v">lo</span>) = <span class="k">if</span> <span class="v">la</span> &gt; <span class="v">lb</span> { (<span class="v">la</span>, <span class="v">lb</span>) } <span class="k">else</span> { (<span class="v">lb</span>, <span class="v">la</span>) };
+    (<span class="v">hi</span> + <span class="n">0.05</span>) / (<span class="v">lo</span> + <span class="n">0.05</span>)
+}</pre>
+
+  <span class="label">bash · shell prompt</span>
+  <div class="filename">zsh · session</div>
+<pre><span class="c"># regenerate every platform target</span>
+<span class="v" aria-hidden="true">$</span> <span class="f">bun</span> scripts/generate.mjs
+<span class="d">✓ Generated 18 files from tokens.json</span>
+<span class="v" aria-hidden="true">$</span> <span class="f">bun</span> scripts/validate-tokens.mjs
+<span class="d">✓ token validation passed (43 roles, 7 contrast checks)</span></pre>
+
+  <span class="label">nix · devenv</span>
+  <div class="filename">devenv.nix</div>
+<pre>{ <span class="v">pkgs</span>, <span class="v">lib</span>, ... }: {
+  <span class="v">languages</span>.<span class="v">javascript</span>.<span class="v">enable</span> = <span class="k">true</span>;
+  <span class="v">packages</span> = [ <span class="v">pkgs</span>.<span class="b">bun</span> <span class="v">pkgs</span>.<span class="b">go</span> ];
+  <span class="v">scripts</span>.<span class="v">generate</span>.<span class="v">exec</span> = <span class="s">"bun scripts/generate.mjs"</span>;
+}</pre>
+
+  <span class="label">json</span>
+  <div class="filename">tokens.json · excerpt</div>
+<pre>{
+  <span class="s">"palette"</span>: {
+    <span class="s">"bg"</span>: { <span class="s">"light"</span>: <span class="s">"#f6f8fb"</span>, <span class="s">"dark"</span>: <span class="s">"#0d0f14"</span> },
+    <span class="s">"accent"</span>: { <span class="s">"light"</span>: <span class="s">"#6f3e00"</span>, <span class="s">"dark"</span>: <span class="s">"#e0a33a"</span> }
+  }
+}</pre>
+
+  <span class="label">unified diff</span>
+  <div class="filename">tokens.json · 2 hunks</div>
+<pre><span class="hunk">@@ -7,3 +7,4 @@</span>
+   <span class="v">"palette"</span>: {
+<span class="del">-    "bg": { "light": "#fff", "dark": "#000" },</span>
+<span class="add">+    "bg": { "light": "#f6f8fb", "dark": "#0d0f14" },</span>
+<span class="add">+    "accent": { "light": "#6f3e00", "dark": "#e0a33a" },</span></pre>
+</body></html>

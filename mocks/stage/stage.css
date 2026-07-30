@@ -1,0 +1,134 @@
+/* mocks/stage/stage.css — fixed-canvas letterbox stage
+ *
+ * The shared "stage" pattern behind every full-screen prototype: content is
+ * authored on a fixed-size canvas (e.g. 1920×1080), then scaled to fit the
+ * real viewport and letterboxed on an ink-dark desk. On narrow portrait
+ * viewports the stage falls back to fit-to-height + horizontal pan so the
+ * canvas stays legible.
+ *
+ * Consumes ONLY design-system custom properties (import styles.css first).
+ * No raw hex / rgba literals — the desk, vignette, and banner all derive
+ * from token roles.
+ *
+ * Markup contract (stage.js drives the custom properties):
+ *
+ *   <div class="mock-stage mock-stage--vignette" data-canvas="1920x1080">
+ *     <div class="mock-stage__frame">
+ *       <div class="mock-stage__canvas">…fixed-size content…</div>
+ *     </div>
+ *   </div>
+ *
+ * The page should paint `html, body { background: var(--color-bg) }` — in
+ * dark mode the desk is the translucent scrim composited over the page
+ * ground, which lands the letterbox a step below the canvas.
+ */
+
+.mock-stage {
+  /* Authored canvas size — overridden by stage.js from data-canvas,
+   * or set them yourself and skip the script. */
+  --mock-canvas-w: 1920px;
+  --mock-canvas-h: 1080px;
+  /* Derived by stage.js: fit scale + the scaled visual box. */
+  --mock-stage-scale: 1;
+  --mock-stage-w: var(--mock-canvas-w);
+  --mock-stage-h: var(--mock-canvas-h);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* The desk: near-black ink in Sheet… */
+  background: var(--color-text-heading);
+}
+/* …and the scrim ink over the page ground in Field. */
+[data-theme="dark"] .mock-stage {
+  background: var(--color-scrim);
+}
+
+/* Optional bronze vignette on the desk (tune with --mock-stage-vignette-pos). */
+.mock-stage--vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--mock-stage-vignette-pos, 50% 36%),
+    color-mix(in srgb, var(--color-accent) 10%, transparent),
+    transparent 60%
+  );
+}
+
+/* The frame is sized to the *scaled* box so nothing overflows or scrolls —
+ * the canvas letterboxes cleanly inside the desk. */
+.mock-stage__frame {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--mock-stage-w);
+  height: var(--mock-stage-h);
+}
+
+.mock-stage__canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--mock-canvas-w);
+  height: var(--mock-canvas-h);
+  transform: scale(var(--mock-stage-scale));
+  transform-origin: top left;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+/* Bare canvas: no ground fill of its own (e.g. a device frame floats
+ * directly on the desk). */
+.mock-stage__canvas--bare {
+  background: transparent;
+}
+
+/* ── Pan fallback (narrow portrait viewports) ──
+ * stage.js sets data-pan="1"; the stage fits to height and scrolls
+ * horizontally instead of shrinking below legibility. */
+.mock-stage[data-pan="1"] {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.mock-stage[data-pan="1"] .mock-stage__frame {
+  overflow: hidden;
+}
+
+/* Dismissible "designed for desktop" notice, injected by stage.js in
+ * pan mode. */
+.mock-stage__banner {
+  position: fixed;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  right: var(--space-sm);
+  z-index: var(--z-toast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 12px;
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+  border: var(--border-hairline) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-8);
+  cursor: pointer;
+  text-align: left;
+}
+.mock-stage__banner > span:first-child {
+  color: var(--color-accent);
+}
+.mock-stage__banner-x {
+  margin-left: auto;
+  color: var(--color-text-muted);
+}
+.mock-stage__banner:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
