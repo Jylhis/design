@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Tables</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text); }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 0 0 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: var(--type-scale-9); margin-bottom: 22px; font-family: inherit; }
+  thead th { text-align: left; font-weight: 600; color: var(--color-text-faint); border-bottom: 2px solid var(--color-border-strong); padding: 8px 10px; font-size: var(--type-scale-9); text-transform: uppercase; letter-spacing: 0.06em; }
+  tbody td { padding: 7px 10px; border-bottom: 1px solid var(--color-border); color: var(--color-text); vertical-align: middle; }
+  tbody tr:hover td { background: var(--color-bg-subtle); }
+  tbody tr.zebra td { background: var(--color-bg-subtle); }
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable::after { content: " ▸"; color: var(--color-text-faint); font-size: var(--type-scale-9); }
+  th.sortable.active::after { content: " ▾"; color: var(--color-accent); }
+  td .num { color: var(--color-text-muted); }
+  td .ok { color: var(--color-status-ok); }
+  td .err { color: var(--color-status-err); }
+  td.code { font-family: var(--font-mono); color: var(--color-syntax-string); }
+  .scroll { overflow-x: auto; max-width: 100%; }
+</style></head>
+<body>
+  <span class="label">data table · zebra · hover · sort indicator</span>
+  <div class="scroll">
+    <table>
+    <thead>
+      <tr>
+        <th class="sortable active">role</th>
+        <th class="sortable">hex</th>
+        <th class="sortable">contrast</th>
+        <th>status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>bg</td><td class="code">#F6F8FB</td><td><span class="num">— · base</span></td><td><span class="ok">ok</span></td></tr>
+      <tr class="zebra"><td>text</td><td class="code">#23262E</td><td><span class="num">14.22:1</span></td><td><span class="ok" aria-label="success: AAA">AAA</span></td></tr>
+      <tr><td>text-muted</td><td class="code">#565A63</td><td><span class="num">6.5:1</span></td><td><span class="ok" aria-label="success: AA">AA</span></td></tr>
+      <tr class="zebra"><td>accent</td><td class="code">#6F3E00</td><td><span class="num">8.35:1</span></td><td><span class="ok" aria-label="success: AAA">AAA</span></td></tr>
+      <tr><td>text-faint</td><td class="code">#878C95</td><td><span class="num">3.18:1</span></td><td><span class="err" aria-label="warning: AA Large only">AA Large only</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <span class="label">code-row table · monospace cells</span>
+  <div class="scroll">
+    <table>
+    <thead>
+      <tr><th>file</th><th>lines</th><th>last touched</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="code">scripts/generate.mjs</td><td><span class="num">1465</span></td><td><span class="num">2 min ago</span></td></tr>
+      <tr><td class="code">tokens.json</td><td><span class="num">160</span></td><td><span class="num">5 min ago</span></td></tr>
+      <tr><td class="code">platforms/emacs/jylhis-sheet-theme.el</td><td><span class="num">430</span></td><td><span class="num">2 days ago</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</body></html>

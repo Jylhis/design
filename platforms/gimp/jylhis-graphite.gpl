@@ -1,0 +1,59 @@
+GIMP Palette
+Name: Jylhis Graphite
+Columns: 4
+#
+# Grounds
+ 13  13  13	bg
+ 22  22  22	bg-subtle
+ 31  31  31	surface
+ 40  40  40	surface-raised
+  5   5   5	scrim
+# Ink
+242 242 242	text-heading
+218 218 218	text
+154 154 154	text-muted
+106 106 106	text-faint
+# Bronze
+255 255 255	accent
+220 220 220	accent-hover
+232 232 232	brand
+ 36  36  36	accent-subtle
+ 58  58  58	selection-bg
+255 255 255	cursor
+# Line
+ 51  51  51	border
+ 74  74  74	border-strong
+ 61  61  61	decorator
+176 176 176	contour
+# Modus
+237 237 237	syn-keyword
+188 188 188	syn-string
+176 176 176	syn-number
+224 224 224	syn-function
+182 182 182	syn-builtin
+214 214 214	syn-type
+200 200 200	syn-variable
+143 143 143	syn-comment
+154 154 154	syn-docstring
+# Signal
+240 240 240	status-err
+184 184 184	status-warn
+144 144 144	status-ok
+208 208 208	status-info
+# Spectrum
+ 13  13  13	ansi-0-black
+240 240 240	ansi-1-red
+144 144 144	ansi-2-green
+184 184 184	ansi-3-yellow
+208 208 208	ansi-4-blue
+200 200 200	ansi-5-magenta
+176 176 176	ansi-6-cyan
+154 154 154	ansi-7-white
+106 106 106	ansi-8-bright-black
+255 255 255	ansi-9-bright-red
+165 165 165	ansi-10-bright-green
+255 255 255	ansi-11-bright-yellow
+220 220 220	ansi-12-bright-blue
+213 213 213	ansi-13-bright-magenta
+192 192 192	ansi-14-bright-cyan
+242 242 242	ansi-15-bright-white

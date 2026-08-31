@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Decorators</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-9); }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; margin: 10px 0 6px; }
+  .divider { display: flex; align-items: center; gap: 12px; color: var(--color-text-muted); font-size: var(--type-scale-9); letter-spacing: 0.05em; text-transform: lowercase; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+  .quote { border: var(--border-hairline) solid var(--color-border); background: var(--color-bg-subtle); border-radius: var(--radius-sm); padding: var(--space-sm) var(--space-md); color: var(--color-text-muted); font-style: italic; font-family: var(--font-body); font-size: var(--type-scale-6); }
+  .quote::before { content: '»'; font-family: var(--font-mono); color: var(--color-accent); font-style: normal; margin-right: 0.3em; }
+  hr { border: none; border-top: 1px solid var(--color-border); margin: 10px 0; }
+</style></head>
+<body>
+  <div class="label">labeled divider</div>
+  <div class="divider">experience</div>
+  <div class="label">blockquote · hairline quiet box · » in accent</div>
+  <p class="quote">The kind of engineer who fixes problems before customers notice them.</p>
+  <div class="label">hr</div>
+  <hr>
+</body></html>

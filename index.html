@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Jylhis Design System · The Survey</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="One datum, every sheet. A design system for jylhis.com: bronze accent, cool near-neutral grounds, one token spec across ten platform targets.">
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="stylesheet" href="./styles.css">
+<style>
+  :root { --maxw: 72ch; --rail: 16rem; --gap: 2.5rem; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--color-bg); min-height: 100vh; }
+  .skip-link { position: absolute; left: 24px; top: 16px; z-index: var(--z-skip); transform: translateY(-160%); padding: 8px 12px; background: var(--color-bg); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--type-scale-7); text-decoration: none; }
+  .skip-link:focus-visible { transform: translateY(0); outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  main { max-width: calc(var(--maxw) + var(--rail) + var(--gap)); margin: 0 auto; padding: 56px 24px 120px; }
+  header.hero { margin-bottom: var(--space-2xl); }
+  header.hero .man { font-family: var(--font-mono); font-size: var(--type-scale-6); font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: 0 0 18px; display: flex; justify-content: space-between; gap: 12px; }
+  header.hero h1 { font-family: var(--font-display); font-size: clamp(var(--type-scale-1), 1.25rem + 4vw, var(--type-scale-0)); font-weight: 700; color: var(--color-text-heading); letter-spacing: -0.01em; margin: 0 0 14px; }
+  .hero-rule { height: 1px; background: var(--color-border); margin-top: var(--space-xl); }
+  header.hero p { color: var(--color-text-muted); max-width: var(--maxw); margin: 0 0 var(--space-md); }
+  header.hero .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  header.hero .tag { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-muted); padding: 3px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg-subtle); }
+  .toolbar { position: fixed; top: 24px; right: 24px; z-index: var(--z-sticky); display: flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: var(--type-scale-7); }
+  .toolbar button { font: inherit; cursor: pointer; background: var(--color-bg-subtle); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 6px 12px; transition: border-color var(--transition-fast); }
+  .toolbar button:hover { border-color: var(--color-accent); color: var(--color-accent); }  h2.section { font-family: var(--font-mono); font-size: var(--type-scale-6); font-weight: 700; letter-spacing: 0.08em; color: var(--color-text-faint); text-transform: uppercase; margin: var(--space-2xl) 0 var(--space-md); }
+  h2.section::before { content: "// "; color: var(--color-accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-md); }
+  .card { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); background: var(--color-bg-subtle); text-decoration: none; color: inherit; transition: border-color var(--transition-fast); display: flex; flex-direction: column; gap: 8px; }
+  .card:hover { border-color: var(--color-accent); }  .card .title { font-family: var(--font-mono); font-size: var(--type-scale-4); font-weight: 600; color: var(--color-text-heading); overflow-wrap: anywhere; }
+  .card .desc { color: var(--color-text-muted); font-size: var(--type-scale-5); line-height: 1.55; }
+  .card .path { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-faint); margin-top: auto; overflow-wrap: anywhere; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: var(--space-sm); }
+  .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: var(--type-scale-9); background: var(--color-bg); color: inherit; padding: 0; text-align: left; cursor: copy; transition: border-color var(--transition-fast); position: relative; }
+  .sw:hover { border-color: var(--color-accent); }  .sw .chip { height: 48px; }
+  .sw .meta { padding: 6px 8px; color: var(--color-text-muted); display: flex; flex-direction: column; gap: 2px; }
+  .sw .meta .row { display: flex; justify-content: space-between; gap: 6px; align-items: baseline; }
+  .sw .meta .name { color: var(--color-text); }
+  .sw .meta .ratio { color: var(--color-text-faint); font-size: var(--type-scale-9); }
+  .sw .meta .ratio.aaa { color: var(--color-status-ok); }
+  .sw .meta .ratio.aa  { color: var(--color-text-muted); }
+  .sw .meta .ratio.fail { color: var(--color-status-err); }
+  .sw .copied { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-accent-subtle); color: var(--color-accent); font-family: var(--font-mono); font-size: var(--type-scale-7); opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
+  .sw.is-copied .copied { opacity: 1; }
+  .group-head { font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-text); margin: var(--space-md) 0 4px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .group-head .label { font-weight: 700; color: var(--color-text-heading); }
+  .group-head .blurb { color: var(--color-text-muted); font-size: var(--type-scale-9); }
+  .palette-link { display: inline-block; margin-top: var(--space-sm); font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-accent); text-decoration: none; }
+  .palette-link:hover { color: var(--color-accent-hover); }
+  .tree { font-family: var(--font-mono); font-size: var(--type-scale-6); color: var(--color-text-muted); white-space: pre; line-height: 1.5; padding: var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); overflow-x: auto; }
+  .footer-rule { margin-top: var(--space-3xl); }
+  footer { margin-top: 0; padding-top: var(--space-lg); font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-text-muted); text-align: center; }
+  footer a { color: var(--color-accent); text-decoration: none; }
+  footer a:hover { color: var(--color-accent-hover); }
+  .pill { display: inline-block; font-family: var(--font-mono); font-size: var(--type-scale-9); background: var(--color-accent-subtle); color: var(--color-accent); padding: 2px 8px; border-radius: var(--radius-pill); margin-left: 8px; }
+  .filter-bar { display: flex; align-items: center; gap: 10px; margin: var(--space-lg) 0 var(--space-md); padding: 10px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg-subtle); font-family: var(--font-mono); font-size: var(--type-scale-6); }
+  .filter-bar:focus-within { border-color: var(--color-accent); }
+  .filter-bar input { flex: 1; font: inherit; background: transparent; border: none; color: var(--color-text); padding: 2px 4px; min-width: 0; }
+  .filter-bar input:focus { outline: none; }
+  .filter-bar .glyph { color: var(--color-text-faint); font-size: var(--type-scale-5); }
+  .filter-bar .count { color: var(--color-text-muted); font-size: var(--type-scale-9); white-space: nowrap; }
+  .filter-bar .clear { font: inherit; font-size: var(--type-scale-9); padding: 2px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; transition: border-color var(--transition-fast), color var(--transition-fast); }
+  .filter-bar .clear:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .filter-bar .clear:disabled { opacity: 0.4; cursor: default; }
+  /* Keyboard-shortcut hint: a native popover (light-dismiss + toggle, no JS),
+     anchored to its ? trigger via CSS anchor positioning where supported and
+     centred by the UA otherwise. */
+  .hint-btn { font: inherit; font-size: var(--type-scale-9); width: 1.7em; height: 1.7em; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; anchor-name: --kbd-hint; }
+  .hint-btn:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .hint-btn:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .kbd-hints { border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface-raised); color: var(--color-text); padding: var(--space-sm) var(--space-md); font-family: var(--font-mono); font-size: var(--type-scale-7); }
+  .kbd-hints__row { display: flex; gap: 10px; align-items: baseline; margin: 4px 0; white-space: nowrap; }
+  .kbd-hints__row span { color: var(--color-text-muted); }
+  @supports (anchor-name: --x) {
+    .kbd-hints { position: fixed; margin: 0; inset: auto; top: calc(anchor(--kbd-hint bottom) + 6px); right: anchor(--kbd-hint right); }
+  }
+  .is-hidden-by-filter { display: none !important; }
+  .empty-state { font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-text-faint); padding: var(--space-md); text-align: center; }
+  .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-sm); }
+  .chip { font-family: var(--font-mono); font-size: var(--type-scale-7); padding: 6px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); color: var(--color-text); text-decoration: none; transition: border-color var(--transition-fast); }
+  .chip:hover { color: var(--color-accent); border-color: var(--color-accent); }  .chip .keys { color: var(--color-text-faint); font-size: var(--type-scale-9); margin-left: 6px; }
+  .apropos-cmd { font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-text-muted); margin: 0 0 var(--space-sm); }
+  .apropos-cmd::before { content: "$ "; color: var(--color-text-faint); }
+  .apropos { list-style: none; margin: 0 0 var(--space-md); padding: 0; font-family: var(--font-mono); font-size: var(--type-scale-6); }
+  .apropos-item { display: grid; grid-template-columns: 18ch 1fr; gap: 14px; padding: 8px 0; border-bottom: 1px dashed var(--color-decorator); align-items: baseline; }
+  .apropos-item:last-child { border-bottom: none; }
+  .apropos-item a { color: var(--color-accent); text-decoration: none; }
+  .apropos-item a:hover { color: var(--color-accent-hover); }
+  .apropos-item a:active { color: var(--color-accent-hover); }
+  .apropos-item .sec { color: var(--color-text-faint); }
+  .apropos-item .what { color: var(--color-text-muted); font-family: var(--font-body); font-size: var(--type-scale-5); line-height: 1.5; }
+  @media (max-width: 40em) { .apropos-item { grid-template-columns: 1fr; gap: 2px; } }
+  .card--flagship { background: var(--color-surface); padding: var(--space-xl); }
+  .card--flagship .title { font-size: var(--type-scale-3); }
+  .footer-mark { font-family: var(--font-mono); font-weight: 700; font-size: var(--type-scale-2); color: var(--color-text-heading); margin: 0 0 var(--space-md); }
+  .footer-mark .chev { color: var(--color-accent); }
+  /* Press / active — deepen to the darker bronze (--color-accent-hover). Canon allows colour
+     and border only; no scale (AGENTS.md, README.md#press, docs/STYLE-GUIDE.md). */
+  .toolbar button:active,
+  .chip:active,
+  .filter-bar .clear:not(:disabled):active { border-color: var(--color-accent-hover); color: var(--color-accent-hover); }
+  .card:active,
+  .sw:active { border-color: var(--color-accent-hover); }
+
+  /* ── Responsive · touch · print ───────────────────────────
+     Breakpoints repeat the literal token values (tokens.json →
+     breakpoints.sm 640 / md 860); feature queries own input method
+     and print. Touch floor 44px = density.comfortable.hitTargetMin. */
+
+  /* Safe-area insets (notch / home indicator) via viewport-fit=cover. */
+  main { padding-left: max(24px, env(safe-area-inset-left)); padding-right: max(24px, env(safe-area-inset-right)); }
+  .toolbar { top: max(24px, env(safe-area-inset-top)); right: max(24px, env(safe-area-inset-right)); }
+  .skip-link { left: max(24px, env(safe-area-inset-left)); }
+
+  /* Coarse pointer (touch/stylus): every control clears the 44px floor. */
+  @media (pointer: coarse) {
+    .toolbar button,
+    .filter-bar .clear { min-height: 44px; }
+    .chip { min-height: 44px; display: inline-flex; align-items: center; }
+    .filter-bar { padding: 12px; }
+    .filter-bar .clear { padding-inline: 14px; }
+    .apropos-item a,
+    .palette-link,
+    footer a { display: inline-block; padding-block: 6px; }
+  }
+
+  /* Hover is a pointer affordance — don't strand :hover on touch taps. */
+  @media (hover: none) {
+    .card:hover,
+    .sw:hover { border-color: var(--color-border); }
+    .chip:hover { border-color: var(--color-border); color: var(--color-text); }
+    .toolbar button:hover { border-color: var(--color-border); color: var(--color-text); }
+    .filter-bar .clear:hover { border-color: var(--color-border); color: var(--color-text-muted); }
+  }
+
+  @media (max-width: 53.75em) { /* breakpoints.md — toolbar floats over scrolling content */
+    .toolbar { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 4px 6px; }
+  }
+
+  @media (max-width: 40em) { /* breakpoints.sm — phone */
+    main {
+      padding-top: calc(env(safe-area-inset-top, 0px) + 3.5rem); /* clear the fixed toolbar */
+      padding-bottom: 80px;
+      padding-left: max(var(--layout-padding-mobile), env(safe-area-inset-left));
+      padding-right: max(var(--layout-padding-mobile), env(safe-area-inset-right));
+    }
+    /* Drop the decorative right-hand man-page label so it can't slide under the toolbar. */
+    header.hero .man > span:last-child { display: none; }
+    header.hero .man { justify-content: flex-start; }
+    .swatches { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+    .tree, footer { font-size: var(--type-scale-8); }
+  }
+
+  @media print {
+    .toolbar, .skip-link, .filter-bar, .ds-caret { display: none !important; }
+    html { scroll-behavior: auto; }
+    main { max-width: none; padding: 0; }
+    a { color: var(--color-text); }
+    /* Reveal destinations for spec and prototype links. */
+    .apropos-item a[href]::after,
+    a.card[href]::after { content: " (" attr(href) ")"; font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-muted); word-break: break-all; }
+    h2.section { break-after: avoid; }
+    .card, .apropos-item, .sw, .group-head + .swatches { break-inside: avoid; }
+    /* On swatches the colour IS the content — force it to print. */
+    .sw .chip { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+<script>
+  try {
+    var s = localStorage.getItem("jylhis-theme");
+    var m = s || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (m !== "light") document.documentElement.dataset.theme = m;
+  } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<div id="copy-status" class="sr-only" role="status" aria-live="polite"></div>
+
+<div class="toolbar">
+  <span id="theme-label">sheet</span>
+  <button id="theme-toggle" type="button" aria-label="switch theme">☾</button>
+</div>
+
+<main id="content">
+  <header class="hero">
+    <p class="man"><span id="man-label" style="--ds-readout-ch: 10.5ch">JYLHIS(7)</span><span aria-hidden="true">JYLHIS(7)</span></p>
+    <h1>One datum, every sheet. <span class="pill" id="version-pill">version</span></h1>
+    <p>A design system for <a href="https://jylhis.com" style="color: var(--color-accent); text-decoration: none;">jylhis.com</a>. One bronze accent, cool near-neutral grounds, structure drawn in Modus contour blue. Ten platform targets from Ghostty to Charm TUI, every one a sheet triangulated to a single <a href="./md.html?src=tokens.md" style="color: var(--color-accent); text-decoration: none;">token spec</a>.</p>
+    <div class="tags">
+      <span class="tag">WCAG AAA body</span>
+      <span class="tag">Zilla Slab · Hanken Grotesk · IBM Plex Mono</span>
+      <span class="tag">Modus syntax</span>
+      <span class="tag">keyboard-first</span>
+      <span class="tag">no shadows</span>
+    </div>
+    <div class="hero-rule" id="hero-rule" aria-hidden="true"></div>
+  </header>
+
+  <div class="filter-bar" id="filter-bar">
+    <label for="filter" class="glyph" aria-hidden="true">⌕</label>
+    <input id="filter" type="search" aria-label="Filter swatches, components, and paths" placeholder="filter swatches, components, paths … (press / to focus)" autocomplete="off" spellcheck="false">
+    <span class="count" id="filter-count"></span>
+    <button class="clear" id="filter-clear" type="button" disabled>clear</button>
+    <button class="hint-btn" type="button" popovertarget="kbd-hints" aria-label="keyboard shortcuts">?</button>
+    <div id="kbd-hints" class="kbd-hints" popover role="group" aria-label="Keyboard shortcuts">
+      <p class="kbd-hints__row"><kbd class="ds-kbd">/</kbd><span>focus filter</span></p>
+      <p class="kbd-hints__row"><kbd class="ds-kbd">Esc</kbd><span>clear &amp; blur</span></p>
+    </div>
+  </div>
+
+  <h2 class="section" data-no-filter>core palette</h2>
+  <div id="palette-groups"></div>
+  <a class="palette-link" href="./palette.html">view full palette reference (rgb · hsl · oklch · contrast pairs) ▸</a>
+
+  <h2 class="section" data-no-filter>syntax · modus</h2>
+  <div class="group-head"><span class="label">Modus</span><span class="blurb">Operandi (light) and Vivendi (dark) roles, hue-tuned for Sheet and Field (not the upstream Modus hexes).</span></div>
+  <div class="swatches" id="syntax-swatches"></div>
+
+  <h2 class="section" data-no-filter>status · signal</h2>
+  <div class="group-head"><span class="label">Signal</span><span class="blurb">err · warn · ok · info; reuses the Modus accents.</span></div>
+  <div class="swatches" id="status-swatches"></div>
+
+  <h2 class="section" data-no-filter>ansi 16 · spectrum</h2>
+  <div class="group-head"><span class="label">Spectrum</span><span class="blurb">slot 11 is intentionally overridden to brand bronze.</span></div>
+  <div class="swatches" id="ansi-swatches"></div>
+
+  <h2 class="section" data-no-filter>specs &amp; guides</h2>
+  <p class="apropos-cmd" data-no-filter>man -k jylhis</p>
+  <ul class="apropos">
+    <li class="apropos-item" data-search="tokens palette spec core colors syntax ansi typography density motion contrast"><a href="./md.html?src=tokens.md">tokens<span class="sec">(7)</span></a><span class="what">canonical palette spec — core colors, syntax, ANSI 16, typography, density, motion, keyboard primitives; contrast ratios inlined</span></li>
+    <li class="apropos-item" data-search="integration quick-start web css go charm tui terminal emacs wayland new platform"><a href="./md.html?src=docs/INTEGRATION.md">integration<span class="sec">(7)</span></a><span class="what">quick-starts for web, Go / Charm TUI, terminal, Emacs, Wayland — and adding a new platform</span></li>
+    <li class="apropos-item" data-search="keyboard focus ring kbd chip leader command palette selected item shortcuts tab order"><a href="./md.html?src=platforms/KEYBOARD.md">keyboard<span class="sec">(7)</span></a><span class="what">focus ring, kbd chip, leader key, command palette, selected item, dismiss hints, canonical shortcuts</span></li>
+    <li class="apropos-item" data-search="style guide usage do dont rules accent grounds ink bronze line modus signal spectrum"><a href="./md.html?src=docs/STYLE-GUIDE.md">style-guide<span class="sec">(7)</span></a><span class="what">opinionated usage rules — when to pick which color, type, spacing, motion; the do/don't list</span></li>
+    <li class="apropos-item" data-search="accessibility wcag aaa aa contrast cvd colour vision deuteranopia tritanopia"><a href="./md.html?src=docs/ACCESSIBILITY.md">accessibility<span class="sec">(7)</span></a><span class="what">WCAG numbers per pair, CVD notes, what's in scope vs. what isn't — status colors require glyph + label</span></li>
+    <li class="apropos-item" data-search="changelog semver history release version pin tag"><a href="./md.html?src=CHANGELOG.md">changelog<span class="sec">(7)</span></a><span class="what">semver history — what changed, when, and why; pin a tag or SHA in consumer projects</span></li>
+  </ul>
+
+  <h2 class="section" data-no-filter>prototypes</h2>
+  <div class="grid">
+    <a class="card card--flagship" href="./prototypes/desktop/desktop.html">
+      <span class="title">desktop environment</span>
+      <span class="desc">A TUI desktop in the Norton Commander spirit — every window is a terminal. Live centerpiece shell, dual-pane commander, system monitor, agenda. Discoverable keyboard: F1–F10 function-key bar, menu bar, Space which-key.</span>
+      <span class="path">./prototypes/desktop/desktop.html</span>
+    </a>
+    <a class="card card--flagship" href="./prototypes/macos/macos.html">
+      <span class="title">macOS, themed</span>
+      <span class="desc">A faithful macOS desktop reskinned in the Jylhis language — Apple menu bar, Dock, Finder, traffic-light windows, Spotlight, Control Center, Notification Center. Mono chrome, grotesk prose, bronze hairline focus.</span>
+      <span class="path">./prototypes/macos/macos.html</span>
+    </a>
+    <a class="card card--flagship" href="./prototypes/tablet/tablet.html">
+      <span class="title">android tablet</span>
+      <span class="desc">Android tablet with folio keyboard — split view, notification shade, app drawer, recents. Same keybindings as the desktop, adapted for 16:10 touch.</span>
+      <span class="path">./prototypes/tablet/tablet.html</span>
+    </a>
+    <a class="card card--flagship" href="./platforms/index.html">
+      <span class="title">platforms gallery</span>
+      <span class="desc">All ten targets in one page, rendered side-by-side in Sheet and Field. Ghostty, shell, Hyprland, Waybar, Mako, Rofi, GTK, Kvantum, Emacs, Charm.</span>
+      <span class="path">./platforms/index.html</span>
+    </a>
+    <a class="card card--flagship" href="./prototypes/web/index.html">
+      <span class="title">website prototype</span>
+      <span class="desc">React recreation of the Astro site — home, notes, projects, resume, 404. Interactive theme toggle.</span>
+      <span class="path">./prototypes/web/index.html</span>
+    </a>
+  </div>
+
+  <h2 class="section" data-no-filter>specimens</h2>
+  <div class="grid">
+    <a class="card" href="./preview/colors-core.html">
+      <span class="title">color swatches</span>
+      <span class="desc">Core palette, text / borders, syntax highlighting — hex values inline with role labels.</span>
+      <span class="path">./preview/colors-*.html</span>
+    </a>
+    <a class="card" href="./preview/type-headings.html">
+      <span class="title">typography</span>
+      <span class="desc">Heading scale, body copy, monospace labels, inline and block code, dividers with labels, and the two scaling floors.</span>
+      <span class="path">./preview/type-*.html</span>
+    </a>
+    <a class="card" href="./preview/buttons.html">
+      <span class="title">buttons &amp; cards</span>
+      <span class="desc">Primary, secondary, and destructive buttons. Flat cards with 1px borders, no shadows.</span>
+      <span class="path">./preview/buttons.html · ./preview/cards.html</span>
+    </a>
+    <a class="card" href="./preview/code-block.html">
+      <span class="title">code blocks</span>
+      <span class="desc">Modus Operandi / Vivendi syntax rendering in web, matching Emacs and the terminal.</span>
+      <span class="path">./preview/code-block.html</span>
+    </a>
+    <a class="card" href="./preview/icons.html">
+      <span class="title">iconography</span>
+      <span class="desc">Unicode-as-icons inventory — chevrons, tree lines, man-page glyphs, theme toggle.</span>
+      <span class="path">./preview/icons.html</span>
+    </a>
+    <a class="card" href="./preview/spacing.html">
+      <span class="title">spacing &amp; radii</span>
+      <span class="desc">4px grid, content max 72ch, corner radii 2–4px only. No pill aesthetic.</span>
+      <span class="path">./preview/spacing.html · ./preview/radii-elevation.html</span>
+    </a>
+  </div>
+
+  <h2 class="section">components</h2>
+  <div class="chip-grid" id="components-grid">
+    <a class="chip" href="./preview/buttons.html" data-search="buttons primary secondary destructive ghost search trigger kbd theme toggle interactive">buttons</a>
+    <a class="chip" href="./preview/cards.html" data-search="cards flat surface raised">cards</a>
+    <a class="chip" href="./preview/tables.html" data-search="tables zebra sortable thead data table monospace cells">tables</a>
+    <a class="chip" href="./preview/forms.html" data-search="forms input textarea select checkbox radio submit ghost focus error">forms</a>
+    <a class="chip" href="./preview/alerts.html" data-search="alerts callouts info warn ok err status currently">alerts</a>
+    <a class="chip" href="./preview/tabs.html" data-search="tabs tablist panel rail folder navigation">tabs</a>
+    <a class="chip" href="./preview/modal.html" data-search="modal dialog scrim destructive surface raised">modal</a>
+    <a class="chip" href="./preview/breadcrumb.html" data-search="breadcrumb chevron path navigation">breadcrumb</a>
+    <a class="chip" href="./preview/pagination.html" data-search="pagination prev next pager numbered load more">pagination</a>
+    <a class="chip" href="./preview/kbd.html" data-search="kbd keyboard shortcut chord chip accent typewriter">kbd</a>
+    <a class="chip" href="./preview/blockquote.html" data-search="blockquote pull quote hanken grotesk cite quotation marker">blockquote</a>
+    <a class="chip" href="./preview/motion.html" data-search="motion fast base slow survey duration easing reduced motion underline link">motion</a>
+    <a class="chip" href="./preview/survey-renders-in.html" data-search="motion signature idioms contour draw line extend readout caret survey renders in">survey renders in</a>
+    <a class="chip" href="./preview/code-block.html" data-search="code block inline modus syntax fenced">code · single</a>
+    <a class="chip" href="./preview/code-languages.html" data-search="code python javascript js go rust bash shell nix json diff modus syntax language">code · multi-language</a>
+    <a class="chip" href="./preview/icons.html" data-search="icons unicode chevron tree dashes glyphs decorators">icons</a>
+    <a class="chip" href="./preview/decorators.html" data-search="decorators tree dashes chevrons rules unicode">decorators</a>
+    <a class="chip" href="./preview/spacing.html" data-search="spacing 4px grid xs sm md lg xl 2xl 3xl">spacing</a>
+    <a class="chip" href="./preview/radii-elevation.html" data-search="radii corners 2px 3px 4px elevation surface">radii &amp; elevation</a>
+    <a class="chip" href="./preview/type-headings.html" data-search="type headings zilla slab display scale">type · headings</a>
+    <a class="chip" href="./preview/type-body.html" data-search="type body hanken grotesk prose reading">type · body</a>
+    <a class="chip" href="./preview/type-mono.html" data-search="type mono monospace inline code labels">type · mono</a>
+    <a class="chip" href="./preview/type-scaling.html" data-search="type scaling font size rem floor readable zoom resize accessibility wcag 1.4.4 browser default">type · scaling</a>
+    <a class="chip" href="./preview/links.html" data-search="links hover underline animation accent">links</a>
+    <a class="chip" href="./preview/header.html" data-search="header logo wordmark nav site">header</a>
+    <a class="chip" href="./preview/footer.html" data-search="footer dashes identity links colophon">footer</a>
+    <a class="chip" href="./preview/sidenote.html" data-search="sidenote sidebar right rail accent">sidenote</a>
+    <a class="chip" href="./preview/currently-block.html" data-search="currently home accent left border">currently block</a>
+    <a class="chip" href="./preview/cv-entry.html" data-search="cv resume editor line numbered">cv entry</a>
+    <a class="chip" href="./preview/tags-badges.html" data-search="tags badges status active archived experimental contributed">tags &amp; badges</a>
+    <a class="chip" href="./preview/terminal-listing.html" data-search="terminal shell ls listing ansi colors">terminal listing</a>
+    <a class="chip" href="./preview/logo.html" data-search="logo makers mark svg bronze accent rune">logo</a>
+    <a class="chip" href="./preview/colors-core.html" data-search="colors palette specimen">colors · core</a>
+    <a class="chip" href="./preview/colors-syntax.html" data-search="colors syntax modus operandi vivendi">colors · syntax</a>
+    <a class="chip" href="./preview/colors-text-borders.html" data-search="colors text borders muted faint">colors · text &amp; borders</a>
+    <a class="chip" href="./preview/colors-dark.html" data-search="colors dark field palette">colors · dark</a>
+  </div>
+  <p id="components-empty" class="empty-state is-hidden-by-filter">// no components match</p>
+
+  <h2 class="section" data-no-filter>repo layout</h2>
+  <pre class="tree">design/
+├── tokens.json                ← source of truth
+├── tokens.css                 ← generated (CSS variables)
+├── tokens-data.js             ← generated (JS for website)
+├── tokens.md                  ← generated (human-readable spec)
+├── colors_and_type.css        ← hand-authored (imports tokens.css + type helpers)
+├── scripts/
+│   ├── generate.mjs           ← reads tokens.json, writes all targets
+│   └── validate-tokens.mjs    ← schema + contrast validation
+├── platforms/                 ← generated from tokens.json
+│   ├── charm/                 ← Go / Bubble Tea
+│   ├── ghostty/  emacs/  hyprland/  waybar/
+│   ├── mako/  rofi/  gtk/  kvantum/  shell/
+│   ├── KEYBOARD.md
+│   └── index.html
+├── nix/                       ← standalone Nix derivations
+│   ├── ghostty.nix  emacs.nix  themes.nix
+├── prototypes/                ← desktop, macOS, tablet &amp; web prototypes
+│   └── _shared/               ← shared canvas, keyboard nav, tweaks panel
+├── preview/                   ← HTML specimen cards
+└── assets/</pre>
+
+  <div class="ds-line-onview footer-rule" aria-hidden="true"></div>
+  <footer>
+    <p class="footer-mark" aria-hidden="true">jy <span class="chev">❯</span><span class="ds-caret"></span></p>
+    ──────── set in zilla slab, hanken grotesk &amp; ibm plex mono · tokens in <a href="./md.html?src=tokens.md">tokens.md</a> · source on <a href="https://github.com/jylhis/design">github</a> · tehty käsin ────────
+  </footer>
+</main>
+
+<script>
+  const doc = document.documentElement;
+  const label = document.getElementById("theme-label");
+  const btn = document.getElementById("theme-toggle");
+  const mq = matchMedia("(prefers-color-scheme: dark)");
+  const safeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+  const safeSet = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
+
+  let tokenData = null;
+  fetch("./tokens-data.js").then(r => r.text()).then(text => {
+    // tokens-data.js is an ES module; extract the JSON from it
+    const match = text.match(/export const tokens = ({[\s\S]+});/);
+    if (match) { tokenData = JSON.parse(match[1]); renderVersion(); renderSwatches(); }
+  }).catch(() => {});
+
+  const renderVersion = () => {
+    const el = document.getElementById("version-pill");
+    if (el && tokenData?.meta?.version) el.textContent = `v${tokenData.meta.version}`;
+  };
+
+  const ratioClass = (tag) => {
+    if (tag === "AAA") return "aaa";
+    if (tag === "AA") return "aa";
+    if (tag === "fail") return "fail";
+    return "";
+  };
+
+  const makeSwatch = (role, hex, ratioInfo, group) => {
+    const sw = document.createElement("button");
+    sw.type = "button";
+    sw.className = "sw";
+    sw.dataset.hex = hex;
+    sw.dataset.search = [role, hex, hex.toLowerCase().replace(/^#/, ""), group, ratioInfo?.tag].filter(Boolean).join(" ").toLowerCase();
+    sw.setAttribute("aria-label", `copy ${hex}`);
+    const ratioRow = ratioInfo
+      ? `<span class="ratio ${ratioClass(ratioInfo.tag)}">${ratioInfo.ratio.toFixed(2)}:1 ${ratioInfo.tag}</span>`
+      : `<span class="ratio">&nbsp;</span>`;
+    sw.innerHTML = `
+      <div class="chip" style="background:${hex}"></div>
+      <div class="meta">
+        <div class="row"><span class="name">${role}</span><span class="hex">${hex.toUpperCase()}</span></div>
+        <div class="row">${ratioRow}</div>
+      </div>
+      <div class="copied">copied</div>`;
+    return sw;
+  };
+
+  const renderSwatches = () => {
+    if (!tokenData) return;
+    const mode = doc.dataset.theme || "light";
+    const swatchContrast = (tokenData.swatchContrast && tokenData.swatchContrast[mode]) || {};
+
+    // Palette: grouped under thematic banners (grounds / ink / bronze / line).
+    const paletteHost = document.getElementById("palette-groups");
+    if (paletteHost) {
+      paletteHost.innerHTML = "";
+      const paletteGroups = ["grounds", "ink", "bronze", "line"];
+      for (const gKey of paletteGroups) {
+        const g = tokenData.groups && tokenData.groups[gKey];
+        if (!g) continue;
+        const head = document.createElement("div");
+        head.className = "group-head";
+        head.innerHTML = `<span class="label">${g.label}</span><span class="blurb">${g.blurb}</span>`;
+        paletteHost.appendChild(head);
+        const grid = document.createElement("div");
+        grid.className = "swatches";
+        for (const role of g.members) {
+          const entry = tokenData.palette[role];
+          if (!entry) continue;
+          grid.appendChild(makeSwatch(role, entry[mode], swatchContrast[role], g.label));
+        }
+        paletteHost.appendChild(grid);
+      }
+    }
+
+    const fill = (id, entries, groupLabel) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = "";
+      for (const [name, hex, ratio] of entries) el.appendChild(makeSwatch(name, hex, ratio, groupLabel));
+    };
+    fill("syntax-swatches", Object.entries(tokenData.syntax).map(([k, v]) => [k.replace("syn-", ""), v[mode]]), "Modus");
+    fill("status-swatches", Object.entries(tokenData.status).map(([k, v]) => [k.replace("status-", ""), v[mode], swatchContrast[k]]), "Signal");
+    fill("ansi-swatches", tokenData.ansi.map((a, i) => [`${i} ${a.name}`, a[mode]]), "Spectrum");
+
+    applyFilter();
+  };
+
+  // Click-to-copy on any swatch. Uses event delegation so it survives re-renders.
+  document.addEventListener("click", async (e) => {
+    const sw = e.target.closest(".sw");
+    if (!sw || !sw.dataset.hex) return;
+    if (!navigator.clipboard) return;
+    try {
+      const hex = sw.dataset.hex.toUpperCase();
+      await navigator.clipboard.writeText(hex);
+      sw.classList.add("is-copied");
+      const status = document.getElementById("copy-status");
+      if (status) status.textContent = `copied ${hex}`;
+      setTimeout(() => sw.classList.remove("is-copied"), 900);
+    } catch {}
+  });
+
+  // Four editions cycled by the toolbar button: Sheet → Field → Chalk →
+  // Graphite → Sheet. The button glyph hints the NEXT edition; the label names
+  // the current one. tokens.css carries the [data-theme] selectors.
+  const CYCLE = ["light", "dark", "mono-light", "mono-dark"];
+  const TNAME = { "light": "sheet", "dark": "field", "mono-light": "chalk", "mono-dark": "graphite" };
+  const NEXT_ICON = { "light": "☾", "dark": "◐", "mono-light": "◑", "mono-dark": "☀" };
+  const nextOf = (m) => CYCLE[(CYCLE.indexOf(m) + 1) % CYCLE.length];
+
+  const apply = (mode, persist = true) => {
+    if (!CYCLE.includes(mode)) mode = "light";
+    if (mode === "light") delete doc.dataset.theme;
+    else doc.dataset.theme = mode;
+    label.textContent = TNAME[mode];
+    btn.textContent = NEXT_ICON[mode];
+    btn.setAttribute("aria-label", `switch to ${TNAME[nextOf(mode)]}`);
+    if (persist) safeSet("jylhis-theme", mode);
+    renderSwatches();
+  };
+
+  const saved = safeGet("jylhis-theme");
+  apply(saved ?? (mq.matches ? "dark" : "light"), saved !== null);
+  btn.addEventListener("click", () => {
+    const next = nextOf(doc.dataset.theme || "light");
+    // Survey re-plot on an explicit toggle only — the initial apply() above is
+    // never wrapped, so first paint does not animate. Feature-detected: browsers
+    // without View Transitions swap instantly.
+    if (document.startViewTransition) document.startViewTransition(() => apply(next));
+    else apply(next);
+  });
+  mq.addEventListener("change", (e) => { if (!safeGet("jylhis-theme")) apply(e.matches ? "dark" : "light", false); });
+
+  // ─── Filter / search across swatches, components, and cards ─────────
+  // Single text box matches against:
+  //   - swatch data-search ("role hex group tag")
+  //   - chip/card data-search (role + descriptive keywords)
+  //   - card text content (titles + descriptions)
+  // Hides non-matching items via .is-hidden-by-filter. Section headers
+  // marked data-no-filter stay put.
+  const filter = document.getElementById("filter");
+  const filterBar = document.getElementById("filter-bar");
+  const filterCount = document.getElementById("filter-count");
+  const filterClear = document.getElementById("filter-clear");
+  const componentsEmpty = document.getElementById("components-empty");
+
+  const matchesQuery = (el, q) => {
+    const haystack = ((el.dataset.search || "") + " " + el.textContent).toLowerCase();
+    return haystack.includes(q);
+  };
+
+  const applyFilter = () => {
+    const q = (filter?.value || "").trim().toLowerCase();
+    const swatches = document.querySelectorAll(".sw");
+    const chips = document.querySelectorAll(".chip");
+    const cards = document.querySelectorAll("a.card, .apropos-item");
+    const groupHeads = document.querySelectorAll(".group-head");
+
+    let shown = 0;
+    const apply = (el) => {
+      if (!q || matchesQuery(el, q)) { el.classList.remove("is-hidden-by-filter"); shown++; }
+      else { el.classList.add("is-hidden-by-filter"); }
+    };
+    swatches.forEach(apply);
+    chips.forEach(apply);
+    cards.forEach(apply);
+
+    // Hide a thematic group banner when none of its swatches match.
+    groupHeads.forEach(head => {
+      const grid = head.nextElementSibling;
+      if (!grid || !grid.classList.contains("swatches")) return;
+      const anyVisible = [...grid.children].some(c => !c.classList.contains("is-hidden-by-filter"));
+      head.classList.toggle("is-hidden-by-filter", !!q && !anyVisible);
+    });
+
+    if (componentsEmpty) {
+      const grid = document.getElementById("components-grid");
+      const anyChip = grid && [...grid.children].some(c => !c.classList.contains("is-hidden-by-filter"));
+      componentsEmpty.classList.toggle("is-hidden-by-filter", !q || anyChip);
+    }
+
+    filterCount.textContent = q ? `${shown} match${shown === 1 ? "" : "es"}` : "";
+    filterClear.disabled = !q;
+  };
+
+  // "Ink draws on" entrance — one drawn rule, one typed label. JS-gated:
+  // without JS the hero renders fully static and visible (reveal safety).
+  const manLabel = document.getElementById("man-label");
+  const heroRule = document.getElementById("hero-rule");
+  if (manLabel && heroRule) {
+    manLabel.classList.add("ds-readout");
+    heroRule.classList.add("ds-line-extend");
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      manLabel.classList.add("is-read");
+      heroRule.classList.add("is-drawn");
+    }));
+  }
+
+  console.log("%cjy ❯%c tokens in ./tokens.md · source in tokens.json · tehty käsin", "color:#6f3e00;font-weight:bold;font-family:monospace", "color:inherit;font-family:monospace");
+
+  filter?.addEventListener("input", applyFilter);
+  filterClear?.addEventListener("click", () => { filter.value = ""; applyFilter(); filter.focus(); });
+
+  // Keyboard: `/` focuses, Esc clears + blurs.
+  document.addEventListener("keydown", (e) => {
+    const tag = (e.target?.tagName || "").toLowerCase();
+    const inEditable = tag === "input" || tag === "textarea" || tag === "select" || e.target?.isContentEditable;
+    if (e.key === "/" && !inEditable && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      e.preventDefault();
+      filter?.focus();
+      filter?.select();
+    } else if (e.key === "Escape" && document.activeElement === filter) {
+      if (filter.value) { filter.value = ""; applyFilter(); }
+      else filter.blur();
+    }
+  });
+</script>
+
+</body>
+</html>

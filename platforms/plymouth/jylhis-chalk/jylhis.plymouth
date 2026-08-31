@@ -1,0 +1,9 @@
+# Jylhis Chalk — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Chalk
+Description=Jylhis design system — chalk variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

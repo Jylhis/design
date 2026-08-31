@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Unicode Icons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 20px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-9); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(6rem, 100%), 1fr)); gap: 10px; }
+  .cell { border: 1px solid var(--color-border); background: var(--color-surface-raised); border-radius: 3px; padding: 8px; text-align: center; }
+  .glyph { font-size: var(--type-scale-3); color: var(--color-accent); line-height: 1; margin-bottom: 6px; }
+  .desc { color: var(--color-text-muted); font-size: var(--type-scale-9); }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="cell"><div class="glyph">›</div><div class="desc">list bullet</div></div>
+    <div class="cell"><div class="glyph">▸</div><div class="desc">breadcrumb</div></div>
+    <div class="cell"><div class="glyph">»</div><div class="desc">blockquote</div></div>
+    <div class="cell"><div class="glyph">☾</div><div class="desc">dark toggle</div></div>
+    <div class="cell"><div class="glyph">☀</div><div class="desc">light toggle</div></div>
+    <div class="cell"><div class="glyph">★</div><div class="desc">stars</div></div>
+    <div class="cell"><div class="glyph">⑂</div><div class="desc">forks</div></div>
+    <div class="cell"><div class="glyph">└──</div><div class="desc">tree (last)</div></div>
+    <div class="cell"><div class="glyph">├──</div><div class="desc">tree (mid)</div></div>
+    <div class="cell"><div class="glyph">$</div><div class="desc">shell prompt</div></div>
+    <div class="cell"><div class="glyph">//</div><div class="desc">comment</div></div>
+    <div class="cell"><div class="glyph">─</div><div class="desc">hr dash</div></div>
+  </div>
+</body></html>

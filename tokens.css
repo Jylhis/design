@@ -1,0 +1,287 @@
+/*
+ * tokens.css — GENERATED from tokens.json. Do not edit by hand.
+ * Jylhis Design System color and spacing tokens.
+ */
+
+/* Light theme (default) */
+:root {
+  /* Background */
+  --color-bg: oklch(97.8460% 0.00453 258.324);
+  --color-bg-subtle: oklch(95.9257% 0.00687 247.896);
+  /* Surface */
+  --color-surface: oklch(93.9974% 0.00934 242.841);
+  --color-surface-raised: oklch(99.3852% 0.00285 264.542);
+  /* Text */
+  --color-text: oklch(26.9012% 0.01552 269.099);
+  --color-text-muted: oklch(46.7244% 0.01539 266.570);
+  --color-text-heading: oklch(19.1890% 0.01257 270.684);
+  --color-text-faint: oklch(63.8857% 0.01465 262.358);
+  /* Accent */
+  --color-accent: oklch(41.5044% 0.09480 62.850);
+  --color-accent-hover: oklch(48.2682% 0.11146 61.626);
+  --color-brand: oklch(53.6953% 0.15709 41.413);
+  --color-selection-bg: oklch(91.1695% 0.02627 76.786);
+  --color-cursor: oklch(41.5044% 0.09480 62.850);
+  /* Borders */
+  --color-border: oklch(87.3077% 0.01341 251.572);
+  --color-border-strong: oklch(76.5823% 0.02049 252.918);
+  --color-decorator: oklch(65.1273% 0.05995 266.934);
+  --color-contour: oklch(46.1859% 0.15922 266.358);
+  /* Code */
+  --color-code-bg: oklch(95.9257% 0.00687 247.896);
+  --color-code-text: oklch(26.9012% 0.01552 269.099);
+  --color-code-border: oklch(87.3077% 0.01341 251.572);
+  /* Syntax */
+  --color-syntax-keyword: oklch(41.7562% 0.21575 289.737);
+  --color-syntax-string: oklch(47.8212% 0.20705 270.063);
+  --color-syntax-number: oklch(34.2268% 0.23717 264.052);
+  --color-syntax-function: oklch(37.0775% 0.13833 353.874);
+  --color-syntax-builtin: oklch(44.0473% 0.19249 338.716);
+  --color-syntax-type: oklch(43.9569% 0.07503 194.769);
+  --color-syntax-variable: oklch(45.8841% 0.10396 239.344);
+  --color-syntax-comment: oklch(46.4002% 0.00000 0.000);
+  --color-syntax-docstring: oklch(39.9290% 0.04777 173.057);
+  --color-syntax-tag: oklch(43.9569% 0.07503 194.769);
+  /* Status */
+  --color-status-err: oklch(45.5366% 0.18686 29.234);
+  --color-status-warn: oklch(47.2450% 0.11165 59.228);
+  --color-status-ok: oklch(44.8212% 0.15252 142.495);
+  --color-status-info: oklch(45.8841% 0.10396 239.344);
+  /* Foreground pairs */
+  --color-accent-foreground: oklch(97.8460% 0.00453 258.324);
+  --color-accent-hover-foreground: oklch(97.8460% 0.00453 258.324);
+  --color-brand-foreground: oklch(97.8460% 0.00453 258.324);
+  --color-bg-subtle-foreground: oklch(26.9012% 0.01552 269.099);
+  --color-surface-foreground: oklch(26.9012% 0.01552 269.099);
+  --color-surface-raised-foreground: oklch(26.9012% 0.01552 269.099);
+  --color-selection-bg-foreground: oklch(26.9012% 0.01552 269.099);
+  --color-accent-subtle: rgba(111, 62, 0, 0.12);
+  --color-scrim: rgba(20, 23, 30, 0.4);
+  /* Spacing */
+  --space-2xs: 0.125rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  /* Layout */
+  --layout-content-max: 72ch;
+  --layout-margin-width: 16rem;
+  --layout-gap: 2.5rem;
+  --layout-padding-mobile: 1.25rem;
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-pill: 999px;
+  /* Border widths */
+  --border-hairline: 1px;
+  --border-focus: 2px;
+  --border-marker: 3px;
+  /* Z-index layers */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-scrim: 100;
+  --z-modal: 110;
+  --z-toast: 120;
+  --z-skip: 130;
+  /* Breakpoints — reference only; @media rules repeat these literally: sm 40em · md 53.75em */
+  --breakpoint-sm: 40em;
+  --breakpoint-md: 53.75em;
+  /* Font families */
+  --font-display: "Zilla Slab", "Roboto Slab", Rockwell, Georgia, serif;
+  --font-body: "Hanken Grotesk", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", "Cascadia Code", "Fira Code", ui-monospace, monospace;
+  --font-heading: var(--font-display);
+  /* Type scale */
+  --type-scale-0: 3.25rem;
+  --type-scale-1: 2rem;
+  --type-scale-2: 1.4rem;
+  --type-scale-3: 1.15rem;
+  --type-scale-4: 1.0625rem;
+  --type-scale-5: 0.95rem;
+  --type-scale-6: 0.9rem;
+  --type-scale-7: 0.875rem;
+  --type-scale-8: 0.85rem;
+  --type-scale-9: 0.8125rem;
+  /* Type scaling floors */
+  --type-readable-min: 0.9rem;
+  --type-floor: 0.8125rem;
+  /* Focus ring */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring: var(--focus-ring-width) solid var(--color-accent);
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-base: 250ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-survey: 480ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Dark (Field), and the monochrome Chalk / Graphite editions */
+[data-theme="dark"] {
+  /* Background */
+  --color-bg: oklch(16.8598% 0.01097 268.030);
+  --color-bg-subtle: oklch(20.4716% 0.01475 266.853);
+  /* Surface */
+  --color-surface: oklch(23.9307% 0.01832 266.206);
+  --color-surface-raised: oklch(27.6781% 0.02164 265.811);
+  /* Text */
+  --color-text: oklch(88.7632% 0.01178 264.506);
+  --color-text-muted: oklch(70.4398% 0.01743 262.731);
+  --color-text-heading: oklch(96.6768% 0.00575 264.532);
+  --color-text-faint: oklch(52.6458% 0.01878 262.693);
+  /* Accent */
+  --color-accent: oklch(75.5766% 0.13705 77.004);
+  --color-accent-hover: oklch(81.8043% 0.12702 78.497);
+  --color-brand: oklch(73.0469% 0.14598 50.936);
+  --color-selection-bg: oklch(31.2001% 0.03483 80.584);
+  --color-cursor: oklch(75.5766% 0.13705 77.004);
+  /* Borders */
+  --color-border: oklch(30.9002% 0.02103 265.900);
+  --color-border-strong: oklch(37.4977% 0.02743 265.400);
+  --color-decorator: oklch(37.8964% 0.04424 270.499);
+  --color-contour: oklch(68.6436% 0.11328 259.124);
+  /* Code */
+  --color-code-bg: oklch(20.4716% 0.01475 266.853);
+  --color-code-text: oklch(88.7632% 0.01178 264.506);
+  --color-code-border: oklch(30.9002% 0.02103 265.900);
+  /* Syntax */
+  --color-syntax-keyword: oklch(76.1724% 0.13501 293.581);
+  --color-syntax-string: oklch(73.4919% 0.13670 261.974);
+  --color-syntax-number: oklch(74.8414% 0.15510 233.252);
+  --color-syntax-function: oklch(83.3597% 0.10543 351.687);
+  --color-syntax-builtin: oklch(78.8119% 0.16471 332.887);
+  --color-syntax-type: oklch(83.7116% 0.12685 167.513);
+  --color-syntax-variable: oklch(78.3825% 0.13427 192.943);
+  --color-syntax-comment: oklch(67.9680% 0.00000 0.000);
+  --color-syntax-docstring: oklch(80.8321% 0.05908 231.108);
+  --color-syntax-tag: oklch(83.7116% 0.12685 167.513);
+  /* Status */
+  --color-status-err: oklch(68.3662% 0.16974 26.305);
+  --color-status-warn: oklch(78.1133% 0.12932 88.990);
+  --color-status-ok: oklch(73.0915% 0.14382 143.930);
+  --color-status-info: oklch(73.6212% 0.09128 216.837);
+  /* Foreground pairs */
+  --color-accent-foreground: oklch(16.8598% 0.01097 268.030);
+  --color-accent-hover-foreground: oklch(16.8598% 0.01097 268.030);
+  --color-brand-foreground: oklch(16.8598% 0.01097 268.030);
+  --color-bg-subtle-foreground: oklch(88.7632% 0.01178 264.506);
+  --color-surface-foreground: oklch(88.7632% 0.01178 264.506);
+  --color-surface-raised-foreground: oklch(88.7632% 0.01178 264.506);
+  --color-selection-bg-foreground: oklch(88.7632% 0.01178 264.506);
+  --color-accent-subtle: rgba(224, 163, 58, 0.15);
+  --color-scrim: rgba(5, 6, 10, 0.55);
+}
+
+[data-theme="mono-light"] {
+  /* Background */
+  --color-bg: oklch(96.7153% 0.00000 0.000);
+  --color-bg-subtle: oklch(94.3089% 0.00000 0.000);
+  /* Surface */
+  --color-surface: oklch(91.2790% 0.00000 0.000);
+  --color-surface-raised: oklch(99.1069% 0.00000 0.000);
+  /* Text */
+  --color-text: oklch(28.9080% 0.00000 0.000);
+  --color-text-muted: oklch(45.3161% 0.00000 0.000);
+  --color-text-heading: oklch(21.7787% 0.00000 0.000);
+  --color-text-faint: oklch(58.9712% 0.00000 0.000);
+  /* Accent */
+  --color-accent: oklch(0.0000% 0.00000 0.000);
+  --color-accent-hover: oklch(32.1093% 0.00000 0.000);
+  --color-brand: oklch(34.8460% 0.00000 0.000);
+  --color-selection-bg: oklch(83.2794% 0.00000 0.000);
+  --color-cursor: oklch(0.0000% 0.00000 0.000);
+  /* Borders */
+  --color-border: oklch(85.4514% 0.00000 0.000);
+  --color-border-strong: oklch(75.7207% 0.00000 0.000);
+  --color-decorator: oklch(79.8372% 0.00000 0.000);
+  --color-contour: oklch(40.9120% 0.00000 0.000);
+  /* Code */
+  --color-code-bg: oklch(94.3089% 0.00000 0.000);
+  --color-code-text: oklch(28.9080% 0.00000 0.000);
+  --color-code-border: oklch(85.4514% 0.00000 0.000);
+  /* Syntax */
+  --color-syntax-keyword: oklch(22.6450% 0.00000 0.000);
+  --color-syntax-string: oklch(36.0023% 0.00000 0.000);
+  --color-syntax-number: oklch(39.7927% 0.00000 0.000);
+  --color-syntax-function: oklch(26.8618% 0.00000 0.000);
+  --color-syntax-builtin: oklch(37.9094% 0.00000 0.000);
+  --color-syntax-type: oklch(30.1184% 0.00000 0.000);
+  --color-syntax-variable: oklch(32.1093% 0.00000 0.000);
+  --color-syntax-comment: oklch(46.7602% 0.00000 0.000);
+  --color-syntax-docstring: oklch(43.1281% 0.00000 0.000);
+  --color-syntax-tag: oklch(30.1184% 0.00000 0.000);
+  /* Status */
+  --color-status-err: oklch(23.9292% 0.00000 0.000);
+  --color-status-warn: oklch(39.0421% 0.00000 0.000);
+  --color-status-ok: oklch(45.3161% 0.00000 0.000);
+  --color-status-info: oklch(32.1093% 0.00000 0.000);
+  /* Foreground pairs */
+  --color-accent-foreground: oklch(96.7153% 0.00000 0.000);
+  --color-accent-hover-foreground: oklch(96.7153% 0.00000 0.000);
+  --color-brand-foreground: oklch(96.7153% 0.00000 0.000);
+  --color-bg-subtle-foreground: oklch(28.9080% 0.00000 0.000);
+  --color-surface-foreground: oklch(28.9080% 0.00000 0.000);
+  --color-surface-raised-foreground: oklch(28.9080% 0.00000 0.000);
+  --color-selection-bg-foreground: oklch(28.9080% 0.00000 0.000);
+  --color-accent-subtle: rgba(0, 0, 0, 0.12);
+  --color-scrim: rgba(20, 20, 20, 0.4);
+}
+
+[data-theme="mono-dark"] {
+  /* Background */
+  --color-bg: oklch(15.9066% 0.00000 0.000);
+  --color-bg-subtle: oklch(20.0193% 0.00000 0.000);
+  /* Surface */
+  --color-surface: oklch(23.9292% 0.00000 0.000);
+  --color-surface-raised: oklch(27.6848% 0.00000 0.000);
+  /* Text */
+  --color-text: oklch(88.8370% 0.00000 0.000);
+  --color-text-muted: oklch(68.6223% 0.00000 0.000);
+  --color-text-heading: oklch(96.1151% 0.00000 0.000);
+  --color-text-faint: oklch(52.4304% 0.00000 0.000);
+  /* Accent */
+  --color-accent: oklch(100.0000% 0.00000 0.000);
+  --color-accent-hover: oklch(89.4490% 0.00000 0.000);
+  --color-brand: oklch(93.0999% 0.00000 0.000);
+  --color-selection-bg: oklch(34.8460% 0.00000 0.000);
+  --color-cursor: oklch(100.0000% 0.00000 0.000);
+  /* Borders */
+  --color-border: oklch(32.1093% 0.00000 0.000);
+  --color-border-strong: oklch(40.9120% 0.00000 0.000);
+  --color-decorator: oklch(36.0023% 0.00000 0.000);
+  --color-contour: oklch(75.7207% 0.00000 0.000);
+  /* Code */
+  --color-code-bg: oklch(20.0193% 0.00000 0.000);
+  --color-code-text: oklch(88.8370% 0.00000 0.000);
+  --color-code-border: oklch(32.1093% 0.00000 0.000);
+  /* Syntax */
+  --color-syntax-keyword: oklch(94.6105% 0.00000 0.000);
+  --color-syntax-string: oklch(79.5225% 0.00000 0.000);
+  --color-syntax-number: oklch(75.7207% 0.00000 0.000);
+  --color-syntax-function: oklch(90.6701% 0.00000 0.000);
+  --color-syntax-builtin: oklch(77.6274% 0.00000 0.000);
+  --color-syntax-type: oklch(87.6096% 0.00000 0.000);
+  --color-syntax-variable: oklch(83.2794% 0.00000 0.000);
+  --color-syntax-comment: oklch(65.0041% 0.00000 0.000);
+  --color-syntax-docstring: oklch(68.6223% 0.00000 0.000);
+  --color-syntax-tag: oklch(87.6096% 0.00000 0.000);
+  /* Status */
+  --color-status-err: oklch(95.5140% 0.00000 0.000);
+  --color-status-warn: oklch(78.2604% 0.00000 0.000);
+  --color-status-ok: oklch(65.3351% 0.00000 0.000);
+  --color-status-info: oklch(85.7605% 0.00000 0.000);
+  /* Foreground pairs */
+  --color-accent-foreground: oklch(15.9066% 0.00000 0.000);
+  --color-accent-hover-foreground: oklch(15.9066% 0.00000 0.000);
+  --color-brand-foreground: oklch(15.9066% 0.00000 0.000);
+  --color-bg-subtle-foreground: oklch(88.8370% 0.00000 0.000);
+  --color-surface-foreground: oklch(88.8370% 0.00000 0.000);
+  --color-surface-raised-foreground: oklch(88.8370% 0.00000 0.000);
+  --color-selection-bg-foreground: oklch(88.8370% 0.00000 0.000);
+  --color-accent-subtle: rgba(255, 255, 255, 0.15);
+  --color-scrim: rgba(5, 5, 5, 0.55);
+}

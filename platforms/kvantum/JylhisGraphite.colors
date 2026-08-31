@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JylhisGraphite.colors  (mono-dark) — GENERATED from tokens.json. Do not edit by hand. -->
+<palette theme="JylhisGraphite">
+  <color role="Window">#0d0d0d</color>
+  <color role="WindowText">#dadada</color>
+  <color role="Base">#161616</color>
+  <color role="AlternateBase">#1f1f1f</color>
+  <color role="Text">#dadada</color>
+  <color role="BrightText">#f2f2f2</color>
+  <color role="Button">#1f1f1f</color>
+  <color role="ButtonText">#dadada</color>
+  <color role="Highlight">#ffffff</color>
+  <color role="HighlightedText">#0d0d0d</color>
+  <color role="Link">#ffffff</color>
+  <color role="LinkVisited">#b0b0b0</color><!-- Modus blue-warmer -->
+
+  <color role="ToolTipBase">#282828</color>
+  <color role="ToolTipText">#dadada</color>
+  <color role="Light">#282828</color>
+  <color role="Midlight">#1f1f1f</color>
+  <color role="Mid">#333333</color>
+  <color role="Dark">#9a9a9a</color>
+  <color role="Shadow">#050505</color>
+
+  <color role="WindowText" group="Disabled">#6a6a6a</color>
+  <color role="Text"        group="Disabled">#6a6a6a</color>
+  <color role="ButtonText"  group="Disabled">#6a6a6a</color>
+
+  <color role="Highlight"        group="Inactive">#4a4a4a</color>
+  <color role="HighlightedText"  group="Inactive">#dadada</color>
+</palette>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Footer</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { background: var(--color-surface); color: var(--color-text-muted); font-family: var(--font-mono); font-size: var(--type-scale-9); padding: 22px; }
+  .rule { color: var(--color-decorator); letter-spacing: -0.05em; white-space: nowrap; overflow: hidden; margin-bottom: 14px; }
+  .nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr)); gap: 18px; margin-bottom: 16px; }
+  .h { font-weight: 600; color: var(--color-text); font-size: var(--type-scale-9); text-transform: lowercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
+  li a { color: var(--color-text-muted); font-family: var(--font-body); font-size: var(--type-scale-8); text-decoration: none; }
+  .ident { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--color-decorator); margin-bottom: 10px; }
+  .ident .rune { color: var(--color-decorator); width: 12px; height: 16px; }
+  .ident .t { color: var(--color-text-faint); }
+  .colophon { text-align: center; font-size: var(--type-scale-9); color: var(--color-text-faint); }
+</style></head>
+<body>
+  <div class="rule">────────────────────────────────────────────────────────────────────</div>
+  <div class="nav">
+    <div><div class="h">home</div><ul><li><a>about</a></li><li><a>currently</a></li></ul></div>
+    <div><div class="h">resume</div><ul><li><a>experience</a></li><li><a>skills</a></li></ul></div>
+    <div><div class="h">projects</div><ul><li><a>nixos</a></li><li><a>all projects</a></li></ul></div>
+    <div><div class="h">notes</div><ul><li><a>latest</a></li><li><a>rss feed</a></li></ul></div>
+  </div>
+  <div class="ident">
+    <span aria-hidden="true">───</span>
+    <span class="rune"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><line x1="16" y1="2" x2="16" y2="30"/><line x1="16" y1="6" x2="26" y2="14"/><line x1="16" y1="6" x2="6" y2="14"/></svg></span>
+    <span class="t">markus jylhä · senior software engineer</span>
+    <span aria-hidden="true">───</span>
+  </div>
+  <div class="colophon">set in zilla slab, hanken grotesk &amp; ibm plex mono · built with astro · hosted on cloudflare</div>
+  <div class="rule" style="margin-top:14px">────────────────────────────────────────────────────────────────────</div>
+</body></html>

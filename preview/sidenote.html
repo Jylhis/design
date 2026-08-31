@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Sidenote</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: var(--font-body); font-size: var(--type-scale-6); line-height: 1.65; }
+  .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr)); gap: 24px; }
+  .ref { font-family: var(--font-mono); font-size: max(0.7em, var(--type-floor)); color: var(--color-accent); vertical-align: super; font-weight: 600; }
+  .note { font-size: var(--type-scale-8); line-height: 1.5; color: var(--color-text-muted); border-left: 0; }
+  .num { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-accent); font-weight: 600; margin-right: 0.4em; }
+  .label { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+</style></head>
+<body>
+  <span class="label">sidenote — ref in text, note in right margin</span>
+  <div class="wrap">
+    <p>DevOps is more than tooling<span class="ref">1</span> — it's culture and processes, and how teams work.</p>
+    <aside class="note"><span class="num">1</span>"Not a job title. A way of building software that removes friction."</aside>
+  </div>
+</body></html>

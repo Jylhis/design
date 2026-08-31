@@ -1,0 +1,147 @@
+/* macos.css — Jylhis · macOS, themed (page-local app content)
+ *
+ * The chrome lives in the mock packages:
+ *   mocks/stage/stage.css        fixed 1600×1000 canvas, letterbox + pan
+ *   mocks/macos/macos-chrome.css menu bar, Dock, traffic-light windows,
+ *                                Spotlight, Control/Notification Center,
+ *                                wallpaper motifs
+ * This file holds only what is specific to this demo: the desktop
+ * signature and the Finder / Notes window content. Token colors only —
+ * no raw hex.
+ */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+#root { width: 100vw; height: 100vh; }
+
+/* Stage tuning for this demo (16:10, a Mac-ish canvas) */
+.mock-stage { --mock-stage-vignette-pos: 50% 32%; }
+
+/* A quiet desktop signature, bottom-left, like a labelled wallpaper. */
+.desk-sig {
+  position: absolute; left: 22px; bottom: 18px;
+  z-index: 1;
+  font-size: 12px; color: var(--color-text-faint);
+  letter-spacing: 0.04em; line-height: 1.5;
+  pointer-events: none; user-select: none;
+}
+.desk-sig .mk { color: var(--color-brand); }
+
+/* ── Finder ── */
+.finder-side {
+  width: 210px; flex: 0 0 auto;
+  background: var(--color-bg-subtle);
+  border-right: 1px solid var(--color-border);
+  padding: 12px 8px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.finder-side .grp {
+  font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--color-text-faint);
+  padding: 8px 8px 4px;
+}
+.finder-side .grp:first-child { padding-top: 0; }
+.side-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 8px; border-radius: 6px;
+  color: var(--color-text); cursor: default;
+}
+.side-row .ic { width: 16px; text-align: center; color: var(--color-text-muted); font-size: 13px; }
+.side-row:hover { background: var(--color-surface); }
+.side-row.sel { background: var(--color-accent-subtle); }
+.side-row.sel .ic, .side-row.sel .lb { color: var(--color-accent); }
+.side-row .tagdot { width: 9px; height: 9px; border-radius: var(--radius-pill); }
+
+.finder-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.finder-list { flex: 1 1 auto; overflow: hidden; }
+.fl-head {
+  display: grid; grid-template-columns: 1fr 132px 78px 116px; gap: 0;
+  font-size: 11.5px; color: var(--color-text-faint);
+  border-bottom: 1px solid var(--color-border);
+  padding: 6px 14px;
+}
+.fl-head span { padding-right: 10px; }
+.fl-row {
+  display: grid; grid-template-columns: 1fr 132px 78px 116px; gap: 0;
+  align-items: center;
+  padding: 5px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+  cursor: default;
+}
+.fl-row:hover { background: var(--color-surface); }
+.fl-row.sel { background: var(--color-accent-subtle); }
+.fl-row .nm { display: flex; align-items: center; gap: 9px; overflow: hidden; }
+.fl-row .nm .ic { width: 17px; text-align: center; color: var(--color-syntax-type); font-size: 14px; flex: 0 0 auto; }
+.fl-row.file .nm .ic { color: var(--color-text-muted); }
+.fl-row.exe .nm .ic { color: var(--color-syntax-string); }
+.fl-row .nm .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fl-row.sel .nm .t { color: var(--color-accent); }
+.fl-row .c { color: var(--color-text-faint); font-size: 12px; padding-right: 10px; font-variant-numeric: tabular-nums; }
+.fl-row.sel .c { color: var(--color-accent); }
+
+.finder-foot {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-subtle);
+  padding: 6px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--color-text-muted);
+}
+.finder-foot .path { display: flex; align-items: center; gap: 6px; }
+.finder-foot .path .frag { color: var(--color-text-faint); }
+.finder-foot .path .here { color: var(--color-accent); }
+.finder-foot .count { margin-left: auto; color: var(--color-text-faint); }
+
+/* ── Notes window (showcases the SERIF body face) ── */
+.notes-body { flex-direction: column; }
+.notes-toolbar {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 14px;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 12.5px; color: var(--color-text-faint);
+}
+.notes-toolbar .tool { cursor: default; }
+.notes-toolbar .tool:hover { color: var(--color-accent); }
+.notes-toolbar .spacer { flex: 1; }
+.notes-sheet {
+  flex: 1 1 auto; overflow: hidden;
+  padding: 26px 34px;
+  font-family: var(--font-body);
+  color: var(--color-text);
+}
+.notes-sheet .meta {
+  font-family: var(--font-mono); font-size: 11.5px;
+  color: var(--color-text-faint); letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+.notes-sheet h1 {
+  font-family: var(--font-body); font-weight: 600;
+  font-size: 25px; line-height: 1.2; margin: 0 0 14px;
+  color: var(--color-text-heading); letter-spacing: 0;
+}
+.notes-sheet p { font-size: 15.5px; line-height: 1.62; margin: 0 0 13px; text-wrap: pretty; }
+.notes-sheet p .accent { color: var(--color-accent); }
+.notes-sheet .check { display: flex; align-items: baseline; gap: 10px; font-size: 15px; margin: 0 0 7px; }
+.notes-sheet .check .box { font-family: var(--font-mono); color: var(--color-accent); font-size: 13px; }
+.notes-sheet .check.done .box { color: var(--color-status-ok); }
+.notes-sheet .check.done span { color: var(--color-text-muted); text-decoration: line-through; text-decoration-color: var(--color-text-faint); }
+
+/* ── focus ring ── */
+*:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }

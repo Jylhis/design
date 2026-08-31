@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Code Block</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-8); }
+  .filename { font-size: var(--type-scale-9); color: var(--color-text-muted); background: var(--color-surface); border: 1px solid var(--color-code-border); border-bottom: none; border-radius: 4px 4px 0 0; padding: 0.4rem 1rem; display: inline-block; margin-bottom: -1px; letter-spacing: 0.02em; }
+  pre { background: var(--color-code-bg); border: 1px solid var(--color-code-border); border-radius: 0 4px 4px 4px; padding: 14px 16px; margin: 0; overflow-x: auto; line-height: 1.6; font-size: var(--type-scale-8); }
+  .k { color: var(--color-syntax-keyword); font-weight: 600; } .s { color: var(--color-syntax-string); } .c { color: var(--color-syntax-comment); font-style: italic; } .n { color: var(--color-syntax-number); } .f { color: var(--color-syntax-function); font-weight: 600; }
+  .inline { background: var(--color-code-bg); border: 1px solid var(--color-code-border); border-radius: 3px; padding: 0.1em 0.3em; font-size: max(0.85em, var(--type-floor)); }
+  p { font-family: var(--font-body); font-size: var(--type-scale-6); color: var(--color-text); margin: 10px 0 0; }
+</style></head>
+<body>
+  <div class="filename">config/devenv.nix</div>
+<pre><span class="c"># reproducible dev shell</span>
+<span class="k">{ pkgs, ... }:</span> {
+  languages.rust.enable = <span class="k">true</span>;
+  packages = [ pkgs.ripgrep pkgs.just ];
+}</pre>
+  <p>Run <span class="inline">just build</span> to produce a static <span class="inline">dist/</span>.</p>
+</body></html>

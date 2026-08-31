@@ -1,0 +1,314 @@
+{
+  "_comment": "Curated list of Emacs faces themed by jylhis-theme-core.el, grouped by package. Validated against the core file by scripts/validate-emacs-faces.mjs. Add new faces here when you extend the core spec list; remove entries here when a face is dropped upstream. Order within a group is informational; only set membership matters.",
+  "groups": {
+    "builtin-frame": [
+      "default",
+      "cursor",
+      "fringe",
+      "vertical-border",
+      "window-divider",
+      "window-divider-first-pixel",
+      "window-divider-last-pixel",
+      "shadow"
+    ],
+    "builtin-text-emphasis": [
+      "bold",
+      "italic",
+      "underline",
+      "link",
+      "link-visited"
+    ],
+    "builtin-selection": [
+      "region",
+      "secondary-selection",
+      "highlight",
+      "hl-line",
+      "match",
+      "isearch",
+      "isearch-fail",
+      "lazy-highlight"
+    ],
+    "builtin-mode-line": [
+      "mode-line",
+      "mode-line-inactive",
+      "mode-line-highlight",
+      "mode-line-emphasis",
+      "mode-line-buffer-id",
+      "header-line"
+    ],
+    "doom-modeline": [
+      "doom-modeline-bar",
+      "doom-modeline-bar-inactive",
+      "doom-modeline-buffer-file",
+      "doom-modeline-buffer-modified",
+      "doom-modeline-buffer-major-mode",
+      "doom-modeline-project-dir",
+      "doom-modeline-info",
+      "doom-modeline-warning",
+      "doom-modeline-urgent",
+      "doom-modeline-lsp-success",
+      "doom-modeline-lsp-warning",
+      "doom-modeline-lsp-error"
+    ],
+    "builtin-tab-bar": [
+      "tab-bar",
+      "tab-bar-tab",
+      "tab-bar-tab-inactive",
+      "tab-line-tab-current",
+      "tab-line-tab"
+    ],
+    "builtin-minibuffer": [
+      "minibuffer-prompt",
+      "error",
+      "warning",
+      "success"
+    ],
+    "builtin-font-lock": [
+      "font-lock-builtin-face",
+      "font-lock-comment-face",
+      "font-lock-comment-delimiter-face",
+      "font-lock-constant-face",
+      "font-lock-doc-face",
+      "font-lock-function-name-face",
+      "font-lock-keyword-face",
+      "font-lock-negation-char-face",
+      "font-lock-preprocessor-face",
+      "font-lock-regexp-grouping-backslash",
+      "font-lock-regexp-grouping-construct",
+      "font-lock-string-face",
+      "font-lock-type-face",
+      "font-lock-variable-name-face",
+      "font-lock-warning-face",
+      "font-lock-bracket-face",
+      "font-lock-delimiter-face",
+      "font-lock-escape-face",
+      "font-lock-misc-punctuation-face",
+      "font-lock-number-face",
+      "font-lock-operator-face",
+      "font-lock-property-name-face",
+      "font-lock-property-use-face",
+      "font-lock-punctuation-face"
+    ],
+    "builtin-line-numbers": [
+      "line-number",
+      "line-number-current-line",
+      "line-number-major-tick",
+      "line-number-minor-tick"
+    ],
+    "builtin-parens": [
+      "show-paren-match",
+      "show-paren-mismatch"
+    ],
+    "rainbow-delimiters": [
+      "rainbow-delimiters-depth-1-face",
+      "rainbow-delimiters-depth-2-face",
+      "rainbow-delimiters-depth-3-face",
+      "rainbow-delimiters-depth-4-face",
+      "rainbow-delimiters-depth-5-face",
+      "rainbow-delimiters-depth-6-face",
+      "rainbow-delimiters-depth-7-face",
+      "rainbow-delimiters-unmatched-face"
+    ],
+    "vertico": [
+      "vertico-current",
+      "vertico-group-title",
+      "vertico-group-separator"
+    ],
+    "marginalia": [
+      "marginalia-key",
+      "marginalia-documentation",
+      "marginalia-date",
+      "marginalia-file-name",
+      "marginalia-size",
+      "marginalia-mode",
+      "marginalia-function",
+      "marginalia-type",
+      "marginalia-null",
+      "marginalia-value"
+    ],
+    "consult": [
+      "consult-file",
+      "consult-bookmark",
+      "consult-line-number",
+      "consult-preview-line",
+      "consult-preview-match"
+    ],
+    "orderless": [
+      "orderless-match-face-0",
+      "orderless-match-face-1",
+      "orderless-match-face-2",
+      "orderless-match-face-3"
+    ],
+    "corfu": [
+      "corfu-default",
+      "corfu-current",
+      "corfu-border",
+      "corfu-bar",
+      "corfu-echo"
+    ],
+    "eldoc-tooltip": [
+      "eldoc-highlight-function-argument",
+      "tooltip"
+    ],
+    "which-key": [
+      "which-key-key-face",
+      "which-key-group-description-face",
+      "which-key-command-description-face",
+      "which-key-local-map-description-face",
+      "which-key-separator-face",
+      "which-key-note-face"
+    ],
+    "org": [
+      "org-level-1",
+      "org-level-2",
+      "org-level-3",
+      "org-level-4",
+      "org-level-5",
+      "org-level-6",
+      "org-level-7",
+      "org-level-8",
+      "org-document-title",
+      "org-document-info",
+      "org-document-info-keyword",
+      "org-meta-line",
+      "org-drawer",
+      "org-special-keyword",
+      "org-todo",
+      "org-done",
+      "org-headline-done",
+      "org-date",
+      "org-tag",
+      "org-priority",
+      "org-block",
+      "org-block-begin-line",
+      "org-block-end-line",
+      "org-code",
+      "org-verbatim",
+      "org-quote",
+      "org-table",
+      "org-table-header",
+      "org-link",
+      "org-footnote",
+      "org-ellipsis",
+      "org-hide",
+      "org-warning"
+    ],
+    "org-modern": [
+      "org-modern-tag",
+      "org-modern-date-active"
+    ],
+    "org-agenda": [
+      "org-agenda-structure",
+      "org-agenda-date",
+      "org-agenda-date-today",
+      "org-agenda-date-weekend",
+      "org-scheduled",
+      "org-scheduled-today",
+      "org-scheduled-previously",
+      "org-upcoming-deadline"
+    ],
+    "dired": [
+      "dired-directory",
+      "dired-symlink",
+      "dired-broken-symlink",
+      "dired-header",
+      "dired-mark",
+      "dired-marked",
+      "dired-perm-write",
+      "dired-flagged",
+      "dired-ignored"
+    ],
+    "builtin-diff": [
+      "diff-added",
+      "diff-removed",
+      "diff-context",
+      "diff-hunk-header",
+      "diff-file-header",
+      "diff-refine-added",
+      "diff-refine-removed"
+    ],
+    "magit": [
+      "magit-section-heading",
+      "magit-section-highlight",
+      "magit-branch-local",
+      "magit-branch-remote",
+      "magit-branch-current",
+      "magit-tag",
+      "magit-hash",
+      "magit-log-author",
+      "magit-log-date",
+      "magit-diff-added",
+      "magit-diff-added-highlight",
+      "magit-diff-removed",
+      "magit-diff-removed-highlight",
+      "magit-diff-context",
+      "magit-diff-context-highlight",
+      "magit-diff-hunk-heading",
+      "magit-diff-hunk-heading-highlight",
+      "magit-diffstat-added",
+      "magit-diffstat-removed"
+    ],
+    "flymake-flycheck": [
+      "flymake-error",
+      "flymake-warning",
+      "flymake-note",
+      "flycheck-error",
+      "flycheck-warning",
+      "flycheck-info",
+      "compilation-error",
+      "compilation-warning",
+      "compilation-info"
+    ],
+    "company": [
+      "company-tooltip",
+      "company-tooltip-selection",
+      "company-tooltip-common",
+      "company-tooltip-annotation",
+      "company-scrollbar-bg",
+      "company-scrollbar-fg"
+    ],
+    "eglot": [
+      "eglot-highlight-symbol-face",
+      "eglot-mode-line",
+      "eglot-diagnostic-tag-deprecated-face"
+    ],
+    "ansi-color": [
+      "ansi-color-black",
+      "ansi-color-red",
+      "ansi-color-green",
+      "ansi-color-yellow",
+      "ansi-color-blue",
+      "ansi-color-magenta",
+      "ansi-color-cyan",
+      "ansi-color-white",
+      "ansi-color-bright-black",
+      "ansi-color-bright-red",
+      "ansi-color-bright-green",
+      "ansi-color-bright-yellow",
+      "ansi-color-bright-blue",
+      "ansi-color-bright-magenta",
+      "ansi-color-bright-cyan",
+      "ansi-color-bright-white"
+    ],
+    "whitespace": [
+      "trailing-whitespace",
+      "whitespace-tab",
+      "whitespace-space",
+      "whitespace-newline",
+      "whitespace-indentation",
+      "whitespace-line",
+      "whitespace-trailing"
+    ],
+    "hi-lock": [
+      "hi-yellow",
+      "hi-pink",
+      "hi-green"
+    ],
+    "hl-todo": [
+      "hl-todo"
+    ],
+    "indent-bars": [
+      "indent-bars-face"
+    ]
+  }
+}

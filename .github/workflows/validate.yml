@@ -1,0 +1,45 @@
+name: validate
+
+on:
+  push:
+    branches: ["**"]
+    paths-ignore:
+      - "**/*.md"
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - "**/*.md"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: tokens, a11y, CLI conventions
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+      # No bun install step: all scripts have zero external dependencies (see CLAUDE.md).
+      # setup-bun's built-in binary cache covers the only cacheable artifact here.
+      - name: Check generated files match tokens.json
+        run: bun scripts/generate.mjs --check
+      - name: Validate token schema and contrast ratios
+        run: bun scripts/validate-tokens.mjs
+      - name: Validate HTML accessibility
+        run: bun scripts/validate-a11y-html.mjs
+      - name: Validate CSS accessibility
+        run: bun scripts/validate-a11y-css.mjs
+      - name: Validate text resizing
+        run: bun scripts/validate-a11y-type.mjs
+      - name: Validate preview hex against tokens
+        run: bun scripts/validate-preview-hex.mjs
+      - name: Validate CLI conventions
+        run: bun scripts/validate-cli-conventions.mjs
+      - name: Validate Emacs face coverage
+        run: bun scripts/validate-emacs-faces.mjs

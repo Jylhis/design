@@ -1,0 +1,569 @@
+/* mocks/macos/macos-chrome.css — macOS desktop chrome, in the system's language
+ *
+ * The recognisable macOS shell — menu bar, Dock, traffic-light window
+ * chrome, Spotlight, Control Center, Notification Center — reskinned in
+ * design-system tokens: cool sheet/field grounds, one bronze accent,
+ * hairline borders (never drop shadows), mono chrome type. Traffic lights
+ * keep the status-token mapping (err / warn / ok). A focused window wears
+ * a bronze hairline, bridging to the TUI desktop's `.mock-tui-win.focused`.
+ *
+ * Generic chrome only — no app content. Consumes ONLY design-system custom
+ * properties (import styles.css first). Zero raw hex / rgba literals.
+ *
+ * Classes:
+ *   .mock-macos             scope root (canvas) — carries the shell radii
+ *   .mock-macos-wallpaper   ground + geometric motif (.wall-rings/.wall-dots/
+ *                           .wall-hatch/.wall-grid/.wall-plain, .motif child)
+ *   .mock-macos-menubar     Apple-style menu bar (.mb-item, .mb-stat,
+ *                           .mb-menu, .batt, .bars, .cc-glyph children)
+ *   .mock-macos-window      traffic-light window (.focused, .plain-title;
+ *                           .titlebar, .lights, .tb-*, .win-body children)
+ *   .mock-macos-dock        Dock (.dock, .dock-app, .tip, .cal children)
+ *   .mock-macos-overlay     full-screen scrim (.spot variant for Spotlight)
+ *   .mock-macos-spotlight   Spotlight panel (.spot-* children)
+ *   .mock-macos-panel       Control Center (.cc) / Notification Center (.nc)
+ */
+
+/* macOS-shell radii — the one place the mock exceeds the 2–4px house rule,
+ * so the window/panel silhouettes read as genuinely macOS. */
+.mock-macos {
+  --mock-macos-win-radius: 11px;
+  --mock-macos-panel-radius: 13px;
+  --mock-macos-tile-radius: 8px;
+  --mock-macos-menubar-h: 34px;
+}
+
+/* ── Wallpaper ──
+ * No gloss, no photos — the survey ground with an optional geometric motif
+ * drawn in the decorator hairline, plus a faint bronze vignette. */
+.mock-macos-wallpaper {
+  position: absolute; inset: 0;
+  z-index: 0;
+  background: var(--color-bg);
+}
+.mock-macos-wallpaper::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 90% at 50% 18%,
+    color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 60%);
+  pointer-events: none;
+}
+.mock-macos-wallpaper .motif { position: absolute; inset: 0; pointer-events: none; }
+.mock-macos-wallpaper.wall-rings .motif {
+  background-image: repeating-radial-gradient(circle at 50% 46%,
+    var(--color-decorator) 0 1px, transparent 1px 64px);
+  opacity: 0.30;
+}
+[data-theme="dark"] .mock-macos-wallpaper.wall-rings .motif { opacity: 0.18; }
+.mock-macos-wallpaper.wall-dots .motif {
+  background-image: radial-gradient(var(--color-decorator) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.42;
+}
+[data-theme="dark"] .mock-macos-wallpaper.wall-dots .motif { opacity: 0.26; }
+.mock-macos-wallpaper.wall-hatch .motif {
+  background-image: repeating-linear-gradient(45deg,
+    var(--color-decorator) 0 1px, transparent 1px 12px);
+  opacity: 0.22;
+}
+[data-theme="dark"] .mock-macos-wallpaper.wall-hatch .motif { opacity: 0.13; }
+.mock-macos-wallpaper.wall-grid .motif {
+  background-image:
+    repeating-linear-gradient(0deg, var(--color-decorator) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, var(--color-decorator) 0 1px, transparent 1px 48px);
+  opacity: 0.20;
+}
+[data-theme="dark"] .mock-macos-wallpaper.wall-grid .motif { opacity: 0.12; }
+.mock-macos-wallpaper.wall-plain .motif { display: none; }
+
+/* ════════════════════════════════════════════════════════════════════
+ * MENU BAR
+ * ════════════════════════════════════════════════════════════════════ */
+.mock-macos-menubar {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: var(--mock-macos-menubar-h);
+  z-index: 60;
+  display: flex; align-items: stretch;
+  padding: 0 8px 0 10px;
+  background: color-mix(in srgb, var(--color-bg-subtle) 86%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: var(--border-hairline) solid var(--color-border);
+  font-size: 13px;
+  color: var(--color-text);
+  user-select: none;
+}
+.mock-macos-menubar .mb-left { display: flex; align-items: stretch; }
+.mock-macos-menubar .mb-right { margin-left: auto; display: flex; align-items: stretch; }
+
+.mock-macos-menubar .mb-item {
+  display: inline-flex; align-items: center;
+  padding: 0 10px;
+  cursor: default;
+  color: var(--color-text);
+  border-radius: 5px;
+  margin: 4px 1px;
+  height: calc(var(--mock-macos-menubar-h) - 8px);
+  align-self: center;
+}
+.mock-macos-menubar .mb-item.logo { font-size: 15px; color: var(--color-brand); padding: 0 11px; }
+.mock-macos-menubar .mb-item.app-name { font-weight: 700; }
+.mock-macos-menubar .mb-item.muted { color: var(--color-text-muted); }
+.mock-macos-menubar .mb-item:hover,
+.mock-macos-menubar .mb-item.open { background: var(--color-accent-subtle); color: var(--color-accent); }
+.mock-macos-menubar .mb-item.logo:hover,
+.mock-macos-menubar .mb-item.logo.open { color: var(--color-accent); }
+
+/* right-side status segments */
+.mock-macos-menubar .mb-stat {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 0 9px;
+  color: var(--color-text-muted);
+  border-radius: 5px;
+  margin: 4px 1px;
+  height: calc(var(--mock-macos-menubar-h) - 8px);
+  align-self: center;
+  cursor: default;
+}
+.mock-macos-menubar .mb-stat:hover,
+.mock-macos-menubar .mb-stat.open { background: var(--color-accent-subtle); color: var(--color-accent); }
+.mock-macos-menubar .mb-stat .glyph { font-size: 14px; line-height: 1; }
+.mock-macos-menubar .mb-stat.now .ti { color: var(--color-text); max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mock-macos-menubar .mb-stat.now:hover .ti { color: var(--color-accent); }
+.mock-macos-menubar .mb-stat .clock { color: var(--color-text); font-variant-numeric: tabular-nums; }
+.mock-macos-menubar .mb-stat .date { color: var(--color-text-muted); }
+.mock-macos-menubar .mb-stat:hover .clock,
+.mock-macos-menubar .mb-stat.open .clock { color: var(--color-accent); }
+
+/* battery glyph */
+.mock-macos-menubar .batt {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.mock-macos-menubar .batt .cell {
+  width: 22px; height: 11px;
+  border: var(--border-hairline) solid var(--color-text-muted);
+  border-radius: 2px; position: relative;
+  display: inline-block;
+}
+.mock-macos-menubar .batt .cell::after {
+  content: ""; position: absolute; right: -3px; top: 3px;
+  width: 2px; height: 5px; border-radius: 0 1px 1px 0;
+  background: var(--color-text-muted);
+}
+.mock-macos-menubar .batt .cell i {
+  position: absolute; left: 1px; top: 1px; bottom: 1px;
+  background: var(--color-accent); border-radius: 1px;
+}
+.mock-macos-menubar .batt .pct { font-size: 12px; }
+
+/* signal/wifi bars */
+.mock-macos-menubar .bars { display: inline-flex; align-items: flex-end; gap: 1.5px; height: 12px; }
+.mock-macos-menubar .bars i { width: 2.5px; background: var(--color-text-muted); border-radius: 1px; }
+.mock-macos-menubar .bars i:nth-child(1) { height: 4px; }
+.mock-macos-menubar .bars i:nth-child(2) { height: 7px; }
+.mock-macos-menubar .bars i:nth-child(3) { height: 10px; }
+.mock-macos-menubar .bars i:nth-child(4) { height: 12px; background: var(--color-border-strong); }
+
+/* control-center stacked-toggle glyph */
+.mock-macos-menubar .cc-glyph { display: inline-flex; flex-direction: column; gap: 2px; }
+.mock-macos-menubar .cc-glyph i {
+  width: 13px; height: 5px; border-radius: 3px;
+  border: var(--border-hairline) solid var(--color-text-muted);
+  position: relative;
+}
+.mock-macos-menubar .cc-glyph i::before {
+  content: ""; position: absolute; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 4px; border-radius: var(--radius-pill);
+  background: var(--color-text-muted);
+}
+.mock-macos-menubar .cc-glyph i:nth-child(1)::before { right: 1px; }
+.mock-macos-menubar .cc-glyph i:nth-child(2)::before { left: 1px; background: var(--color-accent); }
+
+/* ── Dropdown menus (menu bar) ── */
+.mock-macos-menubar .mb-menu {
+  position: absolute;
+  top: calc(var(--mock-macos-menubar-h) - 2px);
+  z-index: 80;
+  min-width: 232px;
+  padding: 5px;
+  background: color-mix(in srgb, var(--color-surface-raised) 94%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: 9px;
+  font-size: 13px;
+}
+.mock-macos-menubar .mb-menu .row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--color-text);
+  cursor: default;
+  white-space: nowrap;
+}
+.mock-macos-menubar .mb-menu .row .k {
+  margin-left: auto; color: var(--color-text-faint);
+  font-size: 12px; letter-spacing: 0.02em;
+}
+.mock-macos-menubar .mb-menu .row:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+.mock-macos-menubar .mb-menu .row:hover .k { color: var(--color-bg); }
+.mock-macos-menubar .mb-menu .row.disabled { color: var(--color-text-faint); }
+.mock-macos-menubar .mb-menu .row.disabled:hover { background: transparent; color: var(--color-text-faint); }
+.mock-macos-menubar .mb-menu .sep { height: 1px; background: var(--color-border); margin: 5px 8px; }
+
+/* ════════════════════════════════════════════════════════════════════
+ * WINDOWS — traffic-light chrome, flat fills, bronze focus border
+ * ════════════════════════════════════════════════════════════════════ */
+.mock-macos-window {
+  position: absolute;
+  z-index: 10;
+  display: flex; flex-direction: column;
+  background: var(--color-bg);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--mock-macos-win-radius);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+}
+.mock-macos-window.focused {
+  z-index: 20;
+  border-color: var(--color-accent);
+}
+/* a faint inner hairline lifts the window off the wallpaper without a shadow */
+.mock-macos-window::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: inherit;
+  border: var(--border-hairline) solid color-mix(in srgb, var(--color-bg) 60%, transparent);
+  pointer-events: none;
+}
+
+.mock-macos-window .titlebar {
+  height: 42px; flex: 0 0 auto;
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 14px;
+  background: var(--color-bg-subtle);
+  border-bottom: var(--border-hairline) solid var(--color-border);
+}
+.mock-macos-window.plain-title .titlebar { background: var(--color-bg); }
+
+/* traffic lights — the system's own status palette */
+.mock-macos-window .lights { display: flex; align-items: center; gap: 8px; }
+.mock-macos-window .lights .lt {
+  width: 13px; height: 13px; border-radius: var(--radius-pill);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px; line-height: 1;
+  border: var(--border-hairline) solid transparent;
+  color: transparent;
+  cursor: default;
+}
+.mock-macos-window:not(.focused) .lights .lt {
+  background: transparent;
+  border-color: var(--color-border-strong);
+}
+.mock-macos-window .lights .lt.close { background: var(--color-status-err); }
+.mock-macos-window .lights .lt.min   { background: var(--color-status-warn); }
+.mock-macos-window .lights .lt.zoom  { background: var(--color-status-ok); }
+/* glyph ink on hover: scrim ink over the status fill, both modes */
+.mock-macos-window .lights:hover .lt { color: var(--color-scrim); }
+
+.mock-macos-window .titlebar .tb-title {
+  font-size: 13px; font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+}
+.mock-macos-window.focused .titlebar .tb-title { color: var(--color-text-heading); }
+.mock-macos-window.plain-title .titlebar { position: relative; }
+.mock-macos-window.plain-title .tb-title {
+  position: absolute; left: 0; right: 0; text-align: center;
+  pointer-events: none;
+}
+.mock-macos-window .titlebar .tb-sub { color: var(--color-text-faint); font-weight: 400; }
+.mock-macos-window .titlebar .tb-nav { display: flex; gap: 4px; color: var(--color-text-faint); margin-left: 4px; }
+.mock-macos-window .titlebar .tb-nav span {
+  width: 24px; height: 24px; border-radius: 5px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: default;
+}
+.mock-macos-window .titlebar .tb-nav span:hover { background: var(--color-surface); color: var(--color-text); }
+.mock-macos-window .titlebar .tb-spacer { flex: 1 1 auto; }
+.mock-macos-window .titlebar .tb-tools { display: flex; align-items: center; gap: 6px; color: var(--color-text-muted); }
+.mock-macos-window .titlebar .tb-tools .seg {
+  display: flex; border: var(--border-hairline) solid var(--color-border); border-radius: 6px; overflow: hidden;
+}
+.mock-macos-window .titlebar .tb-tools .seg b {
+  font-weight: 400; padding: 3px 8px; font-size: 13px;
+  color: var(--color-text-muted); cursor: default;
+  border-right: var(--border-hairline) solid var(--color-border);
+}
+.mock-macos-window .titlebar .tb-tools .seg b:last-child { border-right: none; }
+.mock-macos-window .titlebar .tb-tools .seg b.on { background: var(--color-surface); color: var(--color-accent); }
+.mock-macos-window .titlebar .tb-search {
+  display: flex; align-items: center; gap: 6px;
+  border: var(--border-hairline) solid var(--color-border); border-radius: 6px;
+  padding: 3px 9px; font-size: 12.5px; color: var(--color-text-muted);
+  min-width: 130px; background: var(--color-bg);
+}
+
+.mock-macos-window .win-body { flex: 1 1 auto; min-height: 0; display: flex; overflow: hidden; }
+
+/* ════════════════════════════════════════════════════════════════════
+ * SPOTLIGHT
+ * ════════════════════════════════════════════════════════════════════ */
+.mock-macos-overlay {
+  position: absolute; inset: 0; z-index: 120;
+  display: flex; justify-content: center; align-items: flex-start;
+  background: var(--color-scrim);
+}
+.mock-macos-overlay.spot { padding-top: 150px; }
+
+.mock-macos-spotlight {
+  width: 680px; max-width: calc(100% - 120px);
+  background: color-mix(in srgb, var(--color-surface-raised) 95%, transparent);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--mock-macos-panel-radius);
+  overflow: hidden;
+}
+.mock-macos-spotlight .spot-input {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px;
+  border-bottom: var(--border-hairline) solid var(--color-border);
+}
+.mock-macos-spotlight .spot-input .g { font-size: 22px; color: var(--color-accent); }
+.mock-macos-spotlight .spot-input .typed { font-size: 21px; color: var(--color-text); }
+.mock-macos-spotlight .spot-input .ph { font-size: 21px; color: var(--color-text-faint); }
+.mock-macos-spotlight .spot-input .cur {
+  display: inline-block; width: 2px; height: 24px;
+  background: var(--color-accent); margin-left: 1px;
+  animation: mock-macos-spotblink 1.05s steps(2) infinite;
+}
+@keyframes mock-macos-spotblink { 50% { opacity: 0; } }
+.mock-macos-spotlight .spot-list { max-height: 360px; overflow: hidden; padding: 6px; }
+.mock-macos-spotlight .spot-grouphead {
+  font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--color-text-faint); padding: 8px 12px 4px;
+}
+.mock-macos-spotlight .spot-row {
+  display: flex; align-items: center; gap: 13px;
+  padding: 8px 12px; border-radius: var(--mock-macos-tile-radius);
+  cursor: default;
+}
+.mock-macos-spotlight .spot-row .ic {
+  width: 30px; height: 30px; flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: var(--border-hairline) solid var(--color-border); border-radius: 7px;
+  font-size: 15px; color: var(--color-text-muted);
+  background: var(--color-bg-subtle);
+}
+.mock-macos-spotlight .spot-row .body { display: flex; flex-direction: column; min-width: 0; }
+.mock-macos-spotlight .spot-row .body .t { font-size: 14px; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mock-macos-spotlight .spot-row .body .d { font-size: 11.5px; color: var(--color-text-faint); }
+.mock-macos-spotlight .spot-row .kind { margin-left: auto; font-size: 11px; color: var(--color-text-faint); }
+.mock-macos-spotlight .spot-row.sel { background: var(--color-accent); }
+.mock-macos-spotlight .spot-row.sel .ic { background: color-mix(in srgb, var(--color-bg) 22%, transparent); border-color: transparent; color: var(--color-bg); }
+.mock-macos-spotlight .spot-row.sel .body .t,
+.mock-macos-spotlight .spot-row.sel .kind { color: var(--color-bg); }
+.mock-macos-spotlight .spot-row.sel .body .d { color: color-mix(in srgb, var(--color-bg) 78%, transparent); }
+
+/* ════════════════════════════════════════════════════════════════════
+ * CONTROL CENTER  /  NOTIFICATION CENTER
+ * ════════════════════════════════════════════════════════════════════ */
+.mock-macos-panel {
+  position: absolute;
+  top: calc(var(--mock-macos-menubar-h) + 6px);
+  z-index: 100;
+  background: color-mix(in srgb, var(--color-surface-raised) 92%, transparent);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--mock-macos-panel-radius);
+  padding: 12px;
+}
+
+/* control center */
+.mock-macos-panel.cc { right: 8px; width: 320px; display: flex; flex-direction: column; gap: 10px; }
+.mock-macos-panel .cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mock-macos-panel .cc-tile {
+  background: var(--color-bg-subtle);
+  border: var(--border-hairline) solid var(--color-border);
+  border-radius: var(--mock-macos-tile-radius);
+  padding: 11px 12px;
+}
+.mock-macos-panel .cc-tile.wide { grid-column: 1 / -1; }
+.mock-macos-panel .cc-conn { display: flex; flex-direction: column; gap: 9px; padding: 11px 12px; }
+.mock-macos-panel .cc-conn .item { display: flex; align-items: center; gap: 11px; cursor: default; }
+.mock-macos-panel .cc-conn .item .knob {
+  width: 30px; height: 30px; border-radius: var(--radius-pill);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 14px; flex: 0 0 auto;
+  background: var(--color-surface); color: var(--color-text-muted);
+  border: var(--border-hairline) solid var(--color-border);
+}
+.mock-macos-panel .cc-conn .item.on .knob { background: var(--color-accent); color: var(--color-bg); border-color: transparent; }
+.mock-macos-panel .cc-conn .item .lb { display: flex; flex-direction: column; }
+.mock-macos-panel .cc-conn .item .lb .t { font-size: 13px; color: var(--color-text); }
+.mock-macos-panel .cc-conn .item .lb .s { font-size: 11px; color: var(--color-text-faint); }
+.mock-macos-panel .cc-conn .item.on .lb .s { color: var(--color-accent); }
+
+.mock-macos-panel .cc-tile .ttl { font-size: 12px; color: var(--color-text-muted); margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
+.mock-macos-panel .cc-tile .ttl .gl { color: var(--color-accent); }
+.mock-macos-panel .slider {
+  position: relative; height: 26px; border-radius: 13px;
+  background: var(--color-surface);
+  border: var(--border-hairline) solid var(--color-border);
+  overflow: hidden;
+}
+.mock-macos-panel .slider i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--color-accent); opacity: 0.45; }
+.mock-macos-panel .slider .gl { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--color-bg); mix-blend-mode: normal; }
+
+/* theme module — sheet swatch is the lighter ground of the current mode,
+ * field swatch the darker one, so both read correctly in both themes */
+.mock-macos-panel .cc-theme { display: flex; gap: 8px; }
+.mock-macos-panel .cc-theme button {
+  flex: 1; font: inherit; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 11px 8px; border-radius: var(--mock-macos-tile-radius);
+  border: var(--border-hairline) solid var(--color-border);
+  background: var(--color-bg-subtle); color: var(--color-text-muted);
+}
+.mock-macos-panel .cc-theme button .sw { width: 100%; height: 26px; border-radius: 5px; border: var(--border-hairline) solid var(--color-border-strong); }
+.mock-macos-panel .cc-theme button .sw.sheet { background: var(--color-bg); }
+.mock-macos-panel .cc-theme button .sw.field { background: var(--color-text-heading); }
+[data-theme="dark"] .mock-macos-panel .cc-theme button .sw.sheet { background: var(--color-text-heading); }
+[data-theme="dark"] .mock-macos-panel .cc-theme button .sw.field { background: var(--color-bg); }
+.mock-macos-panel .cc-theme button.on { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-subtle); }
+.mock-macos-panel .cc-theme button .nm { font-size: 12px; }
+
+/* now-playing module (shared by CC + NC) */
+.mock-macos-panel .np { display: flex; align-items: center; gap: 12px; }
+.mock-macos-panel .np .art {
+  width: 44px; height: 44px; flex: 0 0 auto;
+  border: var(--border-hairline) solid var(--color-border-strong); border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-accent); font-size: 20px;
+  background: var(--color-bg-subtle);
+}
+.mock-macos-panel .np .meta { min-width: 0; flex: 1; }
+.mock-macos-panel .np .meta .t { font-size: 13px; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mock-macos-panel .np .meta .by { font-size: 11.5px; color: var(--color-text-faint); }
+.mock-macos-panel .np .ctrl { display: flex; gap: 12px; color: var(--color-text-muted); font-size: 14px; }
+.mock-macos-panel .np .ctrl .play { color: var(--color-accent); }
+
+/* notification center */
+.mock-macos-panel.nc { right: 8px; width: 326px; background: transparent; border: none; backdrop-filter: none; -webkit-backdrop-filter: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.mock-macos-panel .nc-card {
+  background: color-mix(in srgb, var(--color-surface-raised) 92%, transparent);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--mock-macos-panel-radius);
+  padding: 13px 15px;
+}
+.mock-macos-panel .nc-note { display: flex; gap: 12px; }
+.mock-macos-panel .nc-note .app {
+  width: 34px; height: 34px; flex: 0 0 auto;
+  border: var(--border-hairline) solid var(--color-border); border-radius: var(--mock-macos-tile-radius);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--color-accent); background: var(--color-bg-subtle);
+}
+.mock-macos-panel .nc-note .body { min-width: 0; flex: 1; }
+.mock-macos-panel .nc-note .body .top { display: flex; align-items: baseline; gap: 8px; }
+.mock-macos-panel .nc-note .body .top .nm { font-size: 12.5px; font-weight: 600; color: var(--color-text); }
+.mock-macos-panel .nc-note .body .top .ago { margin-left: auto; font-size: 11px; color: var(--color-text-faint); }
+.mock-macos-panel .nc-note .body .msg { font-size: 12.5px; color: var(--color-text-muted); line-height: 1.45; margin-top: 2px; }
+
+/* widget: calendar */
+.mock-macos-panel .wdg-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+.mock-macos-panel .wdg-head .dow { font-size: 12px; color: var(--color-status-err); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.mock-macos-panel .wdg-head .day { font-size: 30px; color: var(--color-text-heading); font-weight: 600; line-height: 1; }
+.mock-macos-panel .wdg-head .mo { font-size: 12px; color: var(--color-text-faint); margin-left: auto; }
+.mock-macos-panel .wdg-ev { display: grid; grid-template-columns: 4px 1fr; gap: 10px; margin-bottom: 8px; }
+.mock-macos-panel .wdg-ev .bar { background: var(--color-accent); border-radius: var(--radius-xs); }
+.mock-macos-panel .wdg-ev.dim .bar { background: var(--color-border-strong); }
+.mock-macos-panel .wdg-ev .info .t { font-size: 12.5px; color: var(--color-text); }
+.mock-macos-panel .wdg-ev .info .when { font-size: 11px; color: var(--color-text-faint); font-variant-numeric: tabular-nums; }
+
+/* widget: weather */
+.mock-macos-panel .wdg-weather { display: flex; align-items: center; gap: 14px; }
+.mock-macos-panel .wdg-weather .temp { font-size: 32px; color: var(--color-text-heading); font-weight: 600; line-height: 1; }
+.mock-macos-panel .wdg-weather .wx { font-size: 12px; color: var(--color-text-muted); }
+.mock-macos-panel .wdg-weather .loc { font-size: 12.5px; color: var(--color-text); }
+.mock-macos-panel .wdg-weather .glyph { margin-left: auto; font-size: 26px; color: var(--color-accent); }
+
+.mock-macos-panel .wdg-label { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-faint); margin-bottom: 9px; }
+
+/* ════════════════════════════════════════════════════════════════════
+ * DOCK
+ * ════════════════════════════════════════════════════════════════════ */
+.mock-macos-dock {
+  position: absolute; left: 50%; bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 70;
+  display: flex; justify-content: center;
+}
+.mock-macos-dock .dock {
+  pointer-events: auto;
+  display: flex; align-items: flex-end; gap: 8px;
+  padding: 9px 11px;
+  background: var(--color-surface);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: 19px;
+}
+.mock-macos-dock .dock .sep { width: 1px; align-self: stretch; background: var(--color-border); margin: 4px 4px; }
+.mock-macos-dock .dock-app {
+  position: relative;
+  width: 54px; height: 54px;
+  flex: 0 0 auto;
+  border: var(--border-hairline) solid var(--color-border-strong);
+  border-radius: var(--mock-macos-panel-radius);
+  background: var(--color-bg);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-text);
+  font-size: 25px; line-height: 1;
+  cursor: default;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+.mock-macos-dock .dock-app:hover {
+  transform: translateY(-9px) scale(1.06);
+  border-color: var(--color-accent);
+}
+.mock-macos-dock .dock-app.accent { color: var(--color-accent); }
+.mock-macos-dock .dock-app.mono { font-family: var(--font-mono); font-size: 19px; font-weight: 600; letter-spacing: -0.02em; }
+.mock-macos-dock .dock-app .run {
+  position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px; border-radius: var(--radius-pill);
+  background: var(--color-text-faint);
+}
+.mock-macos-dock .dock-app.running .run { background: var(--color-accent); }
+/* calendar live tile */
+.mock-macos-dock .dock-app.cal { flex-direction: column; gap: 0; overflow: hidden; padding: 0; }
+.mock-macos-dock .dock-app.cal .dow { font-size: 9px; line-height: 14px; width: 100%; text-align: center; background: var(--color-status-err); color: var(--color-bg); font-weight: 700; letter-spacing: 0.04em; }
+.mock-macos-dock .dock-app.cal .day { font-size: 22px; font-weight: 600; color: var(--color-text-heading); line-height: 36px; }
+/* dock tooltip */
+.mock-macos-dock .dock-app .tip {
+  position: absolute; bottom: 62px; left: 50%; transform: translateX(-50%);
+  padding: 3px 9px; border-radius: 6px;
+  background: var(--color-surface-raised);
+  border: var(--border-hairline) solid var(--color-border-strong);
+  font-size: 12px; color: var(--color-text);
+  white-space: nowrap; opacity: 0; pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+.mock-macos-dock .dock-app:hover .tip { opacity: 1; }
+
+/* dock bounce when launched */
+@keyframes mock-macos-dockbounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-26px) scale(1.05); }
+  60% { transform: translateY(-6px) scale(1.02); }
+}
+.mock-macos-dock .dock-app.bounce { animation: mock-macos-dockbounce 560ms ease-out 2; }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .mock-macos-spotlight .spot-input .cur,
+  .mock-macos-dock .dock-app.bounce { animation: none; }
+  .mock-macos-dock .dock-app,
+  .mock-macos-window { transition: none; }
+}

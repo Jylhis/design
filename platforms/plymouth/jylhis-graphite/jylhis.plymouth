@@ -1,0 +1,9 @@
+# Jylhis Graphite — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Graphite
+Description=Jylhis design system — graphite variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

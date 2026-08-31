@@ -1,0 +1,84 @@
+# Generated files — produced by `bun scripts/generate.mjs` from tokens.json.
+# Do not edit by hand; edit tokens.json and regenerate instead.
+#
+# `linguist-generated=true` tells GitHub to collapse these in pull-request
+# diffs by default and to exclude them from repository language statistics.
+# Keep this list in sync with the out(...) calls in scripts/generate.mjs.
+
+# ─── Root token outputs ──────────────────────────────────────────────
+tokens.css                                  linguist-generated=true
+tokens-data.js                              linguist-generated=true
+tokens.md                                   linguist-generated=true
+
+# ─── Ghostty ─────────────────────────────────────────────────────────
+platforms/ghostty/jylhis-sheet              linguist-generated=true
+platforms/ghostty/jylhis-field              linguist-generated=true
+
+# ─── Charm / lipgloss ────────────────────────────────────────────────
+platforms/charm/jylhis/palette.go           linguist-generated=true
+
+# ─── Emacs ───────────────────────────────────────────────────────────
+platforms/emacs/jylhis-theme-core.el        linguist-generated=true
+platforms/emacs/jylhis-sheet-palette.el     linguist-generated=true
+platforms/emacs/jylhis-field-palette.el     linguist-generated=true
+platforms/emacs/jylhis-sheet-theme.el       linguist-generated=true
+platforms/emacs/jylhis-field-theme.el       linguist-generated=true
+
+# ─── Hyprland / Hyprlock ─────────────────────────────────────────────
+platforms/hyprland/jylhis-sheet.conf        linguist-generated=true
+platforms/hyprland/jylhis-field.conf        linguist-generated=true
+platforms/hyprlock/jylhis-sheet.conf        linguist-generated=true
+platforms/hyprlock/jylhis-field.conf        linguist-generated=true
+
+# ─── Rofi ────────────────────────────────────────────────────────────
+platforms/rofi/jylhis-sheet.rasi            linguist-generated=true
+platforms/rofi/jylhis-field.rasi            linguist-generated=true
+
+# ─── GTK ─────────────────────────────────────────────────────────────
+platforms/gtk/gtk.css                       linguist-generated=true
+
+# ─── Waybar ──────────────────────────────────────────────────────────
+platforms/waybar/style.css                  linguist-generated=true
+platforms/waybar/style-sheet.css            linguist-generated=true
+
+# ─── Mako ────────────────────────────────────────────────────────────
+platforms/mako/config                       linguist-generated=true
+platforms/mako/config-sheet                 linguist-generated=true
+
+# ─── Kvantum ─────────────────────────────────────────────────────────
+platforms/kvantum/JylhisSheet.colors        linguist-generated=true
+platforms/kvantum/JylhisField.colors        linguist-generated=true
+
+# ─── GIMP / Inkscape / Krita swatches ────────────────────────────────
+platforms/gimp/jylhis-sheet.gpl             linguist-generated=true
+platforms/gimp/jylhis-field.gpl             linguist-generated=true
+
+# ─── base16 ──────────────────────────────────────────────────────────
+platforms/base16/jylhis-sheet.yaml          linguist-generated=true
+platforms/base16/jylhis-field.yaml          linguist-generated=true
+
+# ─── bat / TextMate themes ───────────────────────────────────────────
+platforms/bat/jylhis-sheet.tmTheme          linguist-generated=true
+platforms/bat/jylhis-field.tmTheme          linguist-generated=true
+
+# ─── Linux console (kernel VT) ───────────────────────────────────────
+platforms/console/jylhis-sheet.nix          linguist-generated=true
+platforms/console/jylhis-field.nix          linguist-generated=true
+
+# ─── fzf ─────────────────────────────────────────────────────────────
+platforms/shell/fzf-sheet.sh                linguist-generated=true
+platforms/shell/fzf-field.sh                linguist-generated=true
+
+# ─── Plymouth boot splash ────────────────────────────────────────────
+platforms/plymouth/jylhis-sheet/jylhis.plymouth   linguist-generated=true
+platforms/plymouth/jylhis-sheet/jylhis.script     linguist-generated=true
+platforms/plymouth/jylhis-field/jylhis.plymouth   linguist-generated=true
+platforms/plymouth/jylhis-field/jylhis.script     linguist-generated=true
+
+# ─── Adobe Swatch Exchange (binary) ──────────────────────────────────
+platforms/adobe/jylhis-sheet.ase            binary linguist-generated=true
+platforms/adobe/jylhis-field.ase            binary linguist-generated=true
+
+# ─── Xiaomi HyperOS / MIUI theme (ZIP, binary) ───────────────────────
+platforms/hyperos/jylhis-sheet.mtz          binary linguist-generated=true
+platforms/hyperos/jylhis-field.mtz          binary linguist-generated=true

@@ -1,0 +1,204 @@
+/* Jylhis GTK 3 / GTK 4 theme overrides
+ * GENERATED from tokens.json. Do not edit by hand.
+ * ~/.config/gtk-3.0/gtk.css  AND  ~/.config/gtk-4.0/gtk.css
+ *
+ * Strategy: we don't ship a full GTK theme (that's a 5000-line commitment).
+ * Instead, we start from Adwaita / Adwaita-dark and override the @theme_ tokens
+ * that actually change the look. Covers: window bg, selection, accent,
+ * headerbar, sidebar, switches, links. Plus keyboard primitives (focus).
+ *
+ * Pair with:
+ *   gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'        # light
+ *   gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'   # dark
+ *   gsettings set org.gnome.desktop.interface accent-color 'orange'
+ *   gsettings set org.gnome.desktop.interface font-name 'Hanken Grotesk 11'
+ *   gsettings set org.gnome.desktop.interface monospace-font-name 'IBM Plex Mono 10'
+ */
+
+/* ────────────────────────────────────
+   Core palette — overrides @define-color
+   ──────────────────────────────────── */
+
+@define-color accent_color          #6f3e00;
+@define-color accent_bg_color       #6f3e00;
+@define-color accent_fg_color       #f6f8fb;
+
+/* Status colours — Modus accents (red / green / yellow / blue). */
+@define-color destructive_color     #a60000;
+@define-color destructive_bg_color  #a60000;
+@define-color destructive_fg_color  #f6f8fb;
+
+@define-color success_color         #006800;
+@define-color success_bg_color      #006800;
+@define-color success_fg_color      #f6f8fb;
+
+@define-color warning_color         #884900;
+@define-color warning_bg_color      #884900;
+@define-color warning_fg_color      #f6f8fb;
+
+@define-color error_color           #a60000;
+@define-color error_bg_color        #a60000;
+@define-color error_fg_color        #f6f8fb;
+
+/* Window */
+@define-color window_bg_color        #f6f8fb;
+@define-color window_fg_color        #23262e;
+@define-color view_bg_color          #fcfdff;
+@define-color view_fg_color          #23262e;
+@define-color headerbar_bg_color     #e6ecf1;
+@define-color headerbar_fg_color     #12141a;
+@define-color headerbar_border_color #cfd6de;
+@define-color sidebar_bg_color       #eef2f6;
+@define-color sidebar_fg_color       #23262e;
+@define-color card_bg_color          #fcfdff;
+@define-color popover_bg_color       #fcfdff;
+
+/* Borders / shade */
+@define-color borders          #cfd6de;
+@define-color shade_color      rgba(44, 40, 37, 0.08);
+
+/* ────────────────────────────────────
+   Dark variant — Adwaita-dark loads this block via .dark selector
+   ──────────────────────────────────── */
+
+.dark,
+window.dark {
+    --accent-color:          #e0a33a;
+    --accent-bg-color:       #e0a33a;
+    --accent-fg-color:       #0d0f14;
+    --window-bg-color:       #0d0f14;
+    --window-fg-color:       #d6dae2;
+    --view-bg-color:         #14171e;
+    --headerbar-bg-color:    #1b1f28;
+    --headerbar-fg-color:    #f2f4f8;
+    --sidebar-bg-color:      #14171e;
+    --card-bg-color:         #1b1f28;
+    --popover-bg-color:      #232833;
+    --borders:               #2b303b;
+}
+
+/* ────────────────────────────────────
+   Typography
+   ──────────────────────────────────── */
+
+* {
+    -gtk-icon-style: regular;
+}
+
+/* ────────────────────────────────────
+   Focus — KEYBOARD.md primitive
+   ──────────────────────────────────── */
+
+*:focus-visible,
+button:focus-visible,
+entry:focus-visible,
+textview text:focus-visible {
+    outline: 2px solid @accent_color;
+    outline-offset: 2px;
+    outline-style: solid;
+    box-shadow: none;
+}
+
+/* ────────────────────────────────────
+   Selected — the universal language
+   ──────────────────────────────────── */
+
+row:selected,
+treeview:selected,
+list > row:selected,
+.navigation-sidebar > row:selected {
+    background: alpha(@accent_color, 0.15);
+    color: @window_fg_color;
+    box-shadow: inset 3px 0 0 @accent_color;
+    border-radius: 0;
+}
+
+row:selected:focus {
+    outline: none;
+    box-shadow: inset 3px 0 0 @accent_color;
+}
+
+/* ────────────────────────────────────
+   Buttons — flatten, warm
+   ──────────────────────────────────── */
+
+button {
+    border-radius: 4px;
+    transition: background 150ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+button.suggested-action,
+button.default {
+    background: @accent_color;
+    color: @accent_fg_color;
+    border: 1px solid transparent;
+}
+
+button.suggested-action:hover {
+    background: shade(@accent_color, 0.92);
+}
+
+button.destructive-action {
+    background: @destructive_color;
+    color: #f6f8fb;
+}
+
+/* ────────────────────────────────────
+   Entry / input
+   ──────────────────────────────────── */
+
+entry {
+    border-radius: 4px;
+    border: 1px solid @borders;
+    background: @view_bg_color;
+}
+
+entry:focus-within {
+    border-color: @accent_color;
+    outline: 2px solid @accent_color;
+    outline-offset: -1px;
+}
+
+/* ────────────────────────────────────
+   Links — same as web
+   ──────────────────────────────────── */
+
+*:link,
+button.link {
+    color: @accent_color;
+    text-decoration-color: alpha(@accent_color, 0.4);
+}
+
+*:link:hover,
+button.link:hover {
+    color: shade(@accent_color, 0.85);
+}
+
+/* ────────────────────────────────────
+   Switches / checkbuttons
+   ──────────────────────────────────── */
+
+switch:checked {
+    background: @accent_color;
+}
+
+check:checked,
+radio:checked {
+    background: @accent_color;
+    color: @accent_fg_color;
+}
+
+/* ────────────────────────────────────
+   Scrollbar
+   ──────────────────────────────────── */
+
+scrollbar slider {
+    background: alpha(@window_fg_color, 0.25);
+    border-radius: 3px;
+    min-width: 8px;
+    min-height: 8px;
+}
+
+scrollbar slider:hover {
+    background: alpha(@window_fg_color, 0.45);
+}

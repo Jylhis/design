@@ -1,0 +1,228 @@
+/*
+ * platforms/shadcn/tokens.css — GENERATED from tokens.json. Do not edit by hand.
+ *
+ * Jylhis Design System v2 "The Survey", mapped onto the shadcn/ui semantic
+ * token names and emitted as bare HSL triplets for Tailwind, which consumes
+ * them as hsl(var(--token) / <alpha-value>) so opacity modifiers keep working.
+ *
+ * Self-contained: pair it with fonts.css + fonts/ and import nothing else.
+ * Sheet is :root; Field is both .dark and [data-theme="dark"]; the monochrome
+ * Chalk / Graphite editions ship under [data-theme="mono-light|mono-dark"].
+ *
+ * See docs/INTEGRATION.md § Tailwind / shadcn.
+ */
+
+/* Sheet (light) */
+:root {
+  /* shadcn semantic */
+  --background: 216 38.5% 97.5%;
+  --foreground: 223.6 13.6% 15.9%;
+  --card: 220 100% 99.4%;
+  --card-foreground: 223.6 13.6% 15.9%;
+  --popover: 220 100% 99.4%;
+  --popover-foreground: 223.6 13.6% 15.9%;
+  --primary: 33.5 100% 21.8%;
+  --primary-foreground: 216 38.5% 97.5%;
+  --primary-hover: 33.5 100% 27.1%;
+  --secondary: 207.3 28.2% 92.4%;
+  --secondary-foreground: 223.6 13.6% 15.9%;
+  --muted: 210 30.8% 94.9%;
+  --muted-foreground: 221.5 7% 36.3%;
+  --accent: 33.3 15.3% 88.4%;
+  --accent-foreground: 33.5 100% 27.1%;
+  --destructive: 0 100% 32.5%;
+  --destructive-foreground: 216 38.5% 97.5%;
+  --border: 212 18.5% 84.1%;
+  --input: 212 18.5% 84.1%;
+  --ring: 33.5 100% 21.8%;
+  /* Jylhis extensions */
+  --heading: 225 18.2% 8.6%;
+  --faint: 218.6 6.2% 55.7%;
+  --brand: 19.8 85.6% 38.2%;
+  --border-strong: 212.7 14.9% 71%;
+  --decorator: 222.2 26.7% 60.4%;
+  --contour: 225.1 57.8% 43.7%;
+  --scrim: 222 20% 9.8%;
+  /* status */
+  --status-err: 0 100% 32.5%;
+  --status-warn: 32.2 100% 26.7%;
+  --status-ok: 120 100% 20.4%;
+  --status-info: 199.4 100% 27.3%;
+  /* status tints — 10% over bg, flattened */
+  --status-err-bg: 348 30.6% 90.4%;
+  --status-warn-bg: 33.3 18.4% 90.4%;
+  --status-ok-bg: 143.1 23.6% 89.2%;
+  --status-info-bg: 202.1 38.8% 90.4%;
+  /* charts */
+  --chart-1: 33.5 100% 21.8%;
+  --chart-2: 225.1 57.8% 43.7%;
+  --chart-3: 120 100% 20.4%;
+  --chart-4: 32.2 100% 26.7%;
+  --chart-5: 212.7 14.9% 71%;
+  --scrim-alpha: 0.4;
+
+  /* Radii — the real scale. Consumers map Tailwind's borderRadius onto these
+     directly (lg→md, md→sm, sm→xs) rather than shadcn's --radius minus-2px
+     arithmetic, which bottoms out at 0 on a 4px canonical step. */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-pill: 999px;
+
+  /* Font families — the v2 three-role stack */
+  --font-display: "Zilla Slab", "Roboto Slab", Rockwell, Georgia, serif;
+  --font-body: "Hanken Grotesk", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", "Cascadia Code", "Fira Code", ui-monospace, monospace;
+  --font-heading: var(--font-display);
+}
+
+/* Field (dark) */
+.dark,
+[data-theme="dark"] {
+  /* shadcn semantic */
+  --background: 222.9 21.2% 6.5%;
+  --foreground: 220 17.1% 86.3%;
+  --card: 221.3 18.6% 16.9%;
+  --card-foreground: 220 17.1% 86.3%;
+  --popover: 221.3 18.6% 16.9%;
+  --popover-foreground: 220 17.1% 86.3%;
+  --primary: 38 72.8% 55.3%;
+  --primary-foreground: 222.9 21.2% 6.5%;
+  --primary-hover: 37.7 83.1% 65.1%;
+  --secondary: 221.5 19.4% 13.1%;
+  --secondary-foreground: 220 17.1% 86.3%;
+  --muted: 222 20% 9.8%;
+  --muted-foreground: 218.8 9.2% 63.7%;
+  --accent: 36.9 20.6% 12.4%;
+  --accent-foreground: 37.7 83.1% 65.1%;
+  --destructive: 3.7 82.9% 65.7%;
+  --destructive-foreground: 222.9 21.2% 6.5%;
+  --border: 221.3 15.7% 20%;
+  --input: 221.3 15.7% 20%;
+  --ring: 38 72.8% 55.3%;
+  /* Jylhis extensions */
+  --heading: 220 30% 96.1%;
+  --faint: 218.8 7.8% 42.9%;
+  --brand: 23.3 83.8% 61.4%;
+  --border-strong: 220.9 15.9% 27.1%;
+  --decorator: 225.5 22.4% 28.8%;
+  --contour: 216.6 64.6% 65.7%;
+  --scrim: 228 33.3% 2.9%;
+  /* status */
+  --status-err: 3.7 82.9% 65.7%;
+  --status-warn: 44.1 65.3% 57.1%;
+  --status-ok: 120 39.6% 58.4%;
+  --status-info: 192.3 53.8% 59.2%;
+  /* status tints — 12% over bg, flattened */
+  --status-err-bg: 347.1 21.2% 12.9%;
+  --status-warn-bg: 49.1 17.5% 12.4%;
+  --status-ok-bg: 150 20% 11.8%;
+  --status-info-bg: 202.1 29.2% 12.7%;
+  /* charts */
+  --chart-1: 38 72.8% 55.3%;
+  --chart-2: 216.6 64.6% 65.7%;
+  --chart-3: 120 39.6% 58.4%;
+  --chart-4: 44.1 65.3% 57.1%;
+  --chart-5: 220.9 15.9% 27.1%;
+  --scrim-alpha: 0.55;
+}
+
+/* Chalk (mono-light) */
+[data-theme="mono-light"] {
+  /* shadcn semantic */
+  --background: 0 0% 95.7%;
+  --foreground: 0 0% 16.9%;
+  --card: 0 0% 98.8%;
+  --card-foreground: 0 0% 16.9%;
+  --popover: 0 0% 98.8%;
+  --popover-foreground: 0 0% 16.9%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 95.7%;
+  --primary-hover: 0 0% 20%;
+  --secondary: 0 0% 88.6%;
+  --secondary-foreground: 0 0% 16.9%;
+  --muted: 0 0% 92.5%;
+  --muted-foreground: 0 0% 33.7%;
+  --accent: 0 0% 86.3%;
+  --accent-foreground: 0 0% 20%;
+  --destructive: 0 0% 12.2%;
+  --destructive-foreground: 0 0% 95.7%;
+  --border: 0 0% 81.2%;
+  --input: 0 0% 81.2%;
+  --ring: 0 0% 0%;
+  /* Jylhis extensions */
+  --heading: 0 0% 10.2%;
+  --faint: 0 0% 49%;
+  --brand: 0 0% 22.7%;
+  --border-strong: 0 0% 69%;
+  --decorator: 0 0% 74.1%;
+  --contour: 0 0% 29%;
+  --scrim: 0 0% 7.8%;
+  /* status */
+  --status-err: 0 0% 12.2%;
+  --status-warn: 0 0% 27.1%;
+  --status-ok: 0 0% 33.7%;
+  --status-info: 0 0% 20%;
+  /* status tints — 10% over bg, flattened */
+  --status-err-bg: 0 0% 87.5%;
+  --status-warn-bg: 0 0% 89%;
+  --status-ok-bg: 0 0% 89.4%;
+  --status-info-bg: 0 0% 88.2%;
+  /* charts */
+  --chart-1: 0 0% 0%;
+  --chart-2: 0 0% 29%;
+  --chart-3: 0 0% 33.7%;
+  --chart-4: 0 0% 27.1%;
+  --chart-5: 0 0% 69%;
+  --scrim-alpha: 0.4;
+}
+
+/* Graphite (mono-dark) */
+[data-theme="mono-dark"] {
+  /* shadcn semantic */
+  --background: 0 0% 5.1%;
+  --foreground: 0 0% 85.5%;
+  --card: 0 0% 15.7%;
+  --card-foreground: 0 0% 85.5%;
+  --popover: 0 0% 15.7%;
+  --popover-foreground: 0 0% 85.5%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 5.1%;
+  --primary-hover: 0 0% 86.3%;
+  --secondary: 0 0% 12.2%;
+  --secondary-foreground: 0 0% 85.5%;
+  --muted: 0 0% 8.6%;
+  --muted-foreground: 0 0% 60.4%;
+  --accent: 0 0% 14.1%;
+  --accent-foreground: 0 0% 86.3%;
+  --destructive: 0 0% 94.1%;
+  --destructive-foreground: 0 0% 5.1%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 0 0% 100%;
+  /* Jylhis extensions */
+  --heading: 0 0% 94.9%;
+  --faint: 0 0% 41.6%;
+  --brand: 0 0% 91%;
+  --border-strong: 0 0% 29%;
+  --decorator: 0 0% 23.9%;
+  --contour: 0 0% 69%;
+  --scrim: 0 0% 2%;
+  /* status */
+  --status-err: 0 0% 94.1%;
+  --status-warn: 0 0% 72.2%;
+  --status-ok: 0 0% 56.5%;
+  --status-info: 0 0% 81.6%;
+  /* status tints — 12% over bg, flattened */
+  --status-err-bg: 0 0% 15.7%;
+  --status-warn-bg: 0 0% 13.3%;
+  --status-ok-bg: 0 0% 11.4%;
+  --status-info-bg: 0 0% 14.1%;
+  /* charts */
+  --chart-1: 0 0% 100%;
+  --chart-2: 0 0% 69%;
+  --chart-3: 0 0% 56.5%;
+  --chart-4: 0 0% 72.2%;
+  --chart-5: 0 0% 29%;
+  --scrim-alpha: 0.55;
+}

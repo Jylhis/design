@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en" data-theme="sheet">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jylhis DS v2 — The Survey (tuned)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Hanken+Grotesk:ital,wght@0,300..700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Palette: Solarized-measured neutral spine · Modus-AAA contrast · Catppuccin-cool grounds ·
+   tritanopia-checked status (leans red/orange/green/teal, never blue-vs-yellow alone). */
+/* Modus-lean, cool: near-white/near-black grounds (never pure), bronze accent kept,
+   Modus blue as structural contour, Field accents toned so nothing glows. */
+:root{
+  --bg:#f6f8fb; --bg2:#eef2f6; --surf:#e6ecf1; --rise:#fcfdff;
+  --head:#12141a; --ink:#23262e; --muted:#565a63; --faint:#878c95;
+  --line:#cfd6de; --grid:rgba(30,45,70,.06); --contour:#2f4fb0; --contour2:#7f8fb5;
+  --acc:#8a4d00; --acc-hi:#a75f0a; --mark:#b5450e;
+  --ok:#006800; --info:#005e8b; --warn:#8a5000; --err:#a60000;
+}
+html[data-theme="field"]{
+  --bg:#0d0f14; --bg2:#14171e; --surf:#1b1f28; --rise:#232833;
+  --head:#f2f4f8; --ink:#d6dae2; --muted:#9aa0ab; --faint:#656b76;
+  --line:#2b303b; --grid:rgba(150,170,210,.07); --contour:#6f9be0; --contour2:#39415a;
+  --acc:#e0a33a; --acc-hi:#f0b95c; --mark:#ef8a4a;
+  --ok:#6bbf6b; --info:#5fb8cf; --warn:#d9b34a; --err:#f0685f;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:17px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px}
+.mono{font-family:"IBM Plex Mono",monospace}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px}
+header{border-bottom:1px solid var(--line);background:linear-gradient(var(--bg2),var(--bg2))}
+.collar{display:flex;max-width:1360px;margin:0 auto;border-bottom:1px solid var(--line)}
+.ticks{display:flex;flex:1;align-items:flex-end;padding:0 40px;height:34px;overflow:hidden}
+.ticks i{flex:0 0 20px;border-left:1px solid var(--line);height:8px}
+.ticks i.maj{height:16px;border-left-color:var(--contour2)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;max-width:1360px;margin:0 auto}
+.mark{display:flex;align-items:center;gap:13px}
+.mark .bm svg{width:26px;height:26px}
+.mark b{font-family:"IBM Plex Mono";font-weight:600;letter-spacing:.14em;font-size:12.5px;color:var(--head);text-transform:uppercase}
+nav{display:flex;gap:28px}
+nav a{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--acc)}
+.sheetno{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;text-align:right;padding:8px 40px 0 0}
+.sheetno b{color:var(--head)}
+.hero{display:grid;grid-template-columns:1fr 1.02fr;gap:52px;align-items:center;padding:60px 0 40px}
+.eyebrow{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mark);margin:0 0 24px;display:flex;gap:12px;align-items:center}
+.eyebrow .tri{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid var(--mark)}
+h1{font-family:"Zilla Slab";font-weight:700;font-size:clamp(46px,6.2vw,86px);line-height:1.0;letter-spacing:-.01em;margin:0;color:var(--head)}
+h1 em{font-style:normal;color:var(--acc)}
+.lede{max-width:38ch;margin:26px 0 32px;color:var(--ink);font-size:18px}
+.lede b{color:var(--head);font-weight:600}
+.cta{display:flex;gap:14px;align-items:center}
+.btn{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:13px 22px;text-decoration:none;border:1px solid var(--acc);cursor:pointer;border-radius:2px;transition:color .18s ease-out,background .18s ease-out,border-color .18s ease-out}
+.btn.p{background:var(--acc);color:var(--bg)}
+.btn.g{background:transparent;color:var(--head);border-color:var(--line)}
+.btn.g:hover{border-color:var(--acc);color:var(--acc)}
+.plate{position:relative;border:1px solid var(--contour2);background:var(--rise);aspect-ratio:1/.9;border-radius:3px;overflow:hidden;
+  box-shadow:inset 0 0 0 6px var(--bg),inset 0 0 0 7px var(--line)}
+.plate .corner{position:absolute;font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;z-index:3}
+.plate svg{position:absolute;inset:0;width:100%;height:100%}
+.scalebar{position:absolute;left:22px;bottom:18px;display:flex;flex-direction:column;gap:4px;z-index:3}
+.scalebar .bar{display:flex;height:7px;width:120px;border:1px solid var(--contour)}
+.scalebar .bar span{flex:1;border-right:1px solid var(--contour)}
+.scalebar .bar span:nth-child(odd){background:var(--contour)}
+.scalebar .lbl{font-family:"IBM Plex Mono";font-size:8px;letter-spacing:.06em;color:var(--muted)}
+.legend{border:1px solid var(--line);border-radius:3px;margin:12px 0 22px;background:var(--rise)}
+.legend .lh{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:11px 16px;border-bottom:1px solid var(--line)}
+.legrid{display:grid;grid-template-columns:repeat(5,1fr)}
+.leg{display:flex;align-items:center;gap:11px;padding:14px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.leg:nth-child(5n){border-right:0}
+.leg .sw{width:26px;height:26px;border-radius:2px;border:1px solid rgba(0,0,0,.12);flex:0 0 26px}
+.leg .n{font-size:12px;color:var(--head)}
+.leg .h{font-family:"IBM Plex Mono";font-size:9.5px;color:var(--muted)}
+.lineage{font-family:"IBM Plex Mono";font-size:10px;color:var(--muted);letter-spacing:.04em;margin:0 0 46px}
+.lineage b{color:var(--acc)}
+.note{max-width:60ch;color:var(--muted);margin:0;font-size:15px}
+.note .mono{color:var(--acc)}
+footer{border-top:1px solid var(--line);padding:20px 0}
+.foot{display:flex;justify-content:space-between;font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+/* efficient render-in motion */
+.draw-path{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset .5s ease-out}
+.draw-path.in{stroke-dashoffset:0}
+.pop{opacity:0;transform:scale(.6);transform-box:fill-box;transform-origin:center;transition:opacity .25s ease-out,transform .25s ease-out}
+.pop.in{opacity:1;transform:scale(1)}
+@media (prefers-reduced-motion:reduce){.draw-path,.pop{transition:none!important;stroke-dashoffset:0!important;opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="collar"><div class="ticks" id="ticks"></div></div>
+  <div class="topbar">
+    <div class="mark">
+      <span class="bm"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="9" fill="none" stroke="var(--contour)" stroke-width="1.2"/><path d="M13 4 L20 20 L6 20 Z" fill="none" stroke="var(--mark)" stroke-width="1.4"/><circle cx="13" cy="13" r="1.6" fill="var(--mark)"/></svg></span>
+      <b>Jylhis&nbsp;·&nbsp;the survey</b>
+    </div>
+    <nav><a>atlas</a><a>datum</a><a>sheets</a><a>legend</a><a>editions</a></nav>
+    <div class="mono" style="font-size:11px;letter-spacing:.08em;color:var(--muted)">◐ sheet / ◑ field</div>
+  </div>
+  <div class="sheetno">sheet <b>01</b> / 06 · edition <b>v2.0</b> · projection: single-datum · scale 1:1</div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <p class="eyebrow"><span class="tri"></span>Design system · v2 · one datum</p>
+      <h1>One datum.<br><em>Every sheet.</em></h1>
+      <p class="lede"><b>tokens.json</b> is the datum — the single reference every surface is fixed to. Terminal, editor, desktop, phone, page: each is a sheet of one atlas, triangulated from the same point. Move the datum, every sheet re-surveys.</p>
+      <div class="cta">
+        <a class="btn p">△ open the atlas</a>
+        <a class="btn g">read the legend →</a>
+      </div>
+    </div>
+    <div class="plate">
+      <span class="corner" style="top:12px;left:14px">N 47°22′ · E 08°32′ · ZÜRICH DATUM</span>
+      <span class="corner" style="top:12px;right:14px" id="readout">CONTOUR INTERVAL — 1 CONTRAST STEP</span>
+      <svg id="map" viewBox="0 0 600 540" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="scalebar"><div class="bar"><span></span><span></span><span></span><span></span></div><div class="lbl">TOKENS · SPACING SCALE</div></div>
+    </div>
+  </section>
+  <div class="legend">
+    <div class="lh">Legend — palette roles (Solarized-measured · Modus-AAA · tritanopia-checked)</div>
+    <div class="legrid" id="legend"></div>
+  </div>
+  <p class="lineage">palette: <b>modus</b> operandi/vivendi (AAA + tritanopia) · cool near-white / near-black grounds (never pure) · <b>bronze</b> accent kept · modus blue as structure · field accents toned so nothing glows · status backed by glyph+word</p>
+  <p class="note"><span class="mono">//</span> Every contour is a measured threshold. If a role falls below its contrast floor the sheet will not print — the legend proves the level, it is never claimed.</p>
+</main>
+<footer><div class="wrap foot"><span>one datum · every sheet</span><span>editions: sheet (light) · field (dark)</span><span>AAA body · surveyed contrast</span></div></footer>
+<script>
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(new URLSearchParams(location.search).get('theme')==='field'){
+  document.documentElement.dataset.theme='field';
+  document.querySelector('.topbar .mono').innerHTML='◑ sheet / ◐ field';
+}
+let t='';for(let i=0;i<70;i++)t+=`<i class="${i%5===0?'maj':''}"></i>`;
+document.getElementById('ticks').innerHTML=t;
+
+const NS='http://www.w3.org/2000/svg',svg=document.getElementById('map');
+const cs=getComputedStyle(document.documentElement);
+const contour=cs.getPropertyValue('--contour').trim(),contour2=cs.getPropertyValue('--contour2').trim(),
+      mark=cs.getPropertyValue('--mark').trim(),head=cs.getPropertyValue('--head').trim(),
+      muted=cs.getPropertyValue('--muted').trim(),acc=cs.getPropertyValue('--acc').trim();
+const cx=232,cy=270;
+const drawables=[];
+function drawIn(el){const len=el.getTotalLength();el.style.setProperty('--len',len);el.classList.add('draw-path');drawables.push(el);}
+function ring(rad,jit,op,w){
+  const pts=[];const N=44;
+  for(let a=0;a<N;a++){const ang=a/N*Math.PI*2;
+    const rr=rad+Math.sin(ang*3+rad)*jit+Math.cos(ang*2+rad*.7)*jit*.6;
+    pts.push([cx+Math.cos(ang)*rr*1.18,cy+Math.sin(ang)*rr]);}
+  let d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
+  for(let i=1;i<=N;i++){const p=pts[i%N];d+=' L'+p[0].toFixed(1)+' '+p[1].toFixed(1);}
+  d+=' Z';const path=document.createElementNS(NS,'path');
+  path.setAttribute('d',d);path.setAttribute('fill','none');path.setAttribute('stroke',contour);
+  path.setAttribute('stroke-width',w);path.setAttribute('opacity',op);svg.appendChild(path);return path;}
+const rings=[];for(let r=1;r<=8;r++)rings.push(ring(r*26,10,r%3===0?.55:.32,r%3===0?1.1:.7));
+rings.forEach(drawIn);
+const bmt=document.createElementNS(NS,'path');
+bmt.setAttribute('d',`M${cx} ${cy-11} L${cx+10} ${cy+7} L${cx-10} ${cy+7} Z`);
+bmt.setAttribute('fill','none');bmt.setAttribute('stroke',mark);bmt.setAttribute('stroke-width',1.6);bmt.classList.add('pop');svg.appendChild(bmt);
+const bmc=document.createElementNS(NS,'circle');bmc.setAttribute('cx',cx);bmc.setAttribute('cy',cy);bmc.setAttribute('r',2.2);bmc.setAttribute('fill',mark);bmc.classList.add('pop');svg.appendChild(bmc);
+const dl=document.createElementNS(NS,'text');dl.setAttribute('x',cx);dl.setAttribute('y',cy+24);dl.setAttribute('text-anchor','middle');
+dl.setAttribute('fill',mark);dl.setAttribute('font-family','IBM Plex Mono, monospace');dl.setAttribute('font-size','8.5');dl.setAttribute('letter-spacing','.12em');
+dl.textContent='DATUM · tokens.json';dl.classList.add('pop');svg.appendChild(dl);
+const stations=[['TERMINAL',470,120],['EMACS',516,266],['HYPRLAND',452,410],['WEB',150,150],['PHONE',120,398]];
+const stationEls=[];
+stations.forEach(([name,x,y])=>{
+  const l=document.createElementNS(NS,'line');
+  l.setAttribute('x1',cx);l.setAttribute('y1',cy);l.setAttribute('x2',x);l.setAttribute('y2',y);
+  l.setAttribute('stroke',contour2);l.setAttribute('stroke-width',.9);l.setAttribute('stroke-dasharray','2 4');svg.appendChild(l);
+  drawIn(l);
+  const tr=document.createElementNS(NS,'path');
+  tr.setAttribute('d',`M${x} ${y-8} L${x+7} ${y+5} L${x-7} ${y+5} Z`);
+  tr.setAttribute('fill','none');tr.setAttribute('stroke',acc);tr.setAttribute('stroke-width',1.3);tr.classList.add('pop');svg.appendChild(tr);
+  const dot=document.createElementNS(NS,'circle');dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r',1.5);dot.setAttribute('fill',acc);dot.classList.add('pop');svg.appendChild(dot);
+  const tx=document.createElementNS(NS,'text');
+  const left=x<cx; tx.setAttribute('x',left?x-11:x+11);tx.setAttribute('y',y+2);tx.setAttribute('text-anchor',left?'end':'start');
+  tx.setAttribute('fill',head);tx.setAttribute('font-family','IBM Plex Mono, monospace');tx.setAttribute('font-size','9');tx.setAttribute('letter-spacing','.1em');
+  tx.textContent=name;tx.classList.add('pop');svg.appendChild(tx);
+  stationEls.push([tr,dot,tx]);
+});
+// efficient staggered render-in: contours first (outer->inner), then triangulation extends, then marks pop
+function run(){
+  if(reduce){document.querySelectorAll('.draw-path,.pop').forEach(e=>e.classList.add('in'));return;}
+  rings.forEach((p,i)=>setTimeout(()=>p.classList.add('in'),i*55));
+  const afterRings=rings.length*55+200;
+  [bmt,bmc,dl].forEach(e=>setTimeout(()=>e.classList.add('in'),afterRings));
+  document.querySelectorAll('#map line.draw-path').forEach((l,i)=>setTimeout(()=>l.classList.add('in'),afterRings+150+i*90));
+  stationEls.forEach((set,i)=>set.forEach(e=>setTimeout(()=>e.classList.add('in'),afterRings+350+i*90)));
+  // count-up readout, terminal-style
+  const ro=document.getElementById('readout');const end=6;let n=0;
+  const iv=setInterval(()=>{n++;ro.textContent='SURVEYING SHEET '+String(n).padStart(2,'0')+' / 06';if(n>=end){clearInterval(iv);setTimeout(()=>ro.textContent='CONTOUR INTERVAL — 1 CONTRAST STEP',500);}},130);
+}
+requestAnimationFrame(()=>requestAnimationFrame(run));
+
+const pal=[['#2f4fb0','contour blue'],['#7f8fb5','steel line'],['#b5450e','benchmark'],['#8a4d00','bronze accent'],['#12141a','datum ink'],
+['#006800','ok green'],['#005e8b','info cyan'],['#8a5000','warn amber'],['#a60000','err red'],['#f6f8fb','sheet ground']];
+document.getElementById('legend').innerHTML=pal.map(([c,n])=>
+ `<div class="leg"><span class="sw" style="background:${c}"></span><span class="t"><span class="n">${n}</span><br><span class="h">${c}</span></span></div>`).join('');
+</script>
+</body>
+</html>

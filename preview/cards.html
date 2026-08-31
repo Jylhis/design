@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Cards</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 18px 20px; color: var(--color-text); font-family: var(--font-body); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: 12px; }
+  .card { border: 1px solid var(--color-border); border-radius: 4px; padding: 14px; background: var(--color-surface-raised); }
+  .card.sub { background: var(--color-bg-subtle); border-color: var(--color-border-strong); }
+  .title { font-family: var(--font-mono); font-size: var(--type-scale-6); font-weight: 600; color: var(--color-text-heading); margin: 0 0 4px; }
+  .desc { font-size: var(--type-scale-8); color: var(--color-text-muted); margin: 0 0 8px; line-height: 1.45; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; font-family: var(--font-mono); font-size: var(--type-scale-9); }
+  .tag { padding: 0.1em 0.45em; border-radius: 2px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); color: var(--color-text-faint); }
+  .card.sub .tag { background: var(--color-bg); }
+  .status { font-size: var(--type-scale-9); padding: 0.1em 0.5em; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-status-ok); background: color-mix(in srgb, var(--color-status-ok) 12%, transparent); border: 1px solid var(--color-status-ok); }
+  .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="card">
+      <div class="head"><h3 class="title">NixOS Configuration</h3><span class="status">active</span></div>
+      <p class="desc">Personal spin of Omarchy with NixOS.</p>
+      <div class="row"><span class="tag">nix</span><span class="tag">flakes</span></div>
+    </div>
+    <div class="card sub">
+      <div class="head"><h3 class="title">Emacs config</h3><span class="status">active</span></div>
+      <p class="desc">Modular configuration, org-mode workflow, Magit.</p>
+      <div class="row"><span class="tag">elisp</span><span class="tag">emacs</span></div>
+    </div>
+  </div>
+</body></html>

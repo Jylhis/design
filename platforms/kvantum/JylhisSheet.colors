@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Jylhis Kvantum theme colors — GENERATED from tokens.json. Do not edit by hand.
+  ~/.config/Kvantum/JylhisSheet.colors
+
+  Kvantum's .kvconfig controls geometry; .colors is the palette.
+  Pair this with a base theme like KvGnomeDark or KvAdapta and only the
+  palette will be re-tinted.
+
+  Apply:
+    kvantummanager --set JylhisSheet
+    qt5ct / qt6ct → Appearance → "kvantum" / "kvantum-dark"
+-->
+
+<!-- JylhisSheet.colors  (light) -->
+<palette theme="JylhisSheet">
+  <color role="Window">#f6f8fb</color>
+  <color role="WindowText">#23262e</color>
+  <color role="Base">#fcfdff</color>
+  <color role="AlternateBase">#eef2f6</color>
+  <color role="Text">#23262e</color>
+  <color role="BrightText">#12141a</color>
+  <color role="Button">#e6ecf1</color>
+  <color role="ButtonText">#23262e</color>
+  <color role="Highlight">#6f3e00</color>
+  <color role="HighlightedText">#f6f8fb</color>
+  <color role="Link">#6f3e00</color>
+  <color role="LinkVisited">#0000b0</color><!-- Modus blue-warmer -->
+
+  <color role="ToolTipBase">#fcfdff</color>
+  <color role="ToolTipText">#23262e</color>
+  <color role="Light">#fcfdff</color>
+  <color role="Midlight">#eef2f6</color>
+  <color role="Mid">#cfd6de</color>
+  <color role="Dark">#565a63</color>
+  <color role="Shadow">#23262e</color>
+
+  <!-- Disabled group -->
+  <color role="WindowText" group="Disabled">#878c95</color>
+  <color role="Text"        group="Disabled">#878c95</color>
+  <color role="ButtonText"  group="Disabled">#878c95</color>
+
+  <!-- Inactive (unfocused) — same color, matches the flat survey-sheet metaphor -->
+  <color role="Highlight"        group="Inactive">#aab4c0</color>
+  <color role="HighlightedText"  group="Inactive">#23262e</color>
+</palette>

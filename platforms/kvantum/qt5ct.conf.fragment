@@ -1,0 +1,23 @@
+# Jylhis Qt5ct / Qt6ct config fragment
+# ~/.config/qt5ct/qt5ct.conf  (and qt6ct)
+#
+# Sets fonts + Kvantum style. The palette comes from Kvantum.
+# Drop in the [Fonts] and [Appearance] sections of your qt5ct.conf.
+
+[Appearance]
+color_scheme_path=~/.config/qt5ct/colors/JylhisField.conf
+custom_palette=true
+icon_theme=Papirus-Dark
+standard_dialogs=default
+style=kvantum-dark
+
+[Fonts]
+fixed=@Variant(\0\0\0@\0\0\0\x18\0I\0\x42\0M\0 \0P\0l\0\x65\0x\0 \0M\0o\0n\0o@$\0\0\0\0\0\0\xff\xff\xff\xff\x5\x1\0\x32\x10)
+general=@Variant(\0\0\0@\0\0\0\x1c\0S\0o\0u\0r\0\x63\0\x65\0 \0S\0\x65\0r\0i\0\x66\0 \0\x34@&\0\0\0\0\0\0\xff\xff\xff\xff\x5\x1\0\x32\x10)
+
+# NOTE: Qt serializes fonts as QVariant binary. Easier: open qt5ct and set:
+#   General:    Literata 11
+#   Fixed:      JetBrains Mono 10
+#
+# Then the palette (Kvantum) and icon theme (Papirus / Papirus-Dark) take care
+# of the rest.
