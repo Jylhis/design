@@ -1,0 +1,28 @@
+/*
+ * local.css — LOCAL-ONLY styles for components this project adds on top of
+ * upstream Jylhis/design (Plate, Legend). Re-import after a sync overwrites
+ * styles.css; upstream components.css does not know these classes.
+ */
+
+/* Plate — survey plate: raised sheet with mono corner marks and a scale bar */
+.ds-plate { position: relative; background: var(--color-surface-raised); border: var(--border-hairline) solid var(--color-border-strong); border-radius: var(--radius-md); padding: var(--space-xl); }
+.ds-plate__corner { position: absolute; top: var(--space-sm); font-family: var(--font-mono); font-size: var(--type-scale-9); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-faint); }
+.ds-plate__corner--tl { left: var(--space-md); }
+.ds-plate__corner--tr { right: var(--space-md); }
+.ds-plate__body { margin-top: var(--space-md); }
+.ds-plate__scale { margin-top: var(--space-lg); display: flex; align-items: center; gap: var(--space-sm); }
+.ds-plate__bar { display: flex; height: 6px; }
+.ds-plate__bar span { width: 1.5rem; border: 1px solid var(--color-text); border-left-width: 0; }
+.ds-plate__bar span:first-child { border-left-width: 1px; }
+.ds-plate__bar span:nth-child(odd) { background: var(--color-text); }
+.ds-plate__scale-label { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; }
+
+/* Legend — map-key panel: glyph or swatch, name over value, mono readings */
+.ds-legend { background: var(--color-surface); border: var(--border-hairline) solid var(--color-border); border-radius: var(--radius-sm); padding: var(--space-md); }
+.ds-legend__head { font-family: var(--font-mono); font-size: var(--type-scale-9); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); border-bottom: var(--border-hairline) solid var(--color-border); padding-bottom: var(--space-sm); margin-bottom: var(--space-sm); }
+.ds-legend__grid { display: grid; gap: var(--space-sm) var(--space-md); }
+.ds-legend__row { display: flex; gap: var(--space-sm); align-items: baseline; font-family: var(--font-mono); font-size: var(--type-scale-8); }
+.ds-legend__glyph { flex: none; }
+.ds-legend__swatch { flex: none; width: 0.75rem; height: 0.75rem; align-self: center; border-radius: var(--radius-xs); border: 1px solid var(--color-border-strong); display: inline-block; }
+.ds-legend__name { display: block; color: var(--color-text); }
+.ds-legend__value { display: block; color: var(--color-text-faint); }

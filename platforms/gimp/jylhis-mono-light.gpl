@@ -1,0 +1,59 @@
+GIMP Palette
+Name: Jylhis Monochrome Light
+Columns: 4
+#
+# Grounds
+246 248 251	bg
+238 242 246	bg-subtle
+230 236 241	surface
+252 253 255	surface-raised
+# Ink
+ 18  20  26	text-heading
+ 35  38  46	text
+ 86  90  99	text-muted
+135 140 149	text-faint
+# Benchmark
+138  77   0	accent
+167  95  10	accent-hover
+181  69  14	benchmark
+240 232 221	accent-subtle
+223 230 242	selection-bg
+138  77   0	cursor
+# Contour
+ 47  79 176	contour
+127 143 181	contour-faint
+# Hairline
+207 214 222	border
+170 180 192	border-strong
+# Modus
+ 83  23 172	syn-keyword
+ 37  68 187	syn-string
+  0  49 169	syn-number
+114  16  69	syn-function
+143   0 117	syn-builtin
+  0  90  95	syn-type
+  0  68 170	syn-variable
+ 89  89  89	syn-comment
+ 42  80  69	syn-docstring
+# Signal
+166   0   0	status-err
+138  80   0	status-warn
+  0 104   0	status-ok
+  0  94 139	status-info
+# Spectrum (ANSI)
+ 35  38  46	ansi-black
+166   0   0	ansi-red
+  0 104   0	ansi-green
+138  80   0	ansi-yellow
+  0  49 169	ansi-blue
+114  16  69	ansi-magenta
+  0  94 139	ansi-cyan
+ 86  90  99	ansi-white
+135 140 149	ansi-bright-black
+151  37   0	ansi-bright-red
+ 49  91   0	ansi-bright-green
+138  77   0	ansi-bright-yellow
+ 47  79 176	ansi-bright-blue
+ 83  23 172	ansi-bright-magenta
+  0  90  95	ansi-bright-cyan
+ 18  20  26	ansi-bright-white

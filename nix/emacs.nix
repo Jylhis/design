@@ -1,7 +1,8 @@
 # Jylhis design system — Emacs theme package.
 #
-# Builds the Jylhis Sheet and Field Emacs themes as an Emacs package
-# using trivialBuild. Add to your Emacs packages and load-theme.
+# Builds the Jylhis Survey and Monochrome Emacs themes (light + dark each)
+# as an Emacs package using trivialBuild. Add to your Emacs packages and
+# load-theme.
 #
 # Usage:
 #   nix-build -E 'with import <nixpkgs> {}; callPackage ./nix/emacs.nix {
@@ -19,12 +20,12 @@
 
 trivialBuild {
   pname = "jylhis-emacs-themes";
-  version = "0.3.0";
+  version = "2.0.0";
 
   src = ../platforms/emacs;
 
   meta = {
-    description = "Jylhis Sheet/Field and Chalk/Graphite themes for Emacs — bronze accent or grayscale ink, Modus syntax";
+    description = "Jylhis Survey and Monochrome themes for Emacs — bronze accent, Modus syntax";
     homepage = "https://github.com/jylhis/design";
     license = lib.licenses.mit;
   };

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Jylhis Kvantum theme colors — GENERATED from tokens.json. Do not edit by hand.
+  ~/.config/Kvantum/JylhisMonoLight.colors
+
+  Kvantum's .kvconfig controls geometry; .colors is the palette.
+  Pair this with a base theme like KvGnomeDark or KvAdapta and only the
+  palette will be re-tinted.
+
+  Apply:
+    kvantummanager --set JylhisMonoLight
+    qt5ct / qt6ct → Appearance → "kvantum" / "kvantum-dark"
+-->
+
+<!-- JylhisMonoLight.colors  (light) -->
+<palette theme="JylhisMonoLight">
+  <color role="Window">#f7f7f7</color>
+  <color role="WindowText">#212121</color>
+  <color role="Base">#ffffff</color>
+  <color role="AlternateBase">#efefef</color>
+  <color role="Text">#212121</color>
+  <color role="BrightText">#0f0f0f</color>
+  <color role="Button">#e7e7e7</color>
+  <color role="ButtonText">#212121</color>
+  <color role="Highlight">#3d3d3d</color>
+  <color role="HighlightedText">#f7f7f7</color>
+  <color role="Link">#3d3d3d</color>
+  <color role="LinkVisited">#454545</color><!-- Modus blue-warmer -->
+
+  <color role="ToolTipBase">#ffffff</color>
+  <color role="ToolTipText">#212121</color>
+  <color role="Light">#ffffff</color>
+  <color role="Midlight">#efefef</color>
+  <color role="Mid">#d6d6d6</color>
+  <color role="Dark">#545454</color>
+  <color role="Shadow">#212121</color>
+
+  <!-- Disabled group -->
+  <color role="WindowText" group="Disabled">#828282</color>
+  <color role="Text"        group="Disabled">#828282</color>
+  <color role="ButtonText"  group="Disabled">#828282</color>
+
+  <!-- Inactive (unfocused) — same color, matches flat mono-light metaphor -->
+  <color role="Highlight"        group="Inactive">#ababab</color>
+  <color role="HighlightedText"  group="Inactive">#212121</color>
+</palette>

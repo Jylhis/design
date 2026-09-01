@@ -54,26 +54,26 @@
     var(--color-decorator) 0 1px, transparent 1px 64px);
   opacity: 0.30;
 }
-[data-theme="dark"] .mock-macos-wallpaper.wall-rings .motif { opacity: 0.18; }
+[data-mode="dark"] .mock-macos-wallpaper.wall-rings .motif { opacity: 0.18; }
 .mock-macos-wallpaper.wall-dots .motif {
   background-image: radial-gradient(var(--color-decorator) 1px, transparent 1px);
   background-size: 26px 26px;
   opacity: 0.42;
 }
-[data-theme="dark"] .mock-macos-wallpaper.wall-dots .motif { opacity: 0.26; }
+[data-mode="dark"] .mock-macos-wallpaper.wall-dots .motif { opacity: 0.26; }
 .mock-macos-wallpaper.wall-hatch .motif {
   background-image: repeating-linear-gradient(45deg,
     var(--color-decorator) 0 1px, transparent 1px 12px);
   opacity: 0.22;
 }
-[data-theme="dark"] .mock-macos-wallpaper.wall-hatch .motif { opacity: 0.13; }
+[data-mode="dark"] .mock-macos-wallpaper.wall-hatch .motif { opacity: 0.13; }
 .mock-macos-wallpaper.wall-grid .motif {
   background-image:
     repeating-linear-gradient(0deg, var(--color-decorator) 0 1px, transparent 1px 48px),
     repeating-linear-gradient(90deg, var(--color-decorator) 0 1px, transparent 1px 48px);
   opacity: 0.20;
 }
-[data-theme="dark"] .mock-macos-wallpaper.wall-grid .motif { opacity: 0.12; }
+[data-mode="dark"] .mock-macos-wallpaper.wall-grid .motif { opacity: 0.12; }
 .mock-macos-wallpaper.wall-plain .motif { display: none; }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -431,8 +431,8 @@
 .mock-macos-panel .cc-theme button .sw { width: 100%; height: 26px; border-radius: 5px; border: var(--border-hairline) solid var(--color-border-strong); }
 .mock-macos-panel .cc-theme button .sw.sheet { background: var(--color-bg); }
 .mock-macos-panel .cc-theme button .sw.field { background: var(--color-text-heading); }
-[data-theme="dark"] .mock-macos-panel .cc-theme button .sw.sheet { background: var(--color-text-heading); }
-[data-theme="dark"] .mock-macos-panel .cc-theme button .sw.field { background: var(--color-bg); }
+[data-mode="dark"] .mock-macos-panel .cc-theme button .sw.sheet { background: var(--color-text-heading); }
+[data-mode="dark"] .mock-macos-panel .cc-theme button .sw.field { background: var(--color-bg); }
 .mock-macos-panel .cc-theme button.on { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-subtle); }
 .mock-macos-panel .cc-theme button .nm { font-size: 12px; }
 

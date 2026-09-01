@@ -7,11 +7,11 @@
 #
 # Usage (NixOS configuration.nix or nix-darwin configuration.nix):
 #   imports = [ inputs.jylhis-design.nixosModules.default ];   # or darwinModules.default
-#   jylhis.theme = { enable = true; variant = "field"; };      # or "sheet"
+#   jylhis.theme = { enable = true; name = "survey"; mode = "dark"; };
 #
 # Sets:
 #   stylix.enable        (mkDefault true — won't fight an existing setting)
-#   stylix.polarity      ("light" or "dark", derived from variant)
+#   stylix.polarity      ("light" or "dark", derived from mode)
 #   stylix.base16Scheme  (path to the generated YAML in the themes package)
 #
 # Per-target Stylix toggles (`stylix.targets.*.enable`) are NOT touched
@@ -23,30 +23,27 @@
 let
   cfg = config.jylhis.theme;
   themes = pkgs.callPackage ./themes.nix { };
-  polarity = {
-    sheet = "light";
-    field = "dark";
-    chalk = "light";
-    graphite = "dark";
-  }.${cfg.variant};
 in
 {
   options.jylhis.theme = {
     enable = lib.mkEnableOption "Jylhis design system (system-wide Stylix wiring)";
 
-    variant = lib.mkOption {
-      type = lib.types.enum [ "sheet" "field" "chalk" "graphite" ];
-      default = "field";
-      description = ''
-        Theme variant: sheet (light) or field (dark) for the colour editions,
-        chalk (light) or graphite (dark) for the monochrome editions.
-      '';
+    name = lib.mkOption {
+      type = lib.types.enum [ "survey" "mono" ];
+      default = "survey";
+      description = "Theme: survey (cool bronze) or mono (grayscale).";
+    };
+
+    mode = lib.mkOption {
+      type = lib.types.enum [ "light" "dark" ];
+      default = "dark";
+      description = "Mode: light or dark. Every theme ships both.";
     };
   };
 
   config = lib.mkIf cfg.enable {
     stylix.enable = lib.mkDefault true;
-    stylix.polarity = polarity;
-    stylix.base16Scheme = "${themes}/share/jylhis/base16/jylhis-${cfg.variant}.yaml";
+    stylix.polarity = cfg.mode;
+    stylix.base16Scheme = "${themes}/share/jylhis/base16/jylhis-${cfg.name}-${cfg.mode}.yaml";
   };
 }

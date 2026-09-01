@@ -43,7 +43,7 @@
   background: var(--color-text-heading);
 }
 /* …and the scrim ink over the page ground in Field. */
-[data-theme="dark"] .mock-stage {
+[data-mode="dark"] .mock-stage {
   background: var(--color-scrim);
 }
 

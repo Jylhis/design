@@ -286,11 +286,7 @@ a.ds-tag:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus
 .ds-field { display: flex; flex-direction: column; gap: var(--space-xs); font-family: var(--font-mono); }
 .ds-field__label { font-size: var(--type-scale-6); color: var(--color-text); }
 .ds-field__help { font-size: var(--type-scale-6); color: var(--color-text-muted); }
-/* Error styling derives from the input's aria-invalid via :has() — the single
-   a11y source of truth — instead of a class the component has to keep in sync.
-   Where :has() is unsupported the error is still carried by the red input
-   border and the help text itself. */
-.ds-field:has(.ds-field__input[aria-invalid="true"]) .ds-field__help { color: var(--color-status-err); }
+.ds-field__help--error { color: var(--color-status-err); }
 .ds-field__input {
   font-family: var(--font-mono);
   font-size: var(--type-scale-6);

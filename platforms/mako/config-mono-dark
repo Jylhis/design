@@ -1,0 +1,54 @@
+# Jylhis Mako — GENERATED from tokens.json. Do not edit by hand.
+# ~/.config/mako/config
+# Notifications with the command-palette language: accent left-border,
+# monospace meta, sheet/mono-dark bg. Dismiss hint always visible.
+
+font=IBM Plex Mono 11
+width=380
+height=120
+margin=12
+padding=14,16
+border-size=1
+border-radius=4
+max-icon-size=32
+icon-path=/usr/share/icons/Adwaita
+
+# Default — mono-dark
+background-color=#202020
+text-color=#d9d9d9
+border-color=#454545
+progress-color=over #e6e6e6
+
+# Layout / animation
+layer=overlay
+anchor=top-right
+default-timeout=6000
+ignore-timeout=0
+
+format=<b>%s</b>\n%b\n<span foreground='#878c95' font='IBM Plex Mono 9'>esc to dismiss · meta+n to focus</span>
+
+# Selected marker — matches KEYBOARD.md §"Selected item (universal)"
+[focused]
+background-color=#2a2a2a
+border-color=#e6e6e6
+# Mako can't draw a left-border only, but border + color does the job.
+
+# Urgency levels — map to semantic family
+[urgency=low]
+border-color=#878c95
+
+[urgency=normal]
+border-color=#454545
+
+[urgency=critical]
+background-color=#3a1f1c
+text-color=#f0685f
+border-color=#f0685f          # Modus red (status-err)
+default-timeout=0
+
+# Specific app rules
+[app-name=Emacs]
+border-color=#f0f0f0          # Modus magenta-cooler (syn-keyword)
+
+[category=mpd]
+border-color=#6bbf6b          # Modus green (status-ok)

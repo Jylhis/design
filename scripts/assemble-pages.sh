@@ -8,13 +8,13 @@ rm -rf _site
 mkdir -p _site
 
 # Core entry points + generated tokens + hand-authored CSS
-cp index.html md.html palette.html tokens.css tokens-data.js _site/
-cp colors_and_type.css fonts.css motion.css styles.css font_options.html _site/
-cp -r assets fonts components preview platforms docs _site/
-cp tokens.json tokens.md CHANGELOG.md README.md SKILL.md _site/
+cp index.html tokens.css tokens-data.js styles.css fonts.css colors_and_type.css motion.css _site/
+cp -r assets fonts preview components platforms docs _site/
+cp tokens.core.json tokens.md README.md SKILL.md _site/
+cp -r themes _site/
 
-# Prototypes + the mock-template packages they consume
-cp -r prototypes mocks _site/
+# Prototypes
+cp -r prototypes _site/
 
-# .nojekyll keeps files starting with _ or . servable on any static host
+# .nojekyll so GitHub Pages serves files that start with _ or .
 touch _site/.nojekyll

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JylhisSurveyDark.colors  (dark) — GENERATED from tokens.json. Do not edit by hand. -->
+<palette theme="JylhisSurveyDark">
+  <color role="Window">#0d0f14</color>
+  <color role="WindowText">#d6dae2</color>
+  <color role="Base">#14171e</color>
+  <color role="AlternateBase">#1b1f28</color>
+  <color role="Text">#d6dae2</color>
+  <color role="BrightText">#f2f4f8</color>
+  <color role="Button">#1b1f28</color>
+  <color role="ButtonText">#d6dae2</color>
+  <color role="Highlight">#e0a33a</color>
+  <color role="HighlightedText">#0d0f14</color>
+  <color role="Link">#e0a33a</color>
+  <color role="LinkVisited">#00bcff</color><!-- Modus blue-warmer -->
+
+  <color role="ToolTipBase">#232833</color>
+  <color role="ToolTipText">#d6dae2</color>
+  <color role="Light">#232833</color>
+  <color role="Midlight">#1b1f28</color>
+  <color role="Mid">#2b303b</color>
+  <color role="Dark">#9aa0ab</color>
+  <color role="Shadow">#000000</color>
+
+  <color role="WindowText" group="Disabled">#656b76</color>
+  <color role="Text"        group="Disabled">#656b76</color>
+  <color role="ButtonText"  group="Disabled">#656b76</color>
+
+  <color role="Highlight"        group="Inactive">#3a4150</color>
+  <color role="HighlightedText"  group="Inactive">#d6dae2</color>
+</palette>

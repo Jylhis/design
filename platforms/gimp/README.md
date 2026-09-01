@@ -4,11 +4,11 @@ Two GIMP Palette (`.gpl`) files — the standard format for swatches, shared by 
 
 ```
 platforms/gimp/
-├── jylhis-sheet.gpl      ← generated (light)
-└── jylhis-field.gpl      ← generated (dark)
+├── jylhis-survey-light.gpl      ← generated (light)
+└── jylhis-survey-dark.gpl      ← generated (dark)
 ```
 
-Each file ships every role from the system, grouped under thematic comment headers (`# Grounds`, `# Ink`, `# Bronze`, `# Linen`, `# Modus`, `# Signal`, `# Spectrum`).
+Each file ships every role from the system, grouped under thematic comment headers (`# Grounds`, `# Ink`, `# Benchmark`, `# Contour`, `# Hairline`, `# Modus`, `# Signal`, `# Spectrum (ANSI)`).
 
 ## Install
 
@@ -16,7 +16,7 @@ Each file ships every role from the system, grouped under thematic comment heade
 
 ```bash
 mkdir -p ~/.config/GIMP/2.10/palettes
-cp jylhis-sheet.gpl jylhis-field.gpl ~/.config/GIMP/2.10/palettes/
+cp jylhis-survey-light.gpl jylhis-survey-dark.gpl ~/.config/GIMP/2.10/palettes/
 ```
 
 GIMP picks them up on next launch. Open them via *Windows → Dockable Dialogs → Palettes* and select **Jylhis Sheet** or **Jylhis Field**.
@@ -25,7 +25,7 @@ GIMP picks them up on next launch. Open them via *Windows → Dockable Dialogs �
 
 ```bash
 mkdir -p ~/.config/inkscape/palettes
-cp jylhis-sheet.gpl jylhis-field.gpl ~/.config/inkscape/palettes/
+cp jylhis-survey-light.gpl jylhis-survey-dark.gpl ~/.config/inkscape/palettes/
 ```
 
 Switch in the swatches strip at the bottom of the canvas.

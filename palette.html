@@ -60,7 +60,7 @@
   try {
     var s = localStorage.getItem("jylhis-theme");
     var m = s || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    if (m === "dark") document.documentElement.dataset.theme = "dark";
+    if (m === "dark") document.documentElement.dataset.mode = "dark";
   } catch (e) {}
 </script>
 </head>
@@ -185,7 +185,7 @@
     </tr></thead>`;
 
   const renderPalette = () => {
-    const mode = doc.dataset.theme === "dark" ? "dark" : "light";
+    const mode = doc.dataset.mode === "dark" ? "dark" : "light";
     titleEl.textContent = mode === "dark" ? "Field palette" : "Sheet palette";
     const cr = (data.swatchContrast && data.swatchContrast[mode]) || {};
 
@@ -235,8 +235,8 @@
 
   // ─── theme toggle ────────────────────────────────────────────────────
   const apply = (mode, persist = true) => {
-    if (mode === "dark") { doc.dataset.theme = "dark"; labelEl.textContent = "field"; btn.textContent = "☀"; }
-    else { delete doc.dataset.theme; labelEl.textContent = "sheet"; btn.textContent = "☾"; }
+    if (mode === "dark") { doc.dataset.mode = "dark"; labelEl.textContent = "field"; btn.textContent = "☀"; }
+    else { delete doc.dataset.mode; labelEl.textContent = "sheet"; btn.textContent = "☾"; }
     if (persist) safeSet("jylhis-theme", mode);
     renderPalette();
   };
@@ -244,7 +244,7 @@
   const mq = matchMedia("(prefers-color-scheme: dark)");
   const saved = safeGet("jylhis-theme");
   apply(saved ?? (mq.matches ? "dark" : "light"), saved !== null);
-  btn.addEventListener("click", () => apply(doc.dataset.theme === "dark" ? "light" : "dark"));
+  btn.addEventListener("click", () => apply(doc.dataset.mode === "dark" ? "light" : "dark"));
   mq.addEventListener("change", (e) => { if (!safeGet("jylhis-theme")) apply(e.matches ? "dark" : "light", false); });
 
   // ─── click-to-copy on any cell with data-copy ───────────────────────

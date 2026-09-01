@@ -1,8 +1,8 @@
 # Jylhis design system — Ghostty wrapped with Jylhis themes.
 #
-# Creates a wrapped Ghostty binary that includes the Jylhis Sheet and Field
-# themes in its search path. Use `theme = jylhis-sheet` or `theme = jylhis-field`
-# in your Ghostty config.
+# Creates a wrapped Ghostty binary that includes the Jylhis Survey themes
+# (light + dark) in its search path. Use `theme = jylhis-survey-light` or
+# `theme = jylhis-survey-dark` in your Ghostty config.
 #
 # Usage:
 #   nix-build -E 'with import <nixpkgs> {}; callPackage ./nix/ghostty.nix {}'
@@ -18,14 +18,10 @@ let
   themeFiles = symlinkJoin {
     name = "jylhis-ghostty-themes";
     paths = [
-      (writeTextDir "share/ghostty/themes/jylhis-sheet"
-        (builtins.readFile ../platforms/ghostty/jylhis-sheet))
-      (writeTextDir "share/ghostty/themes/jylhis-field"
-        (builtins.readFile ../platforms/ghostty/jylhis-field))
-      (writeTextDir "share/ghostty/themes/jylhis-chalk"
-        (builtins.readFile ../platforms/ghostty/jylhis-chalk))
-      (writeTextDir "share/ghostty/themes/jylhis-graphite"
-        (builtins.readFile ../platforms/ghostty/jylhis-graphite))
+      (writeTextDir "share/ghostty/themes/jylhis-survey-light"
+        (builtins.readFile ../platforms/ghostty/jylhis-survey-light))
+      (writeTextDir "share/ghostty/themes/jylhis-survey-dark"
+        (builtins.readFile ../platforms/ghostty/jylhis-survey-dark))
     ];
   };
 in
@@ -40,7 +36,7 @@ symlinkJoin {
   '';
 
   meta = {
-    description = "Ghostty terminal with Jylhis Sheet and Field themes";
+    description = "Ghostty terminal with Jylhis Survey themes (light + dark)";
     homepage = "https://github.com/jylhis/design";
     license = lib.licenses.mit;
     mainProgram = "ghostty";

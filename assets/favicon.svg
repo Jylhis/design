@@ -1,18 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <!-- The maker's mark: the prompt, jy ❯ — pure type, chevron in benchmark
-       vermilion. Colors are tokens.json text-heading / brand per edition. -->
-  <style>
-    .ink { fill: #12141a; }
-    .chev { fill: #b5450e; }
-    @media (prefers-color-scheme: dark) {
-      .ink { fill: #f2f4f8; }
-      .chev { fill: #ef8a4a; }
-    }
-    text {
-      font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-      font-weight: 600;
-    }
-  </style>
-  <text class="ink" x="1" y="22" font-size="17">jy</text>
-  <text class="chev" x="21" y="22" font-size="15">❯</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <circle cx="16" cy="16" r="11.5" stroke="#2F4FB0" stroke-width="1.6"></circle>
+  <path d="M16 5 L25.5 25 L6.5 25 Z" stroke="#B5450E" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"></path>
+  <circle cx="16" cy="16" r="2" fill="#B5450E"></circle>
 </svg>

@@ -1,0 +1,36 @@
+<!-- @dsCard group="Color" viewport="540x300" name="Monochrome theme" subtitle="grayscale UI, inverted-ink interaction, chromatic signals" -->
+<!doctype html>
+<html lang="en" data-theme="mono"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Palette — Monochrome</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; }
+  body { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; font-family: var(--font-mono); }
+  .pane { background: var(--color-bg); color: var(--color-text); padding: 16px 18px; }
+  .pane h2 { font-family: var(--font-display); color: var(--color-text-heading); font-size: var(--type-scale-3); margin: 0 0 10px; }
+  .row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: var(--type-scale-9); }
+  .chip { width: 20px; height: 20px; border-radius: var(--radius-xs); border: 1px solid var(--color-border-strong); flex: none; }
+  .btn { display: inline-block; background: var(--color-accent); color: var(--color-accent-foreground); padding: 6px 14px; border-radius: var(--radius-sm); font-size: var(--type-scale-8); margin-top: 10px; }
+  .mark { color: var(--color-brand); }
+  .sig { display: flex; gap: 10px; margin-top: 10px; font-size: var(--type-scale-9); }
+  a { color: var(--color-accent); } a:hover { color: var(--color-accent-hover); }
+</style></head>
+<body>
+  <div class="pane">
+    <h2>Print <span class="mark" aria-hidden="true">◬</span></h2>
+    <div class="row"><span class="chip" style="background: var(--color-text)"></span>ink on paper</div>
+    <div class="row"><span class="chip" style="background: var(--color-surface)"></span>surface</div>
+    <div class="row"><span class="chip" style="background: var(--color-contour)"></span>contour</div>
+    <span class="btn">inverted fill</span>
+    <div class="sig"><span style="color: var(--color-status-ok)">✓ ok</span><span style="color: var(--color-status-warn)">△ warn</span><span style="color: var(--color-status-err)">✗ err</span></div>
+  </div>
+  <div class="pane" data-mode="dark">
+    <h2>Negative <span class="mark" aria-hidden="true">◬</span></h2>
+    <div class="row"><span class="chip" style="background: var(--color-text)"></span>silver on plate</div>
+    <div class="row"><span class="chip" style="background: var(--color-surface)"></span>surface</div>
+    <div class="row"><span class="chip" style="background: var(--color-contour)"></span>contour</div>
+    <span class="btn">inverted fill</span>
+    <div class="sig"><span style="color: var(--color-status-ok)">✓ ok</span><span style="color: var(--color-status-warn)">△ warn</span><span style="color: var(--color-status-err)">✗ err</span></div>
+  </div>
+</body></html>

@@ -1,0 +1,9 @@
+# Jylhis Survey Dark — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Survey Dark
+Description=Jylhis design system — survey-dark variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

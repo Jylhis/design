@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "name": "Jylhis Design System",
+    "version": "2.0.0",
+    "description": "Theme-independent core framework: structure, type, spacing, motion, density. Color identity lives in themes/<slug>.json; every theme ships a light and a dark mode.",
+    "defaultTheme": "survey",
+    "selector": {
+      "theme": "data-theme=\"<slug>\" on <html> (omit for the default theme)",
+      "mode": "data-mode=\"light|dark\" on <html> (omit for light)"
+    },
+    "themes": {
+      "survey": { "label": "Survey", "file": "themes/survey.json" },
+      "mono":   { "label": "Monochrome", "file": "themes/mono.json" }
+    }
+  },
+  "groups": {
+    "grounds":   { "label": "Grounds",   "blurb": "page backgrounds and card surfaces, four tonal steps", "members": ["bg", "bg-subtle", "surface", "surface-raised", "scrim"] },
+    "ink":       { "label": "Ink",       "blurb": "what is drawn on the sheet — text in every weight", "members": ["text-heading", "text", "text-muted", "text-faint"] },
+    "accent":    { "label": "Accent",    "blurb": "the single interactive accent plus the maker's mark and its tints — links, focus rings, the datum mark", "members": ["accent", "accent-hover", "brand", "accent-subtle", "selection-bg", "cursor"] },
+    "line":      { "label": "Line",      "blurb": "linework — hairline borders, graticule dashes, and the structural contour stroke", "members": ["border", "border-strong", "decorator", "contour"] },
+    "modus":     { "label": "Modus",     "blurb": "syntax role taxonomy — keyword, string, type, comment; a theme maps these to its own syntax voice, never repurposed for UI", "members": ["syn-keyword", "syn-string", "syn-number", "syn-function", "syn-builtin", "syn-type", "syn-variable", "syn-comment", "syn-docstring"] },
+    "signal":    { "label": "Signal",    "blurb": "status colors — error, warning, ok, info; always paired with a glyph + word (themes may not drop them to grayscale)", "members": ["status-err", "status-warn", "status-ok", "status-info"] },
+    "spectrum":  { "label": "Spectrum",  "blurb": "the 16-slot ANSI terminal palette; slot 11 is always the theme's interactive accent", "members": ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white", "bright-black", "bright-red", "bright-green", "bright-yellow", "bright-blue", "bright-magenta", "bright-cyan", "bright-white"] }
+  },
+  "typography": {
+    "display": { "family": "Zilla Slab", "fallback": "\"Roboto Slab\", Rockwell, Georgia, serif", "weight": 700, "lineHeight": 1.02, "letterSpacing": "-0.01em" },
+    "body":    { "family": "Hanken Grotesk", "fallback": "Inter, system-ui, -apple-system, \"Segoe UI\", sans-serif", "sizeBase": "1.0625rem", "lineHeight": 1.6 },
+    "mono":    { "family": "IBM Plex Mono", "fallback": "\"JetBrains Mono\", \"Cascadia Code\", \"Fira Code\", ui-monospace, monospace" },
+    "heading": { "inherits": "display", "lineHeight": 1.05, "letterSpacing": "-0.01em" },
+    "label":   { "inherits": "mono", "weight": 500, "letterSpacing": "0.1em", "transform": "uppercase" },
+    "tuiFallback": "\"IBM Plex Mono\", \"JetBrains Mono\", Iosevka, \"Fira Mono\", \"DejaVu Sans Mono\", monospace",
+    "scale": [3.25, 2, 1.4, 1.15, 1.0625, 0.95, 0.9, 0.875, 0.85, 0.8125],
+    "scaling": {
+      "rootFontSize": "user-agent",
+      "readableFloor": "0.9rem",
+      "absoluteFloor": "0.8125rem",
+      "minRelativeEm": 0.85,
+      "fluid": "clamp(<rem-min>, <rem-base> + <vw>, <rem-max>)",
+      "targets": { "resizeText": "200%", "reflowWidth": "320px", "reflowZoom": "400%" },
+      "textSpacing": { "lineHeight": 1.5, "letterSpacing": "0.12em", "wordSpacing": "0.16em", "paragraphSpacing": "2em" },
+      "notes": "Every step is a rem multiple of the user agent's root font size — the system never sets `html { font-size }`. readableFloor is the smallest step for text a user must read; absoluteFloor is the hard floor for glanceable chrome. Enforced by scripts/validate-a11y-type.mjs; specified in docs/ACCESSIBILITY.md."
+    },
+    "notes": "Themes may override any typography entry via their own `typography` block; both current themes share the core stack."
+  },
+  "spacing": { "2xs": "0.125rem", "xs": "0.25rem", "sm": "0.5rem", "md": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "3rem", "3xl": "4rem" },
+  "layout": { "contentMax": "72ch", "marginWidth": "16rem", "gap": "2.5rem", "paddingMobile": "1.25rem" },
+  "radii": { "xs": "2px", "sm": "3px", "md": "4px", "pill": "999px" },
+  "breakpoints": {
+    "sm": "40em",
+    "md": "53.75em",
+    "notes": "em units, resolved against the browser's default font size (never a page `html { font-size }`). 40em/53.75em are 640px/860px at the 16px default. Hand-authored @media rules repeat these values literally with a `/* breakpoints.<name> */` comment."
+  },
+  "zIndex": { "base": 0, "sticky": 10, "scrim": 100, "modal": 110, "toast": 120, "skip": 130, "notes": "Semantic layering scale. `skip` sits above everything; scrim/modal/toast are reserved overlay slots." },
+  "borderWidth": { "hairline": "1px", "focus": "2px", "marker": "3px", "notes": "hairline = default component border; focus mirrors focus.width (validated); marker = selected-item stripe per platforms/KEYBOARD.md." },
+  "focus": { "width": "2px", "offset": "2px", "notes": "ring stroke + offset; colour is always `accent`. See platforms/KEYBOARD.md." },
+  "density": {
+    "comfortable": { "lineHeight": 1.6, "rowPadY": "0.75rem",  "hitTargetMin": "44px", "gapInline": "0.75rem", "gapBlock": "1.5rem" },
+    "compact":     { "lineHeight": 1.5, "rowPadY": "0.375rem", "hitTargetMin": "36px", "gapInline": "0.5rem",  "gapBlock": "1rem" },
+    "tui":         { "lineHeight": 1.3, "rowPadY": "2px",      "gapInline": "1ch",     "gapBlock": "1 line" }
+  },
+  "motion": {
+    "fast":   { "duration": "150ms", "css": "cubic-bezier(0.25, 0.1, 0.25, 1)", "hypr": "0.25,0.1,0.25,1" },
+    "base":   { "duration": "250ms", "css": "cubic-bezier(0.2, 0.6, 0.2, 1)",   "hypr": "0.2,0.6,0.2,1" },
+    "slow":   { "duration": "300ms", "css": "cubic-bezier(0.16, 1, 0.3, 1)",    "hypr": "0.16,1,0.3,1" },
+    "survey": { "duration": "480ms", "css": "cubic-bezier(0.2, 0.8, 0.2, 1)",   "hypr": "0.2,0.8,0.2,1", "notes": "the long render-in ease — expo-out, no overshoot (the system bans bounce); drives contour-draw / line-extend / readout" }
+  },
+  "sound": {
+    "tap":      { "theme": "bell",         "meaning": "generic acknowledgement" },
+    "error":    { "theme": "dialog-error", "meaning": "something went wrong" },
+    "complete": { "theme": "complete",     "meaning": "long task finished" }
+  }
+}

@@ -1,0 +1,9 @@
+# Jylhis Monochrome Dark — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Monochrome Dark
+Description=Jylhis design system — mono-dark variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

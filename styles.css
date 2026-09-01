@@ -6,3 +6,4 @@
 @import url("colors_and_type.css");
 @import url("motion.css");
 @import url("components/components.css");
+@import url("components/local.css"); /* local-only: Plate + Legend (not upstream) */

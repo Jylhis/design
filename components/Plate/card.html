@@ -1,0 +1,33 @@
+<!-- @dsCard group="Components" viewport="520x340" name="Plate" subtitle="the signature container — map margin, corners, scale bar" -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Plate</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; background: var(--color-bg); }
+  body { padding: 22px; color: var(--color-text); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const DS = window.JylhisDesignSystem_61b7cc;
+const h = React.createElement;
+const { Plate } = DS;
+ReactDOM.createRoot(document.getElementById("root")).render(
+  h(Plate, {
+    corner: "N 47°22′ · E 08°32′ · zürich datum",
+    cornerRight: "sheet 01 / 06",
+    scale: "tokens · spacing scale"
+  },
+    h("h2", { style: { margin: "0 0 8px", fontSize: "26px" } }, "One datum."),
+    h("p", { style: { margin: 0, color: "var(--color-text-muted)", fontSize: "15px", maxWidth: "38ch" } },
+      "Every surface is a sheet triangulated back to tokens.json. Move the datum and every sheet re-surveys.")
+  )
+);
+</script>
+</body></html>

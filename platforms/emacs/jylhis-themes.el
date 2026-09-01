@@ -1,6 +1,6 @@
 ;;; jylhis-themes.el --- Register Jylhis themes -*- lexical-binding: t; -*-
 ;;
-;; Author:      Markus Jylhänkangas
+;; Author:      Onni Mäkelä
 ;; Homepage:    https://jylhis.com
 ;; Keywords:    faces, theme
 ;; Package-Requires: ((emacs "28.1"))
@@ -15,15 +15,13 @@
 ;;
 ;;  Usage:
 ;;    (require 'jylhis-themes)
-;;    (load-theme 'jylhis-sheet t)      ; colour, light
-;;    (load-theme 'jylhis-field t)      ; colour, dark
-;;    (load-theme 'jylhis-chalk t)      ; monochrome, light
-;;    (load-theme 'jylhis-graphite t)   ; monochrome, dark
+;;    (load-theme 'jylhis-survey-light t)   ; light
+;;    (load-theme 'jylhis-survey-dark t)   ; dark
 ;;
 ;;  With auto-dark:
 ;;    (require 'jylhis-themes)
-;;    (setq auto-dark-light-theme 'jylhis-sheet
-;;          auto-dark-dark-theme  'jylhis-field)
+;;    (setq auto-dark-light-theme 'jylhis-survey-light
+;;          auto-dark-dark-theme  'jylhis-survey-dark)
 ;;    (auto-dark-mode 1)
 ;;
 ;;  Batch mode: `emacs --batch' does not run site-start.el, so
@@ -31,7 +29,7 @@
 ;;  Guard top-level load-theme calls in init files that are
 ;;  byte-compiled:
 ;;    (unless noninteractive
-;;      (load-theme 'jylhis-sheet t))
+;;      (load-theme 'jylhis-survey-light t))
 ;;
 ;;; Code:
 
