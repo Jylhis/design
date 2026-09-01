@@ -55,7 +55,7 @@ Stable across the system. New tools adopt these names verbatim before inventing 
 |       | `--plain`            | Strip colour, animation, decoration, box-drawing.                                                                                                                              |
 |       | `--no-color`         | Force no colour even on a TTY.                                                                                                                                                 |
 |       | `--no-input`         | Disable interactive prompts; fail on required input.                                                                                                                           |
-|       | `--no-animation`     | Replace spinners and progress bars with static text.                                                                                                                           |
+|       | `--no-animation`     | Replace spinners and progress bars with static text.                                                                                                                          |
 
 Reserve one-letter aliases for the most common flags. Don't burn `-r` on `--readme` when half your users expect it to mean `--recursive`.
 

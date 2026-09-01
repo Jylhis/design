@@ -4,20 +4,20 @@ Two Kvantum `.colors` palette files for Qt 5 / Qt 6 applications, plus a `qt5ct`
 
 ```
 platforms/kvantum/
-├── JylhisSheet.colors       ← generated (light)
-├── JylhisField.colors       ← generated (dark)
+├── JylhisSurveyLight.colors       ← generated (light)
+├── JylhisSurveyDark.colors       ← generated (dark)
 └── qt5ct.conf.fragment      ← hand-authored (qt5ct settings to point at Kvantum)
 ```
 
 ## Install
 
 ```bash
-mkdir -p ~/.config/Kvantum/JylhisSheet ~/.config/Kvantum/JylhisField
-cp JylhisSheet.colors ~/.config/Kvantum/JylhisSheet/
-cp JylhisField.colors ~/.config/Kvantum/JylhisField/
+mkdir -p ~/.config/Kvantum/JylhisSurveyLight ~/.config/Kvantum/JylhisSurveyDark
+cp JylhisSurveyLight.colors ~/.config/Kvantum/JylhisSurveyLight/
+cp JylhisSurveyDark.colors ~/.config/Kvantum/JylhisSurveyDark/
 ```
 
-Open `kvantummanager`, select **JylhisSheet** or **JylhisField**, click *Use this theme*.
+Open `kvantummanager`, select **JylhisSurveyLight** or **JylhisSurveyDark**, click *Use this theme*.
 
 To make Qt 5 apps respect Kvantum, set the platform theme:
 

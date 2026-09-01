@@ -10,7 +10,7 @@ This skill audits any surface in the Jylhis design system end-to-end. It runs th
 
 The canonical specs are:
 - [`docs/ACCESSIBILITY.md`](../../../docs/ACCESSIBILITY.md) — measurable WCAG commitments, CVD policy, what the validators enforce.
-- [`docs/CLI-TUI-GUIDELINES.md`](../../../docs/CLI-TUI-GUIDELINES.md) — CLI and TUI conventions synthesised from clig.dev, GNU, 12-Factor CLI, WCAG2ICT, GitHub-CLI accessibility work, the Sampath/Merrick/Macvean CHI paper, and Ratatui/Bubble Tea/Textual.
+- [`docs/CLI-TUI-GUIDELINES.md`](../../../docs/CLI-TUI-GUIDELINES.md) — CLI and TUI conventions synthesised from clig.dev, GNU, 12-Factor CLI, WCAG2ICT, GitHub-CLI accessibility work, the Sampath/Merrick/Macvean CHI sheet, and Ratatui/Bubble Tea/Textual.
 - [`platforms/KEYBOARD.md`](../../../platforms/KEYBOARD.md) — focus ring, kbd chip, command palette, selected row, canonical bindings, audit checklist.
 - [`docs/STYLE-GUIDE.md`](../../../docs/STYLE-GUIDE.md) — visual language; what each token is for.
 
@@ -58,21 +58,13 @@ For HTML files in `index.html`, `palette.html`, `font_options.html`, `md.html`, 
 | Skip-to-content link is the first focusable element on full pages | manual Tab from address bar | KEYBOARD.md |
 | Status indicators carry a glyph or word, not colour-only | inspect each `.status*`/`.alert*` | ACCESSIBILITY.md §CVD |
 | Resizing text to 200% in the browser keeps content usable | DevTools zoom | WCAG 1.4.4 |
-| Raising the *browser default* font size to 24px keeps every surface readable and unclipped, and crosses the `40em`/`53.75em` breakpoints | browser font-size setting, not zoom | WCAG 1.4.4; ACCESSIBILITY.md §Text resizing |
-| At 400% zoom / 320px width there is no two-dimensional scrolling | DevTools responsive mode | WCAG 1.4.10 |
-| The 1.4.12 text-spacing set (line-height 1.5, letter-spacing 0.12em, word-spacing 0.16em, paragraph-spacing 2em) causes no clipping or overlap | text-spacing bookmarklet | WCAG 1.4.12 |
-
-The mechanical half of the resizing spec — px `font-size`, sub-floor `rem`,
-viewport-only `clamp()`, root font-size overrides, px breakpoints — is covered by
-`bun scripts/validate-a11y-type.mjs`. Run it first; the rows above are what it
-cannot see.
 
 ## Phase 3 — Non-web accessibility (WCAG2ICT)
 
 For terminal themes (`platforms/ghostty/`, `platforms/emacs/`, `platforms/shell/`), Wayland chrome (`platforms/hyprland/`, `platforms/waybar/`, `platforms/mako/`, `platforms/rofi/`), and GUI themes (`platforms/gtk/`, `platforms/kvantum/`):
 
 - Foreground/background pairs meet the contrast floors documented in `tokens.json#contrast`. The token validator's extended sweep covers the four grounds surfaces; if a platform composes its own surfaces (e.g. mako notification body), spot-check those manually with [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) or `bun scripts/validate-tokens.mjs`'s helpers.
-- Named ANSI colours are used in any terminal-emitting code (slot 11 = the bronze accent across the system). Hex literals only where the target requires them (Ghostty, Rofi).
+- Named ANSI colours are used in any terminal-emitting code (slot 11 = brand bronze across the system). Hex literals only where the target requires them (Ghostty, Rofi).
 - Status colour is never the only signal — pairs with a glyph (`✓`/`✗`/`!`/`i`) or word.
 - The theme works in a remapped terminal: the user can override ANSI 0–15 via terminal preferences without breaking the design.
 
@@ -118,7 +110,7 @@ Use the simulators listed in `docs/ACCESSIBILITY.md§How to verify a change`:
 
 Specifically check:
 - The four status alerts in `preview/alerts.html` are still distinguishable as a *set* under deuteranopia.
-- The bronze-on-Sheet combination still reads as "this is the link colour" rather than blending into the surrounding cool neutrals, and stays distinct from `contour` blue.
+- The accent-on-sheet combination still reads as "this is the link colour" rather than blending into surrounding neutrals.
 - The Modus syntax palette in `preview/code-languages.html` keeps comments distinct from strings.
 - Any new colour added to `tokens.json` is checked under all three CVD types.
 

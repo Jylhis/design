@@ -1,0 +1,59 @@
+GIMP Palette
+Name: Jylhis Survey Dark
+Columns: 4
+#
+# Grounds
+ 13  15  20	bg
+ 20  23  30	bg-subtle
+ 27  31  40	surface
+ 35  40  51	surface-raised
+# Ink
+242 244 248	text-heading
+214 218 226	text
+154 160 171	text-muted
+101 107 118	text-faint
+# Benchmark
+224 163  58	accent
+240 185  92	accent-hover
+239 138  74	benchmark
+ 34  28  20	accent-subtle
+ 43  52  70	selection-bg
+224 163  58	cursor
+# Contour
+111 155 224	contour
+ 57  65  90	contour-faint
+# Hairline
+ 43  48  59	border
+ 58  65  80	border-strong
+# Modus
+182 160 255	syn-keyword
+121 168 255	syn-string
+  0 188 255	syn-number
+254 172 208	syn-function
+247 143 231	syn-builtin
+106 228 185	syn-type
+  0 211 208	syn-variable
+152 152 152	syn-comment
+168 229 207	syn-docstring
+# Signal
+240 104  95	status-err
+217 179  74	status-warn
+107 191 107	status-ok
+ 95 184 207	status-info
+# Spectrum (ANSI)
+ 13  15  20	ansi-black
+240 104  95	ansi-red
+107 191 107	ansi-green
+217 179  74	ansi-yellow
+121 168 255	ansi-blue
+254 172 208	ansi-magenta
+ 95 184 207	ansi-cyan
+214 218 226	ansi-white
+101 107 118	ansi-bright-black
+255 127 127	ansi-bright-red
+112 185   0	ansi-bright-green
+224 163  58	ansi-bright-yellow
+111 155 224	ansi-bright-blue
+182 160 255	ansi-bright-magenta
+  0 211 208	ansi-bright-cyan
+242 244 248	ansi-bright-white

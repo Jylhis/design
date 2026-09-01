@@ -4,7 +4,7 @@
     name = "design";
     description = "Jylhis design system — tokens-driven themes for terminals, editors, desktops";
     stack = "typescript";
-    version = "1.1.0";
+    version = "2.0.0";
     license = "MIT";
     status = "stable";
     platforms = "all";

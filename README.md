@@ -36,7 +36,9 @@ tokens.json                        ← single source of truth
     │
     ├── bun scripts/generate.mjs   ← generates all targets
     │
-    ├── tokens.css                 ← CSS custom properties
+    ├── tokens.core.json           ← theme-independent framework (source of truth)
+    ├── themes/                    ← survey.json (default) + mono.json — see docs/THEMING.md
+    ├── tokens.css                 ← CSS custom properties (all themes × light/dark)
     ├── tokens-data.js             ← JS for the showcase website
     ├── tokens.md                  ← human-readable spec
     ├── docs/components/           ← per-component reference (from .d.ts + card.html)
@@ -82,15 +84,13 @@ Change a color in `tokens.json`, run `bun scripts/generate.mjs`, and every platf
 | `scripts/validate-tokens.mjs`          | Schema validation, contrast checks (explicit + extended sweep), CSS `var()` resolution.                                                                                                                                                  |
 | `scripts/validate-a11y-html.mjs`       | HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph).                                                                                                                                                        |
 | `scripts/validate-a11y-css.mjs`        | CSS accessibility (transitions guarded, outline replaced on `:focus-visible`).                                                                                                                                                           |
-| `scripts/validate-a11y-type.mjs`       | Text resizing (no px `font-size`, no sub-floor `rem`, no viewport-only `clamp()`, em breakpoints).                                                                                                                                       |
 | `scripts/validate-cli-conventions.mjs` | bun scripts follow [`docs/CLI-TUI-GUIDELINES.md`](./docs/CLI-TUI-GUIDELINES.md).                                                                                                                                                         |
-| `scripts/validate-emacs-faces.mjs`     | Emacs face coverage in the generated theme core matches `platforms/emacs/face-manifest.json`.                                                                                                                                            |
-| `scripts/validate-preview-hex.mjs`     | Hex literals in showcase/preview/component HTML exist in `tokens.json`.                                                                                                                                                                  |
 | `nix/ghostty.nix`                      | Nix derivation: wraps Ghostty with Jylhis themes.                                                                                                                                                                                        |
-| `nix/emacs.nix`                        | Nix derivation: Emacs theme package via `trivialBuild`.                                                                                                                                                                                  |
+| `nix/emacs.nix`                        | Nix derivation: Emacs theme package via `trivialBuild`.                                                                                                                                                                                   |
 | `nix/themes.nix`                       | Nix derivation: all theme files as a single package.                                                                                                                                                                                     |
-| `platforms/`                           | Generated theme files. `KEYBOARD.md`, `mcp/`, `charm/` Go styles, and `shell/` (except the generated `fzf-*.sh`) are hand‑authored.                                                                                                      |
+| `platforms/`                           | Generated theme files. `KEYBOARD.md`, `charm/` Go styles, and `shell/` (except the generated `fzf-*.sh`) are hand‑authored.                                                                                                             |
 | `platforms/charm/`                     | Go package (`jylhis`) for Charm TUIs — palette + pre-built lipgloss styles + themed bubbles + Bubble Tea light/dark detection.                                                                                                           |
+| `docs/THEMING.md`                      | The core-plus-themes framework: selecting a theme, the shipped themes, and the add-a-theme recipe.                                                                                                                                       |
 | `docs/INTEGRATION.md`                  | How to consume the system from web, Go, terminal, Emacs, Wayland, Nix; how to add a new platform.                                                                                                                                        |
 | `docs/CLI-TUI-GUIDELINES.md`           | Design conventions for any CLI/TUI shipped with the system.                                                                                                                                                                              |
 | `docs/ACCESSIBILITY.md`                | Measurable WCAG commitments, CVD policy, and what the validators enforce.                                                                                                                                                                |
@@ -143,19 +143,16 @@ ghostty-jylhis = pkgs.callPackage /path/to/design/nix/ghostty.nix {};
 ### Development
 
 ```bash
-bun scripts/generate.mjs                  # regenerate targets from tokens.json
+bun scripts/generate.mjs                  # regenerate targets from tokens.core.json + themes/*.json
 bun scripts/generate.mjs --check          # verify committed files match (CI mode)
 bun scripts/validate-tokens.mjs           # schema + contrast validation
 bun scripts/validate-a11y-html.mjs        # HTML accessibility
 bun scripts/validate-a11y-css.mjs         # CSS accessibility
-bun scripts/validate-a11y-type.mjs        # text resizing
 bun scripts/validate-cli-conventions.mjs  # CLI conventions audit
-bun scripts/validate-emacs-faces.mjs      # Emacs face coverage audit
-bun scripts/validate-preview-hex.mjs      # hex provenance audit
 serve-pages                               # build the _site showcase artifact, serve locally, rebuild on changes
 ```
 
-All seven static validators support `--help` and `--version` and run in CI on every push.
+All four static validators support `--help` and `--version` and run in CI on every push.
 
 Full consumer guide: [`docs/INTEGRATION.md`](./docs/INTEGRATION.md). Design conventions for command-line tools: [`docs/CLI-TUI-GUIDELINES.md`](./docs/CLI-TUI-GUIDELINES.md). Accessibility commitments: [`docs/ACCESSIBILITY.md`](./docs/ACCESSIBILITY.md).
 Version history: [`CHANGELOG.md`](./CHANGELOG.md).
@@ -172,11 +169,11 @@ release is exercised against the consumers below before tagging.
 | Consumer                                                          | What it pins                                                                                                                                                                              | Cadence                                                                                   |
 | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | **jylhis.com** (Astro)                                            | `tokens.css`, `colors_and_type.css`, Zilla Slab + Hanken Grotesk + IBM Plex Mono stack                                                                                                    | Production site; updated on every release.                                                |
-| **Jotain** (personal Emacs config)                                | `platforms/emacs/jylhis-sheet-theme.el`, `jylhis-field-theme.el`, Modus syntax mappings                                                                                                   | Daily driver editor; theme is reloaded on every release.                                  |
+| **Jotain** (personal Emacs config)                                | `platforms/emacs/jylhis-survey-light-theme.el`, `jylhis-survey-dark-theme.el`, Modus syntax mappings                                                                                      | Daily driver editor; theme is reloaded on every release.                                  |
 | **Marchyo** (personal NixOS / Hyprland workstation)               | `platforms/ghostty/`, `platforms/hyprland/`, `platforms/rofi/`, `platforms/waybar/`, `platforms/mako/`, `platforms/hyprlock/`, `platforms/gtk/`, `platforms/kvantum/`, `platforms/shell/` | Full desktop chrome; pinned via `nix/themes.nix`.                                         |
 | **nacutils** (personal CLI/TUI toolbox)                           | `platforms/charm/jylhis` Go package (palette, lipgloss styles, Bubble Tea light/dark detection)                                                                                           | Every TUI links the package; CLI conventions enforced via `validate-cli-conventions.mjs`. |
 | **Creative tooling** (GIMP, Inkscape, Krita, Affinity, Photoshop) | `platforms/gimp/*.gpl`, `platforms/adobe/*.ase`                                                                                                                                           | Swatch palettes loaded on demand.                                                         |
-| **HyperOS / MIUI phone**                                          | `platforms/hyperos/jylhis-{sheet,field}.mtz`                                                                                                                                              | Manual install per device.                                                                |
+| **HyperOS / MIUI phone**                                          | `platforms/hyperos/jylhis-{survey}-*.mtz`                                                                                                                                                 | Manual install per device.                                                                |
 
 If a consumer breaks after a release, the bug is in this repo — not in
 the consumer. File it here and revert if necessary before the consumer
@@ -193,7 +190,7 @@ the short form:
 
 1. Move `CHANGELOG.md` `[Unreleased]` items into a new dated section,
    add the compare link.
-2. Bump the version field inside `tokens.json` metadata (the showcase
+2. Bump the version field inside `tokens.core.json` metadata (the showcase
    reads it from there).
 3. Run the validator gauntlet locally — every check must pass.
 4. Open a PR titled `release: vX.Y.Z`; wait for CI green; squash-merge.
@@ -349,6 +346,37 @@ the short form:
 - **Fonts:** the design system uses three roles — **Zilla Slab** (display/titles), **Hanken Grotesk** (UI/body), **IBM Plex Mono** (data/labels/code). All are OFL and ship full Finnish diacritic coverage. They are already self‑hosted: `fonts.css` carries the `@font-face` blocks and `fonts/` carries the subsetted `woff2` files.
 - **No slide template** — this design system has no `slides/` folder.
 - **Shell configs not generated** — `platforms/shell/` (starship.toml, bashrc, zshrc, dircolors) use ANSI color names rather than hex values, so they work with whatever terminal theme is loaded and are not generated from `tokens.json`.
+
+---
+
+## Theming
+
+The system is a core framework plus swappable themes: **Survey** (default) and **Monochrome**. Select with `data-theme="<slug>"` × `data-mode="light|dark"` on `<html>`. Every theme ships both modes; platform targets are generated per theme as `jylhis-<theme>-<light|dark>`. Spec and add-a-theme recipe: [docs/THEMING.md](./docs/THEMING.md).
+
+## Component index
+
+- Alert
+- Breadcrumb
+- Button
+- Callout
+- Changelog
+- CodeBlock
+- CvEntry
+- Divider
+- Field
+- Kbd
+- Legend
+- ManLabel
+- Mark
+- Modal
+- Pagination
+- Plate
+- ProjectCard
+- StatusBadge
+- Table
+- Tabs
+- Tag
+- Terminal
 
 ---
 

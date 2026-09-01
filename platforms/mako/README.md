@@ -1,11 +1,10 @@
 # Jylhis for Mako
 
-Config files for the [Mako](https://github.com/emersion/mako) Wayland notification daemon.
+A single `config` file for the [Mako](https://github.com/emersion/mako) Wayland notification daemon.
 
 ```
 platforms/mako/
-├── config                ← generated (Field / dark)
-└── config-sheet          ← generated (Sheet / light)
+└── config                ← generated
 ```
 
 ## Install
@@ -30,7 +29,9 @@ makoctl reload
 
 ## Light vs dark
 
-Both variants are generated: `config` is Field (dark) and `config-sheet` is Sheet (light). Install (or symlink) the one you want as `~/.config/mako/config` and reload with `makoctl reload`; a switcher script that swaps the symlink is left to the user.
+The generated `config` ships only one edition (Field). If you switch the system to Sheet, regenerate after toggling the `mode` constant in `scripts/generate.mjs#generateMako`, or add a second config and reload Mako with `makoctl reload`.
+
+> **TODO:** the generator could emit two configs (`config-survey-light` and `config-field`) and a small switcher script. Not done yet — the current single-mode behaviour matches how Mako is typically deployed.
 
 ## Contract
 

@@ -2,15 +2,15 @@
 # ~/.config/ghostty/config
 
 # Pick one:
-# theme = jylhis-sheet
-theme = jylhis-field
+# theme = jylhis-survey-light
+theme = jylhis-survey-dark
 
 # Auto-switch with system light/dark (Ghostty 1.0+):
-# theme = light:jylhis-sheet,dark:jylhis-field
+# theme = light:jylhis-survey-light,dark:jylhis-survey-dark
 
-font-family = "JetBrains Mono"
-font-family-bold = "JetBrains Mono"
-font-family-italic = "JetBrains Mono"
+font-family = "IBM Plex Mono"
+font-family-bold = "IBM Plex Mono"
+font-family-italic = "IBM Plex Mono"
 font-size = 13
 font-feature = -calt     # no ligatures (tokens.md §4)
 
@@ -29,5 +29,5 @@ cursor-style = block
 cursor-style-blink = false
 
 # Focus ring analog — border on focused split
-split-divider-color = #9a5a2a
+split-divider-color = #8a4d00
 unfocused-split-opacity = 0.85

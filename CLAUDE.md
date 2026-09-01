@@ -4,7 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A personal design system for jylhis.com — v2, "The Survey". Cool near-white/near-black grounds, a single bronze accent with a vermilion benchmark mark, structural linework in Modus contour blue. Three type roles: Zilla Slab (display/titles), Hanken Grotesk (UI/body), IBM Plex Mono (data/labels/code). No emoji, no gradients, no shadows. Unicode glyphs as icons. Syntax colors from Emacs Modus (Operandi light, Vivendi dark).
+A personal design system for jylhis.com, restructured as a **theming framework**: a theme-independent core plus swappable themes, each with a first-class light and dark mode.
+
+- **Core** (`tokens.core.json`): type stack (Zilla Slab display, Hanken Grotesk body, IBM Plex Mono readings), type scale + floors, spacing, layout, radii, breakpoints, z-index, border widths, focus, density, motion, sound, and the colour-role taxonomy (`groups`).
+- **Themes** (`themes/<slug>.json`): **Survey** (`survey`, default — cool sheet grounds, bronze accent, vermilion maker's mark, contour-blue linework, Modus syntax; modes named Sheet/Field) and **Monochrome** (`mono` — neutral grayscale, interaction as inverted ink fills, the maker's mark as the one pure black/white, syntax in gray steps + weight/italic, chromatic status colors kept for safety).
+
+Selection: `data-theme="<slug>"` × `data-mode="light|dark"` on `<html>` (defaults: survey, light). The old `data-theme="dark|sheet|field"` selectors are retired. No emoji, no gradients, no shadows; Unicode glyphs as icons. Full spec: `docs/THEMING.md`.
 
 ## Monorepo context
 
@@ -28,8 +33,8 @@ first publish (2026-07-30) — do not re-add any of these:
   `kit/publish/default.nix`). Both jobs also referenced third-party actions the
   destination repo's Actions allowlist rejects, so every run **startup-failed**.
 - **No `.github/dependabot.yml`.** A PR merged on the mirror is destroyed by the
-  next `just publish design`. The Go modules under `platforms/charm` and
-  `platforms/mcp` are watched from the monorepo's own dependabot config instead.
+  next `just publish design`. The Go modules under `platforms/charm` are watched
+  from the monorepo's own dependabot config instead.
 - **Third-party actions are a hazard in exported workflows.** `Jylhis/design`
   allows only GitHub-owned, Jylhis-owned, and `oven-sh/setup-bun@v2`. Prefer
   `run:` steps. `actionlint` runs over the export inside the publish gate.
@@ -37,127 +42,82 @@ first publish (2026-07-30) — do not re-add any of these:
   detects whether the monorepo is around it; `flake.lock`'s nixpkgs rev is held
   equal to the tree's by the `publish-flake-parity` flake check and rewritten by
   `just update`. Do not bump it independently.
-- **The three validator lists must stay in lock-step** — `justfile`'s
-  `validate`, `package.nix`'s `checks.validate`, and `validate.yml`. All seven,
-  always; `just check` used to run only six.
+- **The validator lists must stay in lock-step** — `justfile`'s `validate`,
+  `package.nix`'s `checks.validate`, and `.github/workflows/validate.yml`. All
+  four (`validate-tokens`, `validate-a11y-html`, `validate-a11y-css`,
+  `validate-cli-conventions`), always.
 
 ## Commands
 
 ```bash
-bun scripts/generate.mjs                  # regenerate platform targets from tokens.json
-bun scripts/generate.mjs --check          # exit 1 if committed files diverge from tokens.json (CI mode)
-bun scripts/validate-tokens.mjs           # tokens.json schema + WCAG contrast + CSS var() resolution
-bun scripts/validate-a11y-html.mjs        # HTML accessibility (lang, alt, labels, focus, reduced-motion, status-with-glyph)
-bun scripts/validate-a11y-css.mjs         # CSS accessibility (transitions guarded; outline:none has :focus-visible replacement)
-bun scripts/validate-a11y-type.mjs        # text resizing (no px font-size, no sub-floor rem, no viewport-only clamp, em breakpoints)
-bun scripts/validate-cli-conventions.mjs  # bun scripts follow docs/CLI-TUI-GUIDELINES.md (--help, --version, stderr, exit codes)
-bun scripts/validate-emacs-faces.mjs      # Emacs face list in jylhis-theme-core.el matches face-manifest.json
-bun scripts/validate-preview-hex.mjs      # preview/ + components/*/card.html hex literals exist in tokens.json
-serve-pages                               # build the _site showcase artifact, serve it locally, rebuild on changes
+bun scripts/generate.mjs                  # regenerate all targets from tokens.core.json + themes/*.json
+bun scripts/generate.mjs --check          # exit 1 if committed files diverge (CI mode)
+bun scripts/validate-tokens.mjs           # schema + grouping + WCAG contrast + CSS var resolution (all themes)
+bun scripts/validate-a11y-html.mjs        # HTML accessibility (lang, alt, labels, status-with-glyph)
+bun scripts/validate-a11y-css.mjs         # CSS accessibility (reduced-motion guards; outline:none needs :focus-visible)
+bun scripts/validate-cli-conventions.mjs  # scripts follow docs/CLI-TUI-GUIDELINES.md (--help, --version, stderr, exit codes)
+serve-pages                               # build + serve the Pages artifact locally
 ```
 
-All seven validators support `--help` and `--version`.
-
-Dev environment uses devenv (Nix). Enter with `devenv shell`. Provides `bun`, `go`, and three convenience scripts: `generate`, `validate-tokens`, and `serve-pages`.
-
-CI (`.github/workflows/validate.yml`) runs all seven validators on every push/PR. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside, or CI fails. The showcase site (`_site/`, built by `scripts/assemble-pages.sh`) is served via Cloudflare; there is no GitHub Pages workflow.
-
-The design reasoning behind the system (values, structural and interaction principles, the named rules) lives in [`docs/PRINCIPLES.md`](docs/PRINCIPLES.md). Specs the validators enforce live in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md), [`docs/CLI-TUI-GUIDELINES.md`](docs/CLI-TUI-GUIDELINES.md), and [`platforms/KEYBOARD.md`](platforms/KEYBOARD.md). For deeper review beyond static checks, invoke the `/design-review` skill in `.claude/skills/design-review/`.
+All validators support `--help` and `--version`. Any token edit must be followed by `bun scripts/generate.mjs` and committed alongside.
 
 ## Architecture
 
-### Single source of truth: `tokens.json`
+### Sources of truth
 
-All colors, spacing, typography, motion, ANSI palette, and contrast requirements live in `tokens.json`. Every platform-specific file is **generated** from it.
+| File | What |
+|---|---|
+| `tokens.core.json` | theme-independent framework + theme registry (`meta.themes`) |
+| `themes/survey.json` | Survey palette/syntax/status/ANSI + contrast claims |
+| `themes/mono.json` | Monochrome ditto |
 
-### Generation pipeline: `scripts/generate.mjs`
+### Generation pipeline: `scripts/generate.mjs` (+ `scripts/lib/emit.mjs`)
 
-A single Bun script with zero dependencies reads `tokens.json` and writes generated files:
+Native emitters produce `tokens.css` (`:root` = survey light, `[data-mode="dark"]`, `[data-theme="mono"]`, `[data-theme="mono"][data-mode="dark"]`) and `tokens-data.js` (top level mirrors the default theme; every theme under `themes`, with measured `contrastPairs` + `swatchContrast`).
 
-| Generated file                                      | What                                                                                                                                       |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `tokens.css`                                        | CSS custom properties (`:root` + `[data-theme="dark"]`)                                                                                    |
-| `platforms/shadcn/tokens.css`                       | Tailwind / shadcn bridge — same palette as bare HSL triplets under the shadcn semantic names, so opacity modifiers resolve; self-contained |
-| `tokens.md`                                         | Human-readable token spec — palette, syntax, ANSI, type, density, motion, sound, with measured contrast                                    |
-| `docs/components/*.md`                              | Per-component reference — summary + props table + a11y notes, generated from each `.d.ts` + `card.html`                                    |
-| `tokens-data.js`                                    | JS export for the showcase website (includes derived `contrastPairs` + `swatchContrast`)                                                   |
-| `platforms/ghostty/jylhis-{sheet,field}`            | Ghostty color themes                                                                                                                       |
-| `platforms/charm/jylhis/palette.go`                 | Go lipgloss palette struct                                                                                                                 |
-| `platforms/glamour/jylhis-{sheet,field,notty}.json` | Charm Glamour terminal-Markdown stylesheets (notty = colorless)                                                                            |
-| `platforms/emacs/jylhis-theme-core.el`              | Shared face spec list + three-tier resolver macro (Tokyo-Themes-style framework)                                                           |
-| `platforms/emacs/jylhis-{sheet,field}-palette.el`   | Three-tier (GUI / xterm-256 / 16-color ANSI) palette alist per variant                                                                     |
-| `platforms/emacs/jylhis-{sheet,field}-theme.el`     | Entry point: `require`s core+palette and calls `jylhis-apply-faces`                                                                        |
-| `platforms/hyprland/jylhis-{sheet,field}.conf`      | Hyprland border colors                                                                                                                     |
-| `platforms/hyprlock/jylhis-{sheet,field}.conf`      | Hyprlock lock-screen theme                                                                                                                 |
-| `platforms/rofi/jylhis-{sheet,field}.rasi`          | Rofi command palette theme                                                                                                                 |
-| `platforms/gtk/gtk.css`                             | GTK 3/4 Adwaita overrides                                                                                                                  |
-| `platforms/waybar/style.css` + `style-sheet.css`    | Waybar bar CSS (field + sheet variants)                                                                                                    |
-| `platforms/mako/config` + `config-sheet`            | Mako notification configs (field + sheet)                                                                                                  |
-| `platforms/kvantum/Jylhis{Sheet,Field}.colors`      | Qt/Kvantum palette XML                                                                                                                     |
-| `platforms/base16/jylhis-{sheet,field}.yaml`        | base16 schemes (stylix / base16 tooling)                                                                                                   |
-| `platforms/bat/jylhis-{sheet,field}.tmTheme`        | bat / delta syntax themes                                                                                                                  |
-| `platforms/console/jylhis-{sheet,field}.nix`        | Linux kernel TTY 16-color palettes                                                                                                         |
-| `platforms/plymouth/jylhis-{sheet,field}/`          | Plymouth boot-splash themes                                                                                                                |
-| `platforms/shell/fzf-{sheet,field}.sh`              | fzf color palettes (the rest of `shell/` is hand-authored)                                                                                 |
-| `platforms/gimp/jylhis-{sheet,field}.gpl`           | GIMP / Inkscape / Krita swatch file                                                                                                        |
-| `platforms/adobe/jylhis-{sheet,field}.ase`          | Adobe Swatch Exchange (binary) — Photoshop / Illustrator / InDesign / Affinity                                                             |
-| `platforms/hyperos/jylhis-{sheet,field}.mtz`        | Xiaomi HyperOS/MIUI theme (ZIP with color overrides)                                                                                       |
+Platform targets are derived from committed Survey reference files in `platforms/_reference/` by role-mapped recoloring + slug renaming — `ui`-priority for chrome targets, `syntax`-priority for Emacs/bat. Outputs are uniform `jylhis-<theme>-<light|dark>` files ×4 for: ghostty, rofi, hyprland, gimp, base16, console (nix), kvantum (`Jylhis<Theme><Mode>.colors`), mako (`config-<t>-<m>`), waybar (`style-<t>-<m>.css`), fzf, bat, emacs, plymouth (dirs), plus per-theme gtk (`jylhis-<t>.css`) and shadcn (`jylhis-<t>.css`). `waybar/style.css` and `mako/config` stay as survey-dark copies for name-hardcoding consumers.
 
-The ASE generator emits binary content; the `--check` mode handles both text and binary outputs.
+Not yet themed: `platforms/charm/` (hand-authored Go, survey only), `adobe/*.ase` + `hyperos/*.mtz` (binary, survey renamed only), `platforms/shell/` starship/bashrc/zshrc/dircolors (ANSI-name based, theme-agnostic).
 
 ### Hand-authored (not generated)
 
-- `styles.css` — one-import entry point: pulls in `colors_and_type.css`, `motion.css`, and `components/components.css`
-- `colors_and_type.css` — imports `tokens.css` + `fonts.css`, then adds font stacks, semantic type helpers (`.ds-body`, `.ds-h1`, `.ds-meta`, `.ds-code-inline`, etc.), type craft defaults (oldstyle figures, `text-wrap`, hanging punctuation), and the interaction baseline (selection, caret, `:focus-visible` ring)
-- `fonts.css` — self-hosted `@font-face` blocks for the v2 three-role stack: Zilla Slab (display/titles, static 600/700), Hanken Grotesk (UI/body, variable wght), IBM Plex Mono (data/labels/code, static 400/500 + 400 italic); all latin/latin-ext subsets with `unicode-range`. Family stacks are generated into `tokens.css` (`--font-display`/`--font-body`/`--font-mono`/`--font-heading`) from `tokens.json` typography; `colors_and_type.css` consumes them, so families never drift from the datum
-- `motion.css` — the "survey renders in" motion signature (`.ds-contour-draw`, `.ds-line-extend`, `.ds-readout`, `.ds-caret`); guardrails in `docs/STYLE-GUIDE.md` §5
-- `components/` — React components library: 20 components, each `<Name>/<Name>.jsx` + `<Name>.d.ts` + `card.html` specimen, styled by `components/components.css` (tokens only, class-per-component)
-- `platforms/shell/` — starship.toml, bashrc, zshrc, dircolors (use ANSI names, not hex; the `fzf-*.sh` palettes in the same directory are generated)
-- `platforms/ghostty/config` — user preferences, not palette
-- `platforms/KEYBOARD.md` — focus ring, kbd chip, command palette, selected-item spec
-- `platforms/charm/jylhis/{theme,bubbles,bubbletea}.go` — lipgloss styles and Bubble Tea integration
-- `platforms/mcp/` — stdlib-only Go MCP server exposing tokens, component specs, and principles to AI agents (`.mcp.json` registers it; `docs/INTEGRATION.md` documents the tools)
-- `platforms/emacs/jylhis-themes.el` — autoload registration for `custom-theme-load-path`
-- `platforms/emacs/jylhis-theme-toggle.el` — `M-x jylhis-toggle-theme` (and `jylhis-load-theme`) helpers
-- `platforms/emacs/face-manifest.json` — curated face list for `validate-emacs-faces.mjs`; edit in lock-step with the spec list in `scripts/generate.mjs`
+- `colors_and_type.css` — imports `tokens.css` + `fonts.css`, semantic type helpers (`.ds-body`, `.ds-h1`, `.ds-meta`, …)
+- `components/components.css` + `components/local.css` (local Plate/Legend styles)
+- `platforms/shell/`, `platforms/ghostty/config`, `platforms/KEYBOARD.md`, `platforms/charm/`
+- `tokens.md` — hand-maintained Survey spec
 
 ### Nix packaging (`nix/` + `flake.nix`)
 
-The project ships its own `flake.nix` (nixpkgs-only input) — the preferred
-consumption path per `docs/INTEGRATION.md`: per-target packages, a Home
-Manager module, NixOS/darwin modules, an overlay, and a base16 helper for
-stylix. The `nix/` directory holds the underlying standalone `.nix` files
-(`callPackage` pattern, usable without the flake):
+The project ships its own `flake.nix` (nixpkgs-only input): per-target packages, a Home Manager module, a NixOS/darwin stylix module, an overlay, and palette helpers for stylix. The `nix/` directory holds the standalone `.nix` files (`callPackage` pattern, usable without the flake):
 
-- `nix/ghostty.nix` — wraps Ghostty with themes in `XDG_DATA_DIRS`
+- `nix/ghostty.nix` — wraps Ghostty with the Survey themes in `XDG_DATA_DIRS`
 - `nix/emacs.nix` — Emacs theme package via `trivialBuild`
-- `nix/themes.nix` — all generated theme files as one derivation
+- `nix/themes.nix` — every generated theme file as one derivation
 - `nix/install-map.nix`, `nix/palette.nix`, `nix/themes-per-target.nix`,
   `nix/home-manager-module.nix`, `nix/system-stylix-module.nix` — install
-  manifest, palette helpers, per-target derivations, and the HM/stylix modules
+  manifest (cartesian over theme × mode), palette helpers, per-target
+  derivations, and the HM/stylix modules (orthogonal `name` + `mode` options)
 
 ### Showcase website
 
-Static HTML at `index.html`, served via Cloudflare. Color swatches render dynamically from `tokens-data.js`. Preview cards in `preview/` are standalone HTML specimens; each component in `components/` also ships its own `card.html` specimen. Prototypes in `prototypes/` are interactive desktop (Norton-Commander TUI), macOS reskin, tablet, and web mockups — the web kit consumes `styles.css` and mirrors the components library.
+`index.html` renders swatches from `tokens-data.js` and has a **theme select + mode toggle** (persisted in localStorage as `jylhis-ds-theme` / `jylhis-theme`). Specimen cards in `preview/`, component sources in `components/`, prototypes in `prototypes/`, reusable chrome in `mocks/`.
 
 ## Workflow for changing a token
 
-1. Edit `tokens.json`
-2. Run `bun scripts/generate.mjs`
-3. Verify with `bun scripts/validate-tokens.mjs`
-4. Generated files update automatically
+1. Edit `tokens.core.json` or `themes/<slug>.json`
+2. `bun scripts/generate.mjs`
+3. `bun scripts/validate-tokens.mjs`
 
-## Thematic groups
+## Adding a theme
 
-Roles in `tokens.json` are grouped under a top-level `groups` block — Grounds (backgrounds), Ink (text), Bronze (accent + benchmark), Line (borders + contour), Modus (syntax), Signal (status), Spectrum (ANSI). Roles are still the canonical names used in code (`bg`, `accent`, `syn-keyword` …); group names are documentation/UI labels surfaced in the showcase, the per-theme palette page, and the GIMP `.gpl` exports. When adding a new color, register it under the relevant group's `members` list.
+Copy `themes/mono.json`, register the slug in `tokens.core.json#meta.themes`, regenerate, validate. Full recipe: `docs/THEMING.md`.
 
 ## Key design rules
 
-- **Two themes:** Sheet (light) and Field (dark) are both first-class. Never ship one without the other. `sheet`/`field` are the identifiers used in filenames, Nix options, Go `Mode` constants, and Emacs theme names.
-- **ANSI 11 is always the bronze accent** — intentional override across all terminal targets.
-- **The bronze accent is never a syntax color** — it's reserved for UI chrome and brand marks. `contour` blue is structure only, never interaction.
-- **No hex duplication** — always derive from `tokens.json`. If a value isn't there, add it to `tokens.json` first.
-- **Contrast:** body text AAA on both modes, text-muted AA, text-faint is decorative only.
-- **`accent-subtle`** uses rgba with opacity (not in `tokens.json` directly) — defined in `tokens.css` generation and as opaque approximations in Emacs/Rofi where rgba isn't supported.
-- **SynTag is an alias of SynType** — maintained in Go palette and CSS for backwards compatibility.
-- **Emacs themes ship three display tiers** — every face spec degrades from 24-bit GUI hex → nearest xterm-256 (`color-NNN`) → named ANSI slot (`red`, `brightyellow`). Roles may carry an optional `ansi` override on their token entry to pin the 16-color tier; `accent` is pinned to `bright-yellow` (ANSI 11).
+- **Every theme ships light AND dark.** Never one without the other.
+- **ANSI 11 is always the theme's accent** — validated.
+- **The accent is never a syntax colour; `brand` is the maker's mark alone, distinct from status red** — validated.
+- **Status colors never drop to grayscale** — a theme may grey its syntax, never its signals.
+- **Contrast:** body text AAA in both modes of every theme, text-muted AA, text-faint decorative only; all claims in `themes/*.json#contrast` are measured by `validate-tokens.mjs`.
+- **No hex duplication** — always derive from the token sources; add missing values there first.
+- **Syntax emphasis is tokenized**: `--syntax-<role>-weight/style` accompany the colours so grayscale themes can carry meaning in weight/italic.

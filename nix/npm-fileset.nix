@@ -8,7 +8,8 @@ lib.fileset.unions [
   ../package.json
   ../styles.css
   ../tokens.css
-  ../tokens.json
+  ../tokens.core.json
+  ../themes
   ../tokens-data.js
   ../colors_and_type.css
   ../motion.css

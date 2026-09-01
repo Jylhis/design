@@ -4,11 +4,11 @@ Two Adobe Swatch Exchange (`.ase`) files. ASE is the binary swatch format consum
 
 ```
 platforms/adobe/
-├── jylhis-sheet.ase      ← generated (binary)
-└── jylhis-field.ase      ← generated (binary)
+├── jylhis-survey-light.ase      ← generated (binary)
+└── jylhis-survey-dark.ase      ← generated (binary)
 ```
 
-Each file ships every role from the system, organized into ASE color groups matching our thematic banners — Grounds, Ink, Bronze, Linen, Modus, Signal, Spectrum.
+Each file ships every role from the system, organized into ASE color groups matching our thematic banners — Grounds, Ink, Benchmark, Contour, Hairline, Modus, Signal, Spectrum.
 
 ## Install
 

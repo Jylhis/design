@@ -4,29 +4,29 @@ Two `.rasi` themes — Sheet and Field — for the [Rofi](https://github.com/dav
 
 ```
 platforms/rofi/
-├── jylhis-sheet.rasi      ← generated (light)
-└── jylhis-field.rasi      ← generated (dark)
+├── jylhis-survey-light.rasi      ← generated (light)
+└── jylhis-survey-dark.rasi      ← generated (dark)
 ```
 
 ## Install
 
 ```bash
 mkdir -p ~/.config/rofi
-cp jylhis-sheet.rasi jylhis-field.rasi ~/.config/rofi/
+cp jylhis-survey-light.rasi jylhis-survey-dark.rasi ~/.config/rofi/
 ```
 
 Then in `~/.config/rofi/config.rasi`:
 
 ```rasi
-@theme "jylhis-sheet"
+@theme "jylhis-survey-light"
 // or
-@theme "jylhis-field"
+@theme "jylhis-survey-dark"
 ```
 
 Or invoke ad-hoc:
 
 ```bash
-rofi -show drun -theme ~/.config/rofi/jylhis-sheet.rasi
+rofi -show drun -theme ~/.config/rofi/jylhis-survey-light.rasi
 ```
 
 ## What you get

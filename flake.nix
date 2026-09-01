@@ -58,18 +58,18 @@
 
       # Helpers consumers can call from their own configs.
       lib = {
-        # Returns the absolute store path to the generated base16 YAML
-        # for a given variant ("sheet" or "field"), suitable for
-        # `stylix.base16Scheme`. Requires the overlay (or a pkgs set
-        # that already has `jylhis-themes`).
-        variantToBase16Scheme = pkgs: variant:
-          "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-${variant}.yaml";
+        # Absolute store path to the generated base16 YAML for a
+        # { theme; mode; } variant (theme = "survey"|"mono", mode =
+        # "light"|"dark"), suitable for `stylix.base16Scheme`. Requires the
+        # overlay (or a pkgs set that already has `jylhis-themes`).
+        toBase16Scheme = pkgs: { theme, mode }:
+          "${pkgs.jylhis-themes}/share/jylhis/base16/jylhis-${theme}-${mode}.yaml";
 
-        # Reads tokens.json and returns the palette in the shapes downstream
-        # Nix configs need: { base16, ansi16, tty16, hex, ansi, variantKey }.
-        # `variant` accepts "sheet"/"field" or "light"/"dark". No pkgs needed.
-        mkPalette = variant:
-          import ./nix/palette.nix { inherit (nixpkgs) lib; inherit variant; };
+        # Reads the token sources + committed base16 YAML and returns the
+        # palette in the shapes downstream Nix configs need:
+        # { hex; ansi; ansi16; base16; }. No pkgs needed.
+        mkPalette = { theme, mode }:
+          import ./nix/palette.nix { inherit (nixpkgs) lib; inherit theme mode; };
       };
 
       # Overlay: adds `jylhis-themes` (combined) and `jylhis-themes-targets`

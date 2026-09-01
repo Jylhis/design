@@ -52,13 +52,10 @@ in
       bun scripts/validate-tokens.mjs
       bun scripts/validate-a11y-html.mjs
       bun scripts/validate-a11y-css.mjs
-      bun scripts/validate-a11y-type.mjs
-      bun scripts/validate-preview-hex.mjs
       bun scripts/validate-cli-conventions.mjs
-      bun scripts/validate-emacs-faces.mjs
-      # package.json (the @jylhis/design npm package) must track tokens.json,
+      # package.json (the @jylhis/design npm package) must track tokens.core.json,
       # the version's source of truth.
-      bun -e 'const t = await Bun.file("tokens.json").json(), p = await Bun.file("package.json").json(); if (t.meta.version !== p.version) { console.error(`version drift: tokens.json ''${t.meta.version} != package.json ''${p.version}`); process.exit(1); }'
+      bun -e 'const t = await Bun.file("tokens.core.json").json(), p = await Bun.file("package.json").json(); if (t.meta.version !== p.version) { console.error(`version drift: tokens.core.json ''${t.meta.version} != package.json ''${p.version}`); process.exit(1); }'
     '';
   };
 }

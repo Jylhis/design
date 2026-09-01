@@ -5,17 +5,17 @@ port="${PORT:-8000}"
 watch_paths=(
   tokens.json
   index.html
-  md.html
+  styles.css
+  fonts.css
   colors_and_type.css
-  font_options.html
   README.md
-  CHANGELOG.md
   SKILL.md
   assets
+  fonts
   docs
   preview
+  components
   prototypes
-  mocks
   scripts/assemble-pages.sh
   platforms/index.html
   platforms/KEYBOARD.md
@@ -57,7 +57,7 @@ cleanup() {
 
 trap cleanup EXIT INT TERM
 
-echo "Serving showcase artifact at http://127.0.0.1:${port}/index.html"
+echo "Serving GitHub Pages artifact at http://127.0.0.1:${port}/index.html"
 echo "Watching source files for changes..."
 
 baseline="$(snapshot "${watch_paths[@]}")"
@@ -65,7 +65,7 @@ baseline="$(snapshot "${watch_paths[@]}")"
 while sleep 1; do
   current="$(snapshot "${watch_paths[@]}")"
   if [[ "$current" != "$baseline" ]]; then
-    echo "Change detected, rebuilding showcase artifact..."
+    echo "Change detected, rebuilding GitHub Pages artifact..."
     if bash scripts/assemble-pages.sh; then
       echo "Rebuild succeeded."
     else

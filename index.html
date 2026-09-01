@@ -48,8 +48,7 @@
   .palette-link { display: inline-block; margin-top: var(--space-sm); font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-accent); text-decoration: none; }
   .palette-link:hover { color: var(--color-accent-hover); }
   .tree { font-family: var(--font-mono); font-size: var(--type-scale-6); color: var(--color-text-muted); white-space: pre; line-height: 1.5; padding: var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-subtle); overflow-x: auto; }
-  .footer-rule { margin-top: var(--space-3xl); }
-  footer { margin-top: 0; padding-top: var(--space-lg); font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-text-muted); text-align: center; }
+  footer { margin-top: var(--space-3xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-text-muted); text-align: center; }
   footer a { color: var(--color-accent); text-decoration: none; }
   footer a:hover { color: var(--color-accent-hover); }
   .pill { display: inline-block; font-family: var(--font-mono); font-size: var(--type-scale-9); background: var(--color-accent-subtle); color: var(--color-accent); padding: 2px 8px; border-radius: var(--radius-pill); margin-left: 8px; }
@@ -62,18 +61,6 @@
   .filter-bar .clear { font: inherit; font-size: var(--type-scale-9); padding: 2px 8px; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; transition: border-color var(--transition-fast), color var(--transition-fast); }
   .filter-bar .clear:hover { color: var(--color-accent); border-color: var(--color-accent); }
   .filter-bar .clear:disabled { opacity: 0.4; cursor: default; }
-  /* Keyboard-shortcut hint: a native popover (light-dismiss + toggle, no JS),
-     anchored to its ? trigger via CSS anchor positioning where supported and
-     centred by the UA otherwise. */
-  .hint-btn { font: inherit; font-size: var(--type-scale-9); width: 1.7em; height: 1.7em; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; anchor-name: --kbd-hint; }
-  .hint-btn:hover { color: var(--color-accent); border-color: var(--color-accent); }
-  .hint-btn:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
-  .kbd-hints { border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface-raised); color: var(--color-text); padding: var(--space-sm) var(--space-md); font-family: var(--font-mono); font-size: var(--type-scale-7); }
-  .kbd-hints__row { display: flex; gap: 10px; align-items: baseline; margin: 4px 0; white-space: nowrap; }
-  .kbd-hints__row span { color: var(--color-text-muted); }
-  @supports (anchor-name: --x) {
-    .kbd-hints { position: fixed; margin: 0; inset: auto; top: calc(anchor(--kbd-hint bottom) + 6px); right: anchor(--kbd-hint right); }
-  }
   .is-hidden-by-filter { display: none !important; }
   .empty-state { font-family: var(--font-mono); font-size: var(--type-scale-7); color: var(--color-text-faint); padding: var(--space-md); text-align: center; }
   .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-sm); }
@@ -169,7 +156,7 @@
   try {
     var s = localStorage.getItem("jylhis-theme");
     var m = s || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    if (m !== "light") document.documentElement.dataset.theme = m;
+    if (m === "dark") document.documentElement.dataset.mode = "dark";
   } catch (e) {}
 </script>
 </head>
@@ -178,8 +165,12 @@
 <div id="copy-status" class="sr-only" role="status" aria-live="polite"></div>
 
 <div class="toolbar">
-  <span id="theme-label">sheet</span>
-  <button id="theme-toggle" type="button" aria-label="switch theme">☾</button>
+  <select id="theme-select" aria-label="theme" style="font-family: var(--font-mono); font-size: var(--type-scale-9); background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 2px 6px;">
+    <option value="survey">survey</option>
+    <option value="mono">mono</option>
+  </select>
+  <span id="theme-label">light</span>
+  <button id="theme-toggle" type="button" aria-label="switch mode">☾</button>
 </div>
 
 <main id="content">
@@ -202,11 +193,6 @@
     <input id="filter" type="search" aria-label="Filter swatches, components, and paths" placeholder="filter swatches, components, paths … (press / to focus)" autocomplete="off" spellcheck="false">
     <span class="count" id="filter-count"></span>
     <button class="clear" id="filter-clear" type="button" disabled>clear</button>
-    <button class="hint-btn" type="button" popovertarget="kbd-hints" aria-label="keyboard shortcuts">?</button>
-    <div id="kbd-hints" class="kbd-hints" popover role="group" aria-label="Keyboard shortcuts">
-      <p class="kbd-hints__row"><kbd class="ds-kbd">/</kbd><span>focus filter</span></p>
-      <p class="kbd-hints__row"><kbd class="ds-kbd">Esc</kbd><span>clear &amp; blur</span></p>
-    </div>
   </div>
 
   <h2 class="section" data-no-filter>core palette</h2>
@@ -342,7 +328,8 @@
 
   <h2 class="section" data-no-filter>repo layout</h2>
   <pre class="tree">design/
-├── tokens.json                ← source of truth
+├── tokens.core.json           ← core framework (source of truth)
+├── themes/                    ← survey.json · mono.json
 ├── tokens.css                 ← generated (CSS variables)
 ├── tokens-data.js             ← generated (JS for website)
 ├── tokens.md                  ← generated (human-readable spec)
@@ -363,7 +350,6 @@
 ├── preview/                   ← HTML specimen cards
 └── assets/</pre>
 
-  <div class="ds-line-onview footer-rule" aria-hidden="true"></div>
   <footer>
     <p class="footer-mark" aria-hidden="true">jy <span class="chev">❯</span><span class="ds-caret"></span></p>
     ──────── set in zilla slab, hanken grotesk &amp; ibm plex mono · tokens in <a href="./md.html?src=tokens.md">tokens.md</a> · source on <a href="https://github.com/jylhis/design">github</a> · tehty käsin ────────
@@ -419,14 +405,16 @@
 
   const renderSwatches = () => {
     if (!tokenData) return;
-    const mode = doc.dataset.theme || "light";
-    const swatchContrast = (tokenData.swatchContrast && tokenData.swatchContrast[mode]) || {};
+    const mode = doc.dataset.mode === "dark" ? "dark" : "light";
+    const themeSlug = doc.dataset.theme || "survey";
+    const td = (tokenData.themes && tokenData.themes[themeSlug]) || tokenData;
+    const swatchContrast = (td.swatchContrast && td.swatchContrast[mode]) || {};
 
     // Palette: grouped under thematic banners (grounds / ink / bronze / line).
     const paletteHost = document.getElementById("palette-groups");
     if (paletteHost) {
       paletteHost.innerHTML = "";
-      const paletteGroups = ["grounds", "ink", "bronze", "line"];
+      const paletteGroups = ["grounds", "ink", "accent", "line"];
       for (const gKey of paletteGroups) {
         const g = tokenData.groups && tokenData.groups[gKey];
         if (!g) continue;
@@ -437,7 +425,7 @@
         const grid = document.createElement("div");
         grid.className = "swatches";
         for (const role of g.members) {
-          const entry = tokenData.palette[role];
+          const entry = td.palette[role];
           if (!entry) continue;
           grid.appendChild(makeSwatch(role, entry[mode], swatchContrast[role], g.label));
         }
@@ -451,9 +439,9 @@
       el.innerHTML = "";
       for (const [name, hex, ratio] of entries) el.appendChild(makeSwatch(name, hex, ratio, groupLabel));
     };
-    fill("syntax-swatches", Object.entries(tokenData.syntax).map(([k, v]) => [k.replace("syn-", ""), v[mode]]), "Modus");
-    fill("status-swatches", Object.entries(tokenData.status).map(([k, v]) => [k.replace("status-", ""), v[mode], swatchContrast[k]]), "Signal");
-    fill("ansi-swatches", tokenData.ansi.map((a, i) => [`${i} ${a.name}`, a[mode]]), "Spectrum");
+    fill("syntax-swatches", Object.entries(td.syntax).map(([k, v]) => [k.replace("syn-", ""), v[mode]]), "Modus");
+    fill("status-swatches", Object.entries(td.status).map(([k, v]) => [k.replace("status-", ""), v[mode], swatchContrast[k]]), "Signal");
+    fill("ansi-swatches", td.ansi.map((a, i) => [`${i} ${a.name}`, a[mode]]), "Spectrum");
 
     applyFilter();
   };
@@ -473,35 +461,27 @@
     } catch {}
   });
 
-  // Four editions cycled by the toolbar button: Sheet → Field → Chalk →
-  // Graphite → Sheet. The button glyph hints the NEXT edition; the label names
-  // the current one. tokens.css carries the [data-theme] selectors.
-  const CYCLE = ["light", "dark", "mono-light", "mono-dark"];
-  const TNAME = { "light": "sheet", "dark": "field", "mono-light": "chalk", "mono-dark": "graphite" };
-  const NEXT_ICON = { "light": "☾", "dark": "◐", "mono-light": "◑", "mono-dark": "☀" };
-  const nextOf = (m) => CYCLE[(CYCLE.indexOf(m) + 1) % CYCLE.length];
-
   const apply = (mode, persist = true) => {
-    if (!CYCLE.includes(mode)) mode = "light";
-    if (mode === "light") delete doc.dataset.theme;
-    else doc.dataset.theme = mode;
-    label.textContent = TNAME[mode];
-    btn.textContent = NEXT_ICON[mode];
-    btn.setAttribute("aria-label", `switch to ${TNAME[nextOf(mode)]}`);
+    if (mode === "dark") { doc.dataset.mode = "dark"; label.textContent = "dark"; btn.textContent = "☀"; }
+    else { delete doc.dataset.mode; label.textContent = "light"; btn.textContent = "☾"; }
+    btn.setAttribute("aria-label", mode === "dark" ? "switch to light mode" : "switch to dark mode");
     if (persist) safeSet("jylhis-theme", mode);
     renderSwatches();
   };
 
+  const themeSel = document.getElementById("theme-select");
+  const applyTheme = (slug, persist = true) => {
+    if (slug && slug !== "survey") doc.dataset.theme = slug; else delete doc.dataset.theme;
+    if (themeSel) themeSel.value = slug || "survey";
+    if (persist) safeSet("jylhis-ds-theme", slug || "survey");
+    renderSwatches();
+  };
+  applyTheme(safeGet("jylhis-ds-theme") || "survey", false);
+  themeSel?.addEventListener("change", () => applyTheme(themeSel.value));
+
   const saved = safeGet("jylhis-theme");
   apply(saved ?? (mq.matches ? "dark" : "light"), saved !== null);
-  btn.addEventListener("click", () => {
-    const next = nextOf(doc.dataset.theme || "light");
-    // Survey re-plot on an explicit toggle only — the initial apply() above is
-    // never wrapped, so first paint does not animate. Feature-detected: browsers
-    // without View Transitions swap instantly.
-    if (document.startViewTransition) document.startViewTransition(() => apply(next));
-    else apply(next);
-  });
+  btn.addEventListener("click", () => apply(doc.dataset.mode === "dark" ? "light" : "dark"));
   mq.addEventListener("change", (e) => { if (!safeGet("jylhis-theme")) apply(e.matches ? "dark" : "light", false); });
 
   // ─── Filter / search across swatches, components, and cards ─────────
@@ -569,7 +549,7 @@
     }));
   }
 
-  console.log("%cjy ❯%c tokens in ./tokens.md · source in tokens.json · tehty käsin", "color:#6f3e00;font-weight:bold;font-family:monospace", "color:inherit;font-family:monospace");
+  console.log("%cjy ❯%c tokens in ./tokens.md · source in tokens.core.json + themes/ · tehty käsin", "color:#6f3e00;font-weight:bold;font-family:monospace", "color:inherit;font-family:monospace");
 
   filter?.addEventListener("input", applyFilter);
   filterClear?.addEventListener("click", () => { filter.value = ""; applyFilter(); filter.focus(); });

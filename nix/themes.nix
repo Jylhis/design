@@ -9,8 +9,9 @@
 # The result contains:
 #   share/jylhis/ghostty/    — Ghostty theme files
 #   share/jylhis/emacs/      — Emacs theme .el files
-#   share/jylhis/tokens.css  — CSS tokens
-#   share/jylhis/tokens.json — machine-readable source of truth
+#   share/jylhis/tokens.css       — CSS tokens
+#   share/jylhis/tokens.core.json — theme-independent core (source of truth)
+#   share/jylhis/themes/          — survey.json + mono.json
 
 { lib, stdenvNoCC }:
 
@@ -42,9 +43,7 @@ let
 in
 stdenvNoCC.mkDerivation {
   pname = "jylhis-themes";
-  # Read from tokens.json so the package version can never drift from the
-  # design system's own `meta.version`.
-  version = (builtins.fromJSON (builtins.readFile ../tokens.json)).meta.version;
+  version = "2.0.0";
 
   inherit src;
 

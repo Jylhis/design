@@ -1,0 +1,9 @@
+# Jylhis Survey Light — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Survey Light
+Description=Jylhis design system — survey-light variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

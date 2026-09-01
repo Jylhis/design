@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JylhisMonoDark.colors  (dark) — GENERATED from tokens.json. Do not edit by hand. -->
+<palette theme="JylhisMonoDark">
+  <color role="Window">#121212</color>
+  <color role="WindowText">#d9d9d9</color>
+  <color role="Base">#191919</color>
+  <color role="AlternateBase">#202020</color>
+  <color role="Text">#d9d9d9</color>
+  <color role="BrightText">#f5f5f5</color>
+  <color role="Button">#202020</color>
+  <color role="ButtonText">#d9d9d9</color>
+  <color role="Highlight">#e6e6e6</color>
+  <color role="HighlightedText">#121212</color>
+  <color role="Link">#e6e6e6</color>
+  <color role="LinkVisited">#b8b8b8</color><!-- Modus blue-warmer -->
+
+  <color role="ToolTipBase">#2a2a2a</color>
+  <color role="ToolTipText">#d9d9d9</color>
+  <color role="Light">#2a2a2a</color>
+  <color role="Midlight">#202020</color>
+  <color role="Mid">#2e2e2e</color>
+  <color role="Dark">#a3a3a3</color>
+  <color role="Shadow">#000000</color>
+
+  <color role="WindowText" group="Disabled">#6e6e6e</color>
+  <color role="Text"        group="Disabled">#6e6e6e</color>
+  <color role="ButtonText"  group="Disabled">#6e6e6e</color>
+
+  <color role="Highlight"        group="Inactive">#454545</color>
+  <color role="HighlightedText"  group="Inactive">#d9d9d9</color>
+</palette>

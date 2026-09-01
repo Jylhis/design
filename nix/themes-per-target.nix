@@ -9,8 +9,9 @@
 #   pkgs.callPackage ./nix/themes-per-target.nix { target = "waybar"; }
 #
 # Targets correspond to the keys in nix/install-map.nix:
-#   ghostty, emacs, hyprland, rofi, gtk, waybar, mako, kvantum,
-#   base16, shell, bat, scripts (and `tokens` for just the root files).
+#   ghostty, emacs, hyprland, rofi, gtk, waybar, mako, kvantum, base16,
+#   console, shell, bat, scripts, plymouth, gimp, shadcn, adobe, hyperos
+#   (and `tokens` for just the root files).
 #
 # Used by flake.nix to expose packages.<system>.<target>.
 
@@ -48,7 +49,7 @@ let
 in
 stdenvNoCC.mkDerivation {
   pname = "jylhis-themes-${target}";
-  version = "0.3.0";
+  version = "2.0.0";
 
   inherit src;
 

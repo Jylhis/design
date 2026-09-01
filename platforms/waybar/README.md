@@ -4,8 +4,7 @@ A `style.css` for the [Waybar](https://github.com/Alexays/Waybar) status bar plu
 
 ```
 platforms/waybar/
-├── style.css              ← generated (Field / dark)
-├── style-sheet.css        ← generated (Sheet / light)
+├── style.css              ← generated (95 lines)
 └── config.jsonc           ← hand-authored (modules, layout, hyprland integration)
 ```
 
@@ -25,15 +24,17 @@ killall -SIGUSR2 waybar 2>/dev/null || (killall waybar; waybar &)
 
 ## What's set
 
-- Bar background: `bg-subtle` with a 1px linen border on the bottom edge so it reads as a horizontal rule against the wallpaper.
+- Bar background: `bg-subtle` with a 1px hairline border on the bottom edge so it reads as a horizontal rule against the wallpaper.
 - Module text: `text-muted` by default, `text` for the active workspace, `accent` for hover/pressed states.
 - Status modules use the Signal palette: battery low → `status-warn`; battery critical → `status-err`; network connected → `status-ok`.
-- Mono labels (JetBrains Mono fallback chain) at 0.78rem so the bar reads as a chrome surface, not as content.
+- Mono labels (IBM Plex Mono fallback chain) at 0.78rem so the bar reads as a chrome surface, not as content.
 
 ## Light vs dark
 
-Both modes are generated: `style.css` is Field (dark) and `style-sheet.css` is Sheet (light). Waybar has no native theme switcher, so install the one you want as `~/.config/waybar/style.css`. If you want auto-switch on Hyprland, run a small `hyprctl dispatch` script that swaps a symlink between the two files on `prefers-color-scheme` change and reloads Waybar.
+Waybar has no native theme switcher; the generated CSS picks up whatever variables are exposed by the parent compositor or your shell init. If you want auto-switch on Hyprland, run a small `hyprctl dispatch` script that swaps the symlink between two pre-built CSS files on `prefers-color-scheme` change. The current `style.css` ships one mode (Sheet); adding a dark sibling is straightforward — extend `generateWaybar()` to emit `style-survey-light.css` and `style-field.css`.
+
+> **TODO:** dual-mode emit. Single-mode is fine for most users since most NixOS / Arch ricers want to commit to one theme and use Hyprland animations only on transitions, not Waybar.
 
 ## Contract
 
-`style.css` and `style-sheet.css` mirror `tokens.json`. The `config.jsonc` is yours.
+`style.css` mirrors `tokens.json`. The `config.jsonc` is yours.

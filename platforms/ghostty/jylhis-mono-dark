@@ -1,0 +1,32 @@
+# Jylhis Monochrome Dark (dark) — Ghostty colorscheme
+# Drop in ~/.config/ghostty/themes/jylhis-mono-dark and reference with
+# `theme = jylhis-mono-dark` in config.
+#
+# ANSI 0–6 are Modus Vivendi accents so `ls`, `bat`, `delta`, `git log`
+# share the editor's palette. ANSI 11 is the brand bronze — intentional
+# override so prompts and dir-permissions carry the Jylhis identity.
+# See tokens.md §3.
+
+palette = 0=#121212
+palette = 1=#f0685f
+palette = 2=#6bbf6b
+palette = 3=#d9b34a
+palette = 4=#5fb8cf
+palette = 5=#e3e3e3
+palette = 6=#5fb8cf
+palette = 7=#d9d9d9
+palette = 8=#6e6e6e
+palette = 9=#ff7f7f
+palette = 10=#70b900
+palette = 11=#e6e6e6
+palette = 12=#8f8f8f
+palette = 13=#f0f0f0
+palette = 14=#5fb8cf
+palette = 15=#f5f5f5
+
+background         = #121212
+foreground         = #d9d9d9
+cursor-color       = #e6e6e6
+cursor-text        = #121212
+selection-background = #2b3446
+selection-foreground = #d9d9d9

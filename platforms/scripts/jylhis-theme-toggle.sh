@@ -5,10 +5,8 @@
 #
 # Behavior:
 #   1. Read $XDG_STATE_HOME/jylhis/active-theme (defaults to ~/.local/state).
-#      The file is a single line: "sheet", "field", "chalk", or "graphite".
-#      If absent, defaults to field.
-#   2. Advance to the next edition (sheet → field → chalk → graphite → sheet)
-#      and rewrite the file atomically.
+#      The file is a single line: "sheet" or "field". If absent, defaults to field.
+#   2. Flip the value and rewrite the file atomically.
 #   3. Reload the desktop daemons that pick up the change:
 #        - waybar  (SIGUSR2 — config reload)
 #        - mako    (makoctl reload)
@@ -33,11 +31,9 @@ current="field"
 [[ -r "$state_file" ]] && current="$(cat "$state_file")"
 
 case "$current" in
-  sheet)    next="field" ;;
-  field)    next="chalk" ;;
-  chalk)    next="graphite" ;;
-  graphite) next="sheet" ;;
-  *)        next="field" ;;  # unknown contents → reset to field
+  sheet) next="field" ;;
+  field) next="sheet" ;;
+  *)     next="field" ;;  # unknown contents → reset to field
 esac
 
 # Atomic write: tmp file + rename.

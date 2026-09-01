@@ -131,13 +131,13 @@
     var(--color-decorator) 0 1px, transparent 1px 9px);
   opacity: 0.28;
 }
-[data-theme="dark"] .mock-tui-wall.hatch { opacity: 0.16; }
+[data-mode="dark"] .mock-tui-wall.hatch { opacity: 0.16; }
 .mock-tui-wall.dots {
   background-image: radial-gradient(var(--color-decorator) 1px, transparent 1px);
   background-size: 18px 18px;
   opacity: 0.5;
 }
-[data-theme="dark"] .mock-tui-wall.dots { opacity: 0.32; }
+[data-mode="dark"] .mock-tui-wall.dots { opacity: 0.32; }
 .mock-tui-wall.scan {
   background-image: repeating-linear-gradient(to bottom,
     var(--color-decorator) 0 1px, transparent 1px 6px);

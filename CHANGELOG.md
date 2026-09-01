@@ -9,6 +9,65 @@ Canonical token spec: [`tokens.md`](./tokens.md). Consumer guide:
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-09-01
+
+The system becomes a **theming framework**: a theme-independent core plus
+swappable themes, each with a first-class light and dark mode. Design rationale
+lives in [`docs/THEMING.md`](./docs/THEMING.md).
+
+### Changed — BREAKING
+
+- **Tokens split into a core + themes.** `tokens.json` is retired in favour of
+  `tokens.core.json` (theme-independent: type stack, scale, spacing, layout,
+  radii, breakpoints, z-index, border widths, focus, density, motion, sound, and
+  the colour-role taxonomy) plus `themes/<slug>.json` (palette / syntax / status
+  / ANSI + measured contrast claims). Consumers reading `tokens.json` must move to
+  the new sources.
+- **Selectors are orthogonal theme × mode.** `data-theme="<slug>"` ×
+  `data-mode="light|dark"` on `<html>` (defaults: survey, light). The old
+  `data-theme="dark|sheet|field"` selectors are retired. `tokens.css` now emits
+  `:root` (survey light), `[data-mode="dark"]`, `[data-theme="mono"]`, and
+  `[data-theme="mono"][data-mode="dark"]`.
+- **Generated targets are uniform `jylhis-<theme>-<light|dark>`.** Every derived
+  platform file is emitted in all four variants (survey/mono × light/dark) by
+  role-mapped recolouring of the committed Survey reference files in
+  `platforms/_reference/`. Filenames move from `jylhis-{sheet,field}.*` to
+  `jylhis-{survey,mono}-{light,dark}.*` (Kvantum `Jylhis<Theme><Mode>.colors`,
+  mako `config-<t>-<m>`, waybar `style-<t>-<m>.css`). `waybar/style.css` and
+  `mako/config` stay as survey-dark copies for name-hardcoding consumers.
+- **Nix options are orthogonal.** The single `variant` (sheet|field) option on the
+  Home Manager and stylix modules is replaced by `name` (survey|mono) + `mode`
+  (light|dark). `lib.variantToBase16Scheme` is replaced by
+  `lib.toBase16Scheme pkgs { theme; mode; }`, and `lib.mkPalette { theme; mode; }`
+  returns `{ hex; ansi; ansi16; base16; }` read from the token sources + committed
+  base16 YAML. `nix/install-map.nix` enumerates the four variants per target from a
+  cartesian product and adds `gimp`, `shadcn`, `adobe` targets.
+
+### Added
+
+- **Monochrome theme (`themes/mono.json`).** Neutral grayscale; interaction as
+  inverted ink fills; the maker's mark as the one pure black/white; syntax in gray
+  steps carrying meaning through weight/italic (`--syntax-<role>-weight/style`);
+  chromatic status colours kept for safety.
+- **`docs/THEMING.md`** — the framework spec and the add-a-theme recipe.
+
+### Fixed
+
+- **Generator `bare` mode.** base16 and console outputs quote hex without a
+  leading `#`, which `recolor()`'s `#`-anchored regex missed — so Monochrome
+  base16/console were Survey colours merely renamed. `recolor()` gained a `bare`
+  mode threaded through `deriveTarget()`/`generate.mjs`, set on the base16 and
+  console targets. Survey output stays byte-identical.
+- **Monochrome comment contrast.** `syn-comment` lifts light `#707070`→`#666666`
+  and dark `#8c8c8c`→`#929292`; the `syn-comment` contrast claim in both
+  `mono.json` and `survey.json` now measures against the true worst ground
+  (`surface` light, `surface-raised` dark) instead of `bg`.
+- **Validator false positives.** `validate-a11y-html.mjs` now treats an `<input>`
+  wrapped in a `<label>` with visible text as labelled; `validate-a11y-css.mjs`
+  credits the one universal `prefers-reduced-motion` guard in
+  `colors_and_type.css` as covering first-party component/preview/mock CSS, while
+  still failing if that guard is removed.
+
 ## [1.1.0] — 2026-07-27
 
 Three threads land together: the v2 spec's validation findings (accent to AAA,
@@ -319,7 +378,8 @@ Downstream pins must be updated deliberately. Design rationale lives in
 
 - Fish support (kept bash and zsh only).
 
-[Unreleased]: https://github.com/jylhis/design/compare/v1.0.0...main
+[Unreleased]: https://github.com/jylhis/design/compare/v2.0.0...main
+[2.0.0]: https://github.com/jylhis/design/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/jylhis/design/compare/v0.5.0...v1.0.0
 [0.5.0]: https://github.com/jylhis/design/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/jylhis/design/compare/v0.3.0...v0.4.0
