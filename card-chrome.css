@@ -1,0 +1,20 @@
+/*
+ * card-chrome.css — shared chrome for the specimen pages (preview/*.html and
+ * components/<Name>/card.html). Page frame, demo label, demo row/column.
+ * Deliberately NOT imported by styles.css: this is scaffolding for the cards,
+ * not part of what consumers get. Link it after styles.css / colors_and_type.css
+ * so a card's own <style> can still override any of it.
+ */
+html, body { margin: 0; background: var(--color-bg); }
+body { padding: 20px 22px; color: var(--color-text); }
+.demo-label, .label, .tag {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-9);
+  color: var(--color-text-faint);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: block;
+  margin: 0 0 8px;
+}
+.demo-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.demo-col { display: flex; flex-direction: column; gap: 10px; }

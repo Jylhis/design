@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Forms</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-8); max-width: 48ch; }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 14px 0 6px; }
+  .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+  .field > .name { font-size: var(--type-scale-9); color: var(--color-text); }
+  .field > .help { font-size: var(--type-scale-9); color: var(--color-text-muted); }
+
+  input[type="text"], input[type="email"], input[type="password"], textarea, select {
+    font: inherit; font-size: var(--type-scale-8);
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast);
+  }
+  input::placeholder, textarea::placeholder { color: var(--color-text-faint); }
+  input:hover, textarea:hover, select:hover { border-color: var(--color-border-strong); }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--color-accent); outline-offset: 2px; border-color: var(--color-accent); }
+  input:disabled { color: var(--color-text-faint); background: var(--color-bg-subtle); cursor: not-allowed; }
+  input[aria-invalid="true"] { border-color: var(--color-status-err); }
+  input[aria-invalid="true"] + .help { color: var(--color-status-err); }
+
+  textarea { resize: vertical; min-height: 4.5rem; font-family: inherit; }
+  select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%), linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%); background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 28px; }
+
+  .check { display: flex; gap: 8px; align-items: center; font-size: var(--type-scale-8); cursor: pointer; }
+  .check input { appearance: none; width: 14px; height: 14px; border: 1px solid var(--color-border-strong); border-radius: 2px; background: var(--color-bg); margin: 0; cursor: pointer; position: relative; }
+  .check input:checked { border-color: var(--color-accent); background: var(--color-accent); }
+  .check input:checked::after { content: "✓"; color: var(--color-bg); font-size: var(--type-scale-9); font-weight: 700; position: absolute; top: -2px; left: 1px; line-height: 1; }
+  .check input[type="radio"] { border-radius: 50%; }
+  .check input[type="radio"]:checked { background: var(--color-bg); }
+  .check input[type="radio"]:checked::after { content: ""; width: 6px; height: 6px; background: var(--color-accent); border-radius: 50%; top: 3px; left: 3px; }
+  .check input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+  .row { display: flex; gap: 14px; flex-wrap: wrap; }
+  button.submit { font: inherit; font-size: var(--type-scale-8); padding: 8px 16px; border-radius: var(--radius-sm); background: var(--color-accent); color: var(--color-bg); border: 1px solid var(--color-accent); cursor: pointer; }
+  button.submit:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+  button.submit:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  button.ghost { font: inherit; font-size: var(--type-scale-8); padding: 8px 16px; border-radius: var(--radius-sm); background: transparent; color: var(--color-text); border: 1px solid var(--color-border); cursor: pointer; }
+  button.ghost:hover { color: var(--color-accent); border-color: var(--color-accent); }
+</style></head>
+<body>
+  <span class="label">text input · default / focus / error / disabled</span>
+  <div class="field">
+    <label class="name" for="demo-name">name</label>
+    <input id="demo-name" type="text" placeholder="markus jylhänkangas" aria-describedby="demo-name-help">
+    <span class="help" id="demo-name-help">your full name, the way you'd sign a letter.</span>
+  </div>
+  <div class="field">
+    <label class="name" for="demo-email">email</label>
+    <input id="demo-email" type="email" value="markus" aria-invalid="true" aria-describedby="demo-email-help">
+    <span class="help" id="demo-email-help">that's not a valid email address.</span>
+  </div>
+  <div class="field">
+    <label class="name" for="demo-token">api token (read-only)</label>
+    <input id="demo-token" type="text" value="zk_live_4f9a2b8e7c6d5a3b1f0e" disabled>
+  </div>
+
+  <span class="label">textarea</span>
+  <div class="field">
+    <label class="name" for="demo-notes">notes</label>
+    <textarea id="demo-notes" placeholder="anything you want me to know …"></textarea>
+  </div>
+
+  <span class="label">select</span>
+  <div class="field">
+    <label class="name" for="demo-theme">theme preference</label>
+    <select id="demo-theme">
+      <option>system</option>
+      <option>sheet</option>
+      <option>field</option>
+    </select>
+  </div>
+
+  <span class="label">checkbox · radio</span>
+  <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+    <label class="check"><input type="checkbox" checked> remember this device</label>
+    <label class="check"><input type="checkbox"> send me weekly notes</label>
+    <label class="check"><input type="radio" name="density" checked> comfortable</label>
+    <label class="check"><input type="radio" name="density"> compact</label>
+    <label class="check"><input type="radio" name="density"> tui</label>
+  </div>
+
+  <span class="label">submit · ghost</span>
+  <div class="row">
+    <button class="submit">save preferences</button>
+    <button class="ghost">cancel</button>
+  </div>
+</body></html>

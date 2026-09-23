@@ -1,0 +1,40 @@
+<!-- @dsCard group="Patterns" viewport="620x200" name="Footer" subtitle="Dashes colophon" -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Footer</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../card-chrome.css">
+<style>
+  body { background: var(--color-surface); color: var(--color-text-muted); font-family: var(--font-mono); font-size: var(--type-scale-9); padding: 22px; }
+  .rule { color: var(--color-decorator); letter-spacing: -0.05em; white-space: nowrap; overflow: hidden; margin-bottom: 14px; }
+  .nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr)); gap: 18px; margin-bottom: 16px; }
+  .h { font-weight: 600; color: var(--color-text); font-size: var(--type-scale-9); text-transform: lowercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
+  li a { color: var(--color-text-muted); font-family: var(--font-body); font-size: var(--type-scale-8); text-decoration: none; }
+  .ident { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--color-decorator); margin-bottom: 10px; }
+  .ident .mark { font-family: var(--font-mono); font-weight: 600; color: var(--color-text); }
+  .ident .mark .chev { color: var(--color-brand); font-weight: 700; margin-left: 0.12em; }
+  .ident .t { color: var(--color-text-faint); }
+</style></head>
+<body>
+  <div class="rule">────────────────────────────────────────────────────────────────────</div>
+  <div class="nav">
+    <div><div class="h">home</div><ul><li><a>about</a></li><li><a>currently</a></li></ul></div>
+    <div><div class="h">resume</div><ul><li><a>experience</a></li><li><a>skills</a></li></ul></div>
+    <div><div class="h">projects</div><ul><li><a>nixos</a></li><li><a>all projects</a></li></ul></div>
+    <div><div class="h">notes</div><ul><li><a>latest</a></li><li><a>rss feed</a></li></ul></div>
+  </div>
+  <div class="ident">
+    <span aria-hidden="true">───</span>
+    <span class="mark">jy<span class="chev">❯</span></span>
+    <span class="t">markus jylhä · senior software engineer</span>
+    <span aria-hidden="true">───</span>
+  </div>
+  <div class="rule" style="margin-top:14px">────────────────────────────────────────────────────────────────────</div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/tweaks-panel.js"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/ds-tweaks.js"></script>
+</body></html>

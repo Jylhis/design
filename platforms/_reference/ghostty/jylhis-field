@@ -1,0 +1,32 @@
+# Jylhis Field (dark) — Ghostty colorscheme
+# Drop in ~/.config/ghostty/themes/jylhis-field and reference with
+# `theme = jylhis-field` in config.
+#
+# ANSI 0–6 are Modus Vivendi accents so `ls`, `bat`, `delta`, `git log`
+# share the editor's palette. ANSI 11 is the brand bronze — intentional
+# override so prompts and dir-permissions carry the Jylhis identity.
+# ANSI slots: themes/jylhis.json (ansi array).
+
+palette = 0=#0c0f14
+palette = 1=#ff8271
+palette = 2=#39ae34
+palette = 3=#ec871d
+palette = 4=#17a4ed
+palette = 5=#ff9ac5
+palette = 6=#17a4ed
+palette = 7=#d1d4dc
+palette = 8=#5d6067
+palette = 9=#ff7f7f
+palette = 10=#70b900
+palette = 11=#f5a351
+palette = 12=#7ca2ff
+palette = 13=#b4a8ff
+palette = 14=#00a3ee
+palette = 15=#e7ebf2
+
+background         = #0c0f14
+foreground         = #d1d4dc
+cursor-color       = #f5a351
+cursor-text        = #0c0f14
+selection-background = #2b3446
+selection-foreground = #d1d4dc

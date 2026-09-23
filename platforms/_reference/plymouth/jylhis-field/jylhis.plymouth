@@ -1,0 +1,9 @@
+# Jylhis Field — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Field
+Description=Jylhis design system — field variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

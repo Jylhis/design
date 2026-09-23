@@ -1,0 +1,3 @@
+# Binary assets that must never be diffed or normalized.
+platforms/adobe/*.ase binary
+platforms/hyperos/*.mtz binary

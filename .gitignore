@@ -1,0 +1,63 @@
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# Generated local artifacts
+_site/
+.ds-bundle-build/
+result
+result-*
+coverage/
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Claude Code per-user harness state
+.claude/settings.local.json
+
+# Impeccable design skill (vendored, not part of the system) + local state
+.claude/skills/impeccable/
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+
+# ─── Generated outputs (never committed) ─────────────────────────────
+# Everything scripts/generate.mjs + scripts/make-bundle.mjs emit is built
+# by the Nix derivations (nix/generated.nix), the pages assembly, or on
+# demand in dev shells. Sources of truth: tokens.core.json + themes/jylhis.json.
+# The registry nix/generated-files.nix mirrors this list for Nix routing.
+# The root outputs are anchored (/) — a bare "tokens.css" would also ignore
+# the tracked, hand-maintained platforms/shadcn/tokens.css, silently
+# dropping it from publish snapshots (fresh `git init` + `git add -A`).
+/tokens.css
+/tokens-data.js
+/density.css
+/_ds_bundle.js
+platforms/base16/jylhis-light.yaml
+platforms/base16/jylhis-dark.yaml
+platforms/bat/jylhis-light.tmTheme
+platforms/bat/jylhis-dark.tmTheme
+platforms/console/jylhis-light.nix
+platforms/console/jylhis-dark.nix
+platforms/emacs/jylhis-light-theme.el
+platforms/emacs/jylhis-dark-theme.el
+platforms/ghostty/jylhis-light
+platforms/ghostty/jylhis-dark
+platforms/gimp/jylhis-light.gpl
+platforms/gimp/jylhis-dark.gpl
+platforms/gtk/gtk.css
+platforms/hyprland/jylhis-light.conf
+platforms/hyprland/jylhis-dark.conf
+platforms/kvantum/JylhisLight.colors
+platforms/kvantum/JylhisDark.colors
+platforms/mako/config-light
+platforms/mako/config-dark
+platforms/rofi/jylhis-light.rasi
+platforms/rofi/jylhis-dark.rasi
+platforms/shell/fzf-light.sh
+platforms/shell/fzf-dark.sh
+platforms/waybar/style-light.css
+platforms/waybar/style-dark.css

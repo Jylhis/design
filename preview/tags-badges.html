@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Tags & Badges</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text); }
+  .label { font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin-bottom: 8px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .tag { font-size: var(--type-scale-9); padding: 0.15em 0.55em; border-radius: 3px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); color: var(--color-text-muted); }
+  .tag.hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .status { font-size: var(--type-scale-9); padding: 0.1em 0.5em; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .s-active   { color: var(--color-status-ok);   background: color-mix(in srgb, var(--color-status-ok) 12%, transparent);   border: 1px solid var(--color-status-ok); }
+  .s-archived { color: var(--color-text-muted); background: var(--color-bg-subtle); border: 1px solid var(--color-border); }
+  .s-exp      { color: var(--color-syntax-keyword); background: color-mix(in srgb, var(--color-syntax-keyword) 12%, transparent); border: 1px solid var(--color-syntax-keyword); }
+  .s-contrib  { color: var(--color-status-info); background: color-mix(in srgb, var(--color-status-info) 12%, transparent); border: 1px solid var(--color-status-info); }
+</style></head>
+<body>
+  <span class="label">tag chips · hover in last</span>
+  <div class="tags">
+    <span class="tag">nix</span><span class="tag">devops</span><span class="tag">emacs</span><span class="tag">cli</span><span class="tag hover">linux</span>
+  </div>
+  <span class="label">project status</span>
+  <div class="tags">
+    <span class="status s-active">active</span>
+    <span class="status s-archived">archived</span>
+    <span class="status s-exp">experimental</span>
+    <span class="status s-contrib">contributed</span>
+  </div>
+</body></html>

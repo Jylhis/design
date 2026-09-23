@@ -1,0 +1,51 @@
+/* mocks/tablet/tablet-frame.css — flat tablet device frame
+ *
+ * A flat bezel for tablet-format prototypes: rounded slab on the stage
+ * desk, inset screen, camera dot. No drop shadows, no gloss — the frame is
+ * drawn entirely with token grounds and hairlines.
+ *
+ * Consumes ONLY design-system custom properties (import styles.css first).
+ * Zero raw hex / rgba literals.
+ *
+ * Markup contract:
+ *
+ *   <div class="mock-tablet">
+ *     <div class="mock-tablet__cam"></div>
+ *     <div class="mock-tablet__screen">…your UI…</div>
+ *   </div>
+ *
+ * Size the frame from the consuming page (width/height); the screen fills
+ * the bezel padding. Pairs naturally with mocks/stage/ (use
+ * .mock-stage__canvas--bare so the frame floats on the desk).
+ */
+
+.mock-tablet {
+  position: relative;
+  background: var(--color-bg);
+  border: 2px solid var(--color-border-strong);
+  border-radius: 26px;
+  padding: 14px;
+}
+
+.mock-tablet__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: var(--border-hairline) solid var(--color-border);
+}
+
+.mock-tablet__cam {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-scrim);
+  border: var(--border-hairline) solid var(--color-border);
+  z-index: 100;
+}

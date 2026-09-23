@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Alerts &amp; callouts</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-body); font-size: var(--type-scale-6); line-height: 1.5; max-width: 60ch; }
+  .label { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text-faint); letter-spacing: 0.04em; text-transform: uppercase; display: block; margin: 16px 0 8px; }
+  .alert { border: var(--border-hairline) solid; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-sm); margin-bottom: 10px; font-size: var(--type-scale-5); }
+  .alert .head { font-family: var(--font-mono); font-size: var(--type-scale-9); text-transform: uppercase; letter-spacing: 0.08em; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .alert .head .glyph { font-family: var(--font-mono); font-weight: 700; }
+  .alert.info { border-color: var(--color-status-info); background: color-mix(in srgb, var(--color-status-info) 10%, transparent); }
+  .alert.info .head { color: var(--color-status-info); }
+  .alert.ok { border-color: var(--color-status-ok); background: color-mix(in srgb, var(--color-status-ok) 10%, transparent); }
+  .alert.ok .head { color: var(--color-status-ok); }
+  .alert.warn { border-color: var(--color-status-warn); background: color-mix(in srgb, var(--color-status-warn) 10%, transparent); }
+  .alert.warn .head { color: var(--color-status-warn); }
+  .alert.err { border-color: var(--color-status-err); background: color-mix(in srgb, var(--color-status-err) 10%, transparent); }
+  .alert.err .head { color: var(--color-status-err); }
+  .alert p { margin: 0; color: var(--color-text); }
+
+  .callout { border: var(--border-hairline) solid var(--color-accent); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: color-mix(in srgb, var(--color-accent) 8%, transparent); margin-bottom: 10px; }
+  .callout .label-row { font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .callout .label-row::before { content: "// "; }
+</style></head>
+<body>
+  <span class="label">status alerts · err / warn / ok / info</span>
+
+  <div class="alert info">
+    <div class="head"><span class="glyph">i</span> info</div>
+    <p>The maker's mark uses <code>--color-brand</code>, not <code>--color-accent</code>. Brand is for large strokes; accent is for text-bearing UI.</p>
+  </div>
+
+  <div class="alert ok">
+    <div class="head"><span class="glyph">✓</span> success</div>
+    <p>All 18 generated files are in sync with <code>tokens.json</code>.</p>
+  </div>
+
+  <div class="alert warn">
+    <div class="head"><span class="glyph">!</span> warning</div>
+    <p><code>text-faint</code> clears AA at large size only. Do not use it for body copy.</p>
+  </div>
+
+  <div class="alert err">
+    <div class="head"><span class="glyph">✗</span> error</div>
+    <p>Contrast check failed: <code>accent</code> on <code>bg</code> = 3.9:1 (&lt; 4.5:1). Bump the accent darker on the sheet edition.</p>
+  </div>
+
+  <span class="label">bronze callout · hairline + bronze tint (the "currently" pattern)</span>
+  <div class="callout">
+    <div class="label-row">currently</div>
+    <p>Reading <em>The Pragmatic Programmer</em>, building a NixOS spin of Omarchy, and quietly migrating <code>jylhis.com</code> to Astro 5.</p>
+  </div>
+</body></html>

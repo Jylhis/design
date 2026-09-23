@@ -1,0 +1,9 @@
+# Jylhis Sheet — GENERATED from tokens.json. Do not edit by hand.
+[Plymouth Theme]
+Name=Jylhis Sheet
+Description=Jylhis design system — sheet variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

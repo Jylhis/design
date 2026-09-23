@@ -1,0 +1,49 @@
+<!-- @dsCard group="Patterns" viewport="520x240" name="Links" subtitle="Accent + animated underline" -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Links</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../card-chrome.css">
+<style>
+  body { padding: 22px 24px; color: var(--color-text); font-family: var(--font-body); font-size: var(--type-scale-6); line-height: 1.7; }
+  .tag { margin-bottom: 4px; }
+  a.prose {
+    color: var(--color-accent);
+    text-decoration: none;
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 100% 1px;
+  }
+  a.hover { color: var(--color-accent-hover); }
+  /* Nav hover shifts ink AND draws the rule. Accent against text-muted is a
+     hue swap at nearly equal lightness in light mode — invisible in grayscale
+     and weak in colour — so the underline carries the state. */
+  a.nav {
+    font-family: var(--font-mono);
+    font-size: var(--type-scale-8);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 0% 1px;
+    transition: background-size var(--transition-base), color var(--transition-fast);
+  }
+  a.nav.hovered { color: var(--color-accent); background-size: 100% 1px; }
+  .row { display: grid; grid-template-columns: 140px 1fr; gap: 8px 14px; align-items: baseline; margin-top: 10px; }
+</style></head>
+<body>
+  <span class="tag">prose link · animated underline grows on hover</span>
+  <p><a class="prose">default</a> &nbsp; <a class="prose hover">:hover</a> &nbsp; in context: read <a class="prose">this note</a>.</p>
+  <div class="row">
+    <span class="tag">nav/footer · hover draws the rule</span><span><a class="nav">home</a> &nbsp; <a class="nav">notes</a> &nbsp; <a class="nav hovered">projects</a></span>
+    <span class="tag">focus ring</span><span><a class="nav" style="outline:var(--focus-ring);outline-offset:var(--focus-ring-offset);border-radius:2px;padding:1px 4px">focused</a></span>
+  </div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/tweaks-panel.js"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/ds-tweaks.js"></script>
+</body></html>

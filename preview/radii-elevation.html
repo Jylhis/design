@@ -1,0 +1,32 @@
+<!-- @dsCard group="Foundations" viewport="520x280" name="Radii & elevation" subtitle="2–12px from the scale · one float shadow" -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Radii & Elevation</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../card-chrome.css">
+<style>
+  body { padding: 20px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-9); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr)); gap: 14px; }
+  .card { background: var(--color-surface-raised); border: 1px solid var(--color-border); padding: 12px; text-align: center; }
+  .tok { color: var(--color-text-heading); font-weight: 600; font-size: var(--type-scale-9); }
+  .val { color: var(--color-text-faint); margin-top: 2px; }
+  .shape { width: 44px; height: 44px; background: var(--color-accent-subtle); border: 1px solid var(--color-accent); margin: 6px auto; }
+  .note { grid-column: 1 / -1; padding: 10px 12px; color: var(--color-text-muted); border-top: 1px solid var(--color-border); font-family: var(--font-body); font-size: var(--type-scale-8); font-style: italic; line-height: 1.5; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="card"><div class="shape" style="border-radius:2px"></div><div class="tok">radius-xs</div><div class="val">2px</div></div>
+    <div class="card"><div class="shape" style="border-radius:3px"></div><div class="tok">radius-sm</div><div class="val">3px</div></div>
+    <div class="card"><div class="shape" style="border-radius:6px"></div><div class="tok">radius-md</div><div class="val">6px</div></div>
+    <div class="card"><div class="shape" style="border-radius:8px"></div><div class="tok">radius-lg</div><div class="val">8px</div></div>
+    <div class="card"><div class="shape" style="border-radius:12px"></div><div class="tok">radius-xl</div><div class="val">12px</div></div>
+    <div class="card"><div class="shape" style="border-radius:50%"></div><div class="tok">radius-pill</div><div class="val">circle only</div></div>
+    <div class="note">Elevation is tone and line: bg → bg-subtle → surface → surface-raised steps plus 1px borders. The one shadow, --shadow-float, marks objects that leave the flow — modal, sheet, popover, toast.</div>
+  </div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/tweaks-panel.js"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/ds-tweaks.js"></script>
+</body></html>

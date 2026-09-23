@@ -1,0 +1,37 @@
+{
+  "name": "@jylhis/design",
+  "version": "3.0.0",
+  "description": "Jylhis design system: tokens, CSS, fonts, and React components",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": ["**/*.css"],
+  "files": [
+    "styles.css",
+    "tokens.css",
+    "tokens.core.json",
+    "themes",
+    "tokens-data.js",
+    "colors_and_type.css",
+    "motion.css",
+    "density.css",
+    "fonts.css",
+    "fonts",
+    "components",
+    "platforms/shadcn"
+  ],
+  "exports": {
+    ".": "./tokens-data.js",
+    "./styles.css": "./styles.css",
+    "./tokens.css": "./tokens.css",
+    "./tokens.core.json": "./tokens.core.json",
+    "./themes/*": "./themes/*",
+    "./colors_and_type.css": "./colors_and_type.css",
+    "./motion.css": "./motion.css",
+    "./density.css": "./density.css",
+    "./fonts.css": "./fonts.css",
+    "./components.css": "./components/components.css",
+    "./shadcn/*": "./platforms/shadcn/*",
+    "./fonts/*": "./fonts/*",
+    "./components/*": "./components/*"
+  }
+}

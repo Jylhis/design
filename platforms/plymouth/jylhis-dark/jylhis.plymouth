@@ -1,0 +1,9 @@
+# Jylhis dark — GENERATED-adapted; values from themes/jylhis.json.
+[Plymouth Theme]
+Name=Jylhis Dark
+Description=Jylhis design system — dark variant. Text + spinner, no images.
+ModuleName=script
+
+[script]
+ImageDir=.
+ScriptFile=jylhis.script

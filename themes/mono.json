@@ -1,0 +1,710 @@
+{
+  "meta": {
+    "name": "Monochrome",
+    "slug": "mono",
+    "blurb": "neutral grayscale — interaction reads as inverted ink fills and weight, the maker's mark is the one pure black/white, status greys into a severity ladder (glyph + word carry the meaning)",
+    "modes": {
+      "light": "Print — ink on paper",
+      "dark": "Negative — the developed plate"
+    }
+  },
+  "palette": {
+    "bg": {
+      "light": "#f8f8f8",
+      "dark": "#0f0f0f",
+      "ansi": "unspecified-bg",
+      "notes": "neutral near-white / near-black, never pure"
+    },
+    "bg-subtle": {
+      "light": "#f1f1f1",
+      "dark": "#171717",
+      "x256": {
+        "light": "color-255",
+        "dark": "color-234"
+      },
+      "notes": "code fills, zebra"
+    },
+    "surface": {
+      "light": "#ebebeb",
+      "dark": "#1f1f1f",
+      "x256": {
+        "light": "color-254",
+        "dark": "color-235"
+      },
+      "notes": "card / panel fill"
+    },
+    "surface-raised": {
+      "light": "#fdfdfd",
+      "dark": "#2a2a2a",
+      "x256": {
+        "dark": "color-237"
+      },
+      "notes": "plates, modals, dropdowns"
+    },
+    "text": {
+      "light": "#2c2c2c",
+      "dark": "#d4d4d4",
+      "ansi": "unspecified-fg",
+      "notes": "body (AAA)"
+    },
+    "text-muted": {
+      "light": "#646464",
+      "dark": "#8a8a8a",
+      "notes": "meta (AA)"
+    },
+    "text-heading": {
+      "light": "#1c1c1c",
+      "dark": "#eaeaea",
+      "notes": "titles (AAA)"
+    },
+    "text-faint": {
+      "light": "#8e8e8e",
+      "dark": "#616161",
+      "notes": "decoration only"
+    },
+    "accent": {
+      "light": "#1a1a1a",
+      "dark": "#f1f1f1",
+      "ansi": "bright-yellow",
+      "notes": "the interactive ink — links and controls render as inverted fills; ANSI 11 stays the accent"
+    },
+    "accent-hover": {
+      "light": "#000000",
+      "dark": "#ffffff",
+      "notes": ":hover / :active — the fill lifts one step"
+    },
+    "brand": {
+      "light": "#000000",
+      "dark": "#ffffff",
+      "notes": "the datum mark is the one PURE black / white in the theme"
+    },
+    "contour": {
+      "light": "#525252",
+      "dark": "#a5a5a5",
+      "notes": "structural linework, mid-gray"
+    },
+    "border": {
+      "light": "#d7d7d7",
+      "dark": "#2a2a2a",
+      "notes": "default 1px hairline"
+    },
+    "border-strong": {
+      "light": "#afafaf",
+      "dark": "#474747",
+      "notes": "table heads, field hover"
+    },
+    "decorator": {
+      "light": "#979797",
+      "dark": "#595959",
+      "notes": "graticule / dashed rules"
+    },
+    "accent-subtle": {
+      "light": "#ededed",
+      "dark": "#191919",
+      "notes": "solid tint = accent ramp step 1"
+    },
+    "selection-bg": {
+      "light": "#dcdcdc",
+      "dark": "#272727",
+      "notes": "text selection"
+    },
+    "cursor": {
+      "light": "#1a1a1a",
+      "dark": "#f1f1f1",
+      "notes": "input cursor (matches accent)"
+    },
+    "scrim": {
+      "light": "#12151c",
+      "dark": "#040508",
+      "notes": "overlay scrim ink; CSS emits rgba (light 0.42, dark 0.58)"
+    },
+    "destructive": {
+      "light": "#060606",
+      "dark": "#fafafa",
+      "notes": "irreversible actions — the darkest step in light, nearest-white in dark; always above the accent in contrast"
+    }
+  },
+  "scrimAlpha": {
+    "light": 0.42,
+    "dark": 0.58
+  },
+  "syntax": {
+    "syn-keyword": {
+      "light": "#111111",
+      "dark": "#f7f7f7",
+      "weight": 700,
+      "gray": "near-ink, bold"
+    },
+    "syn-string": {
+      "light": "#444444",
+      "dark": "#b4b4b4",
+      "gray": "step 2"
+    },
+    "syn-number": {
+      "light": "#565656",
+      "dark": "#9b9b9b",
+      "gray": "step 3",
+      "weight": 700
+    },
+    "syn-function": {
+      "light": "#2c2c2c",
+      "dark": "#d6d6d6",
+      "weight": 700,
+      "gray": "near-ink, bold"
+    },
+    "syn-builtin": {
+      "light": "#444444",
+      "dark": "#b4b4b4",
+      "style": "italic",
+      "gray": "step 3, italic"
+    },
+    "syn-type": {
+      "light": "#2c2c2c",
+      "dark": "#d6d6d6",
+      "gray": "step 1"
+    },
+    "syn-variable": {
+      "light": "#565656",
+      "dark": "#9b9b9b",
+      "gray": "step 4"
+    },
+    "syn-comment": {
+      "light": "#686868",
+      "dark": "#858585",
+      "style": "italic",
+      "gray": "faint, italic"
+    },
+    "syn-docstring": {
+      "light": "#565656",
+      "dark": "#9b9b9b",
+      "style": "italic",
+      "gray": "step 5, italic"
+    }
+  },
+  "status": {
+    "status-err": {
+      "light": "#111111",
+      "dark": "#f7f7f7",
+      "ansi": "red",
+      "notes": "grayscale severity ladder — err darkest/lightest, then warn, ok, info; glyph + word carry the meaning"
+    },
+    "status-warn": {
+      "light": "#333333",
+      "dark": "#d1d1d1",
+      "ansi": "yellow",
+      "notes": "grayscale severity ladder — err darkest/lightest, then warn, ok, info; glyph + word carry the meaning"
+    },
+    "status-ok": {
+      "light": "#525252",
+      "dark": "#a5a5a5",
+      "ansi": "green",
+      "notes": "grayscale severity ladder — err darkest/lightest, then warn, ok, info; glyph + word carry the meaning"
+    },
+    "status-info": {
+      "light": "#696969",
+      "dark": "#868686",
+      "ansi": "blue",
+      "notes": "grayscale severity ladder — err darkest/lightest, then warn, ok, info; glyph + word carry the meaning"
+    }
+  },
+  "ansi": [
+    {
+      "name": "black",
+      "light": "#212121",
+      "dark": "#121212",
+      "role": "text/bg inversion"
+    },
+    {
+      "name": "red",
+      "light": "#a60000",
+      "dark": "#f0685f",
+      "role": "errors (chromatic in the TTY only — theme status is a gray ladder)"
+    },
+    {
+      "name": "green",
+      "light": "#006800",
+      "dark": "#6bbf6b",
+      "role": "ok (chromatic in the TTY only — theme status is a gray ladder)"
+    },
+    {
+      "name": "yellow",
+      "light": "#884900",
+      "dark": "#d9b34a",
+      "role": "warnings (chromatic in the TTY only — theme status is a gray ladder)"
+    },
+    {
+      "name": "blue",
+      "light": "#454545",
+      "dark": "#b8b8b8",
+      "role": "gray step"
+    },
+    {
+      "name": "magenta",
+      "light": "#1c1c1c",
+      "dark": "#e3e3e3",
+      "role": "gray step (near-ink)"
+    },
+    {
+      "name": "cyan",
+      "light": "#2b2b2b",
+      "dark": "#d1d1d1",
+      "role": "gray step"
+    },
+    {
+      "name": "white",
+      "light": "#545454",
+      "dark": "#c4c4c4",
+      "role": "ANSI 7"
+    },
+    {
+      "name": "bright-black",
+      "light": "#828282",
+      "dark": "#6e6e6e",
+      "role": "faint"
+    },
+    {
+      "name": "bright-red",
+      "light": "#b60000",
+      "dark": "#ff7f7f",
+      "role": "red-warmer (chromatic)"
+    },
+    {
+      "name": "bright-green",
+      "light": "#316500",
+      "dark": "#70b900",
+      "role": "green-warmer (chromatic)"
+    },
+    {
+      "name": "bright-yellow",
+      "light": "#1a1a1a",
+      "dark": "#f1f1f1",
+      "role": "accent (intentional override — ANSI 11)"
+    },
+    {
+      "name": "bright-blue",
+      "light": "#3d3d3d",
+      "dark": "#c6c6c6",
+      "role": "gray step"
+    },
+    {
+      "name": "bright-magenta",
+      "light": "#0f0f0f",
+      "dark": "#f0f0f0",
+      "role": "gray step (ink)"
+    },
+    {
+      "name": "bright-cyan",
+      "light": "#005e8b",
+      "dark": "#5fb8cf",
+      "role": "info (chromatic)"
+    },
+    {
+      "name": "bright-white",
+      "light": "#212121",
+      "dark": "#f5f5f5",
+      "role": "ANSI 15"
+    }
+  ],
+  "pairs": {
+    "accent": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the inverted ink fill — primary button"
+    },
+    "accent-hover": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the lifted :hover fill"
+    },
+    "brand": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the pure datum fill"
+    },
+    "destructive": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the destructive fill — irreversible button"
+    },
+    "bg-subtle": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on the subtle fill"
+    },
+    "surface": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on a card surface"
+    },
+    "surface-raised": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on a raised plate / modal"
+    },
+    "selection-bg": {
+      "fg": "text",
+      "min": 7,
+      "label": "selected text on the selection highlight"
+    }
+  },
+  "contrast": [
+    {
+      "fg": "text",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "text",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "text-heading",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "text-heading",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "text-muted",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "text-muted",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "accent",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "accent",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "contour",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "contour",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-keyword",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "syn-keyword",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "syn-string",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "syn-string",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "syn-function",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "syn-function",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "syn-type",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "syn-type",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "syn-number",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-number",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-builtin",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-builtin",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-variable",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-variable",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-comment",
+      "bg": "surface",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-comment",
+      "bg": "bg-subtle",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-docstring",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-docstring",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "status-err",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "status-warn",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "status-ok",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "status-info",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    }
+  ],
+  "shadowFloat": {
+    "light": "0 1px 2px rgba(18, 21, 28, 0.05), 0 4px 14px rgba(18, 21, 28, 0.07)",
+    "dark": "0 1px 2px rgba(0, 0, 0, 0.42), 0 6px 18px rgba(0, 0, 0, 0.46)"
+  },
+  "ramps": {
+    "accent": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    },
+    "destructive": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    },
+    "brand": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    },
+    "contour": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    },
+    "status-err": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    },
+    "status-warn": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    },
+    "status-ok": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    },
+    "status-info": {
+      "light": [
+        "#ededed",
+        "#dcdcdc",
+        "#b1b1b1",
+        "#919191",
+        "#727272",
+        "#555555",
+        "#3f3f3f"
+      ],
+      "dark": [
+        "#191919",
+        "#272727",
+        "#454545",
+        "#5e5e5e",
+        "#7a7a7a",
+        "#9c9c9c",
+        "#bbbbbb"
+      ]
+    }
+  }
+}

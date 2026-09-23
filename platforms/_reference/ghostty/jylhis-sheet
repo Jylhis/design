@@ -1,0 +1,32 @@
+# Jylhis Sheet (light) — Ghostty colorscheme
+# Drop in ~/.config/ghostty/themes/jylhis-sheet and reference with
+# `theme = jylhis-sheet` in config.
+#
+# ANSI 0–6 are Modus Operandi accents so `ls`, `bat`, `delta`, `git log`
+# share the editor's palette. ANSI 11 is the brand bronze — intentional
+# override so prompts and dir-permissions carry the Jylhis identity.
+# ANSI slots: themes/jylhis.json (ansi array).
+
+palette = 0=#2a2d33
+palette = 1=#a40000
+palette = 2=#056a04
+palette = 3=#8a5000
+palette = 4=#005e8a
+palette = 5=#79194b
+palette = 6=#005e8a
+palette = 7=#60646b
+palette = 8=#8b8f96
+palette = 9=#972500
+palette = 10=#315b00
+palette = 11=#a63800
+palette = 12=#2b4aaa
+palette = 13=#5317ac
+palette = 14=#005a5f
+palette = 15=#2a2d33
+
+background         = #f5f8fc
+foreground         = #2a2d33
+cursor-color       = #582d00
+cursor-text        = #f5f8fc
+selection-background = #dfe6f2
+selection-foreground = #2a2d33

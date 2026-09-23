@@ -1,0 +1,30 @@
+<!-- @dsCard group="Type" viewport="520x320" name="Headings" subtitle="Slab titles — Zilla Slab over grotesk" -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Type — Headings</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../card-chrome.css">
+<style>
+  .row { display: grid; grid-template-columns: minmax(6rem, auto) 1fr; gap: 10px 16px; align-items: baseline; }
+  .tag { margin: 0; }
+  h1, h2, h3, h4 { color: var(--color-text-heading); margin: 0; overflow-wrap: anywhere; }
+  /* v2: the plate title is slab (display); sub-headings are grotesk (body). */
+  h1 { font-family: var(--font-heading); font-size: var(--type-scale-1); font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; }
+  h2 { font-family: var(--font-body); font-size: var(--type-scale-2); font-weight: 600; line-height: 1.3; }
+  h3 { font-family: var(--font-body); font-size: var(--type-scale-3); font-weight: 600; line-height: 1.3; }
+  h4 { font-family: var(--font-body); font-size: var(--type-scale-4); font-weight: 600; line-height: 1.3; }
+</style></head>
+<body>
+  <div class="row">
+    <span class="tag">h1 · 700</span><h1>Build More, Work Less</h1>
+    <span class="tag">h2 · 600</span><h2>Infrastructure topology</h2>
+    <span class="tag">h3 · 600</span><h3>Development Environment</h3>
+    <span class="tag">h4 · 600</span><h4>Operating System</h4>
+  </div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/tweaks-panel.js"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/ds-tweaks.js"></script>
+</body></html>

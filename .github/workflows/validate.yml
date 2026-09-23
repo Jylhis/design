@@ -1,0 +1,33 @@
+name: validate
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: tokens, a11y, CLI conventions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Determinism gate — two generator runs must agree byte-for-byte
+        run: |
+          tmp=$(mktemp -d)
+          bun scripts/generate.mjs --out "$tmp/a" > /dev/null
+          bun scripts/generate.mjs --out "$tmp/b" > /dev/null
+          diff -r "$tmp/a" "$tmp/b"
+      - name: Validate token schema and contrast ratios
+        run: |
+          bun scripts/generate.mjs --out . > /dev/null
+          bun scripts/validate-tokens.mjs
+      - name: Validate HTML accessibility
+        run: bun scripts/validate-a11y-html.mjs
+      - name: Validate CSS accessibility
+        run: bun scripts/validate-a11y-css.mjs
+      - name: Validate CLI conventions
+        run: bun scripts/validate-cli-conventions.mjs

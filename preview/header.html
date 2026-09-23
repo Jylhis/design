@@ -1,0 +1,74 @@
+<!-- @dsCard group="Patterns" viewport="620x220" name="Header" subtitle="Wordmark · nav · search · theme" -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Header & Breadcrumb</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../card-chrome.css">
+<style>
+  body { padding: 16px 20px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-8); }
+  .hdr { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 16px; border-bottom: 1px solid var(--color-border); }
+  .wm { display: flex; gap: 8px; align-items: center; }
+  .mk { font-family: var(--font-mono); font-size: var(--type-scale-6); font-weight: 600; color: var(--color-text-heading); }
+  .mk .chev { color: var(--color-brand); font-weight: 700; margin-left: 0.12em; }
+  .wm-text { font-size: var(--type-scale-8); font-weight: 600; color: var(--color-text-heading); letter-spacing: 0.02em; }
+  .right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .crumb { font-size: var(--type-scale-9); color: var(--color-text-muted); }
+  .crumb a { color: var(--color-text-muted); text-decoration: none; }
+  .crumb .sep { opacity: 0.5; margin: 0 0.4em; }
+  .crumb .current { color: var(--color-text); }
+  /* Search reads as a field, not a label: the Terminal's prompt chevron opens
+     it, the placeholder sits in muted ink, and the shortcut key parks right. */
+  .search { flex: 0 1 22ch; min-width: 14ch; background: var(--color-code-bg); border: var(--border-hairline) solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.32rem 0.5rem; font-family: var(--font-mono); font-size: var(--type-scale-9); display: inline-flex; gap: 0.45rem; align-items: baseline; cursor: text; transition: border-color var(--transition-fast); }
+  .search:hover, .search:focus-within { border-color: var(--color-accent); }
+  .search .prompt { color: var(--color-accent); font-weight: 700; }
+  .search .ph { color: var(--color-text-muted); flex: 1; }
+  .vh { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  .kbd { font-size: var(--type-scale-9); padding: 0.05rem 0.3rem; border: var(--border-hairline) solid var(--color-border); border-radius: var(--radius-xs); background: var(--color-bg); color: var(--color-text-faint); }
+
+  /* The theme control uses the system's segmented control — squared, hairline,
+     mono words. No circle, and the word carries the state, not a moon glyph.
+     In this specimen it is a readout: the Tweaks panel owns the mode, and the
+     pressed word follows it. */
+  .theme { display: inline-flex; border: var(--border-hairline) solid var(--color-border-strong); border-radius: var(--radius-sm); overflow: hidden; }
+  .theme span { font-family: var(--font-mono); font-size: var(--type-scale-9); letter-spacing: 0.04em; padding: 0.3rem 0.5rem; background: var(--color-bg); color: var(--color-text-muted); border-left: var(--border-hairline) solid var(--color-border); }
+  .theme span:first-child { border-left: 0; }
+  .theme span[data-current="true"] { background: var(--color-accent); color: var(--color-accent-foreground); }
+
+  /* Monochrome mode: brand is near-pure ink, a step off text-heading — the
+     chevron drops a lightness tier so it reads. Matches .ds-mark__chevron. */
+  [data-mode="dark"] .mk .chev { color: var(--color-text-muted); }
+</style></head>
+<body>
+  <div class="hdr">
+    <div class="wm">
+      <span class="mk">jy<span class="chev">❯</span></span>
+      <span class="wm-text">markus jylhänkangas</span>
+    </div>
+    <div class="right">
+      <nav class="crumb"><a>home</a><span class="sep" aria-hidden="true">▸</span><a>notes</a><span class="sep" aria-hidden="true">▸</span><span class="current">linux toolbox</span></nav>
+      <label class="search"><span class="prompt" aria-hidden="true">❯</span><span class="ph">search</span><kbd class="kbd">/</kbd></label>
+      <div class="theme"><span class="vh">Colour mode:</span><span data-value="light" data-current="true">light</span><span data-value="dark" data-current="false">dark</span></div>
+    </div>
+  </div>
+<script>
+  // Mode is set by the Tweaks panel on <html>; mirror it onto the control.
+  (function () {
+    var root = document.documentElement;
+    var group = document.querySelector(".theme");
+    function sync() {
+      var mode = root.dataset.mode || "light";
+      for (var b of group.children) {
+        if (b.dataset.value) b.dataset.current = String(b.dataset.value === mode);
+      }
+    }
+    new MutationObserver(sync).observe(root, { attributeFilter: ["data-mode"] });
+    sync();
+  })();
+</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/tweaks-panel.js"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/ds-tweaks.js"></script>
+</body></html>

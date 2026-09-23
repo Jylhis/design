@@ -1,0 +1,46 @@
+<!-- @dsCard group="Color" viewport="540x300" name="Core palette" subtitle="the theme, live from tokens.css" -->
+<!doctype html>
+<html lang="en" data-mode="light"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Palette — Core</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../card-chrome.css">
+<style>
+  body { padding: 16px 18px; font-family: var(--font-mono); font-size: var(--type-scale-9); color: var(--color-text); }
+  .bar { display: flex; align-items: center; margin-bottom: var(--space-md); }
+  .lbl { color: var(--color-text-faint); font-size: var(--type-scale-9); letter-spacing: 0.04em; }
+  .row { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 8px; }
+  .sw { border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; background: var(--color-surface-raised); }
+  .chip { height: 46px; border-bottom: 1px solid var(--color-border); }
+  .meta { padding: 5px 7px; }
+  .name { font-weight: 600; color: var(--color-text-heading); display: block; }
+  .hex { color: var(--color-text-faint); letter-spacing: 0.02em; text-transform: uppercase; }
+  .sig { display: flex; gap: var(--space-md); margin-top: var(--space-md); font-size: var(--type-scale-9); }
+  a { color: var(--color-accent); } a:hover { color: var(--color-accent-hover); }
+</style></head>
+<body>
+  <div class="bar"><span class="lbl" id="note">tinted skeleton</span></div>
+  <div class="row" id="swatches"></div>
+  <div class="sig"><span style="color: var(--color-status-ok)">✓ ok</span><span style="color: var(--color-status-warn)">△ warn</span><span style="color: var(--color-status-err)">✗ err</span><span style="color: var(--color-brand)">❯ brand</span></div>
+<script>
+const ROLES = [["bg","bg"],["bg-subtle","bg-subtle"],["surface","surface"],["surface-raised","raised"],["text","text"],["accent","accent"]];
+const root = document.documentElement, wrap = document.getElementById("swatches"), note = document.getElementById("note");
+function hex(v){const m=v.trim().match(/^rgba?\(([^)]+)\)$/);if(!m)return v.trim().toUpperCase();const[r,g,b]=m[1].split(",").map(n=>parseInt(n));return"#"+[r,g,b].map(n=>n.toString(16).padStart(2,"0")).join("").toUpperCase();}
+function render(){
+  const cs = getComputedStyle(root);
+  wrap.innerHTML = ROLES.map(([role,label])=>{
+    const v = hex(cs.getPropertyValue("--color-"+role));
+    return `<div class="sw"><div class="chip" style="background:var(--color-${role})"></div><div class="meta"><span class="name">${label}</span><span class="hex">${v}</span></div></div>`;
+  }).join("");
+  note.textContent = "tinted skeleton";
+}
+// Mode comes from the Tweaks panel, which sets it on <html>.
+new MutationObserver(render).observe(root, { attributeFilter: ["data-mode","data-density"] });
+render();
+</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/tweaks-panel.js"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/ds-tweaks.js"></script>
+</body></html>

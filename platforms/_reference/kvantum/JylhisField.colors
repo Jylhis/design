@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JylhisField.colors  (dark) — GENERATED from tokens.json. Do not edit by hand. -->
+<palette theme="JylhisField">
+  <color role="Window">#0c0f14</color>
+  <color role="WindowText">#d1d4dc</color>
+  <color role="Base">#14171E</color>
+  <color role="AlternateBase">#1c1f24</color>
+  <color role="Text">#d1d4dc</color>
+  <color role="BrightText">#e7ebf2</color>
+  <color role="Button">#1c1f24</color>
+  <color role="ButtonText">#d1d4dc</color>
+  <color role="Highlight">#f5a351</color>
+  <color role="HighlightedText">#0c0f14</color>
+  <color role="Link">#f5a351</color>
+  <color role="LinkVisited">#c2d6ff</color><!-- Modus blue-warmer -->
+
+  <color role="ToolTipBase">#262a2f</color>
+  <color role="ToolTipText">#d1d4dc</color>
+  <color role="Light">#262a2f</color>
+  <color role="Midlight">#1c1f24</color>
+  <color role="Mid">#242c37</color>
+  <color role="Dark">#878b91</color>
+  <color role="Shadow">#000000</color>
+
+  <color role="WindowText" group="Disabled">#5d6067</color>
+  <color role="Text"        group="Disabled">#5d6067</color>
+  <color role="ButtonText"  group="Disabled">#5d6067</color>
+
+  <color role="Highlight"        group="Inactive">#3f4754</color>
+  <color role="HighlightedText"  group="Inactive">#d1d4dc</color>
+</palette>

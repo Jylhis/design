@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Currently Block</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin:0; background: var(--color-bg); }
+  body { padding: 22px 24px; color: var(--color-text); font-family: var(--font-body); }
+  .box { background: color-mix(in srgb, var(--color-accent) 8%, transparent); border: var(--border-hairline) solid var(--color-accent); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); max-width: 520px; }
+  .label { font-family: var(--font-mono); font-size: var(--type-scale-9); text-transform: lowercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin: 0 0 var(--space-sm); font-weight: 400; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { position: relative; padding: 0.3rem 0 0.3rem 1.5em; font-size: var(--type-scale-5); }
+  li::before { content: '›'; position: absolute; left: 0; color: var(--color-accent); font-family: var(--font-mono); }
+  a { color: var(--color-accent); text-decoration: none; }
+</style></head>
+<body>
+  <div class="box">
+    <h3 class="label">// currently</h3>
+    <ul>
+      <li>building robotics and DevOps platforms at <a>Hexagon</a> in Zürich</li>
+      <li>rewriting this site with Astro 5.x and a new design system</li>
+    </ul>
+  </div>
+</body></html>

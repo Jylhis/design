@@ -1,0 +1,18 @@
+# gitleaks config — extends the default rules with project-specific allowlist.
+# See https://github.com/gitleaks/gitleaks for rule reference.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist for design-system token files and known-safe demo strings."
+paths = [
+  # Generated palette files contain hex values only, never secrets.
+  '''platforms/.*\.(el|conf|rasi|css|colors|gpl|ase|mtz)$''',
+  '''platforms/charm/jylhis/palette\.go$''',
+  '''tokens\.css$''',
+  '''tokens-data\.js$''',
+  # Token spec is the source of truth for color hexes, not credentials.
+  '''tokens\.json$''',
+  '''tokens\.md$''',
+]

@@ -1,0 +1,705 @@
+{
+  "meta": {
+    "name": "Jylhis",
+    "slug": "jylhis",
+    "blurb": "one theme, two modes — cool sheet grounds, bronze accent, vermilion maker's mark, contour-blue linework; structure from the monochrome skeleton",
+    "modes": {
+      "light": "Print — ink on paper",
+      "dark": "Negative — the developed plate"
+    }
+  },
+  "palette": {
+    "bg": {
+      "light": "#f5f8fc",
+      "dark": "#0c0f14",
+      "ansi": "unspecified-bg",
+      "notes": "cool near-white / near-black, never pure; 16-color TTY inherits terminal bg"
+    },
+    "bg-subtle": {
+      "light": "#eff2f6",
+      "dark": "#14171c",
+      "x256": {
+        "light": "color-253",
+        "dark": "color-235"
+      },
+      "notes": "code fills, zebra, inactive modeline"
+    },
+    "surface": {
+      "light": "#e9ebef",
+      "dark": "#1c1f24",
+      "x256": {
+        "light": "color-251",
+        "dark": "color-237"
+      },
+      "notes": "card / panel fill"
+    },
+    "surface-raised": {
+      "light": "#fbfdff",
+      "dark": "#262a2f",
+      "x256": {
+        "dark": "color-239"
+      },
+      "notes": "plates, modals, dropdowns"
+    },
+    "text": {
+      "light": "#2a2d33",
+      "dark": "#d1d4dc",
+      "ansi": "unspecified-fg",
+      "notes": "body (AAA)"
+    },
+    "text-muted": {
+      "light": "#60646b",
+      "dark": "#878b91",
+      "notes": "meta / captions / help (AA)"
+    },
+    "text-heading": {
+      "light": "#191c22",
+      "dark": "#e7ebf2",
+      "notes": "titles (AAA)"
+    },
+    "text-faint": {
+      "light": "#8b8f96",
+      "dark": "#5d6067",
+      "notes": "decoration only"
+    },
+    "accent": {
+      "light": "#693900",
+      "dark": "#f5a351",
+      "ansi": "bright-yellow",
+      "notes": "bronze interactive accent (AAA); ANSI 11 is always the accent"
+    },
+    "accent-hover": {
+      "light": "#582d00",
+      "dark": "#ffb063",
+      "notes": ":hover / :active only"
+    },
+    "brand": {
+      "light": "#a63800",
+      "dark": "#f8763a",
+      "notes": "benchmark vermilion — maker's mark and datum triangle; distinct from status red"
+    },
+    "contour": {
+      "light": "#2b4aaa",
+      "dark": "#7ca2ff",
+      "notes": "structural Modus-blue linework; never interaction"
+    },
+    "border": {
+      "light": "#d2d8e0",
+      "dark": "#242c37",
+      "notes": "default 1px hairline"
+    },
+    "border-strong": {
+      "light": "#abb0b8",
+      "dark": "#3f4754",
+      "notes": "table heads, field hover"
+    },
+    "decorator": {
+      "light": "#8f97aa",
+      "dark": "#525a6b",
+      "notes": "graticule / dashed rules"
+    },
+    "accent-subtle": {
+      "light": "#fbebdd",
+      "dark": "#281604",
+      "notes": "solid tint = accent ramp step 1; bronze wash for callouts, selected rows"
+    },
+    "selection-bg": {
+      "light": "#edd8c5",
+      "dark": "#3c2206",
+      "notes": "text selection (bronze-tinted)"
+    },
+    "cursor": {
+      "light": "#693900",
+      "dark": "#f5a351",
+      "notes": "input cursor (matches accent)"
+    },
+    "scrim": {
+      "light": "#12151c",
+      "dark": "#040508",
+      "notes": "overlay scrim ink; CSS emits rgba (light 0.42, dark 0.58)"
+    },
+    "destructive": {
+      "light": "#78001d",
+      "dark": "#ffb2b4",
+      "notes": "irreversible actions — always the higher-contrast of the destructive/accent pair; never status red, never brand"
+    }
+  },
+  "scrimAlpha": {
+    "light": 0.42,
+    "dark": 0.58
+  },
+  "syntax": {
+    "syn-keyword": {
+      "light": "#531bb7",
+      "dark": "#b4a8ff",
+      "modus": "magenta-cooler"
+    },
+    "syn-string": {
+      "light": "#2c3bc1",
+      "dark": "#88a4ff",
+      "modus": "blue-warmer (AA floor 6.63:1 on the cool Sheet ground)"
+    },
+    "syn-number": {
+      "light": "#0100a3",
+      "dark": "#c2d6ff",
+      "modus": "blue-cooler (constant slot)"
+    },
+    "syn-function": {
+      "light": "#79194b",
+      "dark": "#ff9ac5",
+      "modus": "magenta"
+    },
+    "syn-builtin": {
+      "light": "#920878",
+      "dark": "#fd74d9",
+      "modus": "magenta-warmer"
+    },
+    "syn-type": {
+      "light": "#0a6463",
+      "dark": "#0fabaa",
+      "modus": "cyan-cooler (re-solved; AA floor — the re-tuned grounds leave AAA out of reach at this hue)"
+    },
+    "syn-variable": {
+      "light": "#005e8a",
+      "dark": "#00a3ee",
+      "modus": "cyan"
+    },
+    "syn-comment": {
+      "light": "#5b5b5a",
+      "dark": "#979796",
+      "style": "italic",
+      "modus": "fg-dim"
+    },
+    "syn-docstring": {
+      "light": "#274d43",
+      "dark": "#7ebdaa",
+      "modus": "green-faint (Operandi) / cyan-faint (Vivendi)"
+    }
+  },
+  "status": {
+    "status-err": {
+      "light": "#a40000",
+      "dark": "#ff8271",
+      "ansi": "red",
+      "modus": "red"
+    },
+    "status-warn": {
+      "light": "#834400",
+      "dark": "#ec871d",
+      "ansi": "yellow",
+      "modus": "yellow-warmer"
+    },
+    "status-ok": {
+      "light": "#056a04",
+      "dark": "#39ae34",
+      "ansi": "green",
+      "modus": "green"
+    },
+    "status-info": {
+      "light": "#005e8a",
+      "dark": "#17a4ed",
+      "ansi": "blue",
+      "modus": "cyan-blue"
+    }
+  },
+  "ansi": [
+    {
+      "name": "black",
+      "light": "#23262e",
+      "dark": "#0d0f14",
+      "role": "text/bg inversion"
+    },
+    {
+      "name": "red",
+      "light": "#a40000",
+      "dark": "#ff8271",
+      "role": "errors"
+    },
+    {
+      "name": "green",
+      "light": "#056a04",
+      "dark": "#39ae34",
+      "role": "ok"
+    },
+    {
+      "name": "yellow",
+      "light": "#834400",
+      "dark": "#ec871d",
+      "role": "warnings"
+    },
+    {
+      "name": "blue",
+      "light": "#0031a9",
+      "dark": "#79a8ff",
+      "role": "Modus blue — info"
+    },
+    {
+      "name": "magenta",
+      "light": "#79194b",
+      "dark": "#ff9ac5",
+      "role": "Modus magenta"
+    },
+    {
+      "name": "cyan",
+      "light": "#005a5f",
+      "dark": "#6ae4b9",
+      "role": "Modus cyan-cooler"
+    },
+    {
+      "name": "white",
+      "light": "#565a63",
+      "dark": "#c9dedf",
+      "role": "ANSI 7"
+    },
+    {
+      "name": "bright-black",
+      "light": "#878c95",
+      "dark": "#656b76",
+      "role": "faint"
+    },
+    {
+      "name": "bright-red",
+      "light": "#b60000",
+      "dark": "#ff7f7f",
+      "role": "red-warmer"
+    },
+    {
+      "name": "bright-green",
+      "light": "#316500",
+      "dark": "#70b900",
+      "role": "green-warmer"
+    },
+    {
+      "name": "bright-yellow",
+      "light": "#693900",
+      "dark": "#f5a351",
+      "role": "accent (intentional override — ANSI 11)"
+    },
+    {
+      "name": "bright-blue",
+      "light": "#2c3bc1",
+      "dark": "#88a4ff",
+      "role": "blue-warmer / contour"
+    },
+    {
+      "name": "bright-magenta",
+      "light": "#531bb7",
+      "dark": "#b4a8ff",
+      "role": "magenta-cooler"
+    },
+    {
+      "name": "bright-cyan",
+      "light": "#005e8a",
+      "dark": "#00a3ee",
+      "role": "cyan"
+    },
+    {
+      "name": "bright-white",
+      "light": "#23262e",
+      "dark": "#f2f4f8",
+      "role": "ANSI 15"
+    }
+  ],
+  "pairs": {
+    "accent": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the accent fill — primary button"
+    },
+    "accent-hover": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the accent :hover/:active fill"
+    },
+    "brand": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on a solid maker's-mark fill"
+    },
+    "destructive": {
+      "fg": "bg",
+      "min": 4.5,
+      "label": "label on the destructive fill — irreversible button"
+    },
+    "bg-subtle": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on the subtle fill — code, zebra"
+    },
+    "surface": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on a card surface"
+    },
+    "surface-raised": {
+      "fg": "text",
+      "min": 7,
+      "label": "body on a raised plate / modal"
+    },
+    "selection-bg": {
+      "fg": "text",
+      "min": 7,
+      "label": "selected text on the selection highlight"
+    }
+  },
+  "contrast": [
+    {
+      "fg": "text",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "text",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "text-heading",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "text-heading",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "text-muted",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "text-muted",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "accent",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "accent",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "contour",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "contour",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-keyword",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "syn-keyword",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "syn-string",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-string",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "syn-function",
+      "bg": "bg",
+      "mode": "light",
+      "min": 7
+    },
+    {
+      "fg": "syn-function",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 7
+    },
+    {
+      "fg": "syn-type",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-type",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-number",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-number",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-builtin",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-builtin",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-variable",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-variable",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-comment",
+      "bg": "surface",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-comment",
+      "bg": "surface-raised",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-docstring",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "syn-docstring",
+      "bg": "bg",
+      "mode": "dark",
+      "min": 4.5
+    },
+    {
+      "fg": "status-err",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "status-warn",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "status-ok",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    },
+    {
+      "fg": "status-info",
+      "bg": "bg",
+      "mode": "light",
+      "min": 4.5
+    }
+  ],
+  "shadowFloat": {
+    "light": "0 1px 2px rgba(18, 21, 28, 0.05), 0 4px 14px rgba(18, 21, 28, 0.07)",
+    "dark": "0 1px 2px rgba(0, 0, 0, 0.42), 0 6px 18px rgba(0, 0, 0, 0.46)"
+  },
+  "ramps": {
+    "accent": {
+      "light": [
+        "#fbebdd",
+        "#edd8c5",
+        "#cdac8e",
+        "#b28862",
+        "#996838",
+        "#7c4912",
+        "#603300"
+      ],
+      "dark": [
+        "#281604",
+        "#3c2206",
+        "#653b09",
+        "#8b510c",
+        "#b2690d",
+        "#da8a35",
+        "#fca857"
+      ]
+    },
+    "destructive": {
+      "light": [
+        "#ffe7e7",
+        "#ffcfd0",
+        "#ed9d9f",
+        "#d87177",
+        "#c34854",
+        "#a41c35",
+        "#820021"
+      ],
+      "dark": [
+        "#330d11",
+        "#4b151b",
+        "#7c262f",
+        "#aa3442",
+        "#d94456",
+        "#ff6c78",
+        "#ffa2a4"
+      ]
+    },
+    "brand": {
+      "light": [
+        "#ffe8e0",
+        "#ffd2c1",
+        "#e7a187",
+        "#d17957",
+        "#bc5328",
+        "#983300",
+        "#732300"
+      ],
+      "dark": [
+        "#310f03",
+        "#491804",
+        "#7a2b04",
+        "#a73c02",
+        "#d64e00",
+        "#ff7034",
+        "#ffa482"
+      ]
+    },
+    "contour": {
+      "light": [
+        "#e6edff",
+        "#ccdcff",
+        "#97b1ef",
+        "#6e8ddd",
+        "#4b6dcc",
+        "#2e4dae",
+        "#1a3594"
+      ],
+      "dark": [
+        "#0e1836",
+        "#16254f",
+        "#294184",
+        "#395ab4",
+        "#4b74e7",
+        "#7098ff",
+        "#9dbbff"
+      ]
+    },
+    "status-err": {
+      "light": [
+        "#ffe8e4",
+        "#ffd0c9",
+        "#f29b8e",
+        "#de6f61",
+        "#ca4336",
+        "#ac0e08",
+        "#830000"
+      ],
+      "dark": [
+        "#330e0a",
+        "#4b1711",
+        "#7c281f",
+        "#aa372b",
+        "#d94739",
+        "#ff6f5d",
+        "#ffa395"
+      ]
+    },
+    "status-warn": {
+      "light": [
+        "#feeada",
+        "#f1d6c2",
+        "#d3aa89",
+        "#ba855b",
+        "#a2642e",
+        "#844500",
+        "#633100"
+      ],
+      "dark": [
+        "#2b1401",
+        "#412000",
+        "#6c3700",
+        "#914d00",
+        "#b96500",
+        "#e88314",
+        "#ffa75d"
+      ]
+    },
+    "status-ok": {
+      "light": [
+        "#dcf3d9",
+        "#c4e4c0",
+        "#8dbf88",
+        "#5e9f58",
+        "#2d8229",
+        "#006400",
+        "#004a00"
+      ],
+      "dark": [
+        "#061e05",
+        "#0b2e09",
+        "#145011",
+        "#1b6d18",
+        "#238d20",
+        "#3fb33a",
+        "#62d35b"
+      ]
+    },
+    "status-info": {
+      "light": [
+        "#dbf0fe",
+        "#c4dff2",
+        "#8cb7d5",
+        "#5f96bc",
+        "#2f78a5",
+        "#005b87",
+        "#004266"
+      ],
+      "dark": [
+        "#021b2c",
+        "#012a42",
+        "#004a6f",
+        "#006495",
+        "#0082be",
+        "#19a6ee",
+        "#6ac4ff"
+      ]
+    }
+  }
+}

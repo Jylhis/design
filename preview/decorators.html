@@ -1,0 +1,29 @@
+<!-- @dsCard group="Foundations" viewport="520x280" name="Decorators" subtitle="Tree lines, dashes, chevrons" -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Decorators</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../card-chrome.css">
+<style>
+  body { padding: 18px 22px; color: var(--color-text); font-family: var(--font-mono); font-size: var(--type-scale-9); }
+  .label { margin: 10px 0 6px; }
+  .divider { display: flex; align-items: center; gap: 12px; color: var(--color-text-muted); font-size: var(--type-scale-9); letter-spacing: 0.05em; text-transform: lowercase; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+  .quote { border: var(--border-hairline) solid var(--color-border); background: var(--color-bg-subtle); border-radius: var(--radius-sm); padding: var(--space-sm) var(--space-md); color: var(--color-text-muted); font-style: italic; font-family: var(--font-body); font-size: var(--type-scale-6); }
+  .quote::before { content: '»'; font-family: var(--font-mono); color: var(--color-accent); font-style: normal; margin-right: 0.3em; }
+  hr { border: none; border-top: 1px solid var(--color-border); margin: 10px 0; }
+</style></head>
+<body>
+  <div class="label">labeled divider</div>
+  <div class="divider">experience</div>
+  <div class="label">blockquote · hairline quiet box · » in accent</div>
+  <p class="quote">The kind of engineer who fixes problems before customers notice them.</p>
+  <div class="label">hr</div>
+  <hr>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/tweaks-panel.js"></script>
+<script type="text/babel" data-presets="env,react" src="../scripts/ds-tweaks.js"></script>
+</body></html>
